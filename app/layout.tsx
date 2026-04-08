@@ -5,7 +5,6 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { BottomNav } from "@/components/layout/BottomNav"
-import { auth } from "@/auth"
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
@@ -19,13 +18,11 @@ export const metadata = {
   },
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const session = await auth()
-
   return (
     <html
       lang="pt-BR"
@@ -33,7 +30,7 @@ export default async function RootLayout({
       className={cn("antialiased flex min-h-screen flex-col bg-[#F9F9F7]", inter.variable, "font-sans")}
     >
       <body className="flex-1 pb-[64px] md:pb-0 bg-[#F9F9F7]">
-        <SessionProvider session={session}>
+        <SessionProvider>
           <ThemeProvider>
             <main className="flex-1">
               {children}

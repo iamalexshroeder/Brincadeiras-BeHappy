@@ -1,17 +1,15 @@
 import { Header } from "@/components/layout/Header"
 import { CategoryFilters } from "@/components/game/CategoryFilters"
-import { BrincadeiraCard } from "@/components/game/BrincadeiraCard"
+import { LibraryList } from "@/components/game/LibraryList"
 import { getLevelFromXp } from "@/utils/gamification"
 import { RiBookOpenLine } from "@remixicon/react"
 import prisma from "@/lib/prisma"
 
-// Public page — no auth required (wiki-style library)
 export const dynamic = "force-dynamic"
 
-// Example brincadeiras kept in code for reference (not rendered unless DB is empty)
+// Example brincadeiras kept in code for reference (not rendered unless DB has data)
 // const EXAMPLE_BRINCADEIRAS = [
-//   { title: "Pega-Pega Congelado", description: "...", ... },
-//   ...
+//   { title: "Pega-Pega Congelado", description: "...", tags: ["Fisico"], ... },
 // ]
 
 async function getLibrary() {
@@ -51,7 +49,6 @@ async function getLibrary() {
 
 export default async function Explorar() {
   const library = await getLibrary()
-  const INITIAL_DISPLAY = 10
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
@@ -92,14 +89,10 @@ export default async function Explorar() {
               </p>
             </div>
           ) : (
-            <LibraryList items={library} initialDisplay={INITIAL_DISPLAY} />
+            <LibraryList items={library} initialDisplay={10} />
           )}
         </section>
       </main>
     </div>
   )
 }
-
-// Client wrapper for the "Ver mais" toggle
-// (keeping the Server Component pure, only this child needs state)
-import { LibraryList } from "@/components/game/LibraryList"
