@@ -1,5 +1,5 @@
-// Prisma 7 config — connection URLs are configured here, not in schema.prisma
-import "dotenv/config";
+// Prisma 7 config
+// NOTE: No dotenv/config import — Vercel injects env vars natively during build and runtime
 import { defineConfig } from "prisma/config";
 
 export default defineConfig({
