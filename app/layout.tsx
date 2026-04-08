@@ -1,29 +1,46 @@
-import { Geist, Geist_Mono, Inter } from "next/font/google"
+import { Inter } from "next/font/google"
+import { SessionProvider } from "next-auth/react"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
+import { BottomNav } from "@/components/layout/BottomNav"
+import { auth } from "@/auth"
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'})
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
+export const metadata = {
+  title: "BeHappy - Brincadeiras para Recreadores",
+  description: "Descubra, compartilhe e crie brincadeiras incríveis. A plataforma dos melhores recreadores.",
+  openGraph: {
+    title: "BeHappy - Brincadeiras para Recreadores",
+    description: "Descubra, compartilhe e crie brincadeiras incríveis.",
+    type: "website",
+  },
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const session = await auth()
+
   return (
     <html
-      lang="en"
+      lang="pt-BR"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
+      className={cn("antialiased flex min-h-screen flex-col bg-[#F9F9F7]", inter.variable, "font-sans")}
     >
-      <body>
-        <ThemeProvider>{children}</ThemeProvider>
+      <body className="flex-1 pb-[64px] md:pb-0 bg-[#F9F9F7]">
+        <SessionProvider session={session}>
+          <ThemeProvider>
+            <main className="flex-1">
+              {children}
+            </main>
+            <BottomNav />
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   )

@@ -1,0 +1,175 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum BrincadeiraType {
+  MUSICAL
+  COMPETITIVA
+  COOPERATIVA
+  EDUCATIVA
+  CRIATIVA
+  FISICA
+}
+
+enum AgeGroup {
+  AGE_3_5
+  AGE_6_9
+  AGE_10_PLUS
+}
+
+enum AnimatorLevel {
+  FACIL
+  MEDIO
+  AVANCADO
+}
+
+enum XPReason {
+  PUBLISHED
+  LIKE_RECEIVED
+  USED_RECEIVED
+  STREAK
+  FIRST_USED_BONUS
+}
+
+model User {
+  id                String    @id @default(uuid())
+  google_id         String?   @unique // Opcional, o id padrão já serve
+  email             String    @unique
+  emailVerified     DateTime?
+  name              String?
+  image             String?
+  nickname          String?   @unique // Pode ser preenchido no onboarding
+  bio               String?   @db.VarChar(80)
+  city              String?
+  state             String?
+  avatar_url        String?
+  xp                Int       @default(0)
+  streak_weeks      Int       @default(0)
+  last_published_at DateTime?
+  created_at        DateTime  @default(now())
+
+  accounts          Account[]
+  sessions          Session[]
+  brincadeiras      Brincadeira[]
+  interactions      Interaction[]
+  xp_transactions   XPTransaction[]
+  collections       Collection[]
+  notifications     Notification[]
+}
+
+model Account {
+  id                 String  @id @default(uuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Brincadeira {
+  id                String          @id @default(uuid())
+  user_id           String
+  user              User            @relation(fields: [user_id], references: [id])
+  title             String
+  short_description String          @db.VarChar(120)
+  steps             Json            // Array ordenado de strings
+  tips              String?         @db.Text
+  type              BrincadeiraType
+  age_groups        AgeGroup[]
+  min_participants  Int
+  max_participants  Int?
+  duration_minutes  Int
+  animator_level    AnimatorLevel
+  materials         String[]
+  tags              String[]        // Máx 5
+  likes_count       Int             @default(0)
+  used_count        Int             @default(0)
+  published_at      DateTime?
+  created_at        DateTime        @default(now())
+
+  interactions      Interaction[]
+}
+
+model Interaction {
+  id             String      @id @default(uuid())
+  user_id        String
+  user           User        @relation(fields: [user_id], references: [id])
+  brincadeira_id String
+  brincadeira    Brincadeira @relation(fields: [brincadeira_id], references: [id])
+  type           InteractionType
+  created_at     DateTime    @default(now())
+
+  @@unique([user_id, brincadeira_id, type])
+}
+
+enum InteractionType {
+  LIKE
+  USED
+  SAVED
+}
+
+model XPTransaction {
+  id           String   @id @default(uuid())
+  user_id      String
+  user         User     @relation(fields: [user_id], references: [id])
+  amount       Int
+  reason       XPReason
+  reference_id String?  // brincadeira_id ou null
+  created_at   DateTime @default(now())
+}
+
+model Collection {
+  id           String   @id @default(uuid())
+  user_id      String
+  user         User     @relation(fields: [user_id], references: [id])
+  title        String
+  description  String?  @db.VarChar(200)
+  brincadeiras String[] // UUID[] ordenado
+  is_public    Boolean  @default(true)
+  created_at   DateTime @default(now())
+}
+
+enum NotificationType {
+  GAMIFICATION
+  SOCIAL
+  SYSTEM
+}
+
+model Notification {
+  id           String           @id @default(uuid())
+  user_id      String
+  user         User             @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  type         NotificationType
+  title        String
+  message      String           @db.Text
+  reference_id String?          // brincadeira_id or null
+  read         Boolean          @default(false)
+  created_at   DateTime         @default(now())
+
+  @@index([user_id, read])
+}
