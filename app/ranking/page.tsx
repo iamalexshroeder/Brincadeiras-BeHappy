@@ -31,7 +31,7 @@ export default function Ranking() {
   const [rankingData, setRankingData] = useState<RankingUser[]>([])
   const [loading, setLoading] = useState(true)
   const [showAllMissions, setShowAllMissions] = useState(false)
-  const [currentUserXp, setCurrentUserXp] = useState(0)
+  const [currentUser, setCurrentUser] = useState<{ id: string, xp: number } | null>(null)
 
   useEffect(() => {
     // Busca o ranking global
@@ -42,11 +42,11 @@ export default function Ranking() {
     
     // Busca o perfil do usuário atual para a trilha de títulos
     getProfile().then(profile => {
-      if (profile) setCurrentUserXp(profile.xp)
+      if (profile) setCurrentUser({ id: profile.id, xp: profile.xp })
     })
   }, [])
 
-  const userXp = currentUserXp
+  const userXp = currentUser?.xp ?? 0
 
   const tiersWithStatus = GAMIFICATION_TIERS.map((tier, index) => {
     let status = "locked"
@@ -83,73 +83,77 @@ export default function Ranking() {
           </div>
         ) : (
           <>
-            {/* Podium */}
-            {topThree.length >= 3 && (
-              <section className="mb-12 pt-8">
-                <div className="flex items-end justify-center gap-4 relative max-w-sm mx-auto">
-                  {/* Rank 2 */}
-                  <div className="flex flex-col items-center gap-3 flex-1">
+            {/* Global Ranking Section */}
+            <section className="mb-12">
+              <h2 className="text-[13px] font-extrabold text-[#8E8E93] uppercase tracking-widest pl-1 mb-6">Top Recreadores</h2>
+              
+              {/* Flexible Podium */}
+              <div className="flex items-end justify-center gap-0 relative max-w-sm mx-auto mb-10 px-2 h-44">
+                {/* Rank 2 (Left) */}
+                {topThree[1] && (
+                  <div className="flex flex-col items-center gap-3 flex-1 animate-in fade-in slide-in-from-bottom-4 duration-500">
                     <div className="relative">
                       <Avatar className="h-16 w-16 border-2 border-white shadow-sm ring-2 ring-slate-100">
-                        <AvatarImage src={topThree[1]?.avatar ?? undefined} />
-                        <AvatarFallback>{topThree[1]?.name[0]}</AvatarFallback>
+                        <AvatarImage src={topThree[1].avatar ?? undefined} />
+                        <AvatarFallback className="bg-slate-100 text-slate-400 font-bold">{topThree[1].name[0]}</AvatarFallback>
                       </Avatar>
                       <div className="absolute -bottom-1 -right-1 bg-slate-400 text-white text-[10px] font-bold h-6 w-6 rounded-full flex items-center justify-center border-2 border-white shadow-sm">2</div>
                     </div>
-                    <div className="text-center">
-                      <span className="block text-[13px] font-bold text-[#1A1A1A] truncate max-w-[80px]">{topThree[1]?.name}</span>
-                      <span className="block text-[10px] font-bold uppercase tracking-tight text-[#8E8E93] mb-0.5">{getTitleForLevel(topThree[1]?.level)}</span>
-                      <span className={cn("text-[11px] font-extrabold uppercase tracking-wider", getLevelColor(topThree[1]?.level))}>Nível {topThree[1]?.level}</span>
+                    <div className="text-center w-full">
+                      <span className="block text-[13px] font-bold text-[#1A1A1A] truncate mx-auto max-w-[80px]">{topThree[1].name}</span>
+                      <span className="block text-[10px] font-extrabold text-slate-500">{topThree[1].xp} XP</span>
                     </div>
                   </div>
+                )}
 
-                  {/* Rank 1 */}
-                  <div className="flex flex-col items-center gap-3 flex-1 -mt-8">
+                {/* Rank 1 (Center) */}
+                {topThree[0] && (
+                  <div className="flex flex-col items-center gap-3 flex-1 z-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
                     <div className="relative">
-                      <Avatar className="h-24 w-24 border-3 border-white shadow-xl ring-2 ring-yellow-100">
-                        <AvatarImage src={topThree[0]?.avatar ?? undefined} />
-                        <AvatarFallback>{topThree[0]?.name[0]}</AvatarFallback>
+                      <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-yellow-400 animate-bounce">
+                        <RiTrophyLine size={24} />
+                      </div>
+                      <Avatar className="h-24 w-24 border-3 border-white shadow-xl ring-2 ring-yellow-100 bg-white">
+                        <AvatarImage src={topThree[0].avatar ?? undefined} />
+                        <AvatarFallback className="bg-yellow-50 text-yellow-500 font-bold text-xl">{topThree[0].name[0]}</AvatarFallback>
                       </Avatar>
                       <div className="absolute -bottom-1 -right-1 bg-yellow-400 text-white text-[12px] font-bold h-8 w-8 rounded-full flex items-center justify-center border-2 border-white shadow-sm">1</div>
                     </div>
-                    <div className="text-center mt-2">
-                      <span className="block text-[15px] font-extrabold text-[#1A1A1A]">{topThree[0]?.name}</span>
-                      <span className="block text-[11px] font-bold uppercase tracking-tight text-[#8E8E93] mb-0.5">{getTitleForLevel(topThree[0]?.level)}</span>
-                      <span className={cn("text-[12px] font-extrabold uppercase tracking-widest", getLevelColor(topThree[0]?.level))}>Nível {topThree[0]?.level}</span>
+                    <div className="text-center w-full">
+                      <span className="block text-[15px] font-extrabold text-[#1A1A1A] truncate mx-auto max-w-full">{topThree[0].name}</span>
+                      <span className="block text-[11px] font-black text-yellow-600 uppercase tracking-tight">{topThree[0].xp} XP</span>
                     </div>
                   </div>
+                )}
 
-                  {/* Rank 3 */}
-                  <div className="flex flex-col items-center gap-3 flex-1">
+                {/* Rank 3 (Right) */}
+                {topThree[2] && (
+                  <div className="flex flex-col items-center gap-3 flex-1 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
                     <div className="relative">
-                      <Avatar className="h-16 w-16 border-2 border-white shadow-sm ring-2 ring-amber-100">
-                        <AvatarImage src={topThree[2]?.avatar ?? undefined} />
-                        <AvatarFallback>{topThree[2]?.name[0]}</AvatarFallback>
+                      <Avatar className="h-16 w-16 border-2 border-white shadow-sm ring-2 ring-amber-50">
+                        <AvatarImage src={topThree[2].avatar ?? undefined} />
+                        <AvatarFallback className="bg-amber-50 text-amber-600 font-bold">{topThree[2].name[0]}</AvatarFallback>
                       </Avatar>
                       <div className="absolute -bottom-1 -right-1 bg-amber-600 text-white text-[10px] font-bold h-6 w-6 rounded-full flex items-center justify-center border-2 border-white shadow-sm">3</div>
                     </div>
-                    <div className="text-center">
-                      <span className="block text-[13px] font-bold text-[#1A1A1A] truncate max-w-[80px]">{topThree[2]?.name}</span>
-                      <span className="block text-[10px] font-bold uppercase tracking-tight text-[#8E8E93] mb-0.5">{getTitleForLevel(topThree[2]?.level)}</span>
-                      <span className={cn("text-[11px] font-extrabold uppercase tracking-wider", getLevelColor(topThree[2]?.level))}>Nível {topThree[2]?.level}</span>
+                    <div className="text-center w-full">
+                      <span className="block text-[13px] font-bold text-[#1A1A1A] truncate mx-auto max-w-[80px]">{topThree[2].name}</span>
+                      <span className="block text-[10px] font-extrabold text-amber-700">{topThree[2].xp} XP</span>
                     </div>
                   </div>
-                </div>
-              </section>
-            )}
+                )}
+              </div>
 
-            {/* Leaderboard List */}
-            {rest.length > 0 && (
-              <section className="space-y-4 mb-12">
-                <h2 className="text-[13px] font-extrabold text-[#8E8E93] uppercase tracking-widest pl-1 mb-2">Classificação</h2>
-                <div className="space-y-2">
+              {/* Leaderboard List */}
+              {rest.length > 0 && (
+                <div className="space-y-2 mt-4">
                   {rest.map((user) => (
-                    <Card key={user.rank} className="p-3 border-none shadow-[0_2px_8px_rgba(0,0,0,0.02)] rounded-[6px] bg-white">
+                    <Card key={user.rank} className="p-3 border-none shadow-[0_2px_8px_rgba(0,0,0,0.02)] rounded-[6px] bg-white transition-all active:scale-[0.98]">
                       <div className="flex items-center gap-4">
-                        <span className="text-[14px] font-bold text-[#8E8E93] w-5 text-center">{user.rank}</span>
+                        <span className="text-[14px] font-black text-[#8E8E93] w-5 text-center">{user.rank}</span>
                         <Avatar className="h-12 w-12 border-2 border-[#F2F2F7]">
                           <AvatarImage src={user.avatar ?? undefined} />
-                          <AvatarFallback>{user.name[0]}</AvatarFallback>
+                          <AvatarFallback className="bg-gray-50 text-gray-400 font-bold">{user.name[0]}</AvatarFallback>
                         </Avatar>
                         <div className="flex-1 min-w-0">
                           <span className="block text-[15px] font-bold text-[#1A1A1A] truncate">{user.name}</span>
@@ -157,7 +161,10 @@ export default function Ranking() {
                         </div>
 
                         <div className="flex flex-col items-end">
-                          <span className={cn("text-[13px] font-extrabold uppercase tracking-wide", getLevelColor(user.level))}>
+                          <span className="text-[14px] font-black text-[#1A1A1A]">
+                            {user.xp} <span className="text-[10px] text-[#8E8E93] uppercase">XP</span>
+                          </span>
+                          <span className={cn("text-[10px] font-bold uppercase tracking-wide", getLevelColor(user.level))}>
                             Nível {user.level}
                           </span>
                         </div>
@@ -165,8 +172,8 @@ export default function Ranking() {
                     </Card>
                   ))}
                 </div>
-              </section>
-            )}
+              )}
+            </section>
           </>
         )}
 
