@@ -20,7 +20,8 @@ import {
   RiHeartLine,
   RiCheckboxCircleLine,
   RiCheckboxCircleFill,
-  RiUserVoiceLine
+  RiUserVoiceLine,
+  RiAddLine
 } from "@remixicon/react"
 import { 
   Card, 
