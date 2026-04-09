@@ -11,13 +11,12 @@ export default function LoginPage() {
         
         {/* Logo */}
         <div className="mb-14 flex flex-col items-center">
-          <div className="w-[84px] h-[84px] bg-primary rounded-[22px] flex items-center justify-center shadow-lg shadow-primary/25 mb-6">
-            <span className="text-white text-[44px] font-black leading-none select-none">B</span>
-          </div>
-          <h1 className="text-[34px] font-extrabold text-[#1A1A1A] tracking-[-0.04em]">
-            BeHappy
-          </h1>
-          <p className="text-[16px] text-[#8E8E93] font-medium mt-2 text-center leading-snug">
+          <img 
+            src="https://www.recreacaobehappy.com.br/images/behappyLogo.png" 
+            alt="BeHappy Logo" 
+            className="w-auto h-[100px] object-contain mb-4"
+          />
+          <p className="text-[16px] text-[#8E8E93] font-medium text-center leading-snug">
             A plataforma dos recreadores
           </p>
         </div>
