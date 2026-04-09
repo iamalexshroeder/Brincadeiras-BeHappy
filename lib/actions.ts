@@ -627,8 +627,23 @@ export async function deleteBrincadeira(id: string) {
   const session = await auth()
   if (!session?.user?.id) throw new Error("Não autenticado")
 
-  await prisma.brincadeira.delete({
+  const brincadeira = await prisma.brincadeira.findUnique({
     where: { id, user_id: session.user.id },
+    select: { id: true }
+  })
+
+  if (!brincadeira) throw new Error("Brincadeira não encontrada")
+
+  // Subtract XP (50 points for creation)
+  await prisma.user.update({
+    where: { id: session.user.id },
+    data: {
+      xp: { decrement: 50 }
+    }
+  })
+
+  await prisma.brincadeira.delete({
+    where: { id }
   })
 
   revalidatePath("/")

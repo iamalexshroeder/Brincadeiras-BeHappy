@@ -306,7 +306,7 @@ export function BrincadeiraCard({
                           <Button 
                             variant="ghost" 
                             size="icon" 
-                            className="h-9 w-9 text-[#8E8E93]"
+                            className="h-10 w-10 text-[#8E8E93]"
                             onClick={() => setIsEditingBrincadeira(true)}
                           >
                             <RiEditLine size={20} />
@@ -314,24 +314,24 @@ export function BrincadeiraCard({
                           <Button 
                             variant="ghost" 
                             size="icon" 
-                            className="h-9 w-9 text-[#8E8E93] active:text-red-500"
+                            className="h-10 w-10 text-[#8E8E93] active:text-red-500"
                             onClick={handleDeleteBrincadeira}
                           >
                             <RiDeleteBinLine size={20} />
                           </Button>
                         </>
                       ) : (
-                        <div className="flex gap-2">
+                        <div className="flex items-center gap-2">
                           <Button 
                             variant="ghost" 
                             size="sm" 
-                            className="text-[#8E8E93] font-bold"
+                            className="text-[#8E8E93] font-bold px-4 h-9"
                             onClick={() => setIsEditingBrincadeira(false)}
                           >
                             Cancelar
                           </Button>
                           <Button 
-                            className="bg-primary text-white font-bold h-9 px-4 rounded-[6px]"
+                            className="bg-primary text-white font-bold h-9 px-6 rounded-full shadow-sm border-none"
                             onClick={handleUpdateBrincadeira}
                             disabled={isPending}
                           >

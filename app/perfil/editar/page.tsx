@@ -34,13 +34,23 @@ export default function EditarPerfil() {
     startTransition(async () => {
       try {
         await updateProfile({ name, avatar_url: avatarUrl })
-        // Tenta atualizar a sessão local se o provider suportar
         await updateSession()
         router.push("/perfil/configuracoes")
       } catch (error) {
         console.error("Erro ao atualizar perfil:", error)
       }
     })
+  }
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setAvatarUrl(reader.result as string)
+      }
+      reader.readAsDataURL(file)
+    }
   }
 
   return (
@@ -64,7 +74,7 @@ export default function EditarPerfil() {
           <Button 
             onClick={handleSave} 
             disabled={isPending || loading}
-            className="bg-primary text-white font-bold h-9 px-4 rounded-[6px] border-none"
+            className="bg-primary text-white font-bold h-9 px-4 rounded-[6px] border-none shadow-sm active:scale-95 transition-all"
           >
             {isPending ? <RiLoader4Line className="animate-spin" size={18} /> : "Salvar"}
           </Button>
@@ -72,14 +82,34 @@ export default function EditarPerfil() {
       </div>
 
       <main className="px-5 pt-8 space-y-8 pb-32">
-        {/* Profile Preview */}
-        <div className="flex flex-col items-center justify-center space-y-4">
-          <Avatar className="h-24 w-24 border-4 border-white shadow-md">
+        {/* Profile Preview & Upload */}
+        <div className="flex flex-col items-center justify-center space-y-6">
+          <Avatar className="h-28 w-28 border-4 border-white shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
             <AvatarImage src={avatarUrl} />
-            <AvatarFallback className="bg-primary/10 text-primary text-2xl font-bold">
-              {name ? name[0] : <RiUser3Line size={32} />}
+            <AvatarFallback className="bg-primary/10 text-primary text-3xl font-bold">
+              {name ? name[0] : <RiUser3Line size={40} />}
             </AvatarFallback>
           </Avatar>
+          
+          <div className="relative">
+            <input 
+              type="file" 
+              id="avatar-upload" 
+              className="hidden" 
+              accept="image/*"
+              onChange={handleFileUpload}
+            />
+            <Button 
+              asChild
+              variant="outline" 
+              className="h-10 px-6 rounded-full border-[#E5E5EA] text-[#8E8E93] font-bold text-[13px] bg-white active:bg-gray-50 transition-all cursor-pointer"
+            >
+              <label htmlFor="avatar-upload">
+                <RiImageLine size={18} className="mr-2" />
+                Escolher da Galeria
+              </label>
+            </Button>
+          </div>
         </div>
 
         <div className="space-y-6">
@@ -88,38 +118,35 @@ export default function EditarPerfil() {
             <label className="text-[13px] font-bold text-[#8E8E93] uppercase tracking-widest pl-1">
               Nome de Exibição
             </label>
-            <Card className="p-1 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] overflow-hidden">
+            <Card className="p-1 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] bg-white overflow-hidden">
               <div className="flex items-center px-4 h-12 gap-3">
                 <RiUser3Line size={20} className="text-[#8E8E93]" />
                 <Input 
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Seu nome"
-                  className="border-none bg-transparent h-full px-0 focus-visible:ring-0 text-[15px] font-medium"
+                  className="border-none bg-transparent h-full px-0 focus-visible:ring-0 text-[15px] font-medium text-[#1A1A1A]"
                 />
               </div>
             </Card>
           </section>
 
-          {/* Photo Field */}
-          <section className="space-y-2">
+          {/* Photo Field (Hidden from user or kept as optional) */}
+          <section className="space-y-2 opacity-50">
             <label className="text-[13px] font-bold text-[#8E8E93] uppercase tracking-widest pl-1">
-              URL da Foto de Perfil
+              Link da Foto (Opcional)
             </label>
-            <Card className="p-1 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] overflow-hidden">
+            <Card className="p-1 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] bg-white overflow-hidden">
               <div className="flex items-center px-4 h-12 gap-3">
                 <RiImageLine size={20} className="text-[#8E8E93]" />
                 <Input 
                   value={avatarUrl}
                   onChange={(e) => setAvatarUrl(e.target.value)}
-                  placeholder="https://exemplo.com/foto.jpg"
-                  className="border-none bg-transparent h-full px-0 focus-visible:ring-0 text-[15px] font-medium"
+                  placeholder="Link da imagem..."
+                  className="border-none bg-transparent h-full px-0 focus-visible:ring-0 text-[13px] font-medium"
                 />
               </div>
             </Card>
-            <p className="text-[11px] text-[#8E8E93] pl-1">
-              Utilize o link de uma imagem (ex: Google Photos, Dropbox, etc).
-            </p>
           </section>
 
           {/* Read-only Email Field */}
@@ -127,17 +154,15 @@ export default function EditarPerfil() {
             <label className="text-[13px] font-bold text-[#8E8E93] uppercase tracking-widest pl-1">
               E-mail da Conta
             </label>
-            <Card className="p-4 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] bg-gray-50/50">
+            <Card className="p-4 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] bg-white">
               <span className="text-[15px] font-medium text-[#8E8E93]">
                 {session?.user?.email}
               </span>
             </Card>
-            <p className="text-[11px] text-red-400 pl-1 italic">
-              O e-mail não pode ser alterado pois é vinculado ao seu Google Login.
-            </p>
           </section>
         </div>
       </main>
     </div>
+  )
   )
 }
