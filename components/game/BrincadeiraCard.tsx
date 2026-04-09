@@ -356,8 +356,7 @@ export function BrincadeiraCard({
 
               {/* Scrollable Content */}
               <div className="flex-1 overflow-y-auto px-5 py-6">
-">
-               <div className="space-y-6">
+                <div className="space-y-6">
                 <div className="flex items-center gap-4">
                   <Avatar className="h-10 w-10 border-2 border-[#F2F2F7]">
                     <AvatarImage src={creator.avatar} />
