@@ -355,7 +355,10 @@ export function BrincadeiraCard({
               <div className="h-16 w-full shrink-0" />
 
               {/* Scrollable Content */}
-              <div className="flex-1 overflow-y-auto px-5 py-6">
+              <div className={cn(
+                "flex-1 overflow-y-auto px-5 transition-all duration-300",
+                isEditingBrincadeira ? "pt-12 pb-20" : "py-6"
+              )}>
                 <div className="space-y-6">
                 <div className="flex items-center gap-4">
                   <Avatar className="h-10 w-10 border-2 border-[#F2F2F7]">
@@ -423,162 +426,166 @@ export function BrincadeiraCard({
                   </div>
                 </div>
 
-                <div className="pt-8 border-t border-[#F2F2F7]">
-                  <h4 className="text-[18px] font-extrabold text-[#1A1A1A] mb-6 tracking-[-0.02em]">
-                    Comentários ({comments.length})
-                  </h4>
-                  
-                  {comments.length === 0 ? (
-                    <p className="text-[14px] text-[#8E8E93] text-center py-8">Nenhum comentário ainda. Seja o primeiro a comentar!</p>
-                  ) : (
-                    <div className="space-y-6">
-                      {comments.map((comment: any) => {
-                        const isOwner = currentUserId === comment.user_id
-                        const isEditing = editingCommentId === comment.id
-                        const isDeleting = isDeletingId === comment.id
+                {!isEditingBrincadeira && (
+                  <div className="pt-8 border-t border-[#F2F2F7]">
+                    <h4 className="text-[18px] font-extrabold text-[#1A1A1A] mb-6 tracking-[-0.02em]">
+                      Comentários ({comments.length})
+                    </h4>
+                    
+                    {comments.length === 0 ? (
+                      <p className="text-[14px] text-[#8E8E93] text-center py-8">Nenhum comentário ainda. Seja o primeiro a comentar!</p>
+                    ) : (
+                      <div className="space-y-6">
+                        {comments.map((comment: any) => {
+                          const isOwner = currentUserId === comment.user_id
+                          const isEditing = editingCommentId === comment.id
+                          const isDeleting = isDeletingId === comment.id
 
-                        return (
-                          <div key={comment.id} className={cn("flex gap-4 group", isDeleting && "opacity-50 grayscale transition-all")}>
-                            <Avatar className="h-8 w-8 flex-shrink-0">
-                              <AvatarImage src={comment.user.avatar_url || comment.user.image} />
-                              <AvatarFallback className="font-bold">{comment.user.name[0]}</AvatarFallback>
-                            </Avatar>
-                            <div className="flex-1 flex flex-col gap-1">
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                  <span className="text-[14px] font-bold text-[#1A1A1A]">{comment.user.name}</span>
-                                  <span className="text-[12px] text-[#8E8E93]">
-                                    {new Date(comment.created_at).toLocaleDateString("pt-BR")}
-                                  </span>
-                                </div>
-                                {isOwner && !isEditing && (
-                                  <div className="flex items-center gap-2 transition-opacity">
-                                    <button 
-                                      onClick={() => {
-                                        setEditingCommentId(comment.id)
-                                        setEditingCommentText(comment.text)
-                                      }}
-                                      className="text-[#8E8E93] active:text-primary transition-colors"
-                                    >
-                                      <RiEditLine size={16} />
-                                    </button>
-                                    <button 
-                                      onClick={async () => {
-                                        if (confirm("Deseja excluir seu comentário?")) {
-                                          setIsDeletingId(comment.id)
-                                          await deleteComment(comment.id)
-                                          setIsDeletingId(null)
-                                          router.refresh()
-                                        }
-                                      }}
-                                      className="text-[#8E8E93] active:text-red-500 transition-colors"
-                                    >
-                                      {isDeleting ? <RiLoader4Line size={16} className="animate-spin" /> : <RiDeleteBinLine size={16} />}
-                                    </button>
+                          return (
+                            <div key={comment.id} className={cn("flex gap-4 group", isDeleting && "opacity-50 grayscale transition-all")}>
+                              <Avatar className="h-8 w-8 flex-shrink-0">
+                                <AvatarImage src={comment.user.avatar_url || comment.user.image} />
+                                <AvatarFallback className="font-bold">{comment.user.name[0]}</AvatarFallback>
+                              </Avatar>
+                              <div className="flex-1 flex flex-col gap-1">
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-[14px] font-bold text-[#1A1A1A]">{comment.user.name}</span>
+                                    <span className="text-[12px] text-[#8E8E93]">
+                                      {new Date(comment.created_at).toLocaleDateString("pt-BR")}
+                                    </span>
                                   </div>
+                                  {isOwner && !isEditing && (
+                                    <div className="flex items-center gap-2 transition-opacity">
+                                      <button 
+                                        onClick={() => {
+                                          setEditingCommentId(comment.id)
+                                          setEditingCommentText(comment.text)
+                                        }}
+                                        className="text-[#8E8E93] active:text-primary transition-colors"
+                                      >
+                                        <RiEditLine size={16} />
+                                      </button>
+                                      <button 
+                                        onClick={async () => {
+                                          if (confirm("Deseja excluir seu comentário?")) {
+                                            setIsDeletingId(comment.id)
+                                            await deleteComment(comment.id)
+                                            setIsDeletingId(null)
+                                            router.refresh()
+                                          }
+                                        }}
+                                        className="text-[#8E8E93] active:text-red-500 transition-colors"
+                                      >
+                                        {isDeleting ? <RiLoader4Line size={16} className="animate-spin" /> : <RiDeleteBinLine size={16} />}
+                                      </button>
+                                    </div>
+                                  )}
+                                </div>
+                                
+                                {isEditing ? (
+                                  <div className="space-y-2 mt-1">
+                                    <textarea
+                                      className="w-full p-3 rounded-[8px] bg-[#F2F2F7] text-[#1A1A1A] text-[14px] font-medium border-none focus:ring-1 ring-primary/20 resize-none"
+                                      value={editingCommentText}
+                                      onChange={(e) => setEditingCommentText(e.target.value)}
+                                      autoFocus
+                                    />
+                                    <div className="flex gap-2">
+                                      <Button 
+                                        size="sm" 
+                                        className="h-8 bg-primary text-white font-bold rounded-[4px]"
+                                        onClick={async () => {
+                                          await updateComment(comment.id, editingCommentText)
+                                          setEditingCommentId(null)
+                                          router.refresh()
+                                        }}
+                                      >
+                                        Salvar
+                                      </Button>
+                                      <Button 
+                                        variant="ghost" 
+                                        size="sm" 
+                                        className="h-8 text-[#8E8E93] font-bold"
+                                        onClick={() => setEditingCommentId(null)}
+                                      >
+                                        Cancelar
+                                      </Button>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <p className="text-[14px] text-[#1A1A1A] leading-relaxed opacity-90">
+                                    {comment.text}
+                                  </p>
                                 )}
                               </div>
-                              
-                              {isEditing ? (
-                                <div className="space-y-2 mt-1">
-                                  <textarea
-                                    className="w-full p-3 rounded-[8px] bg-[#F2F2F7] text-[#1A1A1A] text-[14px] font-medium border-none focus:ring-1 ring-primary/20 resize-none"
-                                    value={editingCommentText}
-                                    onChange={(e) => setEditingCommentText(e.target.value)}
-                                    autoFocus
-                                  />
-                                  <div className="flex gap-2">
-                                    <Button 
-                                      size="sm" 
-                                      className="h-8 bg-primary text-white font-bold rounded-[4px]"
-                                      onClick={async () => {
-                                        await updateComment(comment.id, editingCommentText)
-                                        setEditingCommentId(null)
-                                        router.refresh()
-                                      }}
-                                    >
-                                      Salvar
-                                    </Button>
-                                    <Button 
-                                      variant="ghost" 
-                                      size="sm" 
-                                      className="h-8 text-[#8E8E93] font-bold"
-                                      onClick={() => setEditingCommentId(null)}
-                                    >
-                                      Cancelar
-                                    </Button>
-                                  </div>
-                                </div>
-                              ) : (
-                                <p className="text-[14px] text-[#1A1A1A] leading-relaxed opacity-90">
-                                  {comment.text}
-                                </p>
-                              )}
                             </div>
-                          </div>
-                        )
-                      })}
-                    </div>
-                  )}
-                </div>
+                          )
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )}
                </div>
              </div>
 
              {/* Fixed Footer Action Area */}
-             <div className="px-5 py-4 border-t border-[#F2F2F7] bg-white safe-area-bottom">
-               {isAddingComment ? (
-                 <div className="space-y-4">
-                   <textarea
-                     autoFocus
-                     placeholder="Sua experiência com essa brincadeira..."
-                     className="w-full h-24 p-4 rounded-[12px] bg-[#F2F2F7] border-none text-[15px] text-[#1A1A1A] focus:ring-1 focus:ring-primary/20 transition-all resize-none font-medium"
-                     value={commentText}
-                     onChange={(e) => setCommentText(e.target.value)}
-                   />
-                   <div className="flex gap-3">
-                     <Button 
-                       variant="ghost"
-                       onClick={() => setIsAddingComment(false)}
-                       className="flex-1 h-11 font-bold text-[#8E8E93]"
-                     >
-                       Cancelar
-                     </Button>
-                      <Button 
-                        className="flex-2 h-11 bg-primary text-white font-bold rounded-[6px] px-8"
-                        onClick={async () => {
-                          if (!commentText.trim()) return
-                          
-                          startTransition(async () => {
-                            try {
-                              await addComment(id, commentText)
-                              setIsAddingComment(false)
-                              setCommentText("")
-                              router.refresh()
-                              // Success feedback: we keep it open so user can see their comment
-                            } catch (error) {
-                              console.error("Erro ao postar comentário:", error)
-                            }
-                          })
-                        }}
-                        disabled={!commentText.trim() || isPending}
-                      >
-                        {isPending ? (
-                          <RiLoader4Line className="animate-spin" size={20} />
-                        ) : (
-                          "Postar"
-                        )}
-                      </Button>
+             {!isEditingBrincadeira && (
+               <div className="px-5 py-4 border-t border-[#F2F2F7] bg-white safe-area-bottom">
+                 {isAddingComment ? (
+                   <div className="space-y-4">
+                     <textarea
+                       autoFocus
+                       placeholder="Sua experiência com essa brincadeira..."
+                       className="w-full h-24 p-4 rounded-[12px] bg-[#F2F2F7] border-none text-[15px] text-[#1A1A1A] focus:ring-1 focus:ring-primary/20 transition-all resize-none font-medium"
+                       value={commentText}
+                       onChange={(e) => setCommentText(e.target.value)}
+                     />
+                     <div className="flex gap-3">
+                       <Button 
+                         variant="ghost"
+                         onClick={() => setIsAddingComment(false)}
+                         className="flex-1 h-11 font-bold text-[#8E8E93]"
+                       >
+                         Cancelar
+                       </Button>
+                        <Button 
+                          className="flex-2 h-11 bg-primary text-white font-bold rounded-[6px] px-8"
+                          onClick={async () => {
+                            if (!commentText.trim()) return
+                            
+                            startTransition(async () => {
+                              try {
+                                await addComment(id, commentText)
+                                setIsAddingComment(false)
+                                setCommentText("")
+                                router.refresh()
+                                // Success feedback: we keep it open so user can see their comment
+                              } catch (error) {
+                                console.error("Erro ao postar comentário:", error)
+                              }
+                            })
+                          }}
+                          disabled={!commentText.trim() || isPending}
+                        >
+                          {isPending ? (
+                            <RiLoader4Line className="animate-spin" size={20} />
+                          ) : (
+                            "Postar"
+                          )}
+                        </Button>
+                     </div>
                    </div>
-                 </div>
-               ) : (
-                 <Button 
-                   onClick={() => setIsAddingComment(true)}
-                   className="w-full h-12 bg-[#FF9500] text-white font-bold rounded-[6px] shadow-sm active:scale-[0.98] transition-all text-[15px]"
-                 >
-                   Adicionar Comentário
-                 </Button>
-               )}
-             </div>
+                 ) : (
+                   <Button 
+                     onClick={() => setIsAddingComment(true)}
+                     className="w-full h-12 bg-[#FF9500] text-white font-bold rounded-[6px] shadow-sm active:scale-[0.98] transition-all text-[15px]"
+                   >
+                     Adicionar Comentário
+                   </Button>
+                 )}
+               </div>
+             )}
            </SheetContent>
         </Sheet>
       </CardFooter>
