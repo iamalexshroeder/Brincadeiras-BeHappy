@@ -1,28 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
 import { useRouter } from "next/navigation"
-import { RiArrowLeftSLine, RiAddLine, RiCloseLine } from "@remixicon/react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Progress } from "@/components/ui/progress"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import { RiCloseLine } from "@remixicon/react"
 import { cn } from "@/lib/utils"
 
-const CATEGORIES = ["Físico", "Musical", "Criativo", "Educativo", "Cooperação", "Concentração"]
-const AGE_RANGES = ["3-5 anos", "6-9 anos", "10+ anos", "Todas as idades"]
-const DURATIONS = ["5-10 min", "15-30 min", "30-60 min", "Livre"]
-const PARTICIPANTS = ["Duplas", "4-10", "10-20", "Grupos grandes"]
+const CATEGORIES = ["Físico", "Musical", "Criativo", "Educativo", "Cooperação"]
+const AGE_RANGES = ["3-5 anos", "6-9 anos", "10+ anos", "Livre"]
 
 export default function CreateBrincadeiraForm() {
   const router = useRouter()
-  const [step, setStep] = useState(1)
-  const totalSteps = 3
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-
 
   // Form State
   const [title, setTitle] = useState("")
@@ -32,74 +20,48 @@ export default function CreateBrincadeiraForm() {
   const [age, setAge] = useState("")
   const [duration, setDuration] = useState("")
   const [participants, setParticipants] = useState("")
-  const [customParticipants, setCustomParticipants] = useState("")
 
   const [materials, setMaterials] = useState<string[]>([])
+  const [newMaterial, setNewMaterial] = useState("")
+
   const [steps, setSteps] = useState<string[]>([""])
 
-  const progress = (step / totalSteps) * 100
-
-  const handleNext = () => {
-    if (step < totalSteps) setStep(step + 1)
-    else handleSubmit()
+  const handleAddMaterial = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && newMaterial.trim() !== "") {
+      e.preventDefault()
+      setMaterials([...materials, newMaterial.trim()])
+      setNewMaterial("")
+    }
   }
 
-  const handleBack = () => {
-    if (step > 1) setStep(step - 1)
-    else router.back()
-  }
-
-  const handleAddMaterial = () => setMaterials([...materials, ""])
-  const handleMaterialChange = (index: number, value: string) => {
-    const newMaterials = [...materials]
-    newMaterials[index] = value
-    setMaterials(newMaterials)
-  }
   const handleRemoveMaterial = (index: number) => {
     setMaterials(materials.filter((_, i) => i !== index))
   }
 
-  const handleAddStep = () => setSteps([...steps, ""])
   const handleStepChange = (index: number, value: string) => {
     const newSteps = [...steps]
     newSteps[index] = value
     setSteps(newSteps)
   }
-  const handleRemoveStep = (index: number) => {
-    setSteps(steps.filter((_, i) => i !== index))
-  }
+
+  const handleAddStep = () => setSteps([...steps, ""])
+  const handleRemoveStep = (index: number) => setSteps(steps.filter((_, i) => i !== index))
 
   const handleSubmit = async () => {
+    if (!title) return alert("Adicione um título para a brincadeira")
     setIsSubmitting(true)
-    setError(null)
 
     try {
-      // Map UI categories to Database Enums
       const typeMap: Record<string, string> = {
         "Físico": "FISICA",
         "Musical": "MUSICAL",
         "Criativo": "CRIATIVA",
         "Educativo": "EDUCATIVA",
         "Cooperação": "COOPERATIVA",
-        "Concentração": "EDUCATIVA"
       }
 
-      // Map UI Age ranges to Database Enums
-      const ageMap: Record<string, string[]> = {
-        "3-5 anos": ["AGE_3_5"],
-        "6-9 anos": ["AGE_6_9"],
-        "10+ anos": ["AGE_10_PLUS"],
-        "Todas as idades": ["AGE_3_5", "AGE_6_9", "AGE_10_PLUS"]
-      }
-
-      // Parse duration (e.g., "15-30 min" -> 30)
-      const durationMatch = duration.match(/(\d+)/g)
-      const durationVal = durationMatch ? parseInt(durationMatch[durationMatch.length - 1]) : 30
-
-      // Parse participants (e.g., "4-10" -> min: 4, max: 10)
-      const participantsMatch = participants.match(/(\d+)/g)
-      const minP = participantsMatch ? parseInt(participantsMatch[0]) : 2
-      const maxP = participantsMatch && participantsMatch.length > 1 ? parseInt(participantsMatch[1]) : undefined
+      const durationVal = duration.match(/(\d+)/g) ? parseInt(duration.match(/(\d+)/g)!.pop()!) : 30
+      const minP = participants.match(/(\d+)/g) ? parseInt(participants.match(/(\d+)/g)![0]) : 2
 
       const { createBrincadeira } = await import("@/lib/actions")
 
@@ -109,327 +71,193 @@ export default function CreateBrincadeiraForm() {
         type: typeMap[selectedCategories[0]] || "CRIATIVA",
         steps: steps.filter(s => s.trim() !== ""),
         materials: materials.filter(m => m.trim() !== ""),
-        age_groups: ageMap[age] || ["AGE_6_9"],
+        age_groups: ["AGE_6_9"], // simplified for now
         min_participants: minP,
-        max_participants: maxP,
         duration_minutes: durationVal,
-        animator_level: "MEDIO", // Default as per plan
+        animator_level: "MEDIO",
         tags: selectedCategories
       })
 
       router.push("/perfil")
     } catch (err) {
       console.error(err)
-      setError("Ocorreu um erro ao salvar a brincadeira. Tente novamente.")
       setIsSubmitting(false)
     }
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-card">
-      {/* Header */}
-      <header className="px-5 pt-12 pb-4 bg-card sticky top-0 z-10 border-b border-border">
-        <div className="flex items-center justify-between mb-6">
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={handleBack}
-            className="h-10 w-10 text-foreground -ml-2 active:bg-gray-100 rounded-full"
+    <div className="min-h-screen bg-black/40 flex flex-col md:pt-10">
+      {/* Container imitando painel modal da Biblioteca, fundo branco */}
+      <div className="flex-1 bg-white md:rounded-[20px] shadow-sm flex flex-col md:max-w-3xl md:mx-auto md:w-full md:mb-10 w-full mt-14 md:mt-0 relative mb-0">
+        
+        {/* Header Fixo */}
+        <div className="sticky top-0 left-0 right-0 z-20 flex items-start justify-between px-5 py-5 border-b border-[#E5E5EA] bg-white md:rounded-t-[20px]">
+          <div>
+            <h2 className="text-[18px] font-extrabold text-[#1A1A1A] leading-tight mb-1">Criar Brincadeira</h2>
+            <p className="text-[14px] text-[#8E8E93] font-medium">Preencha os detalhes para a comunidade</p>
+          </div>
+          <button
+            onClick={() => router.back()}
+            className="w-8 h-8 flex items-center justify-center rounded-full bg-[#F2F2F7] text-[#8E8E93] active:scale-90 transition-all shrink-0"
           >
-            <RiArrowLeftSLine size={28} />
-          </Button>
-          <span className="text-[15px] font-bold text-foreground">
-            Passo {step} de {totalSteps}
-          </span>
-          <div className="w-10" /> {/* Spacer for alignment */}
+            <RiCloseLine size={18} />
+          </button>
         </div>
-        <Progress value={progress} className="h-1.5 bg-[#F2F2F7]" indicatorClassName="bg-[#AF52DE]" />
-      </header>
 
-      <main className="flex-1 px-5 py-8 overflow-y-auto pb-40">
-        <AnimatePresence mode="wait">
-          {step === 1 && (
-            <motion.div
-              key="step1"
-              initial={{ x: 20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -20, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="space-y-8"
-            >
-              <div>
-                <h2 className="text-[20px] font-extrabold text-foreground tracking-[-0.03em] leading-tight mb-2">
-                  Qual é a ideia de hoje?
-                </h2>
-                <p className="text-[15px] text-muted-foreground font-medium leading-relaxed">
-                  Comece com o básico. Um bom título chama toda atenção.
-                </p>
-              </div>
+        {/* Formulário - Corpo */}
+        <div className="flex-1 overflow-y-auto px-5 py-6 space-y-8 pb-32 bg-white">
+          
+          {/* Título e Desc */}
+          <div className="space-y-4">
+            <div>
+              <label className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest mb-2 block">Título da Brincadeira</label>
+              <input 
+                type="text" 
+                value={title}
+                onChange={e => setTitle(e.target.value)}
+                placeholder="Ex: Dança das Cadeiras Musical"
+                className="w-full bg-[#F2F2F7] border-0 rounded-[12px] h-12 px-4 text-[15px] font-semibold text-[#1A1A1A] placeholder:text-[#C7C7CC] focus:ring-2 focus:ring-[#FF9500] outline-none"
+              />
+            </div>
+            
+            <div>
+              <label className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest mb-2 block">Descrição Curta</label>
+              <textarea 
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+                placeholder="Explique rapidamente qual o objetivo..."
+                className="w-full bg-[#F2F2F7] border-0 rounded-[12px] p-4 min-h-[100px] text-[15px] text-[#1A1A1A] placeholder:text-[#C7C7CC] focus:ring-2 focus:ring-[#FF9500] outline-none resize-none"
+              />
+            </div>
+          </div>
 
-              <div className="space-y-6">
-                <div className="space-y-3">
-                  <label className="text-[14px] font-extrabold text-foreground">Título da Brincadeira</label>
-                  <Input 
-                    value={title}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
-                    placeholder="Ex: Pega-Pega Congelado" 
-                    className="h-14 bg-[#F2F2F7] border-none rounded-[12px] text-[16px] text-foreground font-bold px-4 focus-visible:ring-2 ring-primary/20"
-                  />
+          {/* Categorias Flat */}
+          <div>
+            <label className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest mb-3 block">Categoria</label>
+            <div className="flex flex-wrap gap-2">
+              {CATEGORIES.map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategories([cat])}
+                  className={cn(
+                    "text-[13px] font-bold rounded-full px-4 py-2 transition-all",
+                    selectedCategories.includes(cat) 
+                      ? "bg-[#FF9500] text-white" 
+                      : "bg-[#F2F2F7] text-[#8E8E93] active:bg-[#E5E5EA]"
+                  )}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Cards Inputs Grid */}
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+            <div>
+              <label className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest mb-2 block">Tempo</label>
+              <input 
+                type="text"
+                value={duration}
+                onChange={e => setDuration(e.target.value)}
+                placeholder="Ex: 15 min"
+                className="w-full bg-[#F2F2F7] border-0 rounded-[12px] h-11 px-4 text-[14px] font-bold text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none focus:ring-2 focus:ring-[#FF9500]"
+              />
+            </div>
+            <div>
+              <label className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest mb-2 block">Pessoas</label>
+              <input 
+                type="text"
+                value={participants}
+                onChange={e => setParticipants(e.target.value)}
+                placeholder="Ex: 5-10"
+                className="w-full bg-[#F2F2F7] border-0 rounded-[12px] h-11 px-4 text-[14px] font-bold text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none focus:ring-2 focus:ring-[#FF9500]"
+              />
+            </div>
+            <div className="col-span-2 lg:col-span-1">
+              <label className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest mb-2 block">Idade</label>
+              <input 
+                type="text"
+                value={age}
+                onChange={e => setAge(e.target.value)}
+                placeholder="Ex: 6+"
+                className="w-full bg-[#F2F2F7] border-0 rounded-[12px] h-11 px-4 text-[14px] font-bold text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none focus:ring-2 focus:ring-[#FF9500]"
+              />
+            </div>
+          </div>
+
+          {/* Materiais Necessários */}
+          <div>
+            <label className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest mb-2 block">Materiais</label>
+            <div className="flex flex-wrap gap-2 mb-3">
+              {materials.map((m, i) => (
+                <div key={i} className="flex items-center gap-1 bg-[#FFF4E5] text-[#FF9500] text-[13px] font-bold rounded-[8px] pl-3 pr-1 py-1">
+                  {m}
+                  <button onClick={() => handleRemoveMaterial(i)} className="w-5 h-5 flex items-center justify-center opacity-60 hover:opacity-100">
+                    <RiCloseLine size={14} />
+                  </button>
                 </div>
+              ))}
+            </div>
+            <input 
+              type="text" 
+              value={newMaterial}
+              onChange={e => setNewMaterial(e.target.value)}
+              onKeyDown={handleAddMaterial}
+              placeholder="Digite o material e aperte Enter"
+              className="w-full bg-[#F2F2F7] border-0 rounded-[12px] h-11 px-4 text-[14px] font-semibold text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none focus:border focus:border-[#FF9500]"
+            />
+          </div>
 
-                <div className="space-y-3">
-                  <label className="text-[14px] font-extrabold text-foreground">Pequeno Resumo</label>
-                  <Textarea 
-                    value={description}
-                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)}
-                    placeholder="Conte resumidamente como funciona..." 
-                    className="min-h-[120px] bg-[#F2F2F7] border-none rounded-[12px] text-[16px] text-foreground font-medium p-4 resize-none focus-visible:ring-2 ring-primary/20"
-                  />
-                </div>
-
-                <div className="space-y-3">
-                  <label className="text-[14px] font-extrabold text-foreground">Categoria Principal</label>
-                  <ToggleGroup 
-                    type="multiple" 
-                    value={selectedCategories}
-                    onValueChange={setSelectedCategories}
-                    spacing={8}
-                    className="flex-wrap justify-start"
-                  >
-                    {CATEGORIES.map(cat => (
-                      <ToggleGroupItem 
-                        key={cat} 
-                        value={cat}
-                        className={cn(
-                          "rounded-full px-5 h-10 text-[14px] font-bold transition-all border-none bg-card text-muted-foreground",
-                          "data-[state=on]:bg-[#FF9500] data-[state=on]:text-white data-[state=on]:shadow-sm outline-none ring-0"
-                        )}
-                      >
-                        {cat}
-                      </ToggleGroupItem>
-                    ))}
-                  </ToggleGroup>
-                </div>
-              </div>
-            </motion.div>
-          )}
-
-          {step === 2 && (
-            <motion.div
-              key="step2"
-              initial={{ x: 20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -20, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="space-y-8"
-            >
-              <div>
-                <h2 className="text-[20px] font-extrabold text-foreground tracking-[-0.03em] leading-tight mb-2">
-                  Detalhes Técnicos
-                </h2>
-                <p className="text-[15px] text-muted-foreground font-medium leading-relaxed">
-                  Avalie o perfil dessa atividade para ajudar outros recreadores.
-                </p>
-              </div>
-
-              <div className="space-y-8">
-                <div className="space-y-4">
-                  <label className="text-[14px] font-extrabold text-foreground uppercase tracking-wider text-muted-foreground">Faixa Etária</label>
-                  <div className="grid grid-cols-2 gap-3">
-                    {AGE_RANGES.map(r => (
-                      <button
-                        key={r}
-                        onClick={() => setAge(r)}
-                        className={cn(
-                          "h-12 rounded-[12px] font-bold text-[14px] border-2 transition-all",
-                          age === r ? "border-primary text-primary bg-primary/5" : "border-border text-muted-foreground bg-card"
-                        )}
-                      >
-                        {r}
-                      </button>
-                    ))}
+          {/* Passo a Passo */}
+          <div>
+            <label className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest mb-3 block">Como Jogar</label>
+            <div className="space-y-3">
+              {steps.map((step, i) => (
+                <div key={i} className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-[#FF9500] text-white text-[11px] font-black flex items-center justify-center shrink-0 mt-2">
+                    {i + 1}
                   </div>
-                </div>
-
-                <div className="space-y-4">
-                  <label className="text-[14px] font-extrabold text-foreground uppercase tracking-wider text-muted-foreground">Tempo Estimado</label>
-                  <div className="grid grid-cols-2 gap-3">
-                    {DURATIONS.map(d => (
-                      <button
-                        key={d}
-                        onClick={() => setDuration(d)}
-                        className={cn(
-                          "h-12 rounded-[12px] font-bold text-[14px] border-2 transition-all",
-                          duration === d ? "border-[var(--purple)] text-[var(--purple)] bg-[var(--purple-bg)]" : "border-border text-muted-foreground bg-card"
-                        )}
-                      >
-                        {d}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <label className="text-[14px] font-extrabold text-foreground uppercase tracking-wider text-muted-foreground">Tamanho do Grupo</label>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    {PARTICIPANTS.map(p => (
-                      <button
-                        key={p}
-                        onClick={() => {
-                          setParticipants(p)
-                          setCustomParticipants("") // Clear custom if selecting a preset
-                        }}
-                        className={cn(
-                          "h-12 rounded-[12px] font-bold text-[14px] border-2 transition-all",
-                          (participants === p && !customParticipants) ? "border-[var(--yellow)] text-[var(--yellow)] bg-[var(--yellow-bg)]" : "border-border text-muted-foreground bg-card"
-                        )}
-                      >
-                        {p}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="pt-2">
-                    <Input 
-                      type="number"
-                      placeholder="Ou insira a quantidade exata..."
-                      className="h-12 bg-[#F2F2F7] border-none rounded-[12px] text-[15px] text-foreground font-bold px-4"
-                      value={customParticipants}
-                      onChange={(e) => {
-                        setCustomParticipants(e.target.value)
-                        setParticipants(e.target.value) // Sync with participants state
-                      }}
+                  <div className="flex-1 relative">
+                    <textarea
+                      value={step}
+                      onChange={e => handleStepChange(i, e.target.value)}
+                      placeholder={`Passo ${i + 1}...`}
+                      className="w-full bg-[#F2F2F7] border-0 rounded-[12px] p-4 pt-3.5 pr-10 min-h-[60px] text-[14px] text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none resize-none focus:ring-2 focus:ring-[#FF9500]"
                     />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-
-          {step === 3 && (
-            <motion.div
-              key="step3"
-              initial={{ x: 20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -20, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="space-y-8"
-            >
-              <div>
-                <h2 className="text-[20px] font-extrabold text-foreground tracking-[-0.03em] leading-tight mb-2">
-                  Como Brincar?
-                </h2>
-                <p className="text-[15px] text-muted-foreground font-medium leading-relaxed">
-                  A melhor parte! Descreva os passos com clareza.
-                </p>
-              </div>
-
-              <div className="space-y-8">
-                {/* Materiais */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <label className="text-[14px] font-extrabold text-foreground">Materiais (Opcional)</label>
-                    <Button onClick={handleAddMaterial} variant="ghost" size="sm" className="text-primary font-bold h-8 px-2">
-                      <RiAddLine size={18} className="mr-1" /> Adicionar
-                    </Button>
-                  </div>
-                  <div className="space-y-3">
-                    {materials.length === 0 && (
-                      <div className="text-[14px] text-muted-foreground italic bg-background p-4 rounded-[8px]">
-                        Nenhum material necessário? Pule esta parte!
-                      </div>
+                    {steps.length > 1 && (
+                      <button 
+                        onClick={() => handleRemoveStep(i)}
+                        className="absolute right-3 top-3 text-[#C7C7CC] hover:text-[#FF3B30] p-1"
+                      >
+                        <RiCloseLine size={16} />
+                      </button>
                     )}
-                    {materials.map((mat, index) => (
-                      <div key={`mat-${index}`} className="flex items-center gap-2">
-                        <Input 
-                          value={mat}
-                          onChange={(e) => handleMaterialChange(index, e.target.value)}
-                          placeholder="Ex: 5 Cones, 1 Bola" 
-                          className="h-12 bg-[#F2F2F7] border-none rounded-[12px] text-[15px] text-foreground"
-                        />
-                        <Button 
-                          onClick={() => handleRemoveMaterial(index)}
-                          variant="ghost" 
-                          size="icon" 
-                          className="text-[#EF4444] shrink-0"
-                        >
-                          <RiCloseLine size={20} />
-                        </Button>
-                      </div>
-                    ))}
                   </div>
                 </div>
+              ))}
+              <button 
+                onClick={handleAddStep}
+                className="h-11 px-4 rounded-[12px] bg-[#F9F9F7] border border-[#E5E5EA] text-[13px] font-bold text-[#1A1A1A] flex items-center justify-center w-full active:bg-[#F2F2F7]"
+              >
+                + Adicionar Passo
+              </button>
+            </div>
+          </div>
 
-                <div className="w-full h-[1px] bg-[#F2F2F7]" />
+        </div>
 
-                {/* Passo a Passo */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <label className="text-[14px] font-extrabold text-foreground">Passo a Passo (Crucial)</label>
-                  </div>
-                  <div className="space-y-4">
-                    {steps.map((s, index) => (
-                      <div key={`step-${index}`} className="flex gap-3">
-                        <div className="flex-shrink-0 h-8 w-8 rounded-full bg-primary/10 text-primary font-black text-[14px] flex items-center justify-center mt-1">
-                          {index + 1}
-                        </div>
-                        <div className="flex-1 relative">
-                          <Textarea 
-                            value={s}
-                            onChange={(e) => handleStepChange(index, e.target.value)}
-                            placeholder={`Explique o passo ${index + 1}...`} 
-                            className="min-h-[80px] bg-[#F2F2F7] border-none rounded-[12px] text-[15px] text-foreground p-3 resize-none focus-visible:ring-2 ring-primary/20 pr-10"
-                          />
-                          {steps.length > 1 && (
-                            <Button 
-                              onClick={() => handleRemoveStep(index)}
-                              variant="ghost" 
-                              size="icon" 
-                              className="absolute top-1 right-1 text-muted-foreground active:text-[#EF4444] h-8 w-8"
-                            >
-                              <RiCloseLine size={18} />
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                    
-                    <Button 
-                      onClick={handleAddStep}
-                      className="w-full h-12 border-2 border-dashed border-border bg-transparent text-muted-foreground font-bold rounded-[12px] active:bg-background"
-                    >
-                      <RiAddLine size={20} className="mr-2" />
-                      Adicionar Regra
-                    </Button>
-                  </div>
-                </div>
+        {/* Fixed Footer para Salvar */}
+        <div className="sticky bottom-0 left-0 right-0 px-5 py-4 border-t border-[#E5E5EA] bg-white md:rounded-b-[20px] z-20">
+          <button
+            onClick={handleSubmit}
+            disabled={isSubmitting || !title || steps[0] === ""}
+            className="w-full h-12 bg-[#FF9500] disabled:bg-[#FFE0B2] text-white text-[15px] font-bold rounded-[14px] flex items-center justify-center transition-all"
+          >
+            {isSubmitting ? "Publicando..." : "Publicar Brincadeira"}
+          </button>
+        </div>
 
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </main>
-
-      {/* Floating Action Button */}
-      <div className="fixed bottom-[24px] left-0 right-0 px-5 bg-gradient-to-t from-background via-background to-transparent pt-8 z-[60]">
-        {error && (
-          <p className="text-red-500 text-[12px] font-bold text-center mb-4 bg-red-50 py-2 rounded-[6px]">
-            {error}
-          </p>
-        )}
-        <Button 
-          onClick={handleNext}
-          disabled={
-            isSubmitting ||
-            (step === 1 && (!title || !description || selectedCategories.length === 0)) ||
-            (step === 2 && (!age || !duration || !participants)) ||
-            (step === 3 && steps[0].trim() === "")
-          }
-          className="w-full h-12 bg-[#FF9500] text-white font-medium text-[14px] rounded-[12px] shadow-sm disabled:opacity-50 disabled:bg-gray-300 border-none active:scale-[0.97] transition-all"
-        >
-          {isSubmitting ? "Salvando..." : (step === totalSteps ? "Publicar Brincadeira" : "Continuar")}
-        </Button>
       </div>
     </div>
   )

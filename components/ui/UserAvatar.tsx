@@ -24,17 +24,13 @@ export function UserAvatar({
     return (
       <div className="relative inline-block shrink-0 h-fit w-fit">
         {/* Animated gradient ring */}
-        <div
-          className="absolute inset-0 rounded-full animate-gold-glow"
-          style={{
-            background: "conic-gradient(from 0deg, #F59E0B, #FCD34D, #FDE68A, #FBBF24, #F59E0B, #D97706, #F59E0B)",
-            padding: "3px",
-            borderRadius: "9999px",
-          }}
-        />
+        <div className="absolute inset-[-4px] rounded-full overflow-hidden">
+          <div className="border-loop" />
+        </div>
+        <div className="absolute inset-0 rounded-full animate-gold-glow" />
         <Avatar
           className={cn(
-            "transition-all duration-300 relative z-10 ring-[3px] ring-yellow-400 border-2 border-white",
+            "transition-all duration-300 relative z-10 border-[3px] border-[#F9F9F7]",
             className
           )}
           {...props}

@@ -151,9 +151,14 @@ function GameModal({ game, onClose }: { game: SystemGame; onClose: () => void })
 
   const handleShare = async () => {
     if (navigator.share) {
-      await navigator.share({ title: game.title, text: game.description })
+      await navigator.share({ title: game.title, url: window.location.href })
     }
   }
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden"
+    return () => { document.body.style.overflow = "auto" }
+  }, [])
 
   return (
     <div className="fixed inset-0 z-[60] bg-black/50 flex items-end" onClick={onClose}>
@@ -227,14 +232,12 @@ function GameModal({ game, onClose }: { game: SystemGame; onClose: () => void })
             disabled={downloading}
             className="flex-1 h-12 rounded-[12px] border border-[#E5E5EA] bg-[#F9F9F7] text-[14px] font-bold text-[#1A1A1A] flex items-center justify-center gap-2 active:scale-[0.98] transition-all disabled:opacity-60"
           >
-            <RiDownload2Line size={18} />
             {downloading ? "Gerando..." : "Baixar imagem"}
           </button>
           <button
             onClick={handleShare}
             className="flex-1 h-12 rounded-[12px] bg-[#FF9500] text-white text-[14px] font-bold flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
           >
-            <RiShareLine size={18} />
             Compartilhar
           </button>
         </div>
@@ -323,13 +326,22 @@ function GameModal({ game, onClose }: { game: SystemGame; onClose: () => void })
   )
 }
 
-function CollectionModal({ collection, onClose }: { collection: Collection; onClose: () => void }) {
+function CollectionModal({ collection, onClose, hidden }: { collection: Collection; onClose: () => void; hidden?: boolean }) {
   const [selectedGame, setSelectedGame] = useState<SystemGame | null>(null)
   const Icon = collection.icon
 
+  useEffect(() => {
+    if (hidden) return
+    document.body.style.overflow = "hidden"
+    return () => { document.body.style.overflow = "auto" }
+  }, [hidden])
+
   return (
     <>
-      <div className="fixed inset-0 z-50 bg-black/40 flex items-end" onClick={onClose}>
+      <div 
+        className={`fixed inset-0 z-50 bg-black/40 flex items-end transition-opacity duration-300 ${selectedGame ? "opacity-0 pointer-events-none" : "opacity-100"}`} 
+        onClick={onClose}
+      >
         <div
           className="w-full bg-[#F9F9F7] rounded-t-[20px] max-h-[85vh] flex flex-col"
           onClick={e => e.stopPropagation()}
@@ -385,7 +397,6 @@ function CollectionModal({ collection, onClose }: { collection: Collection; onCl
                   onClick={() => setSelectedGame(game)}
                   className="mt-3 w-full h-10 rounded-[10px] border border-[#E5E5EA] bg-[#F9F9F7] text-[13px] font-bold text-[#1A1A1A] flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
                 >
-                  <RiArrowRightSLine size={16} className="text-[#FF9500]" />
                   Abrir brincadeira
                 </button>
               </div>
