@@ -288,60 +288,57 @@ export function BrincadeiraCard({
              <Button variant="ghost" className="text-[#AF52DE] active:bg-[#AF52DE]/5 text-[15px] h-9 px-4 font-bold rounded-[6px] transition-colors">
                Ver Detalhes
              </Button>
-           </SheetTrigger>
-           <SheetContent side="bottom" className="h-[95vh] rounded-t-[24px] p-0 flex flex-col border-none bg-white overflow-hidden">
-              {/* Header Fixo Robusto */}
-              <div className="sticky top-0 z-[70] bg-white border-b border-[#F2F2F7] px-5 py-4 flex items-center justify-between">
+           </SheetTrigge            <SheetContent side="bottom" className="h-[95vh] rounded-t-[32px] p-0 flex flex-col border-none bg-white overflow-hidden outline-none">
+              {/* Barra de Ações Fixa (Top Bar) */}
+              <div className="absolute top-0 left-0 right-0 h-16 bg-white/90 backdrop-blur-md border-b border-[#F2F2F7] px-5 flex items-center justify-between z-[100]">
                 <div className="flex items-center gap-3">
                   <SheetClose asChild>
                     <Button 
                       variant="ghost" 
                       size="icon" 
-                      className="h-10 w-10 rounded-full bg-white shadow-[0_2px_12px_rgba(0,0,0,0.08)] text-[#8E8E93] active:scale-95 transition-all"
-                      onClick={() => {
-                        if (isEditingBrincadeira) setIsEditingBrincadeira(false)
-                      }}
+                      className="h-10 w-10 rounded-full bg-white shadow-[0_2px_12px_rgba(0,0,0,0.08)] text-[#8E8E93] active:scale-90 transition-all"
+                      onClick={() => setIsEditingBrincadeira(false)}
                     >
                       <RiArrowLeftSLine size={24} />
                     </Button>
                   </SheetClose>
                   {isEditingBrincadeira && (
-                    <span className="text-[17px] font-extrabold text-[#1A1A1A]">Editando</span>
+                    <span className="text-[17px] font-black text-[#1A1A1A]">Editando</span>
                   )}
                 </div>
 
                 {isOwner && (
                   <div className="flex items-center gap-2">
                     {!isEditingBrincadeira ? (
-                      <>
+                      <div className="flex items-center gap-1.5">
                         <Button 
                           variant="ghost" 
                           size="icon" 
-                          className="h-10 w-10 text-[#8E8E93] active:bg-gray-50 rounded-full"
+                          className="h-10 w-10 text-[#8E8E93] active:bg-[#F2F2F7] rounded-full transition-colors"
                           onClick={() => setIsEditingBrincadeira(true)}
                         >
-                          <RiEditLine size={20} />
+                          <RiEditLine size={22} />
                         </Button>
                         <Button 
                           variant="ghost" 
                           size="icon" 
-                          className="h-10 w-10 text-[#8E8E93] active:text-red-500 active:bg-red-50 rounded-full"
+                          className="h-10 w-10 text-[#8E8E93] active:text-red-500 active:bg-red-50 rounded-full transition-colors"
                           onClick={handleDeleteBrincadeira}
                         >
-                          <RiDeleteBinLine size={20} />
+                          <RiDeleteBinLine size={22} />
                         </Button>
-                      </>
+                      </div>
                     ) : (
                       <div className="flex items-center gap-2">
                         <Button 
                           variant="ghost" 
-                          className="h-9 px-4 text-[#8E8E93] font-bold text-[14px]"
+                          className="h-9 px-4 text-[#8E8E93] font-bold text-[14px] hover:bg-transparent"
                           onClick={() => setIsEditingBrincadeira(false)}
                         >
                           Cancelar
                         </Button>
                         <Button 
-                          className="h-9 px-5 bg-primary text-white font-bold text-[14px] rounded-full shadow-sm border-none"
+                          className="h-9 px-6 bg-primary text-white font-bold text-[14px] rounded-full shadow-md border-none active:scale-95 transition-all"
                           onClick={handleUpdateBrincadeira}
                           disabled={isPending}
                         >
@@ -353,8 +350,12 @@ export function BrincadeiraCard({
                 )}
               </div>
 
-             {/* Scrollable Content */}
-             <div className="flex-1 overflow-y-auto px-5 py-6">
+              {/* Espaçador para o Header Fixo */}
+              <div className="h-16 w-full shrink-0" />
+
+              {/* Scrollable Content */}
+              <div className="flex-1 overflow-y-auto px-5 py-6">
+">
                <div className="space-y-6">
                 <div className="flex items-center gap-4">
                   <Avatar className="h-10 w-10 border-2 border-[#F2F2F7]">
