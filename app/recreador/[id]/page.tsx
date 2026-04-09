@@ -2,7 +2,7 @@
 
 import { Header } from "@/components/layout/Header"
 import { Card } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { UserAvatar } from "@/components/ui/UserAvatar"
 import { LibraryList } from "@/components/game/LibraryList"
 import { getPublicProfile } from "@/lib/actions"
 import { getTitleForLevel } from "@/utils/gamification"
@@ -57,12 +57,13 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
            </div>
            
            <div className="flex flex-col items-center text-center mb-6 pt-2">
-              <Avatar className="h-24 w-24 border-4 border-white shadow-md mb-4">
-                <AvatarImage src={profileData.avatar} />
-                <AvatarFallback className="bg-primary/10 text-primary text-[32px] font-bold">
-                  {profileData.name ? profileData.name[0] : "R"}
-                </AvatarFallback>
-              </Avatar>
+              <UserAvatar 
+                src={profileData.avatar}
+                name={profileData.name}
+                rankBadge={profileData.rankBadge}
+                className="h-24 w-24 border-4 border-white shadow-md mb-4"
+                fallbackClassName="bg-primary/10 text-primary text-[32px]"
+              />
               
               <h1 className="text-[22px] font-black text-[#1A1A1A] tracking-tight">
                 {profileData.name}

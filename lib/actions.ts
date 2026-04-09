@@ -18,6 +18,18 @@ const XP_VALUES = {
 }
 
 /**
+ * Gets the IDs of the Top 3 players by XP.
+ */
+async function getTopThreeIds() {
+  const topUsers = await prisma.user.findMany({
+    take: 3,
+    orderBy: { xp: 'desc' },
+    select: { id: true }
+  })
+  return topUsers.map(u => u.id)
+}
+
+/**
  * Awards XP to a user and creates a transaction record.
  * Includes a daily limit check (500 XP/day).
  */
@@ -148,15 +160,22 @@ export async function getProfile() {
     where: { user_id: user.id, read: false }
   })
 
+  const topThreeIds = await getTopThreeIds()
+  let rankBadge: "gold" | "silver" | "bronze" | null = null
+  if (topThreeIds[0] === user.id) rankBadge = "gold"
+  else if (topThreeIds[1] === user.id) rankBadge = "silver"
+  else if (topThreeIds[2] === user.id) rankBadge = "bronze"
+
   return {
     ...user,
     ...gamification,
     avatar: user.avatar_url ?? user.image,
     unreadNotificationsCount,
+    rankBadge,
     stats: {
       favorites: likesGivenCount,
       contributions: user._count.brincadeiras,
-      achievements: Math.floor(user.xp / 500), // Simple math for now or based on tiers
+      achievements: Math.floor(user.xp / 500),
       likesReceived,
       usesReceived
     }
@@ -217,21 +236,26 @@ export async function getPublicProfile(userId: string) {
     orderBy: { published_at: "desc" }
   })
 
+  const topThreeIds = await getTopThreeIds()
+  let rankBadge: "gold" | "silver" | "bronze" | null = null
+  if (topThreeIds[0] === user.id) rankBadge = "gold"
+  else if (topThreeIds[1] === user.id) rankBadge = "silver"
+  else if (topThreeIds[2] === user.id) rankBadge = "bronze"
+
   return {
     ...user,
     ...gamification,
     avatar: user.avatar_url ?? user.image,
-    brincadeiras: brincadeiras.map(b => formatBrincadeira(b, currentUserId)).filter(Boolean),
-    totalContributions: user._count.brincadeiras
+    brincadeiras: brincadeiras.map(b => formatBrincadeira(b, currentUserId, topThreeIds)).filter(Boolean),
+    totalContributions: user._count.brincadeiras,
+    rankBadge
   }
 }
 
-/**
- * Fetches the feed of brincadeiras for the home screen.
- */
 export async function getFeed(limit = 20, cursor?: string, category?: string) {
   const session = await auth()
   const userId = session?.user?.id
+  const topThreeIds = await getTopThreeIds()
 
   const brincadeiras = await prisma.brincadeira.findMany({
     take: limit + 1,
@@ -268,44 +292,80 @@ export async function getFeed(limit = 20, cursor?: string, category?: string) {
   if (hasMore) brincadeiras.pop()
 
   return {
-    items: brincadeiras.map((b) => formatBrincadeira(b, userId)).filter(Boolean),
+    items: brincadeiras.map((b) => formatBrincadeira(b, userId, topThreeIds)).filter(Boolean),
     nextCursor: hasMore ? brincadeiras[brincadeiras.length - 1].id : null,
   }
 }
 
-/**
- * Helper to format DB brincadeira to UI structure
- */
-function formatBrincadeira(b: any, userId?: string) {
-  if (!b) return null;
-  const user = b.user || {};
-  
+// ----------------------------------------------------------------------------
+// Helper Types & Functions
+// ----------------------------------------------------------------------------
+
+export type Brincadeira = {
+  id: string
+  title: string
+  description: string
+  creator: {
+    id: string
+    name: string
+    avatar: string | undefined
+    level: number
+    rankBadge?: "gold" | "silver" | "bronze" | null
+  }
+  metadata: {
+    ageRange: string
+    duration: string
+    participants: string
+  }
+  tags: string[]
+  likesCount: number
+  usedCount: number
+  userHasLiked: boolean
+  userHasUsed: boolean
+  comments: any[]
+  steps: string[]
+  materials: string[]
+  commentsCount: number
+}
+
+function formatBrincadeira(b: any, currentUserId?: string, topThreeIds: string[] = []): Brincadeira | null {
+  if (!b || !b.user) return null
+
+  let rankBadge: "gold" | "silver" | "bronze" | null = null
+  if (topThreeIds[0] === b.user.id) rankBadge = "gold"
+  else if (topThreeIds[1] === b.user.id) rankBadge = "silver"
+  else if (topThreeIds[2] === b.user.id) rankBadge = "bronze"
+
   return {
     id: b.id,
-    title: b.title || "Sem título",
+    title: b.title,
     description: b.short_description || "",
-    tags: b.tags || [],
+    creator: {
+      id: b.user.id,
+      name: b.user.name || "Recreador",
+      level: getLevelFromXp(b.user.xp).level,
+      avatar: b.user.avatar_url || b.user.image,
+      rankBadge
+    },
+    metadata: {
+      ageRange: b.age_range || "Todas as idades",
+      duration: b.duration || "Variável",
+      participants: b.participants || "Qualquer quantidade",
+    },
+    tags: Array.isArray(b.tags) ? b.tags : [],
     likesCount: b.likes_count || 0,
     usedCount: b.used_count || 0,
+    userHasLiked: b.interactions?.some((i: any) => i.type === "LIKE") || false,
+    userHasUsed: b.interactions?.some((i: any) => i.type === "USED") || false,
     comments: b.comments || [],
-    metadata: {
-      ageRange: (b.age_groups || []).join(", ") || "Qualquer idade",
-      duration: `${b.duration_minutes || 0} min`,
-      participants: `${b.min_participants || 1}${b.max_participants ? `–${b.max_participants}` : "+"}`,
-    },
-    creator: {
-      id: user.id || "",
-      name: user.name ?? "Recreador",
-      level: getLevelFromXp(user.xp || 0).level,
-      avatar: user.avatar_url ?? user.image ?? undefined,
-    },
-    userHasLiked: b.interactions?.some((i: any) => i.type === "LIKE") ?? false,
-    userHasUsed: b.interactions?.some((i: any) => i.type === "USED") ?? false,
-    userHasSaved: b.interactions?.some((i: any) => i.type === "SAVED") ?? false,
-    steps: b.steps || [],
-    materials: b.materials || [],
+    steps: Array.isArray(b.steps) ? b.steps : [],
+    materials: Array.isArray(b.materials) ? b.materials : [],
+    commentsCount: b.comments?.length || 0
   }
 }
+
+
+
 
 /**
  * Fetches the user's favorite brincadeiras (liked by them).
@@ -596,6 +656,7 @@ export async function getRanking(limit = 50) {
     xp: u.xp,
     brincadeirasCount: u._count.brincadeiras,
     ...getLevelFromXp(u.xp),
+    rankBadge: index === 0 ? "gold" : index === 1 ? "silver" : index === 2 ? "bronze" : null
   }))
 }
 

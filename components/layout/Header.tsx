@@ -12,6 +12,7 @@ import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { getTitleForLevel } from "@/utils/gamification"
 import { getProfile } from "@/lib/actions"
+import { UserAvatar } from "@/components/ui/UserAvatar"
 import { useEffect, useState } from "react"
 
 interface HeaderProps {
@@ -36,6 +37,7 @@ export function Header({
     nextLevelXp: number;
     avatar?: string;
     unreadNotificationsCount: number;
+    rankBadge?: "gold" | "silver" | "bronze" | null;
   } | null>(null)
 
   useEffect(() => {
@@ -48,7 +50,8 @@ export function Header({
             xp: data.xp,
             nextLevelXp: data.nextLevelXp,
             avatar: data.avatar || undefined,
-            unreadNotificationsCount: data.unreadNotificationsCount || 0
+            unreadNotificationsCount: data.unreadNotificationsCount || 0,
+            rankBadge: data.rankBadge
           })
         }
       })
@@ -64,7 +67,8 @@ export function Header({
     xp: 0,
     nextLevelXp: 100,
     avatar: session?.user?.image || "https://api.dicebear.com/7.x/avataaars/svg?seed=Guest",
-    unreadNotificationsCount: 0
+    unreadNotificationsCount: 0,
+    rankBadge: null
   }
 
   const xpRemaining = user.nextLevelXp - user.xp
@@ -127,11 +131,14 @@ export function Header({
       {/* User XP Card */}
       {showUserCard && (
         <Card className="p-4 border border-[#F2F2F7] shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-white">
-          <div className="flex items-center gap-4 mb-3">
-            <Avatar className="h-11 w-11 border-2 border-white shadow-sm">
-              <AvatarImage src={user.avatar} />
-              <AvatarFallback className="bg-primary/10 text-primary font-bold">{user.name[0]}</AvatarFallback>
-            </Avatar>
+          <Link href="/perfil" className="flex items-center gap-4 mb-3 active:opacity-75 transition-opacity">
+            <UserAvatar 
+              src={user.avatar} 
+              name={user.name} 
+              rankBadge={user.rankBadge}
+              className="h-11 w-11"
+              fallbackClassName="bg-primary/10 text-primary"
+            />
             <div className="flex flex-col">
               <span className="text-[16px] font-extrabold text-[#1A1A1A] tracking-[-0.01em]">
                 {user.name}
@@ -145,7 +152,7 @@ export function Header({
                 </span>
               </div>
             </div>
-          </div>
+          </Link>
 
           <div className="space-y-2">
             <div className="flex justify-between items-end">
@@ -156,7 +163,14 @@ export function Header({
                 {user.xp} XP
               </span>
             </div>
-            <Progress value={progressValue} className="h-2 bg-[#F2F2F7]" indicatorClassName="bg-primary" />
+            <div className="relative h-2 w-full bg-[#F2F2F7] rounded-full overflow-hidden">
+              <div 
+                className="absolute inset-y-0 left-0 bg-[#AF52DE] transition-all duration-1000 ease-out"
+                style={{ width: `${progressValue}%` }}
+              >
+                <div className="absolute inset-0 animate-shimmer-progress opacity-60" />
+              </div>
+            </div>
           </div>
         </Card>
       )}

@@ -45,7 +45,7 @@ export default async function Home({
               <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-4">
                 <RiFileList3Line size={32} className="text-[#C7C7CC]" />
               </div>
-              <p className="text-[17px] font-bold text-[#1A1A1A] mb-1">
+              <p className="text-[17px] font-bold text-[#8E8E93] mb-1">
                 {category && category !== "todos" 
                   ? `Nenhuma brincadeira em "${category}"`
                   : "Nenhuma brincadeira ainda"}

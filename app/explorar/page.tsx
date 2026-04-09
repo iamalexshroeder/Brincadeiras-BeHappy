@@ -99,7 +99,7 @@ export default async function Explorar() {
               <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-4">
                 <RiBookOpenLine size={32} className="text-[#C7C7CC]" />
               </div>
-              <p className="text-[17px] font-bold text-[#1A1A1A] mb-1">
+              <p className="text-[17px] font-bold text-[#8E8E93] mb-1">
                 A biblioteca está vazia
               </p>
             </div>

@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { Header } from "@/components/layout/Header"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
+import { UserAvatar } from "@/components/ui/UserAvatar"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -52,7 +53,7 @@ export default function Ranking() {
     let status = "locked"
     if (userXp >= tier.minXp) {
       status = "completed"
-    } else if (index === 0 || userXp >= GAMIFICATION_TIERS[index - 1].minXp) {
+    } else if (index === 0 || userXp >= (GAMIFICATION_TIERS[index - 1]?.minXp || 0)) {
       status = "current"
     }
     return { ...tier, status }
@@ -79,7 +80,7 @@ export default function Ranking() {
             <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-4">
               <RiTrophyLine size={32} className="text-[#C7C7CC]" />
             </div>
-            <p className="text-[17px] font-bold text-[#1A1A1A] mb-1">Ranking ainda vazio</p>
+            <p className="text-[17px] font-bold text-[#8E8E93] mb-1">Ranking ainda vazio</p>
           </div>
         ) : (
           <>
@@ -93,10 +94,13 @@ export default function Ranking() {
                 {topThree[1] && (
                   <div className="flex flex-col items-center gap-3 flex-1 animate-in fade-in slide-in-from-bottom-4 duration-500">
                     <div className="relative">
-                      <Avatar className="h-16 w-16 border-2 border-white shadow-sm ring-2 ring-slate-100">
-                        <AvatarImage src={topThree[1].avatar ?? undefined} />
-                        <AvatarFallback className="bg-slate-100 text-slate-400 font-bold">{topThree[1].name[0]}</AvatarFallback>
-                      </Avatar>
+                      <UserAvatar 
+                        src={topThree[1].avatar} 
+                        name={topThree[1].name} 
+                        rankBadge="silver"
+                        className="h-16 w-16"
+                        fallbackClassName="bg-slate-100 text-slate-400"
+                      />
                       <div className="absolute -bottom-1 -right-1 bg-slate-400 text-white text-[10px] font-bold h-6 w-6 rounded-full flex items-center justify-center border-2 border-white shadow-sm">2</div>
                     </div>
                     <div className="text-center w-full">
@@ -111,13 +115,13 @@ export default function Ranking() {
                 {topThree[0] && (
                   <div className="flex flex-col items-center gap-3 flex-1 z-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
                     <div className="relative">
-                      <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-yellow-400 animate-bounce">
-                        <RiTrophyLine size={24} />
-                      </div>
-                      <Avatar className="h-24 w-24 border-3 border-white shadow-xl ring-2 ring-yellow-100 bg-white">
-                        <AvatarImage src={topThree[0].avatar ?? undefined} />
-                        <AvatarFallback className="bg-yellow-50 text-yellow-500 font-bold text-xl">{topThree[0].name[0]}</AvatarFallback>
-                      </Avatar>
+                      <UserAvatar 
+                        src={topThree[0].avatar} 
+                        name={topThree[0].name} 
+                        rankBadge="gold"
+                        className="h-24 w-24"
+                        fallbackClassName="bg-yellow-50 text-yellow-500 text-xl"
+                      />
                       <div className="absolute -bottom-1 -right-1 bg-yellow-400 text-white text-[12px] font-bold h-8 w-8 rounded-full flex items-center justify-center border-2 border-white shadow-sm">1</div>
                     </div>
                     <div className="text-center w-full">
@@ -132,10 +136,13 @@ export default function Ranking() {
                 {topThree[2] && (
                   <div className="flex flex-col items-center gap-3 flex-1 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
                     <div className="relative">
-                      <Avatar className="h-16 w-16 border-2 border-white shadow-sm ring-2 ring-amber-50">
-                        <AvatarImage src={topThree[2].avatar ?? undefined} />
-                        <AvatarFallback className="bg-amber-50 text-amber-600 font-bold">{topThree[2].name[0]}</AvatarFallback>
-                      </Avatar>
+                      <UserAvatar 
+                        src={topThree[2].avatar} 
+                        name={topThree[2].name} 
+                        rankBadge="bronze"
+                        className="h-16 w-16"
+                        fallbackClassName="bg-amber-50 text-amber-600"
+                      />
                       <div className="absolute -bottom-1 -right-1 bg-amber-600 text-white text-[10px] font-bold h-6 w-6 rounded-full flex items-center justify-center border-2 border-white shadow-sm">3</div>
                     </div>
                     <div className="text-center w-full">
@@ -154,10 +161,12 @@ export default function Ranking() {
                     <Card key={user.rank} className="p-3 border border-[#F2F2F7] shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-white transition-all active:scale-[0.98]">
                       <div className="flex items-center gap-4">
                         <span className="text-[14px] font-black text-[#8E8E93] w-5 text-center">{user.rank}</span>
-                        <Avatar className="h-12 w-12 border-2 border-[#F2F2F7]">
-                          <AvatarImage src={user.avatar ?? undefined} />
-                          <AvatarFallback className="bg-gray-50 text-gray-400 font-bold">{user.name[0]}</AvatarFallback>
-                        </Avatar>
+                        <UserAvatar 
+                          src={user.avatar}
+                          name={user.name}
+                          className="h-12 w-12"
+                          fallbackClassName="bg-gray-50 text-gray-400"
+                        />
                         <div className="flex-1 min-w-0">
                           <span className="block text-[15px] font-bold text-[#1A1A1A] truncate">{user.name}</span>
                           <span className="block text-[11px] font-bold uppercase tracking-tight text-[#8E8E93]">{user.title || getTitleForLevel(user.level)}</span>
@@ -200,30 +209,47 @@ export default function Ranking() {
                   key={tier.level}
                   className={cn(
                     "p-3 border border-[#F2F2F7] shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] transition-all bg-white relative overflow-hidden",
-                    isLocked && "opacity-60 grayscale bg-[#F9F9F7]",
+                    isCompleted && "opacity-40",
                     isCurrent && "ring-1 ring-primary/20 shadow-sm"
                   )}
                 >
                   <div className="flex items-center gap-4">
-                    <div className={cn(
-                      "flex items-center justify-center h-12 w-12 rounded-full border-2 shadow-sm font-black text-[18px] shrink-0",
-                      isCompleted && "border-transparent bg-[#34C759] text-white",
-                      isLocked && "border-transparent bg-gray-100 text-gray-400",
-                      isCurrent && "bg-[#FFCC00] border-transparent text-[#1A1A1A] ring-4 ring-[#FFCC00]/20",
-                    )}>
-                      {isCompleted ? <RiCheckLine size={24} /> : tier.level}
+                    <div 
+                      className={cn(
+                        "flex items-center justify-center h-12 w-12 rounded-full border-2 shadow-sm font-black text-[18px] shrink-0",
+                        isCompleted && "border-transparent text-white",
+                        isLocked && "border-transparent bg-gray-100 text-gray-300",
+                        isCurrent && "border-transparent text-white ring-4 ring-offset-2",
+                      )}
+                      style={{ 
+                        backgroundColor: (isCompleted || isCurrent) ? tier.color : undefined,
+                        boxShadow: isCurrent ? `0 0 15px ${tier.color}44` : undefined,
+                        borderColor: isCurrent ? tier.color : undefined
+                      }}
+                    >
+                      {isCompleted ? <RiCheckLine size={24} /> : (
+                        <span style={{ color: isLocked ? undefined : `${tier.color}33` }}>
+                          {tier.level}
+                        </span>
+                      )}
                     </div>
                     <div className="flex-1 flex flex-col justify-center">
                       <div className="flex items-center justify-between">
-                        <span className={cn("text-[16px] font-bold", isCurrent || isCompleted ? "text-[#1A1A1A]" : "text-[#8E8E93]")}>{tier.title}</span>
-                        <span className={cn("text-[14px] font-extrabold", isCurrent ? "text-[#1A1A1A]" : isCompleted ? "text-[#34C759]" : "text-[#8E8E93]")}>
+                        <span 
+                          className={cn("text-[16px] font-bold", (isCurrent || isCompleted) ? "text-[#1A1A1A]" : "text-[#8E8E93]")}
+                          style={{ color: (isCurrent || isCompleted) ? tier.color : undefined }}
+                        >
+                          {tier.title}
+                        </span>
+                        <span className={cn("text-[14px] font-extrabold", isCurrent ? "text-[#1A1A1A]" : isCompleted ? "opacity-60" : "text-[#8E8E93]")}>
                           {isCompleted ? "Obtido" : `${tier.minXp} XP`}
                         </span>
                       </div>
                       <span className={cn("text-[11px] font-bold uppercase tracking-tight mt-0.5",
-                        isLocked ? "text-[#8E8E93]" : isCompleted ? "text-[#8E8E93]" : textColorClass
-                      )}>
-                        {isLocked ? `Requer Nível ${tier.level}` : isCompleted ? "Conquistado" : "Título Atual"}
+                        isLocked ? "text-[#8E8E93]" : isCompleted ? "text-[#8E8E93] opacity-60" : "opacity-80"
+                      )}
+                      style={{ color: isCurrent ? tier.color : undefined }}>
+                        {isLocked ? `Requer Nível ${tier.level}` : isCompleted ? "Conquista Desbloqueada" : "Título Atual"}
                       </span>
                     </div>
                   </div>

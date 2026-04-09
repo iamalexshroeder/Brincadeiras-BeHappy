@@ -32,6 +32,7 @@ import {
   CardHeader 
 } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { UserAvatar } from "@/components/ui/UserAvatar"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -65,6 +66,7 @@ interface BrincadeiraCardProps {
     name: string
     avatar?: string
     level: number
+    rankBadge?: "gold" | "silver" | "bronze" | null
   }
   metadata: {
     ageRange: string
@@ -197,10 +199,13 @@ export function BrincadeiraCard({
     <Card className="overflow-hidden border border-[#F2F2F7] shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-white transition-transform active:scale-[0.98]">
       <CardHeader className="p-6 pb-2">
         <Link href={`/recreador/${creator.id}`} className="flex items-center gap-4 active:opacity-70 transition-opacity">
-          <Avatar className="h-11 w-11 border-2 border-[#F2F2F7]">
-            <AvatarImage src={creator.avatar} />
-            <AvatarFallback className="bg-primary/10 text-primary font-bold">{creator.name[0]}</AvatarFallback>
-          </Avatar>
+          <UserAvatar 
+            src={creator.avatar} 
+            name={creator.name} 
+            rankBadge={creator.rankBadge}
+            className="h-11 w-11"
+            fallbackClassName="bg-primary/10 text-primary"
+          />
           <div className="flex flex-col flex-1">
             <span className="text-[16px] font-extrabold text-[#1A1A1A] tracking-[-0.02em] leading-tight">
               {creator.name}
@@ -373,10 +378,13 @@ export function BrincadeiraCard({
               )}>
                 <div className="space-y-6">
                 <Link href={`/recreador/${creator.id}`} className="flex items-center gap-4 active:opacity-70 transition-opacity">
-                  <Avatar className="h-10 w-10 border-2 border-[#F2F2F7]">
-                    <AvatarImage src={creator.avatar} />
-                    <AvatarFallback className="bg-primary/10 text-primary font-bold">{creator.name[0]}</AvatarFallback>
-                  </Avatar>
+                  <UserAvatar 
+                    src={creator.avatar} 
+                    name={creator.name} 
+                    rankBadge={creator.rankBadge}
+                    className="h-10 w-10"
+                    fallbackClassName="bg-primary/10 text-primary px-3"
+                  />
                   <div className="flex flex-col">
                     <span className="text-[17px] font-extrabold text-[#1A1A1A] leading-tight">
                       {creator.name}

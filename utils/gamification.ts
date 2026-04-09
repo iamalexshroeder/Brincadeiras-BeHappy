@@ -9,28 +9,28 @@ interface LevelData {
   minXp: number;
 }
 
-export const GAMIFICATION_TIERS: LevelData[] = [
-  { level: 1, title: "Observador Curioso", minXp: 0 },
-  { level: 5, title: "Aprendiz Brincalhão", minXp: 500 },
-  { level: 10, title: "Ajudante de Quadra", minXp: 1200 },
-  { level: 15, title: "Recreador Iniciante", minXp: 2500 },
-  { level: 20, title: "Animador de Roda", minXp: 4500 },
-  { level: 25, title: "Contador de Histórias", minXp: 7000 },
-  { level: 30, title: "Guia de Aventuras", minXp: 10000 },
-  { level: 35, title: "Mestre do Pega-Pega", minXp: 14000 },
-  { level: 40, title: "Capitão da Gincana", minXp: 18500 },
-  { level: 45, title: "Especialista em Sorrisos", minXp: 24000 },
-  { level: 50, title: "Inventor de Brincadeiras", minXp: 30000 },
-  { level: 55, title: "Líder Recreativo", minXp: 38000 },
-  { level: 60, title: "Maestro da Diversão", minXp: 47000 },
-  { level: 65, title: "Mago do Entretenimento", minXp: 55000 },
-  { level: 70, title: "Veterano das Colônias", minXp: 65000 },
-  { level: 75, title: "Arquiteto de Momentos", minXp: 76000 },
-  { level: 80, title: "Embaixador da Alegria", minXp: 90000 },
-  { level: 85, title: "Guardião da Infância", minXp: 105000 },
-  { level: 90, title: "Ídolo Recreador", minXp: 120000 },
-  { level: 95, title: "Lenda da Recreação", minXp: 140000 },
-  { level: 100, title: "Deus da Recreação", minXp: 165000 },
+export const GAMIFICATION_TIERS: (LevelData & { color: string })[] = [
+  { level: 1, title: "Observador Curioso", minXp: 0, color: "#8E8E93" }, // Slate
+  { level: 5, title: "Aprendiz Brincalhão", minXp: 500, color: "#10B981" }, // Emerald
+  { level: 10, title: "Ajudante de Quadra", minXp: 1200, color: "#3B82F6" }, // Blue
+  { level: 15, title: "Recreador Iniciante", minXp: 2500, color: "#6366F1" }, // Indigo
+  { level: 20, title: "Animador de Roda", minXp: 4500, color: "#A855F7" }, // Purple
+  { level: 25, title: "Contador de Histórias", minXp: 7000, color: "#D946EF" }, // Fuchsia
+  { level: 30, title: "Guia de Aventuras", minXp: 10000, color: "#F43F5E" }, // Rose
+  { level: 35, title: "Mestre do Pega-Pega", minXp: 14000, color: "#EF4444" }, // Red
+  { level: 40, title: "Capitão da Gincana", minXp: 18500, color: "#F97316" }, // Orange
+  { level: 45, title: "Especialista em Sorrisos", minXp: 24000, color: "#F59E0B" }, // Amber
+  { level: 50, title: "Inventor de Brincadeiras", minXp: 30000, color: "#AF52DE" }, // Purple BeHappy
+  { level: 55, title: "Líder Recreativo", minXp: 38000, color: "#22D3EE" }, // Cyan
+  { level: 60, title: "Maestro da Diversão", minXp: 47000, color: "#8B5CF6" }, // Violet
+  { level: 65, title: "Mago do Entretenimento", minXp: 55000, color: "#EC4899" }, // Pink
+  { level: 70, title: "Veterano das Colônias", minXp: 65000, color: "#451a03" }, // Brown
+  { level: 75, title: "Arquiteto de Momentos", minXp: 76000, color: "#000000" }, // Black
+  { level: 80, title: "Embaixador da Alegria", minXp: 90000, color: "#FF9500" }, // BeHappy Orange
+  { level: 85, title: "Guardião da Infância", minXp: 105000, color: "#FFD700" }, // Gold
+  { level: 90, title: "Ídolo Recreador", minXp: 120000, color: "#C0C0C0" }, // Silver
+  { level: 95, title: "Lenda da Recreação", minXp: 140000, color: "#CD7F32" }, // Bronze
+  { level: 100, title: "Deus da Recreação", minXp: 165000, color: "#FF0000" }, // Pure Red
 ];
 
 /**
