@@ -27,7 +27,7 @@ export default async function Home() {
         {/* Feed Section */}
         <section>
           <div className="flex items-baseline justify-between mb-6">
-            <h2 className="text-[22px] font-extrabold text-[#1A1A1A] tracking-[-0.03em]">
+            <h2 className="text-[18px] font-extrabold text-[#1A1A1A] tracking-[-0.03em]">
               Novidades
             </h2>
             {feed.length > 0 && (

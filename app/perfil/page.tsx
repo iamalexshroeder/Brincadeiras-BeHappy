@@ -119,7 +119,7 @@ export default function Perfil() {
         <div className="px-5 space-y-10">
           {settingsGroups.map((group) => (
             <section key={group.title} className="space-y-4">
-              <h3 className="text-[13px] font-bold text-[#8E8E93] uppercase tracking-widest pl-1">
+              <h3 className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-widest pl-1">
                 {group.title}
               </h3>
               

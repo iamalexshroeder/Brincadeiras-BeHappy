@@ -138,9 +138,13 @@
     @apply border-border outline-ring/50;
     }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-hidden;
+    touch-action: pan-y; /* Permite apenas rolagem vertical */
+    width: 100%;
+    position: relative;
     }
   html {
-    @apply font-sans;
+    @apply font-sans overflow-x-hidden;
+    width: 100%;
     }
 }

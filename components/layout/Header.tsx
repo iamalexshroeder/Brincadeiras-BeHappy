@@ -111,8 +111,8 @@ export function Header({
           />
           <Input 
             type="search" 
-            placeholder="(Criar nova brincadeira)" 
-            className="pl-11 h-12 bg-[#F2F2F7] border-none rounded-[12px] text-[17px] placeholder:text-[#8E8E93] focus-visible:ring-0 focus-visible:ring-offset-0 transition-all font-medium"
+            placeholder="Pesquisar brincadeiras..." 
+            className="pl-11 h-12 bg-[#F2F2F7] border-none rounded-[12px] text-[15px] placeholder:text-[#8E8E93] focus-visible:ring-0 focus-visible:ring-offset-0 transition-all font-medium"
           />
         </div>
       )}
@@ -130,7 +130,7 @@ export function Header({
                 {user.name}
               </span>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="text-[11px] font-bold uppercase tracking-tight text-[#8E8E93]">
+                <span className="text-[12px] font-bold uppercase tracking-tight text-[#8E8E93]">
                   {getTitleForLevel(user.level)}
                 </span>
                 <span className="text-[12px] font-extrabold text-primary uppercase tracking-wider">

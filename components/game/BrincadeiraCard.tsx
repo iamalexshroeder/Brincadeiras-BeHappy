@@ -110,11 +110,11 @@ export function BrincadeiraCard({
             <AvatarFallback className="bg-primary/10 text-primary font-bold">{creator.name[0]}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <span className="text-[17px] font-extrabold text-[#1A1A1A] tracking-[-0.02em] leading-tight">
+            <span className="text-[16px] font-extrabold text-[#1A1A1A] tracking-[-0.02em] leading-tight">
               {creator.name}
             </span>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="text-[11px] font-bold uppercase tracking-tight text-[#8E8E93]">
+              <span className="text-[12px] font-bold uppercase tracking-tight text-[#8E8E93]">
                 {getTitleForLevel(creator.level)}
               </span>
               <span className="text-[12px] font-extrabold text-primary uppercase tracking-wider">
@@ -126,10 +126,10 @@ export function BrincadeiraCard({
       </CardHeader>
 
       <CardContent className="p-6 pt-2">
-        <h3 className="text-[20px] font-extrabold leading-tight text-[#1A1A1A] mb-4 tracking-[-0.03em]">
+        <h3 className="text-[18px] font-extrabold leading-tight text-[#1A1A1A] mb-4 tracking-[-0.03em]">
           {title}
         </h3>
-        <p className="text-[15px] leading-relaxed text-[#8E8E93] line-clamp-3 mb-6 font-medium">
+        <p className="text-[14px] leading-relaxed text-[#8E8E93] line-clamp-3 mb-6 font-medium opacity-90">
           {description}
         </p>
 
@@ -276,7 +276,7 @@ export function BrincadeiraCard({
                       <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-2">
                           <span className="text-[14px] font-bold text-[#1A1A1A]">{comment.user}</span>
-                          <span className="text-[11px] text-[#8E8E93]">{comment.date}</span>
+                          <span className="text-[12px] text-[#8E8E93]">{comment.date}</span>
                         </div>
                         <p className="text-[14px] text-[#1A1A1A] leading-relaxed opacity-90">
                           {comment.text}
