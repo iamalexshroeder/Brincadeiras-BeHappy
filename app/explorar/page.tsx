@@ -48,9 +48,9 @@ async function getLibrary() {
         avatar: b.user.avatar_url ?? b.user.image ?? undefined,
       },
       metadata: {
-        ageRange: b.age_groups.join(", "),
-        duration: `${b.duration_minutes} min`,
-        participants: `${b.min_participants}${b.max_participants ? `–${b.max_participants}` : "+"}`,
+        ageRange: (b.age_groups || []).join(", ") || "Qualquer idade",
+        duration: `${b.duration_minutes || 0} min`,
+        participants: `${b.min_participants || 1}${b.max_participants ? `–${b.max_participants}` : "+"}`,
       },
       tags: b.tags,
       likesCount: b.likes_count,

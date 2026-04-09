@@ -58,7 +58,7 @@ export default async function Home({
             </div>
           ) : (
             <div className="space-y-8">
-              {feed.map((game) => (
+              {feed.map((game) => game && (
                 <BrincadeiraCard
                   key={game.id}
                   id={game.id}

@@ -57,7 +57,7 @@ export default function FavoritasPage() {
           </div>
         ) : (
           <div className="space-y-8">
-            {items.map((game) => (
+            {items.map((game) => game && (
               <BrincadeiraCard
                 key={game.id}
                 id={game.id}
