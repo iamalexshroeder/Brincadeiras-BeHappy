@@ -11,7 +11,8 @@ import {
   RiInformationLine,
   RiArrowRightSLine,
   RiLogoutBoxRLine,
-  RiUser3Line
+  RiUser3Line,
+  RiCheckboxCircleFill
 } from "@remixicon/react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
@@ -21,23 +22,31 @@ export default function Configuracoes() {
     {
       title: "Conta",
       items: [
-        { icon: RiUser3Line, label: "Perfil do Google", status: "Conectado" },
-        { icon: RiNotification3Line, label: "Notificações", status: "Ativado" },
-        { icon: RiShieldCheckLine, label: "Privacidade e Dados", status: "" },
+        { icon: RiUser3Line, label: "Editar Perfil", status: "", href: "/perfil/editar", showArrow: true },
+        { 
+          icon: RiUser3Line, 
+          label: "Perfil do Google", 
+          status: "Conectado", 
+          isInfoOnly: true, 
+          showCheck: true,
+          faded: true,
+          showArrow: false 
+        },
+        { icon: RiShieldCheckLine, label: "Privacidade e Dados", status: "", href: "/perfil/privacidade", showArrow: true },
       ]
     },
     {
       title: "Preferências",
       items: [
-        { icon: RiSmartphoneLine, label: "Aparência", status: "Sistema" },
+        { icon: RiSmartphoneLine, label: "Aparência", status: "Sistema", showArrow: false },
       ]
     },
     {
       title: "Suporte & Info",
       items: [
-        { icon: RiStarLine, label: "Avaliar o App", status: "" },
-        { icon: RiQuestionLine, label: "Central de Ajuda", status: "" },
-        { icon: RiInformationLine, label: "Sobre o BeHappy", status: "v1.0.2" },
+        { icon: RiStarLine, label: "Avaliar o App", status: "", showArrow: true },
+        { icon: RiQuestionLine, label: "Central de Ajuda", status: "", href: "/perfil/ajuda", showArrow: true },
+        { icon: RiInformationLine, label: "Sobre o Aplicativo", status: "v1.0.2", showArrow: false },
       ]
     }
   ]
@@ -54,33 +63,51 @@ export default function Configuracoes() {
             </h3>
             
             <div className="bg-white rounded-[6px] shadow-[0_2px_12px_rgba(0,0,0,0.02)] overflow-hidden">
-              {group.items.map((item, index) => (
-                <div 
-                  key={item.label}
-                  className={cn(
-                    "w-full flex items-center justify-between p-4 active:bg-gray-50 transition-colors cursor-pointer",
-                    index !== group.items.length - 1 && "border-b border-[#F2F2F7]"
-                  )}
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="text-[#1A1A1A] opacity-70">
-                      <item.icon size={20} />
-                    </div>
-                    <span className="text-[15px] font-bold text-[#1A1A1A]">
-                      {item.label}
-                    </span>
-                  </div>
-                  
-                  <div className="flex items-center gap-2">
-                    {item.status && (
-                      <span className="text-[13px] font-medium text-[#8E8E93]">
-                        {item.status}
-                      </span>
+              {group.items.map((item, index) => {
+                const content = (
+                  <div 
+                    className={cn(
+                      "w-full flex items-center justify-between p-4 transition-colors",
+                      !item.isInfoOnly && "active:bg-gray-50 cursor-pointer",
+                      item.faded && "opacity-50",
+                      index !== group.items.length - 1 && "border-b border-[#F2F2F7]"
                     )}
-                    <RiArrowRightSLine size={20} className="text-[#8E8E93] opacity-40" />
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="text-[#1A1A1A] opacity-70">
+                        <item.icon size={20} />
+                      </div>
+                      <span className="text-[15px] font-bold text-[#1A1A1A]">
+                        {item.label}
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center gap-2">
+                      {item.showCheck && (
+                        <RiCheckboxCircleFill size={18} className="text-[#34C759]" />
+                      )}
+                      {item.status && (
+                        <span className="text-[13px] font-medium text-[#8E8E93]">
+                          {item.status}
+                        </span>
+                      )}
+                      {item.showArrow && (
+                        <RiArrowRightSLine size={20} className="text-[#8E8E93] opacity-40" />
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+
+                return item.href ? (
+                  <Link key={item.label} href={item.href}>
+                    {content}
+                  </Link>
+                ) : (
+                  <div key={item.label}>
+                    {content}
+                  </div>
+                )
+              })}
             </div>
           </section>
         ))}

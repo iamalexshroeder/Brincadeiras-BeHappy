@@ -108,20 +108,7 @@ export function BrincadeiraCard({
   const [editingCommentText, setEditingCommentText] = useState("")
   const [isDeletingId, setIsDeletingId] = useState<string | null>(null)
 
-  // Novas funções para CRUD de brincadeiras
-  const handleDeleteBrincadeira = async (e: React.MouseEvent) => {
-    e.stopPropagation()
-    if (confirm("Tem certeza que deseja excluir esta brincadeira permanentemente?")) {
-      startTransition(async () => {
-        try {
-          await deleteBrincadeira(id)
-          router.refresh()
-        } catch (error) {
-          console.error("Erro ao excluir brincadeira:", error)
-        }
-      })
-    }
-  }
+  const isOwner = currentUserId === creator.id
 
   const [isEditingBrincadeira, setIsEditingBrincadeira] = useState(false)
   const [editedTitle, setEditedTitle] = useState(title)
@@ -142,7 +129,20 @@ export function BrincadeiraCard({
     })
   }
 
-  const isOwner = currentUserId === creator.id
+  const handleDeleteBrincadeira = async (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (confirm("Tem certeza que deseja excluir esta brincadeira permanentemente?")) {
+      startTransition(async () => {
+        try {
+          await deleteBrincadeira(id)
+          router.refresh()
+          setIsSheetOpen(false)
+        } catch (error) {
+          console.error("Erro ao excluir brincadeira:", error)
+        }
+      })
+    }
+  }
 
   const handleLike = async (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -201,30 +201,6 @@ export function BrincadeiraCard({
               </span>
             </div>
           </div>
-          {isOwner && (
-            <div className="flex items-center gap-2">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="h-8 w-8 text-[#8E8E93] active:text-primary"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  setIsSheetOpen(true)
-                  setIsEditingBrincadeira(true)
-                }}
-              >
-                <RiEditLine size={18} />
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="h-8 w-8 text-[#8E8E93] active:text-red-500"
-                onClick={handleDeleteBrincadeira}
-              >
-                <RiDeleteBinLine size={18} />
-              </Button>
-            </div>
-          )}
         </div>
       </CardHeader>
 
@@ -308,7 +284,7 @@ export function BrincadeiraCard({
 
          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
            <SheetTrigger asChild>
-             <Button variant="ghost" className="text-primary active:bg-primary/5 text-[15px] h-9 px-4 font-bold rounded-[6px] transition-colors">
+             <Button variant="ghost" className="text-[#AF52DE] active:bg-[#AF52DE]/5 text-[15px] h-9 px-4 font-bold rounded-[6px] transition-colors">
                Ver Detalhes
              </Button>
            </SheetTrigger>
@@ -318,32 +294,50 @@ export function BrincadeiraCard({
                <SheetHeader className="flex-row items-center justify-between space-y-0">
                  <div className="flex items-center gap-2">
                     <SheetClose asChild>
-                      <Button variant="ghost" size="sm" className="h-8 rounded-full bg-[#F2F2F7] active:bg-[#E5E5EA] text-[#8E8E93] px-3">
-                        <span className="text-[12px] font-bold">Voltar</span>
+                      <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-white shadow-sm text-[#8E8E93]">
+                        <RiArrowLeftSLine size={24} />
                       </Button>
                     </SheetClose>
                   </div>
                   {isOwner && (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-3">
                       {!isEditingBrincadeira ? (
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          className="text-[#8E8E93] font-bold text-[12px]"
-                          onClick={() => setIsEditingBrincadeira(true)}
-                        >
-                          Editar
-                        </Button>
+                        <>
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-9 w-9 text-[#8E8E93]"
+                            onClick={() => setIsEditingBrincadeira(true)}
+                          >
+                            <RiEditLine size={20} />
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-9 w-9 text-[#8E8E93] active:text-red-500"
+                            onClick={handleDeleteBrincadeira}
+                          >
+                            <RiDeleteBinLine size={20} />
+                          </Button>
+                        </>
                       ) : (
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          className="text-primary font-bold text-[12px]"
-                          onClick={handleUpdateBrincadeira}
-                          disabled={isPending}
-                        >
-                          {isPending ? <RiLoader4Line className="animate-spin" size={16} /> : "Salvar"}
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="text-[#8E8E93] font-bold"
+                            onClick={() => setIsEditingBrincadeira(false)}
+                          >
+                            Cancelar
+                          </Button>
+                          <Button 
+                            className="bg-primary text-white font-bold h-9 px-4 rounded-[6px]"
+                            onClick={handleUpdateBrincadeira}
+                            disabled={isPending}
+                          >
+                            {isPending ? <RiLoader4Line className="animate-spin" size={18} /> : "Confirmar"}
+                          </Button>
+                        </div>
                       )}
                     </div>
                   )}

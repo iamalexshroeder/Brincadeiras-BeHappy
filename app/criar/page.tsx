@@ -27,7 +27,7 @@ export default function CreateBrincadeiraForm() {
   // Form State
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
-  const [category, setCategory] = useState("")
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   
   const [age, setAge] = useState("")
   const [duration, setDuration] = useState("")
@@ -106,7 +106,7 @@ export default function CreateBrincadeiraForm() {
       await createBrincadeira({
         title,
         short_description: description,
-        type: typeMap[category] || "CRIATIVA",
+        type: typeMap[selectedCategories[0]] || "CRIATIVA",
         steps: steps.filter(s => s.trim() !== ""),
         materials: materials.filter(m => m.trim() !== ""),
         age_groups: ageMap[age] || ["AGE_6_9"],
@@ -114,7 +114,7 @@ export default function CreateBrincadeiraForm() {
         max_participants: maxP,
         duration_minutes: durationVal,
         animator_level: "MEDIO", // Default as per plan
-        tags: [category]
+        tags: selectedCategories
       })
 
       router.push("/perfil")
@@ -190,9 +190,9 @@ export default function CreateBrincadeiraForm() {
                 <div className="space-y-3">
                   <label className="text-[14px] font-extrabold text-[#1A1A1A]">Categoria Principal</label>
                   <ToggleGroup 
-                    type="single" 
-                    value={category}
-                    onValueChange={setCategory}
+                    type="multiple" 
+                    value={selectedCategories}
+                    onValueChange={setSelectedCategories}
                     spacing={8}
                     className="flex-wrap justify-start"
                   >

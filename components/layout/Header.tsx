@@ -90,7 +90,9 @@ export function Header({
               )}
             >
               {isNotificationsPage ? <RiNotification3Fill size={26} /> : <RiNotification3Line size={26} />}
-              <div className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-[#EF4444] border-[2px] border-white" />
+              {user.unreadNotificationsCount > 0 && (
+                <div className="absolute top-1.5 right-1.5 h-3.5 w-3.5 rounded-full bg-[#EF4444] border-[2px] border-white shadow-sm animate-pulse" />
+              )}
             </button>
           </div>
         </div>

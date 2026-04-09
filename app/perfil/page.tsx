@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { 
   RiHistoryLine, 
-  RiHeartLine, 
-  RiStarLine, 
+  RiHeartFill, 
+  RiStarFill, 
   RiSettings4Line, 
   RiNotification3Line, 
   RiShieldCheckLine, 
@@ -39,7 +39,7 @@ export default function Perfil() {
     { 
       label: "Favoritas", 
       count: profileData?.stats?.favorites?.toString() || "0", 
-      icon: RiHeartLine, 
+      icon: RiHeartFill, 
       color: "text-red-500",
       description: "Salvas por você"
     },
@@ -53,7 +53,7 @@ export default function Perfil() {
     { 
       label: "Conquistas", 
       count: profileData?.stats?.achievements?.toString() || "0", 
-      icon: RiStarLine, 
+      icon: RiStarFill, 
       color: "text-yellow-500",
       description: "Medalhas ganhas"
     },

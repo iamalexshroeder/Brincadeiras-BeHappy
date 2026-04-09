@@ -125,10 +125,16 @@ export async function getProfile() {
   const likesReceived = interactions.filter(i => i.type === "LIKE").length
   const usesReceived = interactions.filter(i => i.type === "USED").length
 
+  // Count unread notifications
+  const unreadNotificationsCount = await prisma.notification.count({
+    where: { user_id: user.id, read: false }
+  })
+
   return {
     ...user,
     ...gamification,
     avatar: user.avatar_url ?? user.image,
+    unreadNotificationsCount,
     stats: {
       favorites: likesGivenCount,
       contributions: user._count.brincadeiras,
@@ -650,3 +656,23 @@ export async function updateBrincadeira(id: string, data: any) {
   revalidatePath("/perfil")
   revalidatePath("/explorar")
 }
+
+/**
+ * Updates the user's basic profile info.
+ */
+export async function updateProfile(data: { name?: string, avatar_url?: string }) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Não autenticado")
+
+  await prisma.user.update({
+    where: { id: session.user.id },
+    data: {
+      name: data.name,
+      avatar_url: data.avatar_url
+    }
+  })
+
+  revalidatePath("/")
+  revalidatePath("/perfil")
+}
+
