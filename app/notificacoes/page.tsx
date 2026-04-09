@@ -1,3 +1,5 @@
+"use client"
+
 import { Header } from "@/components/layout/Header"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card } from "@/components/ui/card"
@@ -9,7 +11,6 @@ import { ptBR } from "date-fns/locale"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 
-"use client"
 
 // Force dynamic rendering so notifications are always fresh
 export const dynamic = "force-dynamic"
