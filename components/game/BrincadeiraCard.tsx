@@ -56,6 +56,7 @@ interface BrincadeiraCardProps {
   title: string
   description: string
   creator: {
+    id: string
     name: string
     avatar?: string
     level: number
@@ -107,6 +108,42 @@ export function BrincadeiraCard({
   const [editingCommentText, setEditingCommentText] = useState("")
   const [isDeletingId, setIsDeletingId] = useState<string | null>(null)
 
+  // Novas funções para CRUD de brincadeiras
+  const handleDeleteBrincadeira = async (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (confirm("Tem certeza que deseja excluir esta brincadeira permanentemente?")) {
+      startTransition(async () => {
+        try {
+          await deleteBrincadeira(id)
+          router.refresh()
+        } catch (error) {
+          console.error("Erro ao excluir brincadeira:", error)
+        }
+      })
+    }
+  }
+
+  const [isEditingBrincadeira, setIsEditingBrincadeira] = useState(false)
+  const [editedTitle, setEditedTitle] = useState(title)
+  const [editedDescription, setEditedDescription] = useState(description)
+
+  const handleUpdateBrincadeira = async () => {
+    startTransition(async () => {
+      try {
+        await updateBrincadeira(id, {
+          title: editedTitle,
+          short_description: editedDescription
+        })
+        setIsEditingBrincadeira(false)
+        router.refresh()
+      } catch (error) {
+        console.error("Erro ao atualizar brincadeira:", error)
+      }
+    })
+  }
+
+  const isOwner = currentUserId === creator.id
+
   const handleLike = async (e: React.MouseEvent) => {
     e.stopPropagation()
     // Optimistic UI
@@ -151,7 +188,7 @@ export function BrincadeiraCard({
             <AvatarImage src={creator.avatar} />
             <AvatarFallback className="bg-primary/10 text-primary font-bold">{creator.name[0]}</AvatarFallback>
           </Avatar>
-          <div className="flex flex-col">
+          <div className="flex flex-col flex-1">
             <span className="text-[16px] font-extrabold text-[#1A1A1A] tracking-[-0.02em] leading-tight">
               {creator.name}
             </span>
@@ -164,6 +201,30 @@ export function BrincadeiraCard({
               </span>
             </div>
           </div>
+          {isOwner && (
+            <div className="flex items-center gap-2">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-8 w-8 text-[#8E8E93] active:text-primary"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setIsSheetOpen(true)
+                  setIsEditingBrincadeira(true)
+                }}
+              >
+                <RiEditLine size={18} />
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-8 w-8 text-[#8E8E93] active:text-red-500"
+                onClick={handleDeleteBrincadeira}
+              >
+                <RiDeleteBinLine size={18} />
+              </Button>
+            </div>
+          )}
         </div>
       </CardHeader>
 
@@ -241,7 +302,7 @@ export function BrincadeiraCard({
 
           <div className="flex items-center gap-2 text-[#8E8E93] font-medium">
             <RiChat3Line size={24} />
-            <span className="text-[15px]">{commentsCount}</span>
+            <span className="text-[15px]">{comments.length || commentsCount}</span>
           </div>
         </div>
 
@@ -256,13 +317,37 @@ export function BrincadeiraCard({
              <div className="px-5 pt-5 pb-3 border-b border-[#F2F2F7] bg-white">
                <SheetHeader className="flex-row items-center justify-between space-y-0">
                  <div className="flex items-center gap-2">
-                   <SheetClose asChild>
-                     <Button variant="ghost" size="sm" className="h-8 rounded-full bg-[#F2F2F7] active:bg-[#E5E5EA] text-[#8E8E93] px-3">
-                       <span className="text-[12px] font-bold">Voltar</span>
-                     </Button>
-                   </SheetClose>
-                 </div>
-               </SheetHeader>
+                    <SheetClose asChild>
+                      <Button variant="ghost" size="sm" className="h-8 rounded-full bg-[#F2F2F7] active:bg-[#E5E5EA] text-[#8E8E93] px-3">
+                        <span className="text-[12px] font-bold">Voltar</span>
+                      </Button>
+                    </SheetClose>
+                  </div>
+                  {isOwner && (
+                    <div className="flex items-center gap-2">
+                      {!isEditingBrincadeira ? (
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="text-[#8E8E93] font-bold text-[12px]"
+                          onClick={() => setIsEditingBrincadeira(true)}
+                        >
+                          Editar
+                        </Button>
+                      ) : (
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="text-primary font-bold text-[12px]"
+                          onClick={handleUpdateBrincadeira}
+                          disabled={isPending}
+                        >
+                          {isPending ? <RiLoader4Line className="animate-spin" size={16} /> : "Salvar"}
+                        </Button>
+                      )}
+                    </div>
+                  )}
+                </SheetHeader>
              </div>
 
              {/* Scrollable Content */}
@@ -288,13 +373,36 @@ export function BrincadeiraCard({
                   </div>
                 </div>
 
-                <h3 className="text-[24px] font-extrabold leading-tight text-[#1A1A1A] tracking-[-0.03em]">
-                  {title}
-                </h3>
-                
-                <p className="text-[16px] leading-relaxed text-[#1A1A1A] font-medium opacity-80">
-                  {description}
-                </p>
+                {isEditingBrincadeira ? (
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                       <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-wider">Título da Brincadeira</label>
+                       <input 
+                         className="w-full h-12 px-4 rounded-[8px] bg-[#F2F2F7] text-[16px] text-[#1A1A1A] font-bold border-none focus:ring-1 ring-primary/20"
+                         value={editedTitle}
+                         onChange={(e) => setEditedTitle(e.target.value)}
+                       />
+                    </div>
+                    <div className="space-y-2">
+                       <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-wider">Descrição</label>
+                       <textarea 
+                         className="w-full h-32 p-4 rounded-[8px] bg-[#F2F2F7] text-[14px] text-[#1A1A1A] font-medium border-none focus:ring-1 ring-primary/20 resize-none"
+                         value={editedDescription}
+                         onChange={(e) => setEditedDescription(e.target.value)}
+                       />
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <h3 className="text-[24px] font-extrabold leading-tight text-[#1A1A1A] tracking-[-0.03em]">
+                      {title}
+                    </h3>
+                    
+                    <p className="text-[16px] leading-relaxed text-[#1A1A1A] font-medium opacity-80">
+                      {description}
+                    </p>
+                  </>
+                )}
 
                 <div className="flex flex-wrap gap-2">
                   <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--blue-bg)] rounded-[4px] text-[13px] font-bold text-[var(--blue)]">

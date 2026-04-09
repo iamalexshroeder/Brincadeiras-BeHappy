@@ -101,6 +101,7 @@ export default function Ranking() {
                     </div>
                     <div className="text-center w-full">
                       <span className="block text-[13px] font-bold text-[#1A1A1A] truncate mx-auto max-w-[80px]">{topThree[1].name}</span>
+                      <span className="block text-[10px] font-bold text-[#8E8E93] uppercase tracking-tight leading-none mb-1">{getTitleForLevel(topThree[1].level)}</span>
                       <span className="block text-[10px] font-extrabold text-slate-500">{topThree[1].xp} XP</span>
                     </div>
                   </div>
@@ -121,6 +122,7 @@ export default function Ranking() {
                     </div>
                     <div className="text-center w-full">
                       <span className="block text-[15px] font-extrabold text-[#1A1A1A] truncate mx-auto max-w-full">{topThree[0].name}</span>
+                      <span className="block text-[11px] font-bold text-yellow-700 uppercase tracking-tight leading-none mb-1">{getTitleForLevel(topThree[0].level)}</span>
                       <span className="block text-[11px] font-black text-yellow-600 uppercase tracking-tight">{topThree[0].xp} XP</span>
                     </div>
                   </div>
@@ -138,6 +140,7 @@ export default function Ranking() {
                     </div>
                     <div className="text-center w-full">
                       <span className="block text-[13px] font-bold text-[#1A1A1A] truncate mx-auto max-w-[80px]">{topThree[2].name}</span>
+                      <span className="block text-[10px] font-bold text-amber-800/60 uppercase tracking-tight leading-none mb-1">{getTitleForLevel(topThree[2].level)}</span>
                       <span className="block text-[10px] font-extrabold text-amber-700">{topThree[2].xp} XP</span>
                     </div>
                   </div>
@@ -157,7 +160,7 @@ export default function Ranking() {
                         </Avatar>
                         <div className="flex-1 min-w-0">
                           <span className="block text-[15px] font-bold text-[#1A1A1A] truncate">{user.name}</span>
-                          <span className="block text-[11px] font-bold uppercase tracking-tight text-[#8E8E93]">{getTitleForLevel(user.level)}</span>
+                          <span className="block text-[11px] font-bold uppercase tracking-tight text-[#8E8E93]">{user.title || getTitleForLevel(user.level)}</span>
                         </div>
 
                         <div className="flex flex-col items-end">

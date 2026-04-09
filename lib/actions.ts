@@ -204,6 +204,7 @@ function formatBrincadeira(b: any, userId?: string) {
       participants: `${b.min_participants}${b.max_participants ? `–${b.max_participants}` : "+"}`,
     },
     creator: {
+      id: b.user.id,
       name: b.user.name ?? "Recreador",
       level: getLevelFromXp(b.user.xp).level,
       avatar: b.user.avatar_url ?? b.user.image ?? undefined,
@@ -609,5 +610,41 @@ export async function deleteComment(commentId: string) {
   })
 
   revalidatePath("/")
+  revalidatePath("/explorar")
+}
+/**
+ * Deletes a brincadeira permanently.
+ */
+export async function deleteBrincadeira(id: string) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Não autenticado")
+
+  await prisma.brincadeira.delete({
+    where: { id, user_id: session.user.id },
+  })
+
+  revalidatePath("/")
+  revalidatePath("/perfil")
+  revalidatePath("/explorar")
+}
+
+/**
+ * Updates a brincadeira's basic info.
+ */
+export async function updateBrincadeira(id: string, data: any) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Não autenticado")
+
+  await prisma.brincadeira.update({
+    where: { id, user_id: session.user.id },
+    data: {
+      title: data.title,
+      short_description: data.short_description,
+      // In a more complete app we would update all fields
+    },
+  })
+
+  revalidatePath("/")
+  revalidatePath("/perfil")
   revalidatePath("/explorar")
 }

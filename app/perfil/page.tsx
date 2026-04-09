@@ -96,9 +96,9 @@ export default function Perfil() {
                            activity.label === "Minhas" ? "/perfil/minhas" : "/ranking"
               
               return (
-                <Link key={activity.label} href={href} className="flex-shrink-0">
+                <Link key={activity.label} href={href} className="flex-shrink-0 cursor-pointer">
                   <Card 
-                    className="w-[160px] p-4 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[6px] bg-white active:scale-95 transition-all text-left"
+                    className="w-[160px] p-4 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[6px] bg-white hover:bg-gray-50 active:bg-gray-100 transition-all text-left"
                   >
                     <div className={cn("h-10 w-10 flex items-center justify-center mb-3", activity.color)}>
                       <activity.icon size={28} />
