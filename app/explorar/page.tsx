@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/Header"
 import { CategoryFilters } from "@/components/game/CategoryFilters"
+import { CuratedKits } from "@/components/game/CuratedKits"
 import { LibraryList } from "@/components/game/LibraryList"
 import { getLevelFromXp } from "@/utils/gamification"
 import { RiBookOpenLine } from "@remixicon/react"
@@ -13,11 +14,25 @@ export const dynamic = "force-dynamic"
 //   { title: "Pega-Pega Congelado", description: "...", tags: ["Fisico"], ... },
 // ]
 
-async function getLibrary() {
+async function getLibrary(category?: string, kit?: string) {
   const session = await auth()
   try {
+    let whereClause: any = { published_at: { not: null } }
+
+    if (category && category !== "todos") {
+      whereClause.tags = { has: category.charAt(0).toUpperCase() + category.slice(1) }
+    }
+
+    if (kit) {
+      if (kit === "chuva") whereClause.tags = { ...whereClause.tags, hasSome: ["Musical", "Sensorial", "Educativo", "Arte"] }
+      if (kit === "piscina") whereClause.tags = { ...whereClause.tags, hasSome: ["Água", "Piscina", "Físico"] }
+      if (kit === "ferias") whereClause.tags = { ...whereClause.tags, hasSome: ["Físico", "Cooperativo", "Gincana"] }
+      if (kit === "pequenos") whereClause.tags = { ...whereClause.tags, hasSome: ["Musical", "Sensorial", "Roda"] }
+      if (kit === "sem_material") whereClause.materials = { isEmpty: true }
+    }
+
     const items = await prisma.brincadeira.findMany({
-      where: { published_at: { not: null } },
+      where: whereClause,
       orderBy: { likes_count: "desc" },
       include: {
         user: {
@@ -64,8 +79,13 @@ async function getLibrary() {
   }
 }
 
-export default async function Explorar() {
-  const library = await getLibrary()
+export default async function Explorar({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string; kit?: string }>
+}) {
+  const { category, kit } = await searchParams
+  const library = await getLibrary(category, kit)
   const session = await auth()
 
   return (
@@ -73,9 +93,18 @@ export default async function Explorar() {
       <Header title="Explorar" showUserCard={false} />
 
       <main className="px-5 pt-2 pb-32 space-y-6">
+        <section>
+          <div className="flex items-center justify-between mb-2 pl-1">
+            <h2 className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest">
+              Kits Prontos
+            </h2>
+          </div>
+          <CuratedKits />
+        </section>
+
         {/* Category Filters */}
         <section>
-          <h2 className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest mb-4 pl-1">
+          <h2 className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest mb-4 pl-1 mt-4">
             Categorias
           </h2>
           <CategoryFilters />

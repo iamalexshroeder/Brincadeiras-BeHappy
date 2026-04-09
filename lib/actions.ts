@@ -252,20 +252,29 @@ export async function getPublicProfile(userId: string) {
   }
 }
 
-export async function getFeed(limit = 20, cursor?: string, category?: string) {
+export async function getFeed(limit = 20, cursor?: string, category?: string, kit?: string) {
   const session = await auth()
   const userId = session?.user?.id
   const topThreeIds = await getTopThreeIds()
 
+  let whereClause: any = { published_at: { not: null } }
+
+  if (category && category.toLowerCase() !== "todos") {
+    whereClause.tags = { has: category }
+  }
+
+  if (kit) {
+    if (kit === "chuva") whereClause.tags = { ...whereClause.tags, hasSome: ["Musical", "Sensorial", "Educativo", "Arte"] }
+    if (kit === "piscina") whereClause.tags = { ...whereClause.tags, hasSome: ["Água", "Piscina", "Físico"] }
+    if (kit === "ferias") whereClause.tags = { ...whereClause.tags, hasSome: ["Físico", "Cooperativo", "Gincana"] }
+    if (kit === "pequenos") whereClause.tags = { ...whereClause.tags, hasSome: ["Musical", "Sensorial", "Roda"] }
+    if (kit === "sem_material") whereClause.materials = { isEmpty: true }
+  }
+
   const brincadeiras = await prisma.brincadeira.findMany({
     take: limit + 1,
     ...(cursor ? { skip: 1, cursor: { id: cursor } } : {}),
-    where: { 
-      published_at: { not: null },
-      ...(category && category.toLowerCase() !== "todos" ? {
-        tags: { has: category }
-      } : {})
-    },
+    where: whereClause,
     orderBy: { published_at: "desc" },
     include: {
       user: {

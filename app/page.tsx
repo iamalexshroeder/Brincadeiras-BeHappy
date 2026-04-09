@@ -1,6 +1,7 @@
 import { Header } from "@/components/layout/Header"
 import { BrincadeiraCard } from "@/components/game/BrincadeiraCard"
 import { CategoryFilters } from "@/components/game/CategoryFilters"
+import { CuratedKits } from "@/components/game/CuratedKits"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { RiAddLine, RiFileList3Line } from "@remixicon/react"
@@ -17,10 +18,10 @@ export const dynamic = "force-dynamic"
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string }>
+  searchParams: Promise<{ category?: string; kit?: string }>
 }) {
-  const { category } = await searchParams
-  const { items: feed } = await getFeed(20, undefined, category)
+  const { category, kit } = await searchParams
+  const { items: feed } = await getFeed(20, undefined, category, kit)
   const session = await auth()
 
   return (
@@ -28,6 +29,16 @@ export default async function Home({
       <Header showSearch={false} />
 
       <main className="px-5 pb-40 pt-2 space-y-6">
+        {/* Curated Kits Section */}
+        <section>
+          <div className="flex items-center justify-between mb-2 pl-1">
+            <h2 className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest">
+              Kits Sugeridos
+            </h2>
+          </div>
+          <CuratedKits />
+        </section>
+
         {/* Feed Section */}
         <section>
           <div className="flex items-baseline justify-between mb-6">
