@@ -649,6 +649,8 @@ export async function deleteBrincadeira(id: string) {
   revalidatePath("/")
   revalidatePath("/perfil")
   revalidatePath("/explorar")
+  revalidatePath("/ranking")
+  revalidatePath("/notificacoes")
 }
 
 /**
