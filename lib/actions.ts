@@ -162,27 +162,12 @@ export async function getFeed(limit = 20, cursor?: string, category?: string) {
       } : {})
     },
     orderBy: { published_at: "desc" },
-    select: {
-      id: true,
-      title: true,
-      short_description: true,
-      tags: true,
-      likes_count: true,
-      used_count: true,
-      created_at: true,
-      age_groups: true,
-      duration_minutes: true,
-      min_participants: true,
-      max_participants: true,
+    include: {
       user: {
         select: { id: true, name: true, avatar_url: true, image: true, xp: true },
       },
       comments: {
-        select: {
-          id: true,
-          text: true,
-          user_id: true,
-          created_at: true,
+        include: {
           user: {
             select: { name: true, avatar_url: true, image: true },
           },
@@ -248,28 +233,14 @@ export async function getFavorites() {
       user_id: session.user.id,
       type: "LIKE"
     },
-    select: {
+    include: {
       brincadeira: {
-        select: {
-          id: true,
-          title: true,
-          short_description: true,
-          tags: true,
-          likes_count: true,
-          used_count: true,
-          age_groups: true,
-          duration_minutes: true,
-          min_participants: true,
-          max_participants: true,
+        include: {
           user: {
             select: { id: true, name: true, avatar_url: true, image: true, xp: true },
           },
           comments: {
-            select: {
-              id: true,
-              text: true,
-              user_id: true,
-              created_at: true,
+            include: {
               user: {
                 select: { name: true, avatar_url: true, image: true },
               },
@@ -299,26 +270,12 @@ export async function getContributions() {
 
   const brincadeiras = await prisma.brincadeira.findMany({
     where: { user_id: session.user.id },
-    select: {
-      id: true,
-      title: true,
-      short_description: true,
-      tags: true,
-      likes_count: true,
-      used_count: true,
-      age_groups: true,
-      duration_minutes: true,
-      min_participants: true,
-      max_participants: true,
+    include: {
       user: {
         select: { id: true, name: true, avatar_url: true, image: true, xp: true },
       },
       comments: {
-        select: {
-          id: true,
-          text: true,
-          user_id: true,
-          created_at: true,
+        include: {
           user: {
             select: { name: true, avatar_url: true, image: true },
           },
@@ -533,18 +490,15 @@ export async function getRanking(limit = 50) {
     },
   })
 
-  return users.map((u, index) => {
-    const levelInfo = getLevelFromXp(u.xp)
-    return {
-      rank: index + 1,
-      id: u.id,
-      name: u.name ?? "Anônimo",
-      avatar: u.avatar_url ?? u.image,
-      xp: u.xp,
-      brincadeirasCount: u._count.brincadeiras,
-      ...levelInfo,
-    }
-  })
+  return users.map((u, index) => ({
+    rank: index + 1,
+    id: u.id,
+    name: u.name ?? "Anônimo",
+    avatar: u.avatar_url ?? u.image,
+    xp: u.xp,
+    brincadeirasCount: u._count.brincadeiras,
+    ...getLevelFromXp(u.xp),
+  }))
 }
 
 /**
