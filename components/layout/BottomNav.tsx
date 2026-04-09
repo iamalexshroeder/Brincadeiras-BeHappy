@@ -36,6 +36,8 @@ const navItems = [
 export function BottomNav() {
   const pathname = usePathname()
 
+  if (pathname === "/login") return null
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 flex h-[64px] items-center justify-around bg-[#F9F9F7] pb-safe-area shadow-[0_-1px_0_rgba(0,0,0,0.05)] md:hidden px-4">
       {navItems.map((item) => {

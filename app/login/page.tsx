@@ -10,20 +10,20 @@ export default function LoginPage() {
       <div className="flex-1 flex flex-col items-center justify-center px-6 pt-16 pb-8">
         
         {/* Logo */}
-        <div className="mb-10 flex flex-col items-center">
-          <div className="w-[72px] h-[72px] bg-primary rounded-[18px] flex items-center justify-center shadow-lg shadow-primary/25 mb-5">
-            <span className="text-white text-[38px] font-black leading-none select-none">B</span>
+        <div className="mb-14 flex flex-col items-center">
+          <div className="w-[84px] h-[84px] bg-primary rounded-[22px] flex items-center justify-center shadow-lg shadow-primary/25 mb-6">
+            <span className="text-white text-[44px] font-black leading-none select-none">B</span>
           </div>
-          <h1 className="text-[30px] font-extrabold text-[#1A1A1A] tracking-[-0.04em]">
+          <h1 className="text-[34px] font-extrabold text-[#1A1A1A] tracking-[-0.04em]">
             BeHappy
           </h1>
-          <p className="text-[15px] text-[#8E8E93] font-medium mt-1 text-center leading-snug">
+          <p className="text-[16px] text-[#8E8E93] font-medium mt-2 text-center leading-snug">
             A plataforma dos recreadores
           </p>
         </div>
 
         {/* Features */}
-        <div className="w-full max-w-[340px] space-y-3 mb-10">
+        <div className="w-full max-w-[340px] space-y-4 mb-12">
           {[
             {
               icon: "🎮",
@@ -43,12 +43,12 @@ export default function LoginPage() {
           ].map((item) => (
             <div
               key={item.title}
-              className="flex items-center gap-4 bg-white rounded-[10px] p-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]"
+              className="flex items-center gap-5 bg-white rounded-[12px] p-5 shadow-[0_2px_12px_rgba(0,0,0,0.04)]"
             >
-              <span className="text-[26px] w-8 text-center shrink-0">{item.icon}</span>
+              <span className="text-[28px] w-10 text-center shrink-0">{item.icon}</span>
               <div>
-                <p className="font-bold text-[14px] text-[#1A1A1A] leading-tight">{item.title}</p>
-                <p className="text-[12px] text-[#8E8E93] leading-snug mt-0.5">{item.desc}</p>
+                <p className="font-bold text-[15px] text-[#1A1A1A] leading-tight">{item.title}</p>
+                <p className="text-[13px] text-[#8E8E93] leading-snug mt-1">{item.desc}</p>
               </div>
             </div>
           ))}
@@ -56,12 +56,12 @@ export default function LoginPage() {
       </div>
 
       {/* Bottom Action Section */}
-      <div className="px-6 pb-12 w-full max-w-[400px] mx-auto">
+      <div className="px-6 pb-16 w-full max-w-[400px] mx-auto">
         <button
           onClick={() => signIn("google", { callbackUrl: "/" })}
-          className="w-full h-[54px] bg-[#1A1A1A] text-white font-bold text-[16px] rounded-[10px] flex items-center justify-center gap-3 active:scale-[0.98] transition-transform shadow-lg shadow-black/10 mb-4"
+          className="w-full h-[60px] bg-[#1A1A1A] text-white font-bold text-[17px] rounded-[12px] flex items-center justify-center gap-3 active:scale-[0.98] transition-transform shadow-lg shadow-black/10 mb-5"
         >
-          <RiGoogleFill size={20} />
+          <RiGoogleFill size={22} />
           Entrar com Google
         </button>
 
