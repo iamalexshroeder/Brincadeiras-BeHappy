@@ -20,32 +20,10 @@ export function UserAvatar({
   ...props
 }: UserAvatarProps) {
   // Gold: animated gradient border with glow
-  if (rankBadge === "gold") {
-    return (
-      <div className="relative inline-block shrink-0 h-fit w-fit">
-        {/* Animated gradient ring */}
-        <div className="absolute inset-[-4px] rounded-full overflow-hidden">
-          <div className="border-loop" />
-        </div>
-        <div className="absolute inset-0 rounded-full animate-gold-glow" />
-        <Avatar
-          className={cn(
-            "transition-all duration-300 relative z-10 border-[3px] border-[#F9F9F7]",
-            className
-          )}
-          {...props}
-        >
-          <AvatarImage src={src ?? undefined} alt={name} className="object-cover" />
-          <AvatarFallback className={cn("font-bold", fallbackClassName)}>
-            {name ? name[0].toUpperCase() : "?"}
-          </AvatarFallback>
-        </Avatar>
-      </div>
-    )
-  }
-
   const getBadgeStyles = () => {
     switch (rankBadge) {
+      case "gold":
+        return "ring-[4px] ring-[#EAB308] border-2 border-white shadow-md shadow-[#EAB308]/20"
       case "silver":
         return "ring-[3px] ring-slate-400 border-2 border-white shadow-md"
       case "bronze":

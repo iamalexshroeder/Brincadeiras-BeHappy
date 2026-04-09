@@ -189,11 +189,9 @@ export function Header({
                   className="absolute inset-y-0 left-0 rounded-full transition-all duration-1000 ease-out overflow-hidden"
                   style={{
                     width: `${progressValue}%`,
-                    background: "linear-gradient(90deg, #4C1D95 0%, #6B21A8 50%, #7E22CE 100%)",
+                    background: "linear-gradient(90deg, #A855F7 0%, #D946EF 100%)",
                   }}
-                >
-                  <div className="absolute inset-y-0 -left-[20px] rounded-full animate-shimmer-progress opacity-40" />
-                </div>
+                />
               </div>
             </div>
           </Card>

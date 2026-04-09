@@ -123,36 +123,8 @@
 }
 
 @keyframes pulse-gentle {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.02); opacity: 0.95; }
-}
-
-.animate-gold-glow {
-  animation: gold-glow 3s infinite ease-in-out;
-}
-
-.border-loop {
-  position: absolute;
-  inset: -150%;
-  background: conic-gradient(transparent, rgba(234, 179, 8, 0.6) 20%, #EAB308 50%, rgba(234, 179, 8, 0.6) 80%, transparent);
-  animation: gradient-rotate 3s linear infinite;
-}
-
-@keyframes shimmer-stripes {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(20px); }
-}
-
-.animate-shimmer-progress {
-  background: repeating-linear-gradient(
-    -45deg,
-    rgba(255, 255, 255, 0.2),
-    rgba(255, 255, 255, 0.2) 6px,
-    transparent 6px,
-    transparent 12px
-  );
-  width: calc(100% + 20px);
-  animation: shimmer-stripes 0.6s linear infinite;
+  0%, 100% { opacity: 0.2; transform: scale(1.05); }
+  50% { opacity: 0.4; transform: scale(1.1); }
 }
 
 .animate-pulse-gentle {
