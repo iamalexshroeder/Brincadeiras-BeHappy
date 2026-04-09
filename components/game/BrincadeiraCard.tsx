@@ -38,7 +38,7 @@ import {
   SheetClose
 } from "@/components/ui/sheet"
 import { getTitleForLevel } from "@/utils/gamification"
-import { addComment, deleteComment, updateComment, toggleLike, toggleUsed } from "@/lib/actions"
+import { addComment, deleteComment, updateComment, toggleLike, toggleUsed, deleteBrincadeira, updateBrincadeira } from "@/lib/actions"
 
 const AGE_GROUP_LABELS: Record<string, string> = {
   "AGE_3_5": "3 a 5 anos",
