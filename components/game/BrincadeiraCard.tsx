@@ -89,6 +89,7 @@ interface BrincadeiraCardProps {
   rawDuration?: number
   rawParticipants?: number
   publishedAt?: string
+  currentUserId?: string
 }
 
 const MOCK_COMMENTS: any[] = []
