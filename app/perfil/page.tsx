@@ -81,7 +81,7 @@ export default function Perfil() {
     <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
       <Header title="Perfil" showSearch={false} />
       
-      <main className="pb-32 pt-8">
+      <main className="pb-32 pt-2">
         {/* Horizontal Activities Section */}
         <section className="mb-10">
           <div className="px-5 mb-4">
@@ -98,7 +98,7 @@ export default function Perfil() {
               return (
                 <Link key={activity.label} href={href} className="flex-shrink-0 cursor-pointer">
                   <Card 
-                    className="w-[160px] p-4 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[6px] bg-white hover:bg-gray-50 active:bg-gray-100 transition-all text-left"
+                    className="w-[160px] p-4 border border-[#F2F2F7] shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-white hover:bg-gray-50 active:bg-gray-100 transition-all text-left"
                   >
                     <div className={cn("h-10 w-10 flex items-center justify-center mb-3", activity.color)}>
                       <activity.icon size={28} />
@@ -129,7 +129,7 @@ export default function Perfil() {
                 {group.title}
               </h3>
               
-              <div className="bg-white rounded-[6px] shadow-[0_2px_12px_rgba(0,0,0,0.02)] overflow-hidden">
+              <div className="bg-white rounded-[12px] border border-[#F2F2F7] shadow-[0_4px_12px_rgba(0,0,0,0.03)] overflow-hidden">
                 {group.items.map((item, index) => (
                   <Link 
                     key={item.label}
@@ -159,7 +159,7 @@ export default function Perfil() {
           <section className="pt-4">
             <Button 
               onClick={() => signOut({ callbackUrl: "/login" })}
-              className="w-full h-12 bg-[#FF9500] text-white font-medium text-[14px] rounded-[6px] shadow-sm active:scale-[0.98] transition-all gap-2 border-none"
+              className="w-full h-12 bg-[#FF9500] text-white font-medium text-[14px] rounded-[12px] shadow-sm active:scale-[0.98] transition-all gap-2 border-none"
             >
               <RiLogoutBoxRLine size={20} />
               Sair da Conta

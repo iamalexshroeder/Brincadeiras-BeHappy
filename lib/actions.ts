@@ -7,9 +7,9 @@ import { revalidatePath } from "next/cache"
 
 // XP awarded per action
 const XP_VALUES = {
-  PUBLISHED: 250,
-  COMMENT_ADDED: 30,
-  LIKE_GIVEN: 10,
+  PUBLISHED: 200,
+  COMMENT_ADDED: 50,
+  LIKE_GIVEN: 50,
   USED_CHECKED: 50,
   PROFILE_UPDATED: 100, // One-time bonus
   STREAK: 100,

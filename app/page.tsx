@@ -27,7 +27,7 @@ export default async function Home({
     <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
       <Header showSearch={false} />
 
-      <main className="px-5 pb-40 pt-10 space-y-8">
+      <main className="px-5 pb-40 pt-2 space-y-6">
         {/* Feed Section */}
         <section>
           <div className="flex items-baseline justify-between mb-6">

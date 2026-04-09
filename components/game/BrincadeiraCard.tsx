@@ -183,7 +183,7 @@ export function BrincadeiraCard({
   }
 
   return (
-    <Card className="overflow-hidden border-none shadow-[0_8px_24px_rgba(0,0,0,0.04)] rounded-[6px] bg-white transition-transform active:scale-[0.98]">
+    <Card className="overflow-hidden border border-[#F2F2F7] shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-white transition-transform active:scale-[0.98]">
       <CardHeader className="p-6 pb-2">
         <div className="flex items-center gap-4">
           <Avatar className="h-10 w-10 border-2 border-[#F2F2F7]">

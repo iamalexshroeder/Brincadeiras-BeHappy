@@ -66,7 +66,7 @@ export default function Ranking() {
     <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
       <Header title="Ranking" showSearch={false} showUserCard={false} />
 
-      <main className="px-5 pb-32 pt-4">
+      <main className="px-5 pb-32 pt-2">
 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-32">
@@ -151,7 +151,7 @@ export default function Ranking() {
               {rest.length > 0 && (
                 <div className="space-y-2 mt-4">
                   {rest.map((user) => (
-                    <Card key={user.rank} className="p-3 border-none shadow-[0_2px_8px_rgba(0,0,0,0.02)] rounded-[6px] bg-white transition-all active:scale-[0.98]">
+                    <Card key={user.rank} className="p-3 border border-[#F2F2F7] shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-white transition-all active:scale-[0.98]">
                       <div className="flex items-center gap-4">
                         <span className="text-[14px] font-black text-[#8E8E93] w-5 text-center">{user.rank}</span>
                         <Avatar className="h-12 w-12 border-2 border-[#F2F2F7]">
@@ -199,7 +199,7 @@ export default function Ranking() {
                 <Card
                   key={tier.level}
                   className={cn(
-                    "p-3 border-none shadow-[0_2px_8px_rgba(0,0,0,0.02)] rounded-[6px] transition-all bg-white relative overflow-hidden",
+                    "p-3 border border-[#F2F2F7] shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] transition-all bg-white relative overflow-hidden",
                     isLocked && "opacity-60 grayscale bg-[#F9F9F7]",
                     isCurrent && "ring-1 ring-primary/20 shadow-sm"
                   )}

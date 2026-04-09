@@ -103,13 +103,13 @@ export function Header({
       
       {/* Search and User Container (Scrolls with page) */}
       <div className={cn(
-        "w-full bg-[#F9F9F7] flex flex-col px-5 space-y-8 pb-8",
-        (showSearch || showUserCard) ? "pt-8" : "pt-0"
+        "w-full bg-[#F9F9F7] flex flex-col px-5 space-y-5 pb-2",
+        (showSearch || showUserCard) ? "pt-4" : "pt-0"
       )}>
 
       {/* Search Section (Optional) */}
       {showSearch && (
-        <div className="w-full bg-white p-[6px] py-[12px] rounded-full border border-[#F2F2F7] shadow-[0_4px_12px_rgba(0,0,0,0.03)] mb-6">
+        <div className="w-full bg-white p-[6px] py-[12px] rounded-full border border-[#F2F2F7] shadow-[0_2px_10px_rgba(0,0,0,0.02)] mb-4">
           <div className="relative group">
             <RiSearchLine 
               size={18} 
@@ -126,21 +126,21 @@ export function Header({
 
       {/* User XP Card */}
       {showUserCard && (
-        <Card className="p-4 border-none shadow-[0_4px_24px_rgba(0,0,0,0.04)] rounded-[6px] bg-[#F9F9F7]">
-          <div className="flex items-center gap-4 mb-4">
-            <Avatar className="h-12 w-12 border-2 border-white">
+        <Card className="p-4 border border-[#F2F2F7] shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-white">
+          <div className="flex items-center gap-4 mb-3">
+            <Avatar className="h-11 w-11 border-2 border-white shadow-sm">
               <AvatarImage src={user.avatar} />
               <AvatarFallback className="bg-primary/10 text-primary font-bold">{user.name[0]}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <span className="text-[17px] font-extrabold text-[#1A1A1A] tracking-[-0.02em]">
+              <span className="text-[16px] font-extrabold text-[#1A1A1A] tracking-[-0.01em]">
                 {user.name}
               </span>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="text-[12px] font-bold uppercase tracking-tight text-[#8E8E93]">
+                <span className="text-[11px] font-bold uppercase tracking-tight text-[#8E8E93]">
                   {getTitleForLevel(user.level)}
                 </span>
-                <span className="text-[12px] font-extrabold text-primary uppercase tracking-wider">
+                <span className="text-[11px] font-extrabold text-[#FF9500] uppercase tracking-widest">
                   • Nível {user.level}
                 </span>
               </div>
@@ -149,14 +149,14 @@ export function Header({
 
           <div className="space-y-2">
             <div className="flex justify-between items-end">
-              <span className="text-[12px] font-medium text-[#8E8E93]">
+              <span className="text-[11px] font-medium text-[#8E8E93]">
                 Faltam {xpRemaining} XP para o próximo nível
               </span>
               <span className="text-[12px] font-bold text-[#1A1A1A]">
                 {user.xp} XP
               </span>
             </div>
-            <Progress value={progressValue} className="h-2 bg-[#E5E5EA]" indicatorClassName="bg-[#AF52DE]" />
+            <Progress value={progressValue} className="h-2 bg-[#F2F2F7]" indicatorClassName="bg-primary" />
           </div>
         </Card>
       )}
