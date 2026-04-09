@@ -35,6 +35,7 @@ export function Header({
     xp: number;
     nextLevelXp: number;
     avatar?: string;
+    unreadNotificationsCount: number;
   } | null>(null)
 
   useEffect(() => {
@@ -46,7 +47,8 @@ export function Header({
             level: data.level,
             xp: data.xp,
             nextLevelXp: data.nextLevelXp,
-            avatar: data.avatar || undefined
+            avatar: data.avatar || undefined,
+            unreadNotificationsCount: data.unreadNotificationsCount || 0
           })
         }
       })
@@ -61,7 +63,8 @@ export function Header({
     level: 1,
     xp: 0,
     nextLevelXp: 100,
-    avatar: session?.user?.image || "https://api.dicebear.com/7.x/avataaars/svg?seed=Guest"
+    avatar: session?.user?.image || "https://api.dicebear.com/7.x/avataaars/svg?seed=Guest",
+    unreadNotificationsCount: 0
   }
 
   const xpRemaining = user.nextLevelXp - user.xp
