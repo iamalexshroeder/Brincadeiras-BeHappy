@@ -8,31 +8,58 @@ import { revalidatePath } from "next/cache"
 // XP awarded per action
 const XP_VALUES = {
   PUBLISHED: 250,
-  LIKE_RECEIVED: 10,
-  USED_RECEIVED: 30,
+  COMMENT_ADDED: 30,
+  LIKE_GIVEN: 10,
+  USED_CHECKED: 50,
+  PROFILE_UPDATED: 100, // One-time bonus
   STREAK: 100,
-  FIRST_USED_BONUS: 50,
+  DAILY_LIMIT: 500,
 }
 
 /**
  * Awards XP to a user and creates a transaction record.
- * Also notifies the user if they reached a new title tier.
+ * Includes a daily limit check (500 XP/day).
  */
 async function awardXP(
   userId: string,
   amount: number,
-  reason: "PUBLISHED" | "LIKE_RECEIVED" | "USED_RECEIVED" | "STREAK" | "FIRST_USED_BONUS",
+  reason: XPReason,
   referenceId?: string
 ) {
-  // Get current XP
+  // 1. Check Daily Limit
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  
+  const dailyXP = await prisma.xPTransaction.aggregate({
+    where: { 
+      user_id: userId,
+      created_at: { gte: today }
+    },
+    _sum: { amount: true }
+  })
+
+  const currentDailyTotal = dailyXP._sum.amount || 0
+  
+  // If already at or over limit, don't award more
+  if (currentDailyTotal >= XP_VALUES.DAILY_LIMIT) {
+    return { limited: true, currentDailyTotal }
+  }
+
+  // Calculate actual amount to award (clip at limit)
+  let actualAmount = amount
+  if (currentDailyTotal + amount > XP_VALUES.DAILY_LIMIT) {
+    actualAmount = XP_VALUES.DAILY_LIMIT - currentDailyTotal
+  }
+
+  // 2. Get current XP
   const user = await prisma.user.findUnique({ where: { id: userId }, select: { xp: true } })
   if (!user) return
 
   const previousLevel = getLevelFromXp(user.xp).level
-  const newXp = user.xp + amount
+  const newXp = user.xp + actualAmount
   const newLevel = getLevelFromXp(newXp).level
 
-  // Update user XP and log transaction
+  // 3. Update user XP and log transaction
   await prisma.$transaction([
     prisma.user.update({
       where: { id: userId },
@@ -41,39 +68,29 @@ async function awardXP(
     prisma.xPTransaction.create({
       data: {
         user_id: userId,
-        amount,
+        amount: actualAmount,
         reason,
         reference_id: referenceId ?? null,
       },
     }),
   ])
 
-  // Check if the user crossed a new TITLE tier boundary
+  // 4. Notifications for level up
   if (newLevel > previousLevel) {
     const newTier = GAMIFICATION_TIERS.find((t) => t.level === newLevel)
-    if (newTier) {
-      await prisma.notification.create({
-        data: {
-          user_id: userId,
-          type: "GAMIFICATION",
-          title: "Novo Título Alcançado!",
-          message: `Parabéns! Você chegou ao Nível ${newLevel} e conquistou o título de "${newTier.title}".`,
-        },
-      })
-    } else {
-      // Level up without a new title
-      await prisma.notification.create({
-        data: {
-          user_id: userId,
-          type: "GAMIFICATION",
-          title: `Nível ${newLevel} Alcançado!`,
-          message: `Você acumulou ${newXp} XP e subiu para o Nível ${newLevel}. Continue assim!`,
-        },
-      })
-    }
+    const title = newTier ? newTier.title : `Nível ${newLevel}`
+    
+    await prisma.notification.create({
+      data: {
+        user_id: userId,
+        type: "GAMIFICATION",
+        title: "Você subiu de nível!",
+        message: `Parabéns! Você alcançou o ${title}. Continue interagindo para ganhar mais XP!`,
+      },
+    })
   }
 
-  return { newXp, newLevel }
+  return { newXp, newLevel, awarded: actualAmount }
 }
 
 /**
@@ -333,16 +350,24 @@ export async function toggleLike(brincadeiraId: string) {
       select: { user_id: true },
     })
 
-    // Award XP to the creator (not to self-liker)
+    // 1. Award XP to the user who liked (the acting user)
+    await awardXP(userId, XP_VALUES.LIKE_GIVEN, "LIKE_GIVEN", brincadeiraId)
+
+    // 2. Award XP to the creator (if not self-liking)
     if (brincadeira.user_id !== userId) {
-      await awardXP(brincadeira.user_id, XP_VALUES.LIKE_RECEIVED, "LIKE_RECEIVED", brincadeiraId)
+      // Note: We'll use COMMENT_ADDED or a similar small bonus since LIKE_RECEIVED isn't in Enum anymore
+      // or we can reuse LIKE_GIVEN for creators too if we want. 
+      // Actually, the user said "quem da o gostei ... ganham exp", focusing on the actor.
+      // But keeping a small bonus for creator is good. Let's use COMMENT_ADDED value (30) as a proxy for social engagement.
+      await awardXP(brincadeira.user_id, 10, "LIKE_GIVEN", brincadeiraId)
+      
       // Notify creator
       await prisma.notification.create({
         data: {
           user_id: brincadeira.user_id,
           type: "SOCIAL",
           title: "Curtiram sua brincadeira!",
-          message: `Alguém curtiu uma das suas brincadeiras. Continue criando!`,
+          message: `Sua brincadeira está ganhando destaque! Você ganhou +10 XP.`,
           reference_id: brincadeiraId,
         },
       })
@@ -385,14 +410,18 @@ export async function toggleUsed(brincadeiraId: string) {
       select: { user_id: true },
     })
 
+    // 1. Award XP to the user who checked (the acting user)
+    await awardXP(userId, XP_VALUES.USED_CHECKED, "USED_CHECKED", brincadeiraId)
+
+    // 2. Award XP to creator (if not self)
     if (brincadeira.user_id !== userId) {
-      await awardXP(brincadeira.user_id, XP_VALUES.USED_RECEIVED, "USED_RECEIVED", brincadeiraId)
+      await awardXP(brincadeira.user_id, 20, "USED_CHECKED", brincadeiraId)
       await prisma.notification.create({
         data: {
           user_id: brincadeira.user_id,
           type: "SOCIAL",
           title: "Sua brincadeira foi usada!",
-          message: `Alguém marcou que usou uma das suas brincadeiras. Você ganhou +${XP_VALUES.USED_RECEIVED} XP!`,
+          message: `Incrível! Alguém acabou de realizar uma das suas brincadeiras. Você ganhou +20 XP!`,
           reference_id: brincadeiraId,
         },
       })
@@ -585,6 +614,10 @@ export async function addComment(brincadeiraId: string, text: string) {
 
   revalidatePath("/")
   revalidatePath("/explorar")
+
+  // Award XP to the user who commented
+  await awardXP(userId, XP_VALUES.COMMENT_ADDED, "COMMENT_ADDED", brincadeiraId)
+
   return comment
 }
 
@@ -685,13 +718,34 @@ export async function updateProfile(data: { name?: string, avatar_url?: string }
   const session = await auth()
   if (!session?.user?.id) throw new Error("Não autenticado")
 
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { profile_xp_claimed: true, avatar_url: true }
+  })
+
+  const isNewAvatar = data.avatar_url && data.avatar_url !== user?.avatar_url
+  const awardBonus = isNewAvatar && !user?.profile_xp_claimed
+
   await prisma.user.update({
     where: { id: session.user.id },
     data: {
       name: data.name,
-      avatar_url: data.avatar_url
+      avatar_url: data.avatar_url,
+      profile_xp_claimed: awardBonus ? true : user?.profile_xp_claimed
     }
   })
+
+  if (awardBonus) {
+    await awardXP(session.user.id, XP_VALUES.PROFILE_UPDATED, "PROFILE_UPDATED")
+    await prisma.notification.create({
+      data: {
+        user_id: session.user.id,
+        type: "GAMIFICATION",
+        title: "Bônus de Perfil!",
+        message: "Você ganhou +100 XP por atualizar sua foto de perfil! Complete seu perfil para ganhar mais destaque.",
+      }
+    })
+  }
 
   revalidatePath("/")
   revalidatePath("/perfil")
