@@ -41,10 +41,6 @@ import {
 import { getTitleForLevel } from "@/utils/gamification"
 import { addComment, deleteComment, updateComment, toggleLike, toggleUsed, deleteBrincadeira, updateBrincadeira } from "@/lib/actions"
 
-const AGE_GROUP_LABELS: Record<string, string> = {
-  "AGE_3_5": "3 a 5 anos",
-  "AGE_6_9": "6 a 9 anos",
-  "AGE_10_PLUS": "10+ anos",
 }
 
 function formatAgeGroup(age?: string) {

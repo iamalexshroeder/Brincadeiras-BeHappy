@@ -122,7 +122,7 @@ model Interaction {
   user_id        String
   user           User        @relation(fields: [user_id], references: [id])
   brincadeira_id String
-  brincadeira    Brincadeira @relation(fields: [brincadeira_id], references: [id])
+  brincadeira    Brincadeira @relation(fields: [brincadeira_id], references: [id], onDelete: Cascade)
   type           InteractionType
   created_at     DateTime    @default(now())
 
