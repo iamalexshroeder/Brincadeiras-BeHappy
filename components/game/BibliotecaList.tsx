@@ -12,8 +12,8 @@ const SYSTEM_COLLECTIONS = [
     id: "chuva",
     label: "Na Chuva",
     icon: RiCloudyLine,
-    color: "#007AFF",
-    bg: "#E5F1FF",
+    color: "#8E8E93",
+    bg: "#F2F2F7",
     description: "Brincadeiras perfeitas para dias chuvosos — dentro de casa ou cobertas.",
     games: [
       { id: "c1", title: "Chuva de Papel", description: "Amasse jornais e jogue bolas de papel num caldeirão. Quem acertar mais vezes e vencer passa a ser o mestre das bolas! Pode dividir em times para tornar mais competitivo.", duration: "15 min", participants: "6–30", age: "5+", materials: ["Jornal", "Balde ou caixa"], steps: ["Distribua folhas de jornal para cada participante", "Cada um amassa as folhas em formato de bola", "Posicione o balde a 3 metros de distância", "Cada participante tem 3 tentativas", "Quem acertar mais vezes vence"] },
@@ -26,8 +26,8 @@ const SYSTEM_COLLECTIONS = [
     id: "piscina",
     label: "Piscina",
     icon: RiDropFill,
-    color: "#34C759",
-    bg: "#E5F5EA",
+    color: "#007AFF",
+    bg: "#E5F1FF",
     description: "Diversão aquática com segurança — para piscinas, clubes e colônias.",
     games: [
       { id: "p1", title: "Mergulho da Moeda", description: "Jogue moedas (ou tampinhas coloridas) no fundo da piscina. Quem pegar mais em 60 segundos vence! Pode usar equipes.", duration: "10 min", participants: "4–12", age: "6+", materials: ["Moedas ou tampinhas coloridas"], steps: ["Divida os participantes em 2 ou mais equipes", "Jogue as moedas/tampinhas no fundo da piscina", "Ao sinal, todos mergulham para pegar o máximo possível", "Após 60 segundos, conte as peças de cada equipe", "A equipe com mais peças vence"] },
@@ -259,21 +259,28 @@ function CollectionModal({ collection, onClose }: { collection: Collection; onCl
             {collection.games.map(game => (
               <div
                 key={game.id}
-                onClick={() => setSelectedGame(game)}
-                className="bg-white rounded-[12px] border border-[#E5E5EA] p-4 shadow-[0_2px_8px_rgba(0,0,0,0.03)] flex items-center gap-3 active:scale-[0.98] transition-all cursor-pointer"
+                className="bg-white rounded-[12px] border border-[#E5E5EA] p-4 shadow-[0_2px_8px_rgba(0,0,0,0.03)]"
               >
-                <div className="flex-1 min-w-0">
-                  <span className="block text-[15px] font-extrabold text-[#1A1A1A] truncate">{game.title}</span>
-                  <span className="block text-[12px] text-[#8E8E93] mt-0.5 truncate">{game.description}</span>
-                  <div className="flex gap-2 mt-2">
-                    <span className="text-[10px] font-bold text-[#8E8E93] bg-[#F2F2F7] rounded-full px-2 py-0.5">{game.duration}</span>
-                    <span className="text-[10px] font-bold text-[#8E8E93] bg-[#F2F2F7] rounded-full px-2 py-0.5">{game.participants}</span>
-                    {game.materials.length === 0 && (
-                      <span className="text-[10px] font-bold text-[#FF3B30] bg-[#FFEBEA] rounded-full px-2 py-0.5">Sem material</span>
-                    )}
+                <div className="flex items-start gap-3">
+                  <div className="flex-1 min-w-0">
+                    <span className="block text-[15px] font-extrabold text-[#1A1A1A] truncate">{game.title}</span>
+                    <span className="block text-[12px] text-[#8E8E93] mt-0.5 line-clamp-2">{game.description}</span>
+                    <div className="flex gap-2 mt-2 flex-wrap">
+                      <span className="text-[10px] font-bold text-[#8E8E93] bg-[#F2F2F7] rounded-full px-2 py-0.5">{game.duration}</span>
+                      <span className="text-[10px] font-bold text-[#8E8E93] bg-[#F2F2F7] rounded-full px-2 py-0.5">{game.participants}</span>
+                      {game.materials.length === 0 && (
+                        <span className="text-[10px] font-bold text-[#FF3B30] bg-[#FFEBEA] rounded-full px-2 py-0.5">Sem material</span>
+                      )}
+                    </div>
                   </div>
                 </div>
-                <RiArrowRightSLine size={18} className="text-[#C7C7CC] shrink-0" />
+                <button
+                  onClick={() => setSelectedGame(game)}
+                  className="mt-3 w-full h-10 rounded-[10px] border border-[#E5E5EA] bg-[#F9F9F7] text-[13px] font-bold text-[#1A1A1A] flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
+                >
+                  <RiArrowRightSLine size={16} className="text-[#FF9500]" />
+                  Abrir brincadeira
+                </button>
               </div>
             ))}
             <p className="text-center text-[12px] text-[#C7C7CC] font-medium pt-2">
