@@ -1,11 +1,15 @@
 import { Header } from "@/components/layout/Header"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card } from "@/components/ui/card"
-import { RiTrophyFill, RiHeartFill, RiCheckboxCircleFill, RiSettings4Fill } from "@remixicon/react"
+import { RiTrophyFill, RiHeartFill, RiCheckboxCircleFill, RiSettings4Fill, RiDeleteBin7Line } from "@remixicon/react"
 import { cn } from "@/lib/utils"
-import { getNotifications, markNotificationsRead } from "@/lib/actions"
+import { getNotifications, markNotificationsRead, deleteNotification, clearAllNotifications } from "@/lib/actions"
 import { formatDistanceToNow } from "date-fns"
 import { ptBR } from "date-fns/locale"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+
+"use client"
 
 // Force dynamic rendering so notifications are always fresh
 export const dynamic = "force-dynamic"
@@ -39,47 +43,31 @@ function getIcon(type: string) {
   }
 }
 
-export default async function Notificacoes() {
-  const notifications = await getNotifications()
+export default function Notificacoes() {
+  const router = useRouter()
+  const [notifications, setNotifications] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
-  // Mock data if no real notifications yet (during dev)
-  const displayNotifications =
-    notifications.length > 0
-      ? notifications
-      : [
-          {
-            id: "mock-1",
-            type: "GAMIFICATION",
-            title: "Novo Título Alcançado!",
-            message: "Parabéns, você acumulou 1.200 XP e agora é um Ajudante de Quadra!",
-            created_at: new Date(),
-            read: false,
-          },
-          {
-            id: "mock-2",
-            type: "SOCIAL",
-            title: "Curtiram sua brincadeira",
-            message: "Tio Pipoca salvou sua brincadeira como favorito.",
-            created_at: new Date(Date.now() - 2 * 60 * 60 * 1000),
-            read: true,
-          },
-          {
-            id: "mock-3",
-            type: "SOCIAL",
-            title: "Sua brincadeira foi usada!",
-            message: "Maria Kids marcou como concluído sua brincadeira. Você ganhou +30 XP!",
-            created_at: new Date(Date.now() - 24 * 60 * 60 * 1000),
-            read: true,
-          },
-          {
-            id: "mock-4",
-            type: "SYSTEM",
-            title: "Atualização da Plataforma",
-            message: "Novos recursos foram adicionados para você criar brincadeiras mais rápido.",
-            created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
-            read: true,
-          },
-        ]
+  useEffect(() => {
+    fetchNotifications()
+    markNotificationsRead() // Mark as read when opening the page
+  }, [])
+
+  const fetchNotifications = async () => {
+    const data = await getNotifications()
+    setNotifications(data)
+    setLoading(false)
+  }
+
+  const handleDelete = async (id: string) => {
+    setNotifications(prev => prev.filter(n => n.id !== id))
+    await deleteNotification(id)
+  }
+
+  const handleClearAll = async () => {
+    setNotifications([])
+    await clearAllNotifications()
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
@@ -90,19 +78,17 @@ export default async function Notificacoes() {
           <h2 className="text-[13px] font-extrabold text-[#8E8E93] uppercase tracking-widest pl-1">
             Recentes
           </h2>
-          {notifications.some((n) => !n.read) && (
-            <form action={markNotificationsRead}>
-              <button
-                type="submit"
-                className="text-[13px] font-bold text-primary active:opacity-70"
-              >
-                Marcar lidas
-              </button>
-            </form>
+          {notifications.length > 0 && (
+            <button
+              onClick={handleClearAll}
+              className="text-[13px] font-bold text-[#EF4444] active:opacity-70"
+            >
+              Limpar tudo
+            </button>
           )}
         </div>
 
-        {displayNotifications.length === 0 ? (
+        {notifications.length === 0 && !loading ? (
           <div className="text-center py-24 text-[#8E8E93]">
             <RiSettings4Fill size={48} className="mx-auto mb-4 opacity-20" />
             <p className="font-bold text-[16px]">Nenhuma notificação ainda</p>
@@ -110,7 +96,7 @@ export default async function Notificacoes() {
           </div>
         ) : (
           <div className="space-y-3">
-            {displayNotifications.map((notif) => (
+            {notifications.map((notif) => (
               <Card
                 key={notif.id}
                 className={cn(
@@ -118,27 +104,30 @@ export default async function Notificacoes() {
                   !notif.read && "ring-1 ring-primary/20"
                 )}
               >
-                {!notif.read && (
-                  <div className="absolute top-4 right-4 h-2.5 w-2.5 rounded-full bg-primary" />
-                )}
-
                 <div className="flex gap-4">
                   {getIcon(notif.type)}
 
-                  <div className={cn("flex flex-col", !notif.read ? "pr-6" : "")}>
-                    <span className="text-[16px] font-bold text-[#1A1A1A] leading-tight mb-1">
+                  <div className="flex-1 min-w-0 pr-8">
+                    <span className="text-[16px] font-bold text-[#1A1A1A] leading-tight mb-1 block truncate">
                       {notif.title}
                     </span>
                     <span className="text-[14px] text-[#8E8E93] leading-snug">
                       {notif.message}
                     </span>
-                    <span className="text-[11px] font-bold text-[#8E8E93] mt-2 uppercase tracking-wide">
+                    <span className="text-[11px] font-bold text-[#8E8E93] mt-2 uppercase tracking-wide block">
                       {formatDistanceToNow(new Date(notif.created_at), {
                         addSuffix: true,
                         locale: ptBR,
                       })}
                     </span>
                   </div>
+
+                  <button
+                    onClick={() => handleDelete(notif.id)}
+                    className="absolute top-4 right-4 p-1 text-[#C7C7CC] hover:text-[#EF4444] transition-colors"
+                  >
+                    <RiDeleteBin7Line size={18} />
+                  </button>
                 </div>
               </Card>
             ))}

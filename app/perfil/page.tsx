@@ -17,27 +17,42 @@ import {
 } from "@remixicon/react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
-import { signOut } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
+import { useEffect, useState } from "react"
+import { getProfile } from "@/lib/actions"
 
 export default function Perfil() {
+  const { data: session } = useSession()
+  const [profileData, setProfileData] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (session?.user?.id) {
+      getProfile().then(data => {
+        setProfileData(data)
+        setLoading(false)
+      })
+    }
+  }, [session])
+
   const activities = [
     { 
       label: "Favoritas", 
-      count: "0", 
+      count: profileData?.stats?.favorites?.toString() || "0", 
       icon: RiHeartLine, 
       color: "text-red-500",
       description: "Salvas por você"
     },
     { 
       label: "Minhas", 
-      count: "0", 
+      count: profileData?.stats?.contributions?.toString() || "0", 
       icon: RiHistoryLine, 
       color: "text-blue-500",
       description: "Suas contribuições"
     },
     { 
       label: "Conquistas", 
-      count: "0", 
+      count: profileData?.stats?.achievements?.toString() || "0", 
       icon: RiStarLine, 
       color: "text-yellow-500",
       description: "Medalhas ganhas"

@@ -11,6 +11,8 @@ import { Progress } from "@/components/ui/progress"
 import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { getTitleForLevel } from "@/utils/gamification"
+import { getProfile } from "@/lib/actions"
+import { useEffect, useState } from "react"
 
 interface HeaderProps {
   title?: string
@@ -27,16 +29,39 @@ export function Header({
   const pathname = usePathname()
   const router = useRouter()
   const { data: session } = useSession()
+  const [userData, setUserData] = useState<{
+    name: string;
+    level: number;
+    xp: number;
+    nextLevelXp: number;
+    avatar?: string;
+  } | null>(null)
+
+  useEffect(() => {
+    if (session?.user?.id) {
+      getProfile().then(data => {
+        if (data) {
+          setUserData({
+            name: data.name || "Recreador",
+            level: data.level,
+            xp: data.xp,
+            nextLevelXp: data.nextLevelXp,
+            avatar: data.avatar || undefined
+          })
+        }
+      })
+    }
+  }, [session])
 
   const isNotificationsPage = pathname === "/notificacoes"
 
-  // Real session data, with mock fallback for development
-  const user = {
-    name: session?.user?.name ?? "Alex Silva",
-    level: (session?.user as any)?.level ?? 4,
-    xp: (session?.user as any)?.xp ?? 800,
-    nextLevelXp: (session?.user as any)?.nextLevelXp ?? 1000,
-    avatar: session?.user?.image ?? "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex"
+  // Fallback while loading or if not logged in
+  const user = userData || {
+    name: session?.user?.name || "Visitante",
+    level: 1,
+    xp: 0,
+    nextLevelXp: 100,
+    avatar: session?.user?.image || "https://api.dicebear.com/7.x/avataaars/svg?seed=Guest"
   }
 
   const xpRemaining = user.nextLevelXp - user.xp

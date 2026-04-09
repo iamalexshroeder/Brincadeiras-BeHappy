@@ -110,10 +110,32 @@ export async function getProfile() {
 
   const gamification = getLevelFromXp(user.xp)
 
+  // Get counts for favorites (likes given) and contributions
+  const [likesGivenCount, interactions] = await prisma.$transaction([
+    prisma.interaction.count({
+      where: { user_id: user.id, type: "LIKE" },
+    }),
+    prisma.interaction.findMany({
+      where: { brincadeira: { user_id: user.id } },
+      select: { type: true },
+    }),
+  ])
+
+  // Count total likes and uses received across all user's activities
+  const likesReceived = interactions.filter(i => i.type === "LIKE").length
+  const usesReceived = interactions.filter(i => i.type === "USED").length
+
   return {
     ...user,
     ...gamification,
     avatar: user.avatar_url ?? user.image,
+    stats: {
+      favorites: likesGivenCount,
+      contributions: user._count.brincadeiras,
+      achievements: Math.floor(user.xp / 500), // Simple math for now or based on tiers
+      likesReceived,
+      usesReceived
+    }
   }
 }
 
@@ -401,6 +423,34 @@ export async function markNotificationsRead() {
   await prisma.notification.updateMany({
     where: { user_id: session.user.id, read: false },
     data: { read: true },
+  })
+
+  revalidatePath("/notificacoes")
+}
+
+/**
+ * Deletes a single notification.
+ */
+export async function deleteNotification(id: string) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Não autenticado")
+
+  await prisma.notification.delete({
+    where: { id, user_id: session.user.id },
+  })
+
+  revalidatePath("/notificacoes")
+}
+
+/**
+ * Clears all notifications for the current user.
+ */
+export async function clearAllNotifications() {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Não autenticado")
+
+  await prisma.notification.deleteMany({
+    where: { user_id: session.user.id },
   })
 
   revalidatePath("/notificacoes")

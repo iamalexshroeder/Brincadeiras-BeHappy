@@ -20,6 +20,9 @@ export default function CreateBrincadeiraForm() {
   const router = useRouter()
   const [step, setStep] = useState(1)
   const totalSteps = 3
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
 
   // Form State
   const [title, setTitle] = useState("")
@@ -65,9 +68,60 @@ export default function CreateBrincadeiraForm() {
     setSteps(steps.filter((_, i) => i !== index))
   }
 
-  const handleSubmit = () => {
-    // In the future: backend API call here
-    router.push("/perfil")
+  const handleSubmit = async () => {
+    setIsSubmitting(true)
+    setError(null)
+
+    try {
+      // Map UI categories to Database Enums
+      const typeMap: Record<string, string> = {
+        "Físico": "FISICA",
+        "Musical": "MUSICAL",
+        "Criativo": "CRIATIVA",
+        "Educativo": "EDUCATIVA",
+        "Cooperação": "COOPERATIVA",
+        "Concentração": "EDUCATIVA"
+      }
+
+      // Map UI Age ranges to Database Enums
+      const ageMap: Record<string, string[]> = {
+        "3-5 anos": ["AGE_3_5"],
+        "6-9 anos": ["AGE_6_9"],
+        "10+ anos": ["AGE_10_PLUS"],
+        "Todas as idades": ["AGE_3_5", "AGE_6_9", "AGE_10_PLUS"]
+      }
+
+      // Parse duration (e.g., "15-30 min" -> 30)
+      const durationMatch = duration.match(/(\d+)/g)
+      const durationVal = durationMatch ? parseInt(durationMatch[durationMatch.length - 1]) : 30
+
+      // Parse participants (e.g., "4-10" -> min: 4, max: 10)
+      const participantsMatch = participants.match(/(\d+)/g)
+      const minP = participantsMatch ? parseInt(participantsMatch[0]) : 2
+      const maxP = participantsMatch && participantsMatch.length > 1 ? parseInt(participantsMatch[1]) : undefined
+
+      const { createBrincadeira } = await import("@/lib/actions")
+
+      await createBrincadeira({
+        title,
+        short_description: description,
+        type: typeMap[category] || "CRIATIVA",
+        steps: steps.filter(s => s.trim() !== ""),
+        materials: materials.filter(m => m.trim() !== ""),
+        age_groups: ageMap[age] || ["AGE_6_9"],
+        min_participants: minP,
+        max_participants: maxP,
+        duration_minutes: durationVal,
+        animator_level: "MEDIO", // Default as per plan
+        tags: [category]
+      })
+
+      router.push("/perfil")
+    } catch (err) {
+      console.error(err)
+      setError("Ocorreu um erro ao salvar a brincadeira. Tente novamente.")
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -341,16 +395,22 @@ export default function CreateBrincadeiraForm() {
 
       {/* Floating Action Button */}
       <div className="fixed bottom-[24px] left-0 right-0 px-5 bg-gradient-to-t from-[#F9F9F7] via-[#F9F9F7] to-transparent pt-8 z-[60]">
+        {error && (
+          <p className="text-red-500 text-[12px] font-bold text-center mb-4 bg-red-50 py-2 rounded-[6px]">
+            {error}
+          </p>
+        )}
         <Button 
           onClick={handleNext}
           disabled={
+            isSubmitting ||
             (step === 1 && (!title || !description || !category)) ||
             (step === 2 && (!age || !duration || !participants)) ||
             (step === 3 && steps[0].trim() === "")
           }
           className="w-full h-12 bg-[#FF9500] text-white font-medium text-[14px] rounded-[6px] shadow-sm disabled:opacity-50 disabled:bg-gray-300 border-none active:scale-[0.97] transition-all"
         >
-          {step === totalSteps ? "Publicar Brincadeira" : "Continuar"}
+          {isSubmitting ? "Salvando..." : (step === totalSteps ? "Publicar Brincadeira" : "Continuar")}
         </Button>
       </div>
     </div>
