@@ -83,7 +83,7 @@ export default function Perfil() {
         {/* Horizontal Activities Section */}
         <section className="mb-10">
           <div className="px-5 mb-4">
-            <h2 className="text-[20px] font-extrabold text-foreground tracking-[-0.03em]">
+            <h2 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest text-left">
               Minhas Atividades
             </h2>
           </div>

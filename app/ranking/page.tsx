@@ -87,7 +87,7 @@ export default function Ranking() {
           <>
             {/* Global Ranking Section */}
             <section className="mb-12">
-              <h2 className="text-[13px] font-extrabold text-muted-foreground uppercase tracking-widest pl-1 mb-6">Top Recreadores</h2>
+              <h2 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest pl-1 mb-6">Top Recreadores</h2>
               
               {/* Flexible Podium */}
               <div className="flex items-end justify-center gap-0 relative max-w-sm mx-auto mb-10 px-2 h-44">
@@ -195,7 +195,7 @@ export default function Ranking() {
         {/* Trilha de Títulos */}
         <section className="space-y-4 pt-8 border-t border-border">
           <div className="pl-1 mb-2">
-            <h2 className="text-[13px] font-extrabold text-muted-foreground uppercase tracking-widest">Trilha de Títulos</h2>
+            <h2 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest">Trilha de Títulos</h2>
             <span className="text-[12px] font-bold text-primary mt-1 block">Nível Máximo: 100</span>
           </div>
 
@@ -248,22 +248,20 @@ export default function Ranking() {
                         />
                       )}
                     </div>
-                    <div className="flex-1 flex flex-col justify-center">
+                    <div className="flex-1 flex flex-col justify-center text-left">
                       <div className="flex items-center justify-between">
                         <span 
-                          className={cn("text-[16px] font-bold", (isCurrent || isCompleted) ? "text-foreground" : "text-muted-foreground")}
-                          style={{ color: (isCurrent || isCompleted) ? tier.color : undefined }}
+                          className={cn("text-[16px] font-bold", (isCurrent || isCompleted) ? "text-[#1A1A1A]" : "text-[#8E8E93]")}
                         >
                           {tier.title}
                         </span>
-                        <span className={cn("text-[14px] font-extrabold", isCurrent ? "text-foreground" : isCompleted ? "opacity-60" : "text-muted-foreground")}>
+                        <span className={cn("text-[14px] font-extrabold", (isCurrent || isCompleted) ? "text-[#FF9500]" : "text-[#8E8E93]")}>
                           {isCompleted ? "Obtido" : `${tier.minXp} XP`}
                         </span>
                       </div>
                       <span className={cn("text-[11px] font-bold uppercase tracking-tight mt-0.5",
-                        isLocked ? "text-muted-foreground" : isCompleted ? "text-muted-foreground opacity-60" : "opacity-80"
-                      )}
-                      style={{ color: isCurrent ? tier.color : undefined }}>
+                        (isCurrent || isCompleted) ? "text-[#FF9500]" : "text-[#8E8E93]"
+                      )}>
                         {isLocked ? `Requer Nível ${tier.level}` : isCompleted ? "Conquista Desbloqueada" : "Título Atual"}
                       </span>
                     </div>

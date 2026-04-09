@@ -32,7 +32,7 @@ export default async function Home({
         {/* Curated Kits Section */}
         <section>
           <div className="flex items-center justify-between mb-2 pl-1">
-            <h2 className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest">
+            <h2 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest">
               Kits Sugeridos
             </h2>
           </div>
@@ -42,7 +42,7 @@ export default async function Home({
         {/* Feed Section */}
         <section>
           <div className="flex items-baseline justify-between mb-6">
-            <h2 className="text-[18px] font-extrabold text-muted-foreground tracking-[-0.03em]">
+            <h2 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest">
               Novidades
             </h2>
             {feed.length > 0 && (

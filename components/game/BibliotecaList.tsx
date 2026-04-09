@@ -1,9 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { 
   RiCloudyLine, RiDropFill, RiTentLine, RiHome4Line, RiUserVoiceLine,
-  RiMusicLine, RiArrowRightSLine, RiCloseLine, RiPrinterLine,
+  RiMusicLine, RiArrowRightSLine, RiCloseLine, RiDownload2Line,
   RiShareLine, RiTimeLine, RiGroupLine, RiUser3Line
 } from "@remixicon/react"
 
@@ -111,16 +111,47 @@ interface Collection {
 }
 
 function GameModal({ game, onClose }: { game: SystemGame; onClose: () => void }) {
-  const handlePrint = () => {
-    window.print()
+  const cardRef = useRef<HTMLDivElement>(null)
+  const [downloading, setDownloading] = useState(false)
+
+  const handleDownload = async () => {
+    if (!cardRef.current || downloading) return
+    setDownloading(true)
+    try {
+      const html2canvas = (await import("html2canvas")).default
+      const canvas = await html2canvas(cardRef.current, {
+        scale: 3,
+        backgroundColor: "#FFFFFF",
+        useCORS: true,
+        logging: false,
+      })
+      const blob = await new Promise<Blob>((resolve) =>
+        canvas.toBlob((b) => resolve(b!), "image/png", 1)
+      )
+      const file = new File([blob], `${game.title}.png`, { type: "image/png" })
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        // Mobile: abre "Salvar na Galeria"
+        await navigator.share({ files: [file], title: game.title })
+      } else {
+        // Desktop: download direto
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement("a")
+        a.href = url
+        a.download = `${game.title}.png`
+        a.click()
+        URL.revokeObjectURL(url)
+      }
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setDownloading(false)
+    }
   }
 
   const handleShare = async () => {
     if (navigator.share) {
-      await navigator.share({
-        title: game.title,
-        text: game.description,
-      })
+      await navigator.share({ title: game.title, text: game.description })
     }
   }
 
@@ -161,24 +192,19 @@ function GameModal({ game, onClose }: { game: SystemGame; onClose: () => void })
 
         {/* Content */}
         <div className="overflow-y-auto px-5 py-4 space-y-5 pb-6">
-          {/* Description */}
           <p className="text-[15px] text-[#1A1A1A] leading-relaxed">{game.description}</p>
 
-          {/* Materials */}
           {game.materials.length > 0 && (
             <div>
               <h3 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest mb-2">Materiais Necessários</h3>
               <div className="flex flex-wrap gap-2">
                 {game.materials.map((m, i) => (
-                  <span key={i} className="text-[13px] font-bold bg-[#F2F2F7] text-[#1A1A1A] rounded-[8px] px-3 py-1.5">
-                    {m}
-                  </span>
+                  <span key={i} className="text-[13px] font-bold bg-[#F2F2F7] text-[#1A1A1A] rounded-[8px] px-3 py-1.5">{m}</span>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Steps */}
           <div>
             <h3 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest mb-3">Como Jogar</h3>
             <div className="space-y-2.5">
@@ -197,11 +223,12 @@ function GameModal({ game, onClose }: { game: SystemGame; onClose: () => void })
         {/* Action Buttons */}
         <div className="px-5 py-4 border-t border-[#E5E5EA] bg-white flex gap-3">
           <button
-            onClick={handlePrint}
-            className="flex-1 h-12 rounded-[12px] border border-[#E5E5EA] bg-[#F9F9F7] text-[14px] font-bold text-[#1A1A1A] flex items-center justify-center gap-2 active:scale-[0.98] transition-all no-print"
+            onClick={handleDownload}
+            disabled={downloading}
+            className="flex-1 h-12 rounded-[12px] border border-[#E5E5EA] bg-[#F9F9F7] text-[14px] font-bold text-[#1A1A1A] flex items-center justify-center gap-2 active:scale-[0.98] transition-all disabled:opacity-60"
           >
-            <RiPrinterLine size={18} />
-            Baixar / Imprimir
+            <RiDownload2Line size={18} />
+            {downloading ? "Gerando..." : "Baixar imagem"}
           </button>
           <button
             onClick={handleShare}
@@ -210,6 +237,86 @@ function GameModal({ game, onClose }: { game: SystemGame; onClose: () => void })
             <RiShareLine size={18} />
             Compartilhar
           </button>
+        </div>
+      </div>
+
+      {/* Hidden card for image capture — styled clean */}
+      <div className="absolute -left-[9999px] -top-[9999px] pointer-events-none" aria-hidden="true">
+        <div
+          ref={cardRef}
+          style={{
+            width: 800,
+            backgroundColor: "#FFFFFF",
+            fontFamily: "system-ui, -apple-system, sans-serif",
+            padding: "48px",
+            borderRadius: 0,
+          }}
+        >
+          {/* Logo strip */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 32 }}>
+            <div style={{ width: 36, height: 36, borderRadius: 8, backgroundColor: "#FF9500", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <span style={{ color: "#fff", fontWeight: 900, fontSize: 18 }}>B</span>
+            </div>
+            <span style={{ fontSize: 15, fontWeight: 800, color: "#8E8E93", letterSpacing: "0.05em", textTransform: "uppercase" }}>BeHappy · Brincadeiras</span>
+          </div>
+
+          {/* Title */}
+          <h1 style={{ fontSize: 36, fontWeight: 900, color: "#1A1A1A", marginBottom: 8, letterSpacing: "-0.02em", lineHeight: 1.1 }}>
+            {game.title}
+          </h1>
+
+          {/* Badges */}
+          <div style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap" }}>
+            {[
+              `⏱ ${game.duration}`,
+              `👥 ${game.participants} pessoas`,
+              `🎯 A partir de ${game.age}`,
+              ...(game.materials.length === 0 ? ["✨ Sem material"] : []),
+            ].map((b, i) => (
+              <span key={i} style={{ fontSize: 13, fontWeight: 700, backgroundColor: "#F2F2F7", color: "#8E8E93", borderRadius: 99, padding: "4px 12px" }}>
+                {b}
+              </span>
+            ))}
+          </div>
+
+          {/* Divider */}
+          <div style={{ height: 1, backgroundColor: "#E5E5EA", marginBottom: 24 }} />
+
+          {/* Description */}
+          <p style={{ fontSize: 17, color: "#1A1A1A", lineHeight: 1.6, marginBottom: 32 }}>{game.description}</p>
+
+          {/* Materials */}
+          {game.materials.length > 0 && (
+            <div style={{ marginBottom: 32 }}>
+              <p style={{ fontSize: 11, fontWeight: 800, color: "#8E8E93", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 12 }}>Materiais</p>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                {game.materials.map((m, i) => (
+                  <span key={i} style={{ fontSize: 14, fontWeight: 700, backgroundColor: "#F2F2F7", color: "#1A1A1A", borderRadius: 8, padding: "6px 14px" }}>{m}</span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Steps */}
+          <div>
+            <p style={{ fontSize: 11, fontWeight: 800, color: "#8E8E93", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 16 }}>Como Jogar</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {game.steps.map((step, i) => (
+                <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
+                  <div style={{ width: 28, height: 28, borderRadius: 99, backgroundColor: "#FF9500", color: "#fff", fontSize: 13, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    {i + 1}
+                  </div>
+                  <p style={{ fontSize: 15, color: "#1A1A1A", lineHeight: 1.5, margin: 0, paddingTop: 4 }}>{step}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div style={{ marginTop: 40, paddingTop: 20, borderTop: "1px solid #E5E5EA", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{ fontSize: 12, color: "#C7C7CC", fontWeight: 600 }}>behappy.app</span>
+            <span style={{ fontSize: 12, color: "#C7C7CC", fontWeight: 600 }}>Biblioteca BeHappy · Brincadeiras para Recreadores</span>
+          </div>
         </div>
       </div>
     </div>

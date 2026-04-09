@@ -133,10 +133,6 @@ export function Header({
                   className="h-11 w-11"
                   fallbackClassName="bg-[#FFF4E5] text-[#FF9500]"
                 />
-                {/* Level badge on avatar */}
-                <div className="absolute -bottom-1 -right-1 bg-[#FF9500] text-white text-[9px] font-black rounded-full min-w-[16px] h-[16px] flex items-center justify-center px-[3px] leading-none border border-white">
-                  {user.level}
-                </div>
               </div>
               <div className="flex flex-col">
                 <span className="text-[16px] font-extrabold text-[#1A1A1A] tracking-[-0.01em]">
