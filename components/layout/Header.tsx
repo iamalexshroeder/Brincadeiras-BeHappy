@@ -189,7 +189,7 @@ export function Header({
                   className="absolute inset-y-0 left-0 rounded-full transition-all duration-1000 ease-out overflow-hidden"
                   style={{
                     width: `${progressValue}%`,
-                    background: "linear-gradient(90deg, #A855F7 0%, #D946EF 100%)",
+                    backgroundColor: "#A855F7",
                   }}
                 />
               </div>

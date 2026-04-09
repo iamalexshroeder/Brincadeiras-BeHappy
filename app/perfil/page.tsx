@@ -21,6 +21,13 @@ import { signOut, useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 import { getProfile } from "@/lib/actions"
 
+interface SettingItem {
+  icon: any;
+  label: string;
+  href?: string;
+  onClick?: () => void;
+}
+
 export default function Perfil() {
   const { data: session } = useSession()
   const [profileData, setProfileData] = useState<any>(null)
@@ -59,7 +66,7 @@ export default function Perfil() {
     },
   ]
 
-  const settingsGroups = [
+  const settingsGroups: { title: string; items: SettingItem[] }[] = [
     {
       title: "Preferências",
       items: [
@@ -71,6 +78,16 @@ export default function Perfil() {
       items: [
         { icon: RiQuestionLine, label: "Central de Ajuda", href: "#" },
         { icon: RiInformationLine, label: "Sobre o App", href: "#" },
+      ]
+    },
+    {
+      title: "Conta",
+      items: [
+        { 
+          icon: RiLogoutBoxRLine, 
+          label: "Sair da Conta", 
+          onClick: () => signOut({ callbackUrl: "/login" }) 
+        },
       ]
     }
   ]
@@ -128,41 +145,57 @@ export default function Perfil() {
               </h3>
               
               <div className="bg-card rounded-[12px] border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] overflow-hidden">
-                {group.items.map((item, index) => (
-                  <Link 
-                    key={item.label}
-                    href={item.href}
-                    className={cn(
-                      "w-full flex items-center justify-between p-4 active:bg-gray-50 transition-colors",
-                      index !== group.items.length - 1 && "border-b border-border"
-                    )}
-                  >
+                {group.items.map((item, index) => {
+                  const content = (
                     <div className="flex items-center gap-4">
-                      <div className="text-foreground opacity-70">
+                      <div className={cn(
+                        "text-foreground opacity-70",
+                        item.label === "Sair da Conta" && "text-[#EF4444]"
+                      )}>
                         <item.icon size={20} />
                       </div>
-                      <span className="text-[15px] font-bold text-foreground">
+                      <span className={cn(
+                        "text-[15px] font-bold",
+                        item.label === "Sair da Conta" ? "text-[#EF4444]" : "text-foreground"
+                      )}>
                         {item.label}
                       </span>
                     </div>
-                    
-                    <RiArrowRightSLine size={20} className="text-muted-foreground opacity-40" />
-                  </Link>
-                ))}
+                  )
+
+                  const commonClasses = cn(
+                    "w-full flex items-center justify-between p-4 active:bg-gray-50 transition-colors text-left",
+                    index !== group.items.length - 1 && "border-b border-border"
+                  )
+
+                  if (item.onClick) {
+                    return (
+                      <button 
+                        key={item.label}
+                        onClick={item.onClick}
+                        className={commonClasses}
+                      >
+                        {content}
+                        <RiArrowRightSLine size={20} className="text-muted-foreground opacity-40" />
+                      </button>
+                    )
+                  }
+
+                  return (
+                    <Link 
+                      key={item.label}
+                      href={item.href || "#"}
+                      className={commonClasses}
+                    >
+                      {content}
+                      <RiArrowRightSLine size={20} className="text-muted-foreground opacity-40" />
+                    </Link>
+                  )
+                })}
               </div>
             </section>
           ))}
 
-          {/* Logout Button */}
-          <section className="pt-4">
-            <Button 
-              onClick={() => signOut({ callbackUrl: "/login" })}
-              className="w-full h-12 bg-[#FF9500] text-white font-medium text-[14px] rounded-[12px] shadow-sm active:scale-[0.98] transition-all gap-2 border-none"
-            >
-              <RiLogoutBoxRLine size={20} />
-              Sair da Conta
-            </Button>
-          </section>
         </div>
       </main>
     </div>
