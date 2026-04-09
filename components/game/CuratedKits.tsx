@@ -13,7 +13,7 @@ import {
 const KITS = [
   { id: "chuva",       label: "Na Chuva",       icon: RiCloudyLine,   color: "#8E8E93", bg: "#F2F2F7" },
   { id: "piscina",     label: "Piscina",         icon: RiDropFill,     color: "#007AFF", bg: "#E5F1FF" },
-  { id: "ferias",      label: "Colônia Acamp",   icon: RiTentLine,     color: "#FF9500", bg: "#FFF4E5" },
+  { id: "ferias",      label: "Colônia Acamp",   icon: RiTentLine,     color: "#EAB308", bg: "#FEF9C3" },
   { id: "pequenos",    label: "Locais Pequenos", icon: RiHome4Line,    color: "#AF52DE", bg: "#F5E9FF" },
   { id: "sem_material",label: "Zero Material",   icon: RiUserVoiceLine,color: "#FF3B30", bg: "#FFEBEA" },
 ]

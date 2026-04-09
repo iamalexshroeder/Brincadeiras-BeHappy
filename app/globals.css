@@ -134,7 +134,7 @@
 .border-loop {
   position: absolute;
   inset: -150%;
-  background: conic-gradient(transparent, rgba(255, 149, 0, 0.6) 20%, #FF9500 50%, rgba(255, 149, 0, 0.6) 80%, transparent);
+  background: conic-gradient(transparent, rgba(234, 179, 8, 0.6) 20%, #EAB308 50%, rgba(234, 179, 8, 0.6) 80%, transparent);
   animation: gradient-rotate 3s linear infinite;
 }
 

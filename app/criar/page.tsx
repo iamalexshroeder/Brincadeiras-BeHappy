@@ -116,7 +116,7 @@ export default function CreateBrincadeiraForm() {
                 value={title}
                 onChange={e => setTitle(e.target.value)}
                 placeholder="Ex: Dança das Cadeiras Musical"
-                className="w-full bg-[#F2F2F7] border-0 rounded-[12px] h-12 px-4 text-[15px] font-semibold text-[#1A1A1A] placeholder:text-[#C7C7CC] focus:ring-2 focus:ring-[#FF9500] outline-none"
+                className="w-full bg-[#F2F2F7] border-0 rounded-[12px] h-12 px-4 text-[15px] font-semibold text-[#1A1A1A] placeholder:text-[#C7C7CC] focus:ring-2 focus:ring-[#EAB308] outline-none"
               />
             </div>
             
@@ -126,7 +126,7 @@ export default function CreateBrincadeiraForm() {
                 value={description}
                 onChange={e => setDescription(e.target.value)}
                 placeholder="Explique rapidamente qual o objetivo..."
-                className="w-full bg-[#F2F2F7] border-0 rounded-[12px] p-4 min-h-[100px] text-[15px] text-[#1A1A1A] placeholder:text-[#C7C7CC] focus:ring-2 focus:ring-[#FF9500] outline-none resize-none"
+                className="w-full bg-[#F2F2F7] border-0 rounded-[12px] p-4 min-h-[100px] text-[15px] text-[#1A1A1A] placeholder:text-[#C7C7CC] focus:ring-2 focus:ring-[#EAB308] outline-none resize-none"
               />
             </div>
           </div>
@@ -161,7 +161,7 @@ export default function CreateBrincadeiraForm() {
                 value={duration}
                 onChange={e => setDuration(e.target.value)}
                 placeholder="Ex: 15 min"
-                className="w-full bg-[#F2F2F7] border-0 rounded-[12px] h-11 px-4 text-[14px] font-bold text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none focus:ring-2 focus:ring-[#FF9500]"
+                className="w-full bg-[#F2F2F7] border-0 rounded-[12px] h-11 px-4 text-[14px] font-bold text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none focus:ring-2 focus:ring-[#EAB308]"
               />
             </div>
             <div>
@@ -171,7 +171,7 @@ export default function CreateBrincadeiraForm() {
                 value={participants}
                 onChange={e => setParticipants(e.target.value)}
                 placeholder="Ex: 5-10"
-                className="w-full bg-[#F2F2F7] border-0 rounded-[12px] h-11 px-4 text-[14px] font-bold text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none focus:ring-2 focus:ring-[#FF9500]"
+                className="w-full bg-[#F2F2F7] border-0 rounded-[12px] h-11 px-4 text-[14px] font-bold text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none focus:ring-2 focus:ring-[#EAB308]"
               />
             </div>
             <div className="col-span-2 lg:col-span-1">
@@ -181,7 +181,7 @@ export default function CreateBrincadeiraForm() {
                 value={age}
                 onChange={e => setAge(e.target.value)}
                 placeholder="Ex: 6+"
-                className="w-full bg-[#F2F2F7] border-0 rounded-[12px] h-11 px-4 text-[14px] font-bold text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none focus:ring-2 focus:ring-[#FF9500]"
+                className="w-full bg-[#F2F2F7] border-0 rounded-[12px] h-11 px-4 text-[14px] font-bold text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none focus:ring-2 focus:ring-[#EAB308]"
               />
             </div>
           </div>
@@ -191,7 +191,7 @@ export default function CreateBrincadeiraForm() {
             <label className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest mb-2 block">Materiais</label>
             <div className="flex flex-wrap gap-2 mb-3">
               {materials.map((m, i) => (
-                <div key={i} className="flex items-center gap-1 bg-[#FFF4E5] text-[#FF9500] text-[13px] font-bold rounded-[8px] pl-3 pr-1 py-1">
+                <div key={i} className="flex items-center gap-1 bg-[#FEF9C3] text-[#EAB308] text-[13px] font-bold rounded-[8px] pl-3 pr-1 py-1">
                   {m}
                   <button onClick={() => handleRemoveMaterial(i)} className="w-5 h-5 flex items-center justify-center opacity-60 hover:opacity-100">
                     <RiCloseLine size={14} />
@@ -205,7 +205,7 @@ export default function CreateBrincadeiraForm() {
               onChange={e => setNewMaterial(e.target.value)}
               onKeyDown={handleAddMaterial}
               placeholder="Digite o material e aperte Enter"
-              className="w-full bg-[#F2F2F7] border-0 rounded-[12px] h-11 px-4 text-[14px] font-semibold text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none focus:border focus:border-[#FF9500]"
+              className="w-full bg-[#F2F2F7] border-0 rounded-[12px] h-11 px-4 text-[14px] font-semibold text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none focus:border focus:border-[#EAB308]"
             />
           </div>
 
@@ -215,7 +215,7 @@ export default function CreateBrincadeiraForm() {
             <div className="space-y-3">
               {steps.map((step, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-[#FF9500] text-white text-[11px] font-black flex items-center justify-center shrink-0 mt-2">
+                  <div className="w-6 h-6 rounded-full bg-[#EAB308] text-white text-[11px] font-black flex items-center justify-center shrink-0 mt-2">
                     {i + 1}
                   </div>
                   <div className="flex-1 relative">
@@ -223,7 +223,7 @@ export default function CreateBrincadeiraForm() {
                       value={step}
                       onChange={e => handleStepChange(i, e.target.value)}
                       placeholder={`Passo ${i + 1}...`}
-                      className="w-full bg-[#F2F2F7] border-0 rounded-[12px] p-4 pt-3.5 pr-10 min-h-[60px] text-[14px] text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none resize-none focus:ring-2 focus:ring-[#FF9500]"
+                      className="w-full bg-[#F2F2F7] border-0 rounded-[12px] p-4 pt-3.5 pr-10 min-h-[60px] text-[14px] text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none resize-none focus:ring-2 focus:ring-[#EAB308]"
                     />
                     {steps.length > 1 && (
                       <button 

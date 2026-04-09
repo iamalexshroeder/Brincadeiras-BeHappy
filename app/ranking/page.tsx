@@ -255,12 +255,12 @@ export default function Ranking() {
                         >
                           {tier.title}
                         </span>
-                        <span className={cn("text-[14px] font-extrabold", (isCurrent || isCompleted) ? "text-[#FF9500]" : "text-[#8E8E93]")}>
+                        <span className={cn("text-[14px] font-extrabold", (isCurrent || isCompleted) ? "text-[#EAB308]" : "text-[#8E8E93]")}>
                           {isCompleted ? "Obtido" : `${tier.minXp} XP`}
                         </span>
                       </div>
                       <span className={cn("text-[11px] font-bold uppercase tracking-tight mt-0.5",
-                        (isCurrent || isCompleted) ? "text-[#FF9500]" : "text-[#8E8E93]"
+                        (isCurrent || isCompleted) ? "text-[#EAB308]" : "text-[#8E8E93]"
                       )}>
                         {isLocked ? `Requer Nível ${tier.level}` : isCompleted ? "Conquista Desbloqueada" : "Título Atual"}
                       </span>

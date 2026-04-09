@@ -35,11 +35,11 @@ export function BottomNav() {
             className="flex flex-1 flex-col items-center justify-center gap-1 transition-all active:opacity-70"
           >
             <div className="flex h-6 w-6 items-center justify-center">
-              <Icon size={24} color={isActive ? "#FF9500" : "#8E8E93"} />
+              <Icon size={24} color={isActive ? "#EAB308" : "#8E8E93"} />
             </div>
             <span
               className="text-[10px] font-bold tracking-tight uppercase"
-              style={{ color: isActive ? "#FF9500" : "#8E8E93" }}
+              style={{ color: isActive ? "#EAB308" : "#8E8E93" }}
             >
               {item.label}
             </span>

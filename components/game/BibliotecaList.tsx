@@ -216,7 +216,7 @@ function GameModal({ game, onClose }: { game: SystemGame; onClose: () => void })
             <div className="space-y-2.5">
               {game.steps.map((step, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-[#FF9500] text-white text-[11px] font-black flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="w-6 h-6 rounded-full bg-[#EAB308] text-white text-[11px] font-black flex items-center justify-center shrink-0 mt-0.5">
                     {i + 1}
                   </div>
                   <p className="text-[14px] text-[#1A1A1A] leading-snug flex-1">{step}</p>
@@ -258,7 +258,7 @@ function GameModal({ game, onClose }: { game: SystemGame; onClose: () => void })
         >
           {/* Logo strip */}
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 32 }}>
-            <div style={{ width: 36, height: 36, borderRadius: 8, backgroundColor: "#FF9500", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div style={{ width: 36, height: 36, borderRadius: 8, backgroundColor: "#EAB308", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <span style={{ color: "#fff", fontWeight: 900, fontSize: 18 }}>B</span>
             </div>
             <span style={{ fontSize: 15, fontWeight: 800, color: "#8E8E93", letterSpacing: "0.05em", textTransform: "uppercase" }}>BeHappy · Brincadeiras</span>
@@ -307,7 +307,7 @@ function GameModal({ game, onClose }: { game: SystemGame; onClose: () => void })
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {game.steps.map((step, i) => (
                 <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-                  <div style={{ width: 28, height: 28, borderRadius: 99, backgroundColor: "#FF9500", color: "#fff", fontSize: 13, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <div style={{ width: 28, height: 28, borderRadius: 99, backgroundColor: "#EAB308", color: "#fff", fontSize: 13, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                     {i + 1}
                   </div>
                   <p style={{ fontSize: 15, color: "#1A1A1A", lineHeight: 1.5, margin: 0, paddingTop: 4 }}>{step}</p>

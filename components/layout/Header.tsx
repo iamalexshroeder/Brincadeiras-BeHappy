@@ -114,7 +114,7 @@ export function Header({
             }}
             className={cn(
               "relative flex items-center justify-center h-10 w-10 rounded-full transition-colors",
-              isNotificationsPage ? "text-[#FF9500]" : "text-[#8E8E93] active:text-[#FF9500]"
+              isNotificationsPage ? "text-[#EAB308]" : "text-[#8E8E93] active:text-[#EAB308]"
             )}
           >
             {isNotificationsPage ? <RiNotification3Fill size={24} /> : <RiNotification3Line size={24} />}
@@ -162,7 +162,7 @@ export function Header({
                   name={user.name}
                   rankBadge={user.rankBadge}
                   className="h-11 w-11"
-                  fallbackClassName="bg-[#FFF4E5] text-[#FF9500]"
+                  fallbackClassName="bg-[#FEF9C3] text-[#EAB308]"
                 />
               </div>
               <div className="flex flex-col">

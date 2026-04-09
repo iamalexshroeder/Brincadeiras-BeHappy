@@ -26,7 +26,7 @@ export const GAMIFICATION_TIERS: (LevelData & { color: string })[] = [
   { level: 65, title: "Mago do Entretenimento", minXp: 55000, color: "#EC4899" }, // Pink
   { level: 70, title: "Veterano das Colônias", minXp: 65000, color: "#451a03" }, // Brown
   { level: 75, title: "Arquiteto de Momentos", minXp: 76000, color: "#000000" }, // Black
-  { level: 80, title: "Embaixador da Alegria", minXp: 90000, color: "#FF9500" }, // BeHappy Orange
+  { level: 80, title: "Embaixador da Alegria", minXp: 90000, color: "#EAB308" }, // BeHappy Orange
   { level: 85, title: "Guardião da Infância", minXp: 105000, color: "#FFD700" }, // Gold
   { level: 90, title: "Ídolo Recreador", minXp: 120000, color: "#C0C0C0" }, // Silver
   { level: 95, title: "Lenda da Recreação", minXp: 140000, color: "#CD7F32" }, // Bronze
