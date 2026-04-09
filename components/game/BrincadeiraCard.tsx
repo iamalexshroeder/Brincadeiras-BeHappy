@@ -13,7 +13,8 @@ import {
   RiUserVoiceLine,
   RiChat3Line,
   RiCloseLine,
-  RiLoader4Line
+  RiLoader4Line,
+  RiArrowDownSLine
 } from "@remixicon/react"
 import { 
   Card, 
@@ -29,6 +30,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
+  SheetClose
 } from "@/components/ui/sheet"
 import { getTitleForLevel } from "@/utils/gamification"
 import { addComment, toggleLike, toggleUsed } from "@/lib/actions"
@@ -82,16 +84,17 @@ export function BrincadeiraCard({
   commentsCount = 0,
   comments = [],
   initialLiked = false,
-  initialUsed = false
-}: BrincadeiraCardProps) {
-  const router = useRouter()
-  const [isPending, startTransition] = useTransition()
-  const [isLiked, setIsLiked] = useState(initialLiked)
-  const [isUsed, setIsUsed] = useState(initialUsed)
-  const [localLikes, setLocalLikes] = useState(likesCount)
-  const [localUsed, setLocalUsed] = useState(usedCount)
-  const [isAddingComment, setIsAddingComment] = useState(false)
-  const [commentText, setCommentText] = useState("")
+   initialUsed = false
+ }: BrincadeiraCardProps) {
+   const router = useRouter()
+   const [isPending, startTransition] = useTransition()
+   const [isSheetOpen, setIsSheetOpen] = useState(false)
+   const [isLiked, setIsLiked] = useState(initialLiked)
+   const [isUsed, setIsUsed] = useState(initialUsed)
+   const [localLikes, setLocalLikes] = useState(likesCount)
+   const [localUsed, setLocalUsed] = useState(usedCount)
+   const [isAddingComment, setIsAddingComment] = useState(false)
+   const [commentText, setCommentText] = useState("")
 
   const handleLike = async (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -231,18 +234,23 @@ export function BrincadeiraCard({
           </div>
         </div>
 
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="ghost" className="text-primary hover:bg-primary/5 text-[15px] h-9 px-4 font-bold rounded-[6px] transition-colors">
-              Ver Detalhes
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="bottom" className="h-[90vh] rounded-t-[20px] px-5 pt-8 overflow-y-auto border-none bg-white">
-            <SheetHeader className="mb-6">
-              <SheetTitle className="text-[24px] font-extrabold tracking-[-0.03em] text-[#1A1A1A] text-left">
-                Ficha da Brincadeira
-              </SheetTitle>
-            </SheetHeader>
+         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+           <SheetTrigger asChild>
+             <Button variant="ghost" className="text-primary hover:bg-primary/5 text-[15px] h-9 px-4 font-bold rounded-[6px] transition-colors">
+               Ver Detalhes
+             </Button>
+           </SheetTrigger>
+           <SheetContent side="bottom" className="h-[90vh] rounded-t-[20px] px-5 pt-8 overflow-y-auto border-none bg-white">
+             <SheetHeader className="mb-6 flex-row items-center justify-between space-y-0">
+               <SheetTitle className="text-[24px] font-extrabold tracking-[-0.03em] text-[#1A1A1A] text-left">
+                 Ficha da Brincadeira
+               </SheetTitle>
+               <SheetClose asChild>
+                <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#8E8E93]">
+                  <RiArrowDownSLine size={28} />
+                </Button>
+               </SheetClose>
+             </SheetHeader>
 
             {/* Reusing the same layout logic for a seamless transition */}
             <div className="space-y-6">
@@ -349,6 +357,8 @@ export function BrincadeiraCard({
                                    setIsAddingComment(false)
                                    setCommentText("")
                                    router.refresh()
+                                   // Optionally close the sheet to "undock" the frozen feeling
+                                   setIsSheetOpen(false)
                                  } catch (error) {
                                    console.error("Erro ao postar comentário:", error)
                                  }
