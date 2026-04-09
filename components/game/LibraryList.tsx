@@ -32,7 +32,7 @@ export function LibraryList({ items, initialDisplay = 10, currentUserId }: Libra
   return (
     <>
       <div className="grid gap-10">
-        {displayed.map((item) => (
+        {displayed.map((item) => item && (
           <BrincadeiraCard key={item.id} {...item} currentUserId={currentUserId} />
         ))}
       </div>
