@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { 
   RiCloudyLine, RiDropFill, RiTentLine, RiHome4Line, RiUserVoiceLine,
   RiMusicLine, RiArrowRightSLine, RiCloseLine, RiDownload2Line,
