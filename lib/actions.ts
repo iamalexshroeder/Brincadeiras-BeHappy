@@ -187,7 +187,7 @@ export async function getFeed(limit = 20, cursor?: string, category?: string) {
   if (hasMore) brincadeiras.pop()
 
   return {
-    items: brincadeiras.map((b) => formatBrincadeira(b, userId)),
+    items: brincadeiras.map((b) => formatBrincadeira(b, userId)).filter(Boolean),
     nextCursor: hasMore ? brincadeiras[brincadeiras.length - 1].id : null,
   }
 }
@@ -261,7 +261,7 @@ export async function getFavorites() {
   })
 
   const userId = session.user.id
-  return favors.map(f => formatBrincadeira(f.brincadeira, userId))
+  return favors.map(f => formatBrincadeira(f.brincadeira, userId)).filter(Boolean)
 }
 
 /**
@@ -294,7 +294,7 @@ export async function getContributions() {
   })
 
   const userId = session.user.id
-  return brincadeiras.map(b => formatBrincadeira(b, userId))
+  return brincadeiras.map(b => formatBrincadeira(b, userId)).filter(Boolean)
 }
 
 
