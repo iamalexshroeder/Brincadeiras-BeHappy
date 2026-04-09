@@ -159,10 +159,13 @@ export function Header({
               </div>
               <div className="relative h-1.5 w-full bg-[#F2F2F7] rounded-full overflow-hidden">
                 <div
-                  className="absolute inset-y-0 left-0 bg-[#AF52DE] transition-all duration-1000 ease-out rounded-full"
-                  style={{ width: `${progressValue}%` }}
+                  className="absolute inset-y-0 left-0 rounded-full transition-all duration-1000 ease-out"
+                  style={{
+                    width: `${progressValue}%`,
+                    background: "linear-gradient(90deg, #7C3AED 0%, #A855F7 50%, #D946EF 100%)",
+                  }}
                 >
-                  <div className="absolute inset-0 animate-shimmer-progress opacity-50 rounded-full" />
+                  <div className="absolute inset-0 animate-shimmer-progress opacity-40 rounded-full" />
                 </div>
               </div>
             </div>

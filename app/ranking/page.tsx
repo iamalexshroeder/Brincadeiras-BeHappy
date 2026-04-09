@@ -219,21 +219,33 @@ export default function Ranking() {
                   <div className="flex items-center gap-4">
                     <div 
                       className={cn(
-                        "flex items-center justify-center h-12 w-12 rounded-full border-2 shadow-sm font-black text-[18px] shrink-0",
-                        isCompleted && "border-transparent text-white",
-                        isLocked && "border-transparent bg-gray-100 text-gray-300",
-                        isCurrent && "border-transparent text-white ring-4 ring-offset-2",
+                        "flex items-center justify-center h-12 w-12 rounded-full shrink-0 font-black text-[17px] relative",
+                        isLocked && "bg-[#F2F2F7]",
                       )}
-                      style={{ 
+                      style={{
                         backgroundColor: (isCompleted || isCurrent) ? tier.color : undefined,
-                        boxShadow: isCurrent ? `0 0 15px ${tier.color}44` : undefined,
-                        borderColor: isCurrent ? tier.color : undefined
+                        // Glow pulsante para títulos level 50+
+                        boxShadow: isCurrent && tier.level >= 50
+                          ? `0 0 0 3px ${tier.color}33, 0 0 18px ${tier.color}55`
+                          : isCurrent
+                          ? `0 0 0 3px ${tier.color}22, 0 0 10px ${tier.color}33`
+                          : undefined,
                       }}
                     >
-                      {isCompleted ? <RiCheckLine size={24} /> : (
-                        <span style={{ color: isLocked ? undefined : `${tier.color}33` }}>
-                          {tier.level}
-                        </span>
+                      {isCompleted ? (
+                        <RiCheckLine size={22} className="text-white" />
+                      ) : isLocked ? (
+                        <span className="text-[16px] font-black" style={{ color: `${tier.color}55` }}>{tier.level}</span>
+                      ) : (
+                        // Current — número branco dentro do círculo colorido
+                        <span className="text-white text-[16px] font-black">{tier.level}</span>
+                      )}
+                      {/* Anel pulsante para títulos premium (level 50+) */}
+                      {isCurrent && tier.level >= 50 && (
+                        <span
+                          className="absolute inset-0 rounded-full animate-pulse-gentle"
+                          style={{ boxShadow: `0 0 0 4px ${tier.color}44` }}
+                        />
                       )}
                     </div>
                     <div className="flex-1 flex flex-col justify-center">

@@ -107,8 +107,14 @@
 
 /* Custom Animations for Gamification */
 @keyframes gold-glow {
-  0%, 100% { box-shadow: 0 0 5px rgba(250, 204, 21, 0.2), 0 0 10px rgba(250, 204, 21, 0.2); }
-  50% { box-shadow: 0 0 20px rgba(250, 204, 21, 0.6), 0 0 30px rgba(250, 204, 21, 0.4); }
+  0%   { box-shadow: 0 0 8px  rgba(250, 204, 21, 0.3), 0 0 16px rgba(250, 204, 21, 0.2); }
+  50%  { box-shadow: 0 0 24px rgba(250, 204, 21, 0.7), 0 0 36px rgba(250, 204, 21, 0.5); }
+  100% { box-shadow: 0 0 8px  rgba(250, 204, 21, 0.3), 0 0 16px rgba(250, 204, 21, 0.2); }
+}
+
+@keyframes gradient-rotate {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 @keyframes shimmer-progress {
