@@ -79,12 +79,23 @@ export default function Notificacoes() {
             Recentes
           </h2>
           {notifications.length > 0 && (
-            <button
-              onClick={handleClearAll}
-              className="text-[13px] font-bold text-[#EF4444] active:opacity-70"
-            >
-              Limpar tudo
-            </button>
+            <div className="flex gap-4">
+              <button
+                onClick={async () => {
+                  await markNotificationsRead()
+                  fetchNotifications()
+                }}
+                className="text-[13px] font-bold text-primary active:opacity-70"
+              >
+                Lidas
+              </button>
+              <button
+                onClick={handleClearAll}
+                className="text-[13px] font-bold text-[#EF4444] active:opacity-70"
+              >
+                Limpar tudo
+              </button>
+            </div>
           )}
         </div>
 

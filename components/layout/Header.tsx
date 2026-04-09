@@ -111,7 +111,7 @@ export function Header({
           />
           <Input 
             type="search" 
-            placeholder="Pesquisar brincadeiras..." 
+            placeholder="Encontre sua próxima brincadeira..." 
             className="pl-11 h-12 bg-[#F2F2F7] border-none rounded-[12px] text-[15px] placeholder:text-[#8E8E93] focus-visible:ring-0 focus-visible:ring-offset-0 transition-all font-medium"
           />
         </div>
