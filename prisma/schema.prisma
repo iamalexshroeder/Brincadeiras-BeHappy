@@ -58,6 +58,8 @@ model User {
   streak_weeks      Int       @default(0)
   profile_xp_claimed Boolean   @default(false)
   last_published_at DateTime?
+  active_title      String?
+  unlocked_titles   String[]  @default([])
   created_at        DateTime  @default(now())
 
   accounts          Account[]

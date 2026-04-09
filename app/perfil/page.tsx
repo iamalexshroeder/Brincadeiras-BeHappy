@@ -62,7 +62,7 @@ export default function Perfil() {
       count: profileData?.stats?.achievements?.toString() || "0", 
       icon: RiStarFill, 
       color: "text-yellow-500",
-      description: "Medalhas ganhas"
+      description: "Títulos e Medalhas"
     },
   ]
 
@@ -108,7 +108,7 @@ export default function Perfil() {
           <div className="flex overflow-x-auto no-scrollbar gap-4 px-5">
             {activities.map((activity) => {
               const href = activity.label === "Favoritas" ? "/perfil/favoritas" : 
-                           activity.label === "Minhas" ? "/perfil/minhas" : "/ranking"
+                           activity.label === "Minhas" ? "/perfil/minhas" : "/perfil/titulos"
               
               return (
                 <Link key={activity.label} href={href} className="flex-shrink-0 cursor-pointer">

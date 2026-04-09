@@ -28,7 +28,7 @@ export default async function Home({
     <div className="flex flex-col min-h-screen bg-background">
       <Header showSearch={false} />
 
-      <main className="px-5 pb-40 pt-2 space-y-6">
+      <main className="px-5 pb-40 pt-2 space-y-5">
         {/* Curated Kits Section */}
         <section>
           <div className="flex items-center justify-between mb-2 pl-1">
@@ -41,7 +41,7 @@ export default async function Home({
 
         {/* Feed Section */}
         <section>
-          <div className="flex items-baseline justify-between mb-6">
+          <div className="flex items-baseline justify-between mb-3">
             <h2 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest">
               Novidades
             </h2>
@@ -68,7 +68,7 @@ export default async function Home({
               </p>
             </div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-4">
               {feed.map((game) => game && (
                 <BrincadeiraCard
                   key={game.id}
@@ -86,6 +86,11 @@ export default async function Home({
                   currentUserId={session?.user?.id}
                   steps={game.steps}
                   materials={game.materials}
+                  publishedAt={game.publishedAt}
+                  rawType={game.rawType}
+                  rawAgeGroups={game.rawAgeGroups}
+                  rawDuration={game.rawDuration}
+                  rawParticipants={game.rawParticipants}
                 />
               ))}
             </div>

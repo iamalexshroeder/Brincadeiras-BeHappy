@@ -127,6 +127,8 @@ export async function getProfile() {
       state: true,
       xp: true,
       streak_weeks: true,
+      active_title: true,
+      unlocked_titles: true,
       created_at: true,
       _count: {
         select: {
@@ -138,7 +140,7 @@ export async function getProfile() {
 
   if (!user) return null
 
-  const gamification = getLevelFromXp(user.xp)
+  const gamification = getLevelFromXp(user.xp, user.active_title)
 
   // Get counts for favorites (likes given) and contributions
   const [likesGivenCount, interactions] = await prisma.$transaction([
@@ -198,6 +200,7 @@ export async function getPublicProfile(userId: string) {
       avatar_url: true,
       image: true,
       xp: true,
+      active_title: true,
       created_at: true,
       _count: {
         select: {
@@ -209,14 +212,14 @@ export async function getPublicProfile(userId: string) {
 
   if (!user) return null
 
-  const gamification = getLevelFromXp(user.xp)
+  const gamification = getLevelFromXp(user.xp, user.active_title)
 
   // Get their brincadeiras
   const brincadeiras = await prisma.brincadeira.findMany({
     where: { user_id: userId, published_at: { not: null } },
     include: {
       user: {
-        select: { id: true, name: true, avatar_url: true, image: true, xp: true },
+        select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true },
       },
       comments: {
         include: {
@@ -278,7 +281,7 @@ export async function getFeed(limit = 20, cursor?: string, category?: string, ki
     orderBy: { published_at: "desc" },
     include: {
       user: {
-        select: { id: true, name: true, avatar_url: true, image: true, xp: true },
+        select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true },
       },
       comments: {
         include: {
@@ -310,16 +313,18 @@ export async function getFeed(limit = 20, cursor?: string, category?: string, ki
 // Helper Types & Functions
 // ----------------------------------------------------------------------------
 
-export type Brincadeira = {
+export interface Brincadeira {
   id: string
   title: string
   description: string
   creator: {
     id: string
     name: string
-    avatar: string | undefined
     level: number
+    title: string
+    avatar?: string
     rankBadge?: "gold" | "silver" | "bronze" | null
+    activeTitle?: string | null
   }
   metadata: {
     ageRange: string
@@ -335,6 +340,12 @@ export type Brincadeira = {
   steps: string[]
   materials: string[]
   commentsCount: number
+  publishedAt: string
+  // Raw data for editing
+  rawType: string
+  rawAgeGroups: string[]
+  rawDuration: number
+  rawParticipants: number
 }
 
 function formatBrincadeira(b: any, currentUserId?: string, topThreeIds: string[] = []): Brincadeira | null {
@@ -345,6 +356,13 @@ function formatBrincadeira(b: any, currentUserId?: string, topThreeIds: string[]
   else if (topThreeIds[1] === b.user.id) rankBadge = "silver"
   else if (topThreeIds[2] === b.user.id) rankBadge = "bronze"
 
+  // Formatting helpers
+  const ageLabels: Record<string, string> = {
+    "AGE_3_5": "3-5 anos",
+    "AGE_6_9": "6-9 anos",
+    "AGE_10_PLUS": "10+ anos",
+  }
+
   return {
     id: b.id,
     title: b.title,
@@ -352,14 +370,16 @@ function formatBrincadeira(b: any, currentUserId?: string, topThreeIds: string[]
     creator: {
       id: b.user.id,
       name: b.user.name || "Recreador",
-      level: getLevelFromXp(b.user.xp).level,
+      level: getLevelFromXp(b.user.xp, b.user.active_title).level,
+      title: getTitleForLevel(b.user.level, b.user.active_title),
       avatar: b.user.avatar_url || b.user.image,
-      rankBadge
+      rankBadge,
+      activeTitle: b.user.active_title
     },
     metadata: {
-      ageRange: b.age_range || "Todas as idades",
-      duration: b.duration || "Variável",
-      participants: b.participants || "Qualquer quantidade",
+      ageRange: b.age_groups?.length > 0 ? ageLabels[b.age_groups[0]] || "Personalizada" : "Todas as idades",
+      duration: b.duration_minutes ? `${b.duration_minutes} min` : "Variável",
+      participants: b.min_participants ? `${b.min_participants}+ pessoas` : "Qualquer quantidade",
     },
     tags: Array.isArray(b.tags) ? b.tags : [],
     likesCount: b.likes_count || 0,
@@ -369,7 +389,13 @@ function formatBrincadeira(b: any, currentUserId?: string, topThreeIds: string[]
     comments: b.comments || [],
     steps: Array.isArray(b.steps) ? b.steps : [],
     materials: Array.isArray(b.materials) ? b.materials : [],
-    commentsCount: b.comments?.length || 0
+    commentsCount: b.comments?.length || 0,
+    // Provide raw values for easier form pre-population
+    rawType: b.type,
+    rawAgeGroups: b.age_groups || [],
+    rawDuration: b.duration_minutes || 0,
+    rawParticipants: b.min_participants || 0,
+    publishedAt: b.created_at ? new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short" }).format(new Date(b.created_at)).replace(".", "") : "Recentemente",
   }
 }
 
@@ -392,7 +418,7 @@ export async function getFavorites() {
       brincadeira: {
         include: {
           user: {
-            select: { id: true, name: true, avatar_url: true, image: true, xp: true },
+            select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true },
           },
           comments: {
             include: {
@@ -427,7 +453,7 @@ export async function getContributions() {
     where: { user_id: session.user.id },
     include: {
       user: {
-        select: { id: true, name: true, avatar_url: true, image: true, xp: true },
+        select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true },
       },
       comments: {
         include: {
@@ -863,6 +889,11 @@ export async function updateBrincadeira(id: string, data: any) {
       short_description: data.short_description,
       steps: data.steps,
       materials: data.materials,
+      type: data.type as any,
+      age_groups: data.age_groups as any[],
+      duration_minutes: data.duration_minutes,
+      min_participants: data.min_participants,
+      tags: data.tags,
     },
   })
 
@@ -906,6 +937,22 @@ export async function updateProfile(data: { name?: string, avatar_url?: string }
       }
     })
   }
+
+  revalidatePath("/")
+  revalidatePath("/perfil")
+}
+
+/**
+ * Updates the user's active title.
+ */
+export async function updateActiveTitle(title: string | null) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Não autenticado")
+
+  await prisma.user.update({
+    where: { id: session.user.id },
+    data: { active_title: title }
+  })
 
   revalidatePath("/")
   revalidatePath("/perfil")

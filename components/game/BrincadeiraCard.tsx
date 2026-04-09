@@ -23,7 +23,6 @@ import {
   RiCheckboxCircleFill,
   RiUserVoiceLine,
   RiAddLine,
-  RiPrinterLine,
   RiShieldUserLine
 } from "@remixicon/react"
 import { 
@@ -67,6 +66,7 @@ interface BrincadeiraCardProps {
     name: string
     avatar?: string
     level: number
+    title?: string
     rankBadge?: "gold" | "silver" | "bronze" | null
   }
   metadata: {
@@ -81,9 +81,14 @@ interface BrincadeiraCardProps {
   comments?: any[]
   initialLiked?: boolean
   initialUsed?: boolean
-  currentUserId?: string
   steps?: string[]
   materials?: string[]
+  // Raw values for editing
+  rawType?: string
+  rawAgeGroups?: string[]
+  rawDuration?: number
+  rawParticipants?: number
+  publishedAt?: string
 }
 
 const MOCK_COMMENTS: any[] = []
@@ -104,7 +109,12 @@ export function BrincadeiraCard({
   initialUsed = false,
   currentUserId,
   steps = [],
-  materials = []
+  materials = [],
+  rawType = "CRIATIVA",
+  rawAgeGroups = ["AGE_6_9"],
+  rawDuration = 30,
+  rawParticipants = 2,
+  publishedAt = "Recentemente",
 }: BrincadeiraCardProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
@@ -127,15 +137,30 @@ export function BrincadeiraCard({
   const [editedDescription, setEditedDescription] = useState(description)
   const [editedSteps, setEditedSteps] = useState<string[]>(steps.length > 0 ? steps : [""])
   const [editedMaterials, setEditedMaterials] = useState<string[]>(materials)
+  
+  // New Edit States
+  const [editedType, setEditedType] = useState(rawType)
+  const [editedAgeGroups, setEditedAgeGroups] = useState<string[]>(rawAgeGroups)
+  const [editedDuration, setEditedDuration] = useState(rawDuration.toString())
+  const [editedParticipants, setEditedParticipants] = useState(rawParticipants.toString())
+  const [editedSelectedCategories, setEditedSelectedCategories] = useState<string[]>(tags)
 
   const handleUpdateBrincadeira = async () => {
     startTransition(async () => {
       try {
+        const durationVal = parseInt(editedDuration) || 30
+        const minP = parseInt(editedParticipants) || 2
+
         await updateBrincadeira(id, {
           title: editedTitle,
           short_description: editedDescription,
+          type: editedType,
           steps: editedSteps.filter(s => s.trim() !== ""),
-          materials: editedMaterials.filter(m => m.trim() !== "")
+          materials: editedMaterials.filter(m => m.trim() !== ""),
+          age_groups: editedAgeGroups,
+          duration_minutes: durationVal,
+          min_participants: minP,
+          tags: editedSelectedCategories
         })
         setIsEditingBrincadeira(false)
         router.refresh()
@@ -198,68 +223,72 @@ export function BrincadeiraCard({
 
   return (
     <Card className="overflow-hidden border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-card transition-transform active:scale-[0.98]">
-      <CardHeader className="p-6 pb-2">
-        <Link href={`/recreador/${creator.id}`} className="flex items-center gap-4 active:opacity-70 transition-opacity">
+      <CardHeader className="px-4 py-3 flex flex-row items-center justify-between border-none bg-card">
+        <Link href={`/recreador/${creator.id}`} className="flex items-center gap-2.5 active:scale-95 transition-all">
           <UserAvatar 
-            src={creator.avatar} 
             name={creator.name} 
-            rankBadge={creator.rankBadge}
-            className="h-11 w-11"
-            fallbackClassName="bg-primary/10 text-primary"
+            image={creator.avatar} 
+            rank={creator.rankBadge}
+            level={creator.level}
+            size="sm"
           />
-          <div className="flex flex-col flex-1">
-            <span className="text-[16px] font-extrabold text-foreground tracking-[-0.02em] leading-tight">
-              {creator.name}
-            </span>
-            <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="text-[12px] font-bold uppercase tracking-tight text-muted-foreground">
-                {getTitleForLevel(creator.level)}
+          <div className="flex flex-col">
+            <span className="text-[14px] font-black text-foreground leading-tight">{creator.name}</span>
+            <div className="flex items-center gap-1 mt-0.5">
+              <span className="text-[10px] font-black bg-primary/10 text-primary rounded-full px-1.5 py-0.5 uppercase tracking-tight">
+                PRO
               </span>
-              <span className="text-[12px] font-extrabold text-primary uppercase tracking-wider">
+              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">
+                • {creator.title || getTitleForLevel(creator.level)}
+              </span>
+              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">
                 • Nível {creator.level}
+              </span>
+              <span className="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-tight">
+                • {publishedAt}
               </span>
             </div>
           </div>
         </Link>
       </CardHeader>
 
-      <CardContent className="p-6 pt-2">
-        <h3 className="text-[18px] font-extrabold leading-tight text-foreground mb-4 tracking-[-0.03em]">
+      <CardContent className="px-4 py-0.5">
+        <h3 className="text-[16px] font-black leading-snug text-foreground mb-1 tracking-[-0.01em]">
           {title}
         </h3>
-        <p className="text-[14px] leading-relaxed text-muted-foreground line-clamp-3 mb-6 font-medium opacity-90">
+        <p className="text-[13px] leading-snug text-muted-foreground line-clamp-2 mb-3 font-medium opacity-80">
           {description}
         </p>
 
-        <div className="flex flex-wrap gap-2 mb-6">
-          <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--blue-bg)] rounded-[4px] text-[13px] font-bold text-[var(--blue)]">
-            <RiUserVoiceLine size={16} />
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          <div className="flex items-center gap-1 px-2 py-0.5 bg-[var(--blue-bg)] rounded-[6px] text-[11px] font-bold text-[var(--blue)] border border-[var(--blue)]/10">
+            <RiUserVoiceLine size={13} />
             {formatAgeGroup(metadata.ageRange)}
           </div>
-          <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--purple-bg)] rounded-[4px] text-[13px] font-bold text-[var(--purple)]">
-            <RiTimeLine size={16} />
+          <div className="flex items-center gap-1 px-2 py-0.5 bg-[var(--purple-bg)] rounded-[6px] text-[11px] font-bold text-[var(--purple)] border border-[var(--purple)]/10">
+            <RiTimeLine size={13} />
             {metadata.duration}
           </div>
-          <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--yellow-bg)] rounded-[4px] text-[13px] font-bold text-[var(--yellow)]">
-            <RiGroupLine size={16} />
+          <div className="flex items-center gap-1 px-2 py-0.5 bg-[var(--yellow-bg)] rounded-[6px] text-[11px] font-bold text-[var(--yellow)] border border-[var(--yellow)]/10">
+            <RiGroupLine size={13} />
             {metadata.participants}
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-2">
           {tags.slice(0, 3).map((tag) => (
-            <span key={tag} className="text-[12px] text-primary font-bold uppercase tracking-widest">
-              {tag}
+            <span key={tag} className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest bg-secondary/30 px-1.5 py-0.5 rounded">
+              #{tag}
             </span>
           ))}
         </div>
       </CardContent>
 
-      <CardFooter className="px-6 py-4 flex justify-between items-center bg-card border-none">
-        <div className="flex gap-6">
+      <CardFooter className="px-4 py-2.5 flex justify-between items-center bg-card border-none">
+        <div className="flex gap-3.5">
           <button 
             onClick={handleLike}
-            className="flex items-center gap-2 text-muted-foreground active:scale-90 transition-all font-medium"
+            className="flex items-center gap-1.5 text-muted-foreground active:scale-90 transition-all font-bold"
           >
             <motion.div
               key={isLiked ? "liked" : "unliked"}
@@ -299,20 +328,11 @@ export function BrincadeiraCard({
             <RiChat3Line size={24} />
             <span className="text-[15px]">{comments.length || commentsCount}</span>
           </div>
-
-          <button 
-            onClick={() => window.print()}
-            className="flex items-center gap-1.5 text-muted-foreground active:scale-90 transition-all ml-auto font-medium bg-secondary/50 px-3 py-1.5 rounded-full hover:bg-secondary no-print"
-            title="Exportar PDF / Imprimir"
-          >
-            <RiPrinterLine size={18} />
-            <span className="text-[13px] hidden sm:inline">Modo Prancheta</span>
-          </button>
         </div>
 
          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
            <SheetTrigger asChild>
-             <Button variant="ghost" className="text-[#AF52DE] active:bg-[#AF52DE]/5 text-[15px] h-9 px-4 font-bold rounded-[6px] transition-colors">
+            <Button variant="ghost" className="text-muted-foreground active:bg-gray-100 text-[14px] h-9 px-4 font-bold rounded-[6px] transition-colors">
                Ver Detalhes
              </Button>
            </SheetTrigger>
@@ -401,7 +421,7 @@ export function BrincadeiraCard({
                     </span>
                     <div className="flex items-center gap-1.5 mt-0.5">
                       <span className="text-[11px] font-bold uppercase tracking-tight text-muted-foreground">
-                        {getTitleForLevel(creator.level)}
+                        {creator.title || getTitleForLevel(creator.level)}
                       </span>
                       <span className="text-[12px] font-extrabold text-primary uppercase tracking-wider">
                         • Nível {creator.level}
@@ -411,9 +431,98 @@ export function BrincadeiraCard({
                 </Link>
 
                 {isEditingBrincadeira ? (
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-wider">Materiais (Opcional)</label>
+                    <div className="space-y-6">
+                      {/* Name and Description */}
+                      <div className="space-y-4">
+                        <div>
+                          <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest mb-2 block">Título</label>
+                          <input 
+                            className="w-full h-11 px-4 bg-[#F2F2F7] rounded-[10px] text-[15px] font-bold text-foreground border-none outline-none focus:ring-2 focus:ring-primary/20"
+                            value={editedTitle}
+                            onChange={(e) => setEditedTitle(e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest mb-2 block">Descrição Curta</label>
+                          <textarea 
+                            className="w-full p-4 bg-[#F2F2F7] rounded-[10px] text-[14px] font-medium text-foreground border-none outline-none focus:ring-2 focus:ring-primary/20 min-h-[80px] resize-none"
+                            value={editedDescription}
+                            onChange={(e) => setEditedDescription(e.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Categories */}
+                      <div>
+                        <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest mb-3 block">Categoria</label>
+                        <div className="flex flex-wrap gap-2">
+                          {["Físico", "Musical", "Criativo", "Educativo", "Cooperação"].map(cat => (
+                            <button
+                              key={cat}
+                              onClick={() => setEditedSelectedCategories([cat])}
+                              className={cn(
+                                "text-[12px] font-bold rounded-full px-4 py-2 transition-all border",
+                                editedSelectedCategories.includes(cat) 
+                                  ? "bg-primary text-white border-primary" 
+                                  : "bg-[#F2F2F7] text-[#8E8E93] border-transparent"
+                              )}
+                            >
+                              {cat}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Stats Grid */}
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest mb-2 block">Tempo (min)</label>
+                          <input 
+                            type="number"
+                            className="w-full h-10 px-3 bg-[#F2F2F7] rounded-[8px] text-[14px] font-bold text-foreground border-none"
+                            value={editedDuration}
+                            onChange={(e) => setEditedDuration(e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest mb-2 block">Pessoas (min)</label>
+                          <input 
+                            type="number"
+                            className="w-full h-10 px-3 bg-[#F2F2F7] rounded-[8px] text-[14px] font-bold text-foreground border-none"
+                            value={editedParticipants}
+                            onChange={(e) => setEditedParticipants(e.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Age groups */}
+                      <div>
+                        <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest mb-3 block">Faixa Etária</label>
+                        <div className="flex flex-wrap gap-2">
+                          {[
+                            { id: "AGE_3_5", label: "3-5 anos" },
+                            { id: "AGE_6_9", label: "6-9 anos" },
+                            { id: "AGE_10_PLUS", label: "10+ anos" }
+                          ].map(age => (
+                            <button
+                              key={age.id}
+                              onClick={() => setEditedAgeGroups([age.id])}
+                              className={cn(
+                                "text-[12px] font-bold rounded-full px-4 py-2 transition-all border",
+                                editedAgeGroups.includes(age.id) 
+                                  ? "bg-primary text-white border-primary" 
+                                  : "bg-[#F2F2F7] text-[#8E8E93] border-transparent"
+                              )}
+                            >
+                              {age.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Materials */}
+                      <div className="space-y-3">
+                        <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest block">Materiais</label>
                         <div className="space-y-2">
                           {editedMaterials.map((mat, index) => (
                             <div key={`edit-mat-${index}`} className="flex items-center gap-2">
@@ -428,7 +537,7 @@ export function BrincadeiraCard({
                               />
                               <button 
                                 onClick={() => setEditedMaterials(editedMaterials.filter((_, i) => i !== index))}
-                                className="text-muted-foreground p-1"
+                                className="text-muted-foreground p-1 hover:text-red-500"
                               >
                                 <RiCloseLine size={20} />
                               </button>
@@ -436,15 +545,16 @@ export function BrincadeiraCard({
                           ))}
                           <button 
                             onClick={() => setEditedMaterials([...editedMaterials, ""])}
-                            className="text-[13px] font-bold text-primary flex items-center gap-1 mt-1"
+                            className="text-[13px] font-extrabold text-primary flex items-center gap-1 mt-1"
                           >
                             <RiAddLine size={18} /> Adicionar Material
                           </button>
                         </div>
                       </div>
 
-                      <div className="space-y-2">
-                         <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-wider">Passo a Passo</label>
+                      {/* Steps */}
+                      <div className="space-y-3">
+                         <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest block">Passo a Passo</label>
                          <div className="space-y-3">
                            {editedSteps.map((step, index) => (
                              <div key={`edit-step-${index}`} className="flex gap-2">
@@ -462,7 +572,7 @@ export function BrincadeiraCard({
                                />
                                <button 
                                  onClick={() => setEditedSteps(editedSteps.filter((_, i) => i !== index))}
-                                 className="text-muted-foreground p-1"
+                                 className="text-muted-foreground p-1 hover:text-red-500"
                                >
                                  <RiCloseLine size={20} />
                                </button>
@@ -470,7 +580,7 @@ export function BrincadeiraCard({
                            ))}
                            <button 
                             onClick={() => setEditedSteps([...editedSteps, ""])}
-                            className="text-[13px] font-bold text-primary flex items-center gap-1 mt-1"
+                            className="text-[13px] font-extrabold text-primary flex items-center gap-1 mt-1"
                            >
                              <RiAddLine size={18} /> Adicionar Passo
                            </button>

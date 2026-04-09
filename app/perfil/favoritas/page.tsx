@@ -56,7 +56,7 @@ export default function FavoritasPage() {
             </p>
           </div>
         ) : (
-          <div className="space-y-8">
+          <div className="space-y-4">
             {items.map((game) => game && (
               <BrincadeiraCard
                 key={game.id}
@@ -72,6 +72,11 @@ export default function FavoritasPage() {
                 initialLiked={game.userHasLiked}
                 initialUsed={game.userHasUsed}
                 currentUserId={session?.user?.id}
+                publishedAt={game.publishedAt}
+                rawType={game.rawType}
+                rawAgeGroups={game.rawAgeGroups}
+                rawDuration={game.rawDuration}
+                rawParticipants={game.rawParticipants}
               />
             ))}
           </div>

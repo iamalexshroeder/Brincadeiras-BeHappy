@@ -5,8 +5,15 @@ import { useSearchParams } from "next/navigation"
 import { 
   RiCloudyLine, RiDropFill, RiTentLine, RiHome4Line, RiUserVoiceLine,
   RiMusicLine, RiArrowRightSLine, RiCloseLine, RiDownload2Line,
-  RiShareLine, RiTimeLine, RiGroupLine, RiUser3Line
+  RiShareLine, RiTimeLine, RiGroupLine, RiUser3Line, RiArrowLeftSLine
 } from "@remixicon/react"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet"
+import { Button } from "@/components/ui/button"
 
 const SYSTEM_COLLECTIONS = [
   {
@@ -111,7 +118,7 @@ interface Collection {
   games: SystemGame[]
 }
 
-function GameModal({ game, onClose }: { game: SystemGame; onClose: () => void }) {
+function GameModal({ game, isOpen, onClose }: { game: SystemGame; isOpen: boolean; onClose: () => void }) {
   const cardRef = useRef<HTMLDivElement>(null)
   const [downloading, setDownloading] = useState(false)
 
@@ -132,10 +139,8 @@ function GameModal({ game, onClose }: { game: SystemGame; onClose: () => void })
       const file = new File([blob], `${game.title}.png`, { type: "image/png" })
 
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        // Mobile: abre "Salvar na Galeria"
         await navigator.share({ files: [file], title: game.title })
       } else {
-        // Desktop: download direto
         const url = URL.createObjectURL(blob)
         const a = document.createElement("a")
         a.href = url
@@ -156,264 +161,195 @@ function GameModal({ game, onClose }: { game: SystemGame; onClose: () => void })
     }
   }
 
-  useEffect(() => {
-    document.body.style.overflow = "hidden"
-    return () => { document.body.style.overflow = "auto" }
-  }, [])
-
   return (
-    <div className="fixed inset-0 z-[60] bg-black/50 flex items-end" onClick={onClose}>
-      <div
-        className="w-full bg-[#F9F9F7] rounded-t-[20px] max-h-[90vh] flex flex-col"
-        onClick={e => e.stopPropagation()}
-      >
+    <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <SheetContent side="bottom" className="h-[95vh] rounded-t-[32px] p-0 flex flex-col border-none bg-card overflow-hidden outline-none">
         {/* Header */}
-        <div className="flex items-start justify-between px-5 py-4 border-b border-[#E5E5EA] bg-white rounded-t-[20px]">
-          <div className="flex-1 pr-4">
-            <h2 className="text-[18px] font-extrabold text-[#1A1A1A] leading-tight">{game.title}</h2>
-            <div className="flex flex-wrap gap-2 mt-2">
-              <span className="flex items-center gap-1 text-[11px] font-bold bg-[#F2F2F7] text-[#8E8E93] rounded-full px-2.5 py-0.5">
-                <RiTimeLine size={11} /> {game.duration}
-              </span>
-              <span className="flex items-center gap-1 text-[11px] font-bold bg-[#F2F2F7] text-[#8E8E93] rounded-full px-2.5 py-0.5">
-                <RiGroupLine size={11} /> {game.participants} pessoas
-              </span>
-              <span className="flex items-center gap-1 text-[11px] font-bold bg-[#F2F2F7] text-[#8E8E93] rounded-full px-2.5 py-0.5">
-                <RiUser3Line size={11} /> {game.age}
-              </span>
-              {game.materials.length === 0 && (
-                <span className="text-[11px] font-bold bg-[#FFEBEA] text-[#FF3B30] rounded-full px-2.5 py-0.5">
-                  Sem material
-                </span>
-              )}
-            </div>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-border bg-white h-16 shrink-0">
+          <div className="flex items-center gap-3">
+             <Button 
+               variant="ghost" 
+               size="icon" 
+               className="h-10 w-10 rounded-full bg-[#F2F2F7] text-muted-foreground active:scale-90"
+               onClick={onClose}
+             >
+               <RiArrowLeftSLine size={24} />
+             </Button>
+             <SheetTitle className="text-[17px] font-black text-foreground max-w-[200px] truncate">
+               {game.title}
+             </SheetTitle>
           </div>
-          <button
-            onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-full bg-[#F2F2F7] text-[#8E8E93] active:scale-90 transition-all shrink-0"
-          >
-            <RiCloseLine size={18} />
-          </button>
+          <div className="flex gap-2">
+             <span className="flex items-center gap-1 text-[11px] font-bold bg-[#F2F2F7] text-[#8E8E93] rounded-full px-2.5 py-1">
+               <RiTimeLine size={12} /> {game.duration}
+             </span>
+          </div>
         </div>
 
-        {/* Content */}
-        <div className="overflow-y-auto px-5 py-4 space-y-5 pb-6">
-          <p className="text-[15px] text-[#1A1A1A] leading-relaxed">{game.description}</p>
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto px-5 py-6 space-y-6 pb-24">
+          <p className="text-[16px] text-foreground leading-relaxed font-medium opacity-80">{game.description}</p>
+
+          <div className="flex flex-wrap gap-2 pt-2">
+            <span className="flex items-center gap-1.5 px-3 py-1.5 bg-[#F2F2F7] text-[#8E8E93] rounded-[6px] text-[13px] font-bold">
+              <RiGroupLine size={16} /> {game.participants} pessoas
+            </span>
+            <span className="flex items-center gap-1.5 px-3 py-1.5 bg-[#F2F2F7] text-[#8E8E93] rounded-[6px] text-[13px] font-bold">
+              <RiUser3Line size={16} /> {game.age}
+            </span>
+            {game.materials.length === 0 && (
+              <span className="text-[13px] font-bold bg-[#FFEBEA] text-[#FF3B30] rounded-[6px] px-3 py-1.5">
+                Sem material
+              </span>
+            )}
+          </div>
 
           {game.materials.length > 0 && (
-            <div>
-              <h3 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest mb-2">Materiais Necessários</h3>
+            <div className="space-y-3">
+              <h3 className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest">Materiais</h3>
               <div className="flex flex-wrap gap-2">
                 {game.materials.map((m, i) => (
-                  <span key={i} className="text-[13px] font-bold bg-[#F2F2F7] text-[#1A1A1A] rounded-[8px] px-3 py-1.5">{m}</span>
+                  <span key={i} className="text-[14px] font-bold bg-white border border-border shadow-sm text-foreground rounded-[8px] px-4 py-2">{m}</span>
                 ))}
               </div>
             </div>
           )}
 
-          <div>
-            <h3 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest mb-3">Como Jogar</h3>
-            <div className="space-y-2.5">
+          <div className="space-y-4">
+            <h3 className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest">Como Jogar</h3>
+            <div className="space-y-3">
               {game.steps.map((step, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-[#EAB308] text-white text-[11px] font-black flex items-center justify-center shrink-0 mt-0.5">
+                <div key={i} className="flex items-start gap-4">
+                  <div className="w-6 h-6 rounded-full bg-[#EAB308] text-white text-[12px] font-black flex items-center justify-center shrink-0 mt-1">
                     {i + 1}
                   </div>
-                  <p className="text-[14px] text-[#1A1A1A] leading-snug flex-1">{step}</p>
+                  <p className="text-[15px] text-foreground leading-relaxed font-medium opacity-90 flex-1">{step}</p>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="px-5 py-4 border-t border-[#E5E5EA] bg-white flex gap-3">
-          <button
+        {/* Action Buttons - Fixed Footer */}
+        <div className="absolute bottom-0 left-0 right-0 px-5 py-4 border-t border-border bg-white flex gap-3 safe-area-bottom">
+          <Button
+            variant="ghost"
             onClick={handleDownload}
             disabled={downloading}
-            className="flex-1 h-12 rounded-[12px] border border-[#E5E5EA] bg-[#F9F9F7] text-[14px] font-bold text-[#1A1A1A] flex items-center justify-center gap-2 active:scale-[0.98] transition-all disabled:opacity-60"
+            className="flex-1 h-12 rounded-[12px] bg-[#F9F9F7] border border-border text-[15px] font-bold text-foreground gap-2"
           >
             {downloading ? "Gerando..." : "Baixar imagem"}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={handleShare}
-            className="flex-1 h-12 rounded-[12px] bg-[#FF9500] text-white text-[14px] font-bold flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
+            className="flex-1 h-12 rounded-[12px] bg-[#FF9500] text-white text-[15px] font-bold shadow-sm active:scale-95 transition-all"
           >
             Compartilhar
-          </button>
+          </Button>
         </div>
-      </div>
 
-      {/* Hidden card for image capture — styled clean */}
-      <div className="absolute -left-[9999px] -top-[9999px] pointer-events-none" aria-hidden="true">
-        <div
-          ref={cardRef}
-          style={{
-            width: 800,
-            backgroundColor: "#FFFFFF",
-            fontFamily: "system-ui, -apple-system, sans-serif",
-            padding: "48px",
-            borderRadius: 0,
-          }}
-        >
-          {/* Logo strip */}
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 32 }}>
-            <div style={{ width: 36, height: 36, borderRadius: 8, backgroundColor: "#EAB308", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <span style={{ color: "#fff", fontWeight: 900, fontSize: 18 }}>B</span>
-            </div>
-            <span style={{ fontSize: 15, fontWeight: 800, color: "#8E8E93", letterSpacing: "0.05em", textTransform: "uppercase" }}>BeHappy · Brincadeiras</span>
-          </div>
-
-          {/* Title */}
-          <h1 style={{ fontSize: 36, fontWeight: 900, color: "#1A1A1A", marginBottom: 8, letterSpacing: "-0.02em", lineHeight: 1.1 }}>
-            {game.title}
-          </h1>
-
-          {/* Badges */}
-          <div style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap" }}>
-            {[
-              `⏱ ${game.duration}`,
-              `👥 ${game.participants} pessoas`,
-              `🎯 A partir de ${game.age}`,
-              ...(game.materials.length === 0 ? ["✨ Sem material"] : []),
-            ].map((b, i) => (
-              <span key={i} style={{ fontSize: 13, fontWeight: 700, backgroundColor: "#F2F2F7", color: "#8E8E93", borderRadius: 99, padding: "4px 12px" }}>
-                {b}
-              </span>
-            ))}
-          </div>
-
-          {/* Divider */}
-          <div style={{ height: 1, backgroundColor: "#E5E5EA", marginBottom: 24 }} />
-
-          {/* Description */}
-          <p style={{ fontSize: 17, color: "#1A1A1A", lineHeight: 1.6, marginBottom: 32 }}>{game.description}</p>
-
-          {/* Materials */}
-          {game.materials.length > 0 && (
-            <div style={{ marginBottom: 32 }}>
-              <p style={{ fontSize: 11, fontWeight: 800, color: "#8E8E93", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 12 }}>Materiais</p>
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                {game.materials.map((m, i) => (
-                  <span key={i} style={{ fontSize: 14, fontWeight: 700, backgroundColor: "#F2F2F7", color: "#1A1A1A", borderRadius: 8, padding: "6px 14px" }}>{m}</span>
-                ))}
+        {/* Hidden card for capture */}
+        <div className="absolute -left-[9999px] -top-[9999px] pointer-events-none" aria-hidden="true">
+          <div ref={cardRef} style={{ width: 800, backgroundColor: "#FFFFFF", padding: "48px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 32 }}>
+              <div style={{ width: 36, height: 36, borderRadius: 8, backgroundColor: "#EAB308", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <span style={{ color: "#fff", fontWeight: 900, fontSize: 18 }}>B</span>
               </div>
+              <span style={{ fontSize: 15, fontWeight: 800, color: "#8E8E93", letterSpacing: "0.05em", textTransform: "uppercase" }}>BeHappy · Brincadeiras</span>
             </div>
-          )}
-
-          {/* Steps */}
-          <div>
-            <p style={{ fontSize: 11, fontWeight: 800, color: "#8E8E93", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 16 }}>Como Jogar</p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              {game.steps.map((step, i) => (
-                <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-                  <div style={{ width: 28, height: 28, borderRadius: 99, backgroundColor: "#EAB308", color: "#fff", fontSize: 13, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                    {i + 1}
-                  </div>
-                  <p style={{ fontSize: 15, color: "#1A1A1A", lineHeight: 1.5, margin: 0, paddingTop: 4 }}>{step}</p>
+            <h1 style={{ fontSize: 36, fontWeight: 900, color: "#1A1A1A", marginBottom: 24 }}>{game.title}</h1>
+            <div style={{ display: "flex", gap: 8, marginBottom: 32 }}>
+               {[`⏱ ${game.duration}`, `👥 ${game.participants} pessoas`, `🎯 ${game.age}`].map((b, i) => (
+                 <span key={i} style={{ fontSize: 13, fontWeight: 700, backgroundColor: "#F2F2F7", color: "#8E8E93", borderRadius: 99, padding: "6px 16px" }}>{b}</span>
+               ))}
+            </div>
+            <p style={{ fontSize: 18, color: "black", lineHeight: 1.6, marginBottom: 32 }}>{game.description}</p>
+            {game.materials.length > 0 && (
+              <div style={{ marginBottom: 32 }}>
+                <p style={{ fontWeight: 800, color: "#8E8E93", textTransform: "uppercase", fontSize: 12, marginBottom: 12 }}>Materiais</p>
+                <div style={{ display: "flex", gap: 10 }}>
+                  {game.materials.map((m, i) => <span key={i} style={{ padding: "8px 16px", background: "#F2F2F7", borderRadius: 8, fontWeight: 700 }}>{m}</span>)}
+                </div>
+              </div>
+            )}
+            <div>
+              <p style={{ fontWeight: 800, color: "#8E8E93", textTransform: "uppercase", fontSize: 12, marginBottom: 16 }}>Como Jogar</p>
+              {game.steps.map((s, i) => (
+                <div key={i} style={{ display: "flex", gap: 16, marginBottom: 12 }}>
+                  <div style={{ width: 28, height: 28, borderRadius: 99, background: "#EAB308", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900 }}>{i+1}</div>
+                  <p style={{ fontSize: 16, marginTop: 4 }}>{s}</p>
                 </div>
               ))}
             </div>
           </div>
-
-          {/* Footer */}
-          <div style={{ marginTop: 40, paddingTop: 20, borderTop: "1px solid #E5E5EA", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 12, color: "#C7C7CC", fontWeight: 600 }}>behappy.app</span>
-            <span style={{ fontSize: 12, color: "#C7C7CC", fontWeight: 600 }}>Biblioteca BeHappy · Brincadeiras para Recreadores</span>
-          </div>
         </div>
-      </div>
-    </div>
+      </SheetContent>
+    </Sheet>
   )
 }
 
-function CollectionModal({ collection, onClose, hidden }: { collection: Collection; onClose: () => void; hidden?: boolean }) {
+function CollectionModal({ collection, isOpen, onClose }: { collection: Collection; isOpen: boolean; onClose: () => void }) {
   const [selectedGame, setSelectedGame] = useState<SystemGame | null>(null)
   const Icon = collection.icon
 
-  useEffect(() => {
-    if (hidden) return
-    document.body.style.overflow = "hidden"
-    return () => { document.body.style.overflow = "auto" }
-  }, [hidden])
-
   return (
-    <>
-      <div 
-        className={`fixed inset-0 z-50 bg-black/40 flex items-end transition-opacity duration-300 ${selectedGame ? "opacity-0 pointer-events-none" : "opacity-100"}`} 
-        onClick={onClose}
-      >
-        <div
-          className="w-full bg-[#F9F9F7] rounded-t-[20px] max-h-[85vh] flex flex-col"
-          onClick={e => e.stopPropagation()}
-        >
-          {/* Collection Header */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-[#E5E5EA] bg-white rounded-t-[20px]">
-            <div className="flex items-center gap-3">
-              <div
-                className="w-10 h-10 rounded-[10px] flex items-center justify-center shrink-0"
-                style={{ backgroundColor: collection.bg }}
-              >
-                <Icon size={20} style={{ color: collection.color }} />
-              </div>
-              <div>
-                <span className="text-[17px] font-extrabold text-[#1A1A1A]">{collection.label}</span>
-                <span className="block text-[12px] text-[#8E8E93] font-medium">{collection.games.length} brincadeiras</span>
-              </div>
-            </div>
-            <button
-              onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-[#F2F2F7] text-[#8E8E93] active:scale-90 transition-all"
-            >
-              <RiCloseLine size={18} />
-            </button>
+    <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <SheetContent side="bottom" className="h-[95vh] rounded-t-[32px] p-0 flex flex-col border-none bg-card overflow-hidden outline-none">
+        {/* Header */}
+        <div className="flex items-center justify-between px-5 py-4 border-b border-border bg-white h-16 shrink-0">
+          <div className="flex items-center gap-3">
+             <Button 
+               variant="ghost" 
+               size="icon" 
+               className="h-10 w-10 rounded-full bg-[#F2F2F7] text-muted-foreground active:scale-90"
+               onClick={onClose}
+             >
+               <RiArrowLeftSLine size={24} />
+             </Button>
+             <SheetTitle className="text-[17px] font-black text-foreground">
+               {collection.label}
+             </SheetTitle>
           </div>
+          <span className="text-[12px] font-bold text-muted-foreground bg-[#F2F2F7] rounded-full px-3 py-1">
+            {collection.games.length} itens
+          </span>
+        </div>
 
-          {/* Description */}
-          <div className="px-5 pt-3 pb-1">
-            <p className="text-[13px] text-[#8E8E93]">{collection.description}</p>
-          </div>
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto px-5 py-6 space-y-6 pb-20">
+          <p className="text-[13px] font-medium text-muted-foreground leading-relaxed pl-1">{collection.description}</p>
 
-          {/* Games list */}
-          <div className="overflow-y-auto px-5 py-3 space-y-2.5 pb-8">
+          <div className="space-y-3">
             {collection.games.map(game => (
               <div
                 key={game.id}
-                className="bg-white rounded-[12px] border border-[#E5E5EA] p-4 shadow-[0_2px_8px_rgba(0,0,0,0.03)]"
+                className="bg-white rounded-[16px] border border-border p-5 shadow-[0_2px_12px_rgba(0,0,0,0.02)] active:scale-[0.98] transition-all"
+                onClick={() => setSelectedGame(game)}
               >
-                <div className="flex items-start gap-3">
-                  <div className="flex-1 min-w-0">
-                    <span className="block text-[15px] font-extrabold text-[#1A1A1A] truncate">{game.title}</span>
-                    <span className="block text-[12px] text-[#8E8E93] mt-0.5 line-clamp-2">{game.description}</span>
-                    <div className="flex gap-2 mt-2 flex-wrap">
-                      <span className="text-[10px] font-bold text-[#8E8E93] bg-[#F2F2F7] rounded-full px-2 py-0.5">{game.duration}</span>
-                      <span className="text-[10px] font-bold text-[#8E8E93] bg-[#F2F2F7] rounded-full px-2 py-0.5">{game.participants}</span>
-                      {game.materials.length === 0 && (
-                        <span className="text-[10px] font-bold text-[#FF3B30] bg-[#FFEBEA] rounded-full px-2 py-0.5">Sem material</span>
-                      )}
-                    </div>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-start gap-3">
+                    <h4 className="text-[16px] font-black text-foreground leading-tight">{game.title}</h4>
+                    <span className="text-[10px] font-black text-primary uppercase bg-primary/5 px-2 py-0.5 rounded-full">Explore</span>
+                  </div>
+                  <p className="text-[13px] text-muted-foreground line-clamp-2 font-medium">{game.description}</p>
+                  <div className="flex gap-2 pt-1">
+                    <span className="text-[10px] font-black bg-[#F2F2F7] text-[#8E8E93] rounded-full px-2.5 py-1 uppercase">{game.duration}</span>
+                    <span className="text-[10px] font-black bg-[#F2F2F7] text-[#8E8E93] rounded-full px-2.5 py-1 uppercase">{game.participants}</span>
                   </div>
                 </div>
-                <button
-                  onClick={() => setSelectedGame(game)}
-                  className="mt-3 w-full h-10 rounded-[10px] border border-[#E5E5EA] bg-[#F9F9F7] text-[13px] font-bold text-[#1A1A1A] flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
-                >
-                  Abrir brincadeira
-                </button>
               </div>
             ))}
-            <p className="text-center text-[12px] text-[#C7C7CC] font-medium pt-2">
-              Mais brincadeiras serão adicionadas em breve
-            </p>
           </div>
         </div>
-      </div>
 
-      {/* Game Detail Modal */}
-      {selectedGame && (
-        <GameModal game={selectedGame} onClose={() => setSelectedGame(null)} />
-      )}
-    </>
+        {/* Game Detail Modal overlay */}
+        <GameModal 
+          game={selectedGame as SystemGame} 
+          isOpen={!!selectedGame} 
+          onClose={() => setSelectedGame(null)} 
+        />
+      </SheetContent>
+    </Sheet>
   )
 }
 
@@ -445,24 +381,21 @@ export function BibliotecaList() {
             flatGames.map(game => (
               <div
                 key={game.id}
-                className="bg-white rounded-[12px] border border-[#E5E5EA] p-4 shadow-[0_2px_8px_rgba(0,0,0,0.03)]"
+                className="bg-white rounded-[12px] border border-border p-3.5 shadow-[0_2px_8px_rgba(0,0,0,0.03)]"
               >
                 <div className="flex items-start gap-3">
                   <div className="flex-1 min-w-0">
-                    <span className="block text-[15px] font-extrabold text-[#1A1A1A] truncate">{game.title}</span>
-                    <span className="block text-[12px] text-[#8E8E93] mt-0.5 line-clamp-2">{game.description}</span>
+                    <span className="block text-[15px] font-black text-foreground truncate leading-tight">{game.title}</span>
+                    <span className="block text-[12px] text-muted-foreground mt-0.5 line-clamp-1 font-medium">{game.description}</span>
                     <div className="flex gap-2 mt-2 flex-wrap">
-                      <span className="text-[10px] font-bold text-[#8E8E93] bg-[#F2F2F7] rounded-full px-2 py-0.5">{game.duration}</span>
-                      <span className="text-[10px] font-bold text-[#8E8E93] bg-[#F2F2F7] rounded-full px-2 py-0.5">{game.participants}</span>
-                      {game.materials.length === 0 && (
-                        <span className="text-[10px] font-bold text-[#FF3B30] bg-[#FFEBEA] rounded-full px-2 py-0.5">Sem material</span>
-                      )}
+                      <span className="text-[10px] font-black bg-[#F2F2F7] text-[#8E8E93] rounded-full px-2 py-0.5 uppercase">{game.duration}</span>
+                      <span className="text-[10px] font-black bg-[#F2F2F7] text-[#8E8E93] rounded-full px-2 py-0.5 uppercase">{game.participants}</span>
                     </div>
                   </div>
                 </div>
                 <button
                   onClick={() => setSelectedFlatGame(game)}
-                  className="mt-3 w-full h-10 rounded-[10px] border border-[#E5E5EA] bg-[#F9F9F7] text-[13px] font-bold text-[#1A1A1A] flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
+                  className="mt-3 w-full h-9 rounded-[10px] border border-border bg-[#F9F9F7] text-[12px] font-black text-foreground flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
                 >
                   Abrir brincadeira
                 </button>
@@ -472,7 +405,11 @@ export function BibliotecaList() {
         </div>
 
         {selectedFlatGame && (
-          <GameModal game={selectedFlatGame} onClose={() => setSelectedFlatGame(null)} />
+          <GameModal 
+            game={selectedFlatGame} 
+            isOpen={!!selectedFlatGame} 
+            onClose={() => setSelectedFlatGame(null)} 
+          />
         )}
       </>
     )
@@ -480,30 +417,29 @@ export function BibliotecaList() {
 
   return (
     <>
-      <div className="space-y-2">
+      <div className="space-y-4">
         {SYSTEM_COLLECTIONS.map((col) => {
           const Icon = col.icon
           return (
             <div
               key={col.id}
               onClick={() => setOpenCollection(col.id)}
-              className="bg-white rounded-[12px] border border-[#E5E5EA] p-4 shadow-[0_2px_8px_rgba(0,0,0,0.03)] flex items-center gap-4 active:scale-[0.98] transition-all cursor-pointer"
+              className="bg-white rounded-[12px] border border-border p-4 shadow-[0_2px_12px_rgba(0,0,0,0.03)] flex items-center gap-4 active:scale-[0.98] transition-all cursor-pointer group"
             >
               <div
-                className="w-11 h-11 rounded-[10px] flex items-center justify-center shrink-0"
+                className="w-11 h-11 rounded-[10px] flex items-center justify-center shrink-0 transition-transform group-active:scale-90"
                 style={{ backgroundColor: col.bg }}
               >
                 <Icon size={22} style={{ color: col.color }} />
               </div>
 
               <div className="flex-1 min-w-0">
-                <span className="block text-[15px] font-extrabold text-[#1A1A1A]">{col.label}</span>
-                <span className="block text-[12px] text-[#8E8E93] font-medium">{col.games.length} brincadeiras disponíveis</span>
+                <span className="block text-[16px] font-black text-foreground leading-tight">{col.label}</span>
+                <span className="block text-[12px] text-muted-foreground font-medium mt-0.5">{col.games.length} brincadeiras</span>
               </div>
 
-              <div className="flex items-center gap-1 shrink-0">
-                <span className="text-[13px] font-bold" style={{ color: col.color }}>Ver coleção</span>
-                <RiArrowRightSLine size={18} style={{ color: col.color }} />
+              <div className="flex items-center gap-0.5 shrink-0 opacity-40 group-active:opacity-100 transition-opacity">
+                <RiArrowRightSLine size={22} className="text-muted-foreground" />
               </div>
             </div>
           )
@@ -514,6 +450,7 @@ export function BibliotecaList() {
       {activeCollection && (
         <CollectionModal
           collection={activeCollection}
+          isOpen={!!openCollection}
           onClose={() => setOpenCollection(null)}
         />
       )}

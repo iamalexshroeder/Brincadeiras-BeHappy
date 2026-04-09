@@ -33,11 +33,16 @@ export const GAMIFICATION_TIERS: (LevelData & { color: string })[] = [
   { level: 100, title: "Deus da Recreação", minXp: 165000, color: "#FF0000" }, // Pure Red
 ];
 
+export const EXCLUSIVE_TITLES = [
+  { id: "diva_recreacao", title: "Diva da Recreação", color: "#EC4899", description: "Título de prestígio exclusivo para a elite da recreação." },
+  { id: "estrela_behappy", title: "Estrela BeHappy", color: "#FBBF24", description: "Destaque total na comunidade BeHappy Hub." },
+];
+
 /**
  * Calculates current level and related data based on exact XP.
  * Assumes a linear scale between the defined tiers.
  */
-export const getLevelFromXp = (xp: number) => {
+export const getLevelFromXp = (xp: number, activeTitle?: string | null) => {
   // Find the highest tier the user has reached
   let currentTierIndex = 0;
   for (let i = 0; i < GAMIFICATION_TIERS.length; i++) {
@@ -87,7 +92,7 @@ export const getLevelFromXp = (xp: number) => {
 
   return {
     level: exactLevel,
-    title: currentTier.title, // Title holds steady until next tier boundary
+    title: activeTitle || currentTier.title, // Use activeTitle if set, otherwise fallback to currentTier boundary
     xpRemaining,
     progressPercentage: Math.min(100, Math.max(0, progressPercentage)),
     nextLevelXp: Math.ceil(nextExactLevelMinXp)
@@ -98,7 +103,9 @@ export const getLevelFromXp = (xp: number) => {
  * Convenience method if you just want to lookup a Title for an arbitrary level number
  * (e.g., when viewing another user's profile where only their Level is fetched)
  */
-export const getTitleForLevel = (level: number) => {
+export const getTitleForLevel = (level: number, activeTitle?: string | null) => {
+  if (activeTitle) return activeTitle;
+  
   let matchedTitle = GAMIFICATION_TIERS[0].title;
   for (const tier of GAMIFICATION_TIERS) {
     if (level >= tier.level) {

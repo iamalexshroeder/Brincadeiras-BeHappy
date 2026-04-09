@@ -17,6 +17,11 @@ interface LibraryItem {
   initialUsed?: boolean
   steps?: string[]
   materials?: string[]
+  publishedAt?: string
+  rawType?: string
+  rawAgeGroups?: string[]
+  rawDuration?: number
+  rawParticipants?: number
 }
 
 interface LibraryListProps {
@@ -32,7 +37,7 @@ export function LibraryList({ items, initialDisplay = 10, currentUserId }: Libra
 
   return (
     <>
-      <div className="grid gap-6">
+      <div className="grid gap-4">
         {displayed.map((item) => item && (
           <BrincadeiraCard key={item.id} {...item} currentUserId={currentUserId} />
         ))}

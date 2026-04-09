@@ -99,7 +99,7 @@ export function Header({
   return (
     <>
       {/* Sticky top bar — title + notification bell */}
-      <div className="sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-5 pt-14 pb-4 border-b border-[#E5E5EA] no-print">
+      <div className="sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-5 pt-10 pb-3 border-b border-[#E5E5EA] no-print">
         <div className="flex items-center justify-between">
           <h1 className="text-[22px] font-extrabold tracking-[-0.02em] text-[#1A1A1A]">
             {title || `Olá, ${user.name.split(" ")[0]}`}
@@ -127,8 +127,8 @@ export function Header({
 
       {/* Scrollable content below the sticky bar */}
       <div className={cn(
-        "w-full bg-[#F9F9F7] flex flex-col px-5 space-y-4",
-        (showSearch || showUserCard) ? "pt-4 pb-2" : "pt-0 pb-0"
+        "w-full bg-[#F9F9F7] flex flex-col px-5 space-y-3",
+        (showSearch || showUserCard) ? "pt-3 pb-2" : "pt-0 pb-0"
       )}>
 
         {/* Search */}
@@ -154,8 +154,8 @@ export function Header({
 
         {/* User XP Card */}
         {showUserCard && (
-          <Card className="p-4 border border-[#E5E5EA] shadow-[0_2px_12px_rgba(0,0,0,0.04)] rounded-[12px] bg-white">
-            <Link href="/perfil" className="flex items-center gap-3 mb-3 active:opacity-75 transition-opacity">
+          <Card className="p-3.5 border border-[#E5E5EA] shadow-[0_2px_12px_rgba(0,0,0,0.04)] rounded-[12px] bg-white">
+            <Link href="/perfil" className="flex items-center gap-3 mb-2 active:opacity-75 transition-opacity">
               <div className="relative">
                 <UserAvatar
                   src={user.avatar}
