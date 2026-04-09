@@ -42,6 +42,7 @@ async function getLibrary() {
       title: b.title,
       description: b.short_description,
       creator: {
+        id: b.user.id,
         name: b.user.name ?? "Recreador",
         level: getLevelFromXp(b.user.xp).level,
         avatar: b.user.avatar_url ?? b.user.image ?? undefined,

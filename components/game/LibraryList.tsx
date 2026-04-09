@@ -8,7 +8,7 @@ interface LibraryItem {
   id: string
   title: string
   description: string
-  creator: { name: string; level: number; avatar?: string }
+  creator: { id: string; name: string; level: number; avatar?: string }
   metadata: { ageRange: string; duration: string; participants: string }
   tags: string[]
   likesCount: number
