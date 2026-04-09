@@ -117,7 +117,7 @@ export default function Notificacoes() {
 
                   <button
                     onClick={() => handleDelete(notif.id)}
-                    className="absolute top-4 right-4 p-1 text-[#C7C7CC] hover:text-[#EF4444] transition-colors"
+                    className="absolute top-4 right-4 p-1 text-[#C7C7CC] active:text-[#EF4444] transition-colors"
                   >
                     <RiDeleteBin7Line size={18} />
                   </button>

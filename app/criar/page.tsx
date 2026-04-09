@@ -172,7 +172,7 @@ export default function CreateBrincadeiraForm() {
                     value={title}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
                     placeholder="Ex: Pega-Pega Congelado" 
-                    className="h-14 bg-[#F9F9F7] border-none rounded-[8px] text-[16px] font-bold px-4 focus-visible:ring-2 ring-primary/20"
+                    className="h-14 bg-[#F9F9F7] border-none rounded-[8px] text-[16px] text-[#1A1A1A] font-bold px-4 focus-visible:ring-2 ring-primary/20"
                   />
                 </div>
 
@@ -182,7 +182,7 @@ export default function CreateBrincadeiraForm() {
                     value={description}
                     onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)}
                     placeholder="Conte resumidamente como funciona..." 
-                    className="min-h-[120px] bg-[#F9F9F7] border-none rounded-[8px] text-[16px] font-medium p-4 resize-none focus-visible:ring-2 ring-primary/20"
+                    className="min-h-[120px] bg-[#F9F9F7] border-none rounded-[8px] text-[16px] text-[#1A1A1A] font-medium p-4 resize-none focus-visible:ring-2 ring-primary/20"
                   />
                 </div>
 
@@ -328,7 +328,7 @@ export default function CreateBrincadeiraForm() {
                           value={mat}
                           onChange={(e) => handleMaterialChange(index, e.target.value)}
                           placeholder="Ex: 5 Cones, 1 Bola" 
-                          className="h-12 bg-[#F9F9F7] border-none rounded-[6px] text-[15px]"
+                          className="h-12 bg-[#F9F9F7] border-none rounded-[6px] text-[15px] text-[#1A1A1A]"
                         />
                         <Button 
                           onClick={() => handleRemoveMaterial(index)}
@@ -361,14 +361,14 @@ export default function CreateBrincadeiraForm() {
                             value={s}
                             onChange={(e) => handleStepChange(index, e.target.value)}
                             placeholder={`Explique o passo ${index + 1}...`} 
-                            className="min-h-[80px] bg-[#F9F9F7] border-none rounded-[8px] text-[15px] p-3 resize-none focus-visible:ring-2 ring-primary/20 pr-10"
+                            className="min-h-[80px] bg-[#F9F9F7] border-none rounded-[8px] text-[15px] text-[#1A1A1A] p-3 resize-none focus-visible:ring-2 ring-primary/20 pr-10"
                           />
                           {steps.length > 1 && (
                             <Button 
                               onClick={() => handleRemoveStep(index)}
                               variant="ghost" 
                               size="icon" 
-                              className="absolute top-1 right-1 text-[#8E8E93] hover:text-[#EF4444] h-8 w-8"
+                              className="absolute top-1 right-1 text-[#8E8E93] active:text-[#EF4444] h-8 w-8"
                             >
                               <RiCloseLine size={18} />
                             </Button>
@@ -379,7 +379,7 @@ export default function CreateBrincadeiraForm() {
                     
                     <Button 
                       onClick={handleAddStep}
-                      className="w-full h-12 border-2 border-dashed border-[#E5E5EA] bg-transparent text-[#8E8E93] font-bold rounded-[8px] hover:bg-[#F9F9F7]"
+                      className="w-full h-12 border-2 border-dashed border-[#E5E5EA] bg-transparent text-[#8E8E93] font-bold rounded-[8px] active:bg-[#F9F9F7]"
                     >
                       <RiAddLine size={20} className="mr-2" />
                       Adicionar Regra

@@ -178,7 +178,7 @@ export function BrincadeiraCard({
         <div className="flex flex-wrap gap-2 mb-6">
           <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--blue-bg)] rounded-[4px] text-[13px] font-bold text-[var(--blue)]">
             <RiUserVoiceLine size={16} />
-            {metadata.ageRange}
+            {formatAgeGroup(metadata.ageRange)}
           </div>
           <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--purple-bg)] rounded-[4px] text-[13px] font-bold text-[var(--purple)]">
             <RiTimeLine size={16} />
@@ -199,7 +199,7 @@ export function BrincadeiraCard({
         </div>
       </CardContent>
 
-      <CardFooter className="px-6 py-4 flex justify-between items-center">
+      <CardFooter className="px-6 py-4 flex justify-between items-center bg-white border-none">
         <div className="flex gap-6">
           <button 
             onClick={handleLike}
@@ -247,27 +247,21 @@ export function BrincadeiraCard({
 
          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
            <SheetTrigger asChild>
-             <Button variant="ghost" className="text-primary hover:bg-primary/5 text-[15px] h-9 px-4 font-bold rounded-[6px] transition-colors">
+             <Button variant="ghost" className="text-primary active:bg-primary/5 text-[15px] h-9 px-4 font-bold rounded-[6px] transition-colors">
                Ver Detalhes
              </Button>
            </SheetTrigger>
            <SheetContent side="bottom" className="h-[95vh] rounded-t-[24px] p-0 flex flex-col border-none bg-white overflow-hidden">
              {/* Fixed Header */}
              <div className="px-5 pt-8 pb-4 border-b border-[#F2F2F7] bg-white">
-              <SheetHeader className="flex-row items-center justify-between space-y-0">
+               <SheetHeader className="flex-row items-center justify-between space-y-0">
                  <div className="flex items-center gap-2">
                    <SheetClose asChild>
-                     <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#8E8E93]">
-                       <RiArrowLeftSLine size={24} />
+                     <Button variant="ghost" size="sm" className="h-8 rounded-full bg-[#F2F2F7] active:bg-[#E5E5EA] text-[#8E8E93] px-3">
+                       <span className="text-[12px] font-bold">Voltar</span>
                      </Button>
                    </SheetClose>
-                   <SheetTitle className="text-[20px] font-extrabold tracking-[-0.03em] text-[#1A1A1A]">Voltar</SheetTitle>
                  </div>
-                 <SheetClose asChild>
-                  <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#8E8E93]">
-                    <RiArrowDownSLine size={28} />
-                  </Button>
-                 </SheetClose>
                </SheetHeader>
              </div>
 
@@ -352,7 +346,7 @@ export function BrincadeiraCard({
                                         setEditingCommentId(comment.id)
                                         setEditingCommentText(comment.text)
                                       }}
-                                      className="text-[#8E8E93] hover:text-primary transition-colors"
+                                      className="text-[#8E8E93] active:text-primary transition-colors"
                                     >
                                       <RiEditLine size={16} />
                                     </button>
@@ -365,7 +359,7 @@ export function BrincadeiraCard({
                                           router.refresh()
                                         }
                                       }}
-                                      className="text-[#8E8E93] hover:text-red-500 transition-colors"
+                                      className="text-[#8E8E93] active:text-red-500 transition-colors"
                                     >
                                       {isDeleting ? <RiLoader4Line size={16} className="animate-spin" /> : <RiDeleteBinLine size={16} />}
                                     </button>
@@ -376,7 +370,7 @@ export function BrincadeiraCard({
                               {isEditing ? (
                                 <div className="space-y-2 mt-1">
                                   <textarea
-                                    className="w-full p-3 rounded-[8px] bg-[#F2F2F7] text-[14px] font-medium border-none focus:ring-1 ring-primary/20 resize-none"
+                                    className="w-full p-3 rounded-[8px] bg-[#F2F2F7] text-[#1A1A1A] text-[14px] font-medium border-none focus:ring-1 ring-primary/20 resize-none"
                                     value={editingCommentText}
                                     onChange={(e) => setEditingCommentText(e.target.value)}
                                     autoFocus
@@ -425,7 +419,7 @@ export function BrincadeiraCard({
                    <textarea
                      autoFocus
                      placeholder="Sua experiência com essa brincadeira..."
-                     className="w-full h-24 p-4 rounded-[12px] bg-[#F2F2F7] border-none text-[15px] focus:ring-1 focus:ring-primary/20 transition-all resize-none font-medium"
+                     className="w-full h-24 p-4 rounded-[12px] bg-[#F2F2F7] border-none text-[15px] text-[#1A1A1A] focus:ring-1 focus:ring-primary/20 transition-all resize-none font-medium"
                      value={commentText}
                      onChange={(e) => setCommentText(e.target.value)}
                    />
