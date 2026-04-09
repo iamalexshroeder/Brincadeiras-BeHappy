@@ -455,24 +455,3 @@ export async function clearAllNotifications() {
 
   revalidatePath("/notificacoes")
 }
-
-export async function RESET_GLOBAL_DATA() {
-  try {
-    // Reset all users XP and streak
-    await prisma.user.updateMany({
-      data: { xp: 0, streak_weeks: 0 }
-    })
-
-    // Clear all XP transactions
-    await prisma.xPTransaction.deleteMany({})
-
-    // Clear all notifications to start fresh
-    await prisma.notification.deleteMany({})
-
-    console.log("RESET_GLOBAL_DATA: Banco de dados limpo com sucesso!")
-    return true
-  } catch (error) {
-    console.error("RESET_GLOBAL_DATA: Erro ao resetar banco:", error)
-    return false
-  }
-}
