@@ -41,7 +41,6 @@ import {
 import { getTitleForLevel } from "@/utils/gamification"
 import { addComment, deleteComment, updateComment, toggleLike, toggleUsed, deleteBrincadeira, updateBrincadeira } from "@/lib/actions"
 
-}
 
 function formatAgeGroup(age?: string) {
   if (!age) return "Qualquer idade"
