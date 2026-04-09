@@ -253,7 +253,7 @@ export function BrincadeiraCard({
            </SheetTrigger>
            <SheetContent side="bottom" className="h-[95vh] rounded-t-[24px] p-0 flex flex-col border-none bg-white overflow-hidden">
              {/* Fixed Header */}
-             <div className="px-5 pt-8 pb-4 border-b border-[#F2F2F7] bg-white">
+             <div className="px-5 pt-5 pb-3 border-b border-[#F2F2F7] bg-white">
                <SheetHeader className="flex-row items-center justify-between space-y-0">
                  <div className="flex items-center gap-2">
                    <SheetClose asChild>

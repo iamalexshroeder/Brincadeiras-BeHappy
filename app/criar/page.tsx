@@ -32,6 +32,7 @@ export default function CreateBrincadeiraForm() {
   const [age, setAge] = useState("")
   const [duration, setDuration] = useState("")
   const [participants, setParticipants] = useState("")
+  const [customParticipants, setCustomParticipants] = useState("")
 
   const [materials, setMaterials] = useState<string[]>([])
   const [steps, setSteps] = useState<string[]>([""])
@@ -199,7 +200,7 @@ export default function CreateBrincadeiraForm() {
                         key={cat} 
                         value={cat}
                         className={cn(
-                          "rounded-[6px] px-5 h-10 text-[14px] font-bold transition-all border border-[#E5E5EA]",
+                          "rounded-full px-5 h-10 text-[14px] font-bold transition-all border border-[#E5E5EA]",
                           "bg-white text-[#8E8E93]",
                           "data-[state=on]:bg-[#FF9500] data-[state=on]:border-[#FF9500] data-[state=on]:text-white data-[state=on]:shadow-sm"
                         )}
@@ -268,21 +269,38 @@ export default function CreateBrincadeiraForm() {
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <label className="text-[14px] font-extrabold text-[#1A1A1A] uppercase tracking-wider text-[#8E8E93]">Tamanho do Grupo</label>
+                 <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[14px] font-extrabold text-[#1A1A1A] uppercase tracking-wider text-[#8E8E93]">Tamanho do Grupo</label>
+                  </div>
                   <div className="grid grid-cols-2 gap-3">
                     {PARTICIPANTS.map(p => (
                       <button
                         key={p}
-                        onClick={() => setParticipants(p)}
+                        onClick={() => {
+                          setParticipants(p)
+                          setCustomParticipants("") // Clear custom if selecting a preset
+                        }}
                         className={cn(
                           "h-12 rounded-[8px] font-bold text-[14px] border-2 transition-all",
-                          participants === p ? "border-[var(--yellow)] text-[var(--yellow)] bg-[var(--yellow-bg)]" : "border-[#F2F2F7] text-[#8E8E93] bg-white"
+                          (participants === p && !customParticipants) ? "border-[var(--yellow)] text-[var(--yellow)] bg-[var(--yellow-bg)]" : "border-[#F2F2F7] text-[#8E8E93] bg-white"
                         )}
                       >
                         {p}
                       </button>
                     ))}
+                  </div>
+                  <div className="pt-2">
+                    <Input 
+                      type="number"
+                      placeholder="Ou insira a quantidade exata..."
+                      className="h-12 bg-[#F9F9F7] border-none rounded-[8px] text-[15px] text-[#1A1A1A] font-bold px-4"
+                      value={customParticipants}
+                      onChange={(e) => {
+                        setCustomParticipants(e.target.value)
+                        setParticipants(e.target.value) // Sync with participants state
+                      }}
+                    />
                   </div>
                 </div>
               </div>

@@ -91,27 +91,33 @@ export default function Perfil() {
           </div>
           
           <div className="flex overflow-x-auto no-scrollbar gap-4 px-5">
-            {activities.map((activity) => (
-              <Card 
-                key={activity.label}
-                className="flex-shrink-0 w-[160px] p-4 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[6px] bg-white active:scale-95 transition-all"
-              >
-                <div className={cn("h-10 w-10 flex items-center justify-center mb-3", activity.color)}>
-                  <activity.icon size={28} />
-                </div>
-                <div className="space-y-0.5">
-                  <span className="block text-[18px] font-extrabold text-[#1A1A1A]">
-                    {activity.count}
-                  </span>
-                  <span className="block text-[14px] font-bold text-[#1A1A1A]">
-                    {activity.label}
-                  </span>
-                  <span className="block text-[11px] text-[#8E8E93] font-medium leading-tight">
-                    {activity.description}
-                  </span>
-                </div>
-              </Card>
-            ))}
+            {activities.map((activity) => {
+              const href = activity.label === "Favoritas" ? "/perfil/favoritas" : 
+                           activity.label === "Minhas" ? "/perfil/minhas" : "/ranking"
+              
+              return (
+                <Link key={activity.label} href={href} className="flex-shrink-0">
+                  <Card 
+                    className="w-[160px] p-4 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[6px] bg-white active:scale-95 transition-all text-left"
+                  >
+                    <div className={cn("h-10 w-10 flex items-center justify-center mb-3", activity.color)}>
+                      <activity.icon size={28} />
+                    </div>
+                    <div className="space-y-0.5">
+                      <span className="block text-[18px] font-extrabold text-[#1A1A1A]">
+                        {activity.count}
+                      </span>
+                      <span className="block text-[14px] font-bold text-[#1A1A1A]">
+                        {activity.label}
+                      </span>
+                      <span className="block text-[11px] text-[#8E8E93] font-medium leading-tight">
+                        {activity.description}
+                      </span>
+                    </div>
+                  </Card>
+                </Link>
+              )
+            })}
           </div>
         </section>
 

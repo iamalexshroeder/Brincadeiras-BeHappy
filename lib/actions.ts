@@ -181,31 +181,110 @@ export async function getFeed(limit = 20, cursor?: string, category?: string) {
   if (hasMore) brincadeiras.pop()
 
   return {
-    items: brincadeiras.map((b) => ({
-      id: b.id,
-      title: b.title,
-      description: b.short_description,
-      tags: b.tags,
-      likesCount: b.likes_count,
-      usedCount: b.used_count,
-      comments: b.comments,
-      metadata: {
-        ageRange: b.age_groups.join(", "),
-        duration: `${b.duration_minutes} min`,
-        participants: `${b.min_participants}${b.max_participants ? `–${b.max_participants}` : "+"}`,
-      },
-      creator: {
-        name: b.user.name ?? "Recreador",
-        level: getLevelFromXp(b.user.xp).level,
-        avatar: b.user.avatar_url ?? b.user.image ?? undefined,
-      },
-      userHasLiked: b.interactions?.some((i) => i.type === "LIKE") ?? false,
-      userHasUsed: b.interactions?.some((i) => i.type === "USED") ?? false,
-      userHasSaved: b.interactions?.some((i) => i.type === "SAVED") ?? false,
-    })),
+    items: brincadeiras.map((b) => formatBrincadeira(b, userId)),
     nextCursor: hasMore ? brincadeiras[brincadeiras.length - 1].id : null,
   }
 }
+
+/**
+ * Helper to format DB brincadeira to UI structure
+ */
+function formatBrincadeira(b: any, userId?: string) {
+  return {
+    id: b.id,
+    title: b.title,
+    description: b.short_description,
+    tags: b.tags,
+    likesCount: b.likes_count,
+    usedCount: b.used_count,
+    comments: b.comments,
+    metadata: {
+      ageRange: b.age_groups.join(", "),
+      duration: `${b.duration_minutes} min`,
+      participants: `${b.min_participants}${b.max_participants ? `–${b.max_participants}` : "+"}`,
+    },
+    creator: {
+      name: b.user.name ?? "Recreador",
+      level: getLevelFromXp(b.user.xp).level,
+      avatar: b.user.avatar_url ?? b.user.image ?? undefined,
+    },
+    userHasLiked: b.interactions?.some((i: any) => i.type === "LIKE") ?? false,
+    userHasUsed: b.interactions?.some((i: any) => i.type === "USED") ?? false,
+    userHasSaved: b.interactions?.some((i: any) => i.type === "SAVED") ?? false,
+  }
+}
+
+/**
+ * Fetches the user's favorite brincadeiras (liked by them).
+ */
+export async function getFavorites() {
+  const session = await auth()
+  if (!session?.user?.id) return []
+
+  const favors = await prisma.interaction.findMany({
+    where: { 
+      user_id: session.user.id,
+      type: "LIKE"
+    },
+    include: {
+      brincadeira: {
+        include: {
+          user: {
+            select: { id: true, name: true, avatar_url: true, image: true, xp: true },
+          },
+          comments: {
+            include: {
+              user: {
+                select: { name: true, avatar_url: true, image: true },
+              },
+            },
+            orderBy: { created_at: "desc" },
+          },
+          interactions: {
+            where: { user_id: session.user.id },
+            select: { type: true },
+          },
+        }
+      }
+    },
+    orderBy: { created_at: "desc" }
+  })
+
+  return favors.map(f => formatBrincadeira(f.brincadeira, session.user.id))
+}
+
+/**
+ * Fetches the user's own published brincadeiras.
+ */
+export async function getContributions() {
+  const session = await auth()
+  if (!session?.user?.id) return []
+
+  const brincadeiras = await prisma.brincadeira.findMany({
+    where: { user_id: session.user.id },
+    include: {
+      user: {
+        select: { id: true, name: true, avatar_url: true, image: true, xp: true },
+      },
+      comments: {
+        include: {
+          user: {
+            select: { name: true, avatar_url: true, image: true },
+          },
+        },
+        orderBy: { created_at: "desc" },
+      },
+      interactions: {
+        where: { user_id: session.user.id },
+        select: { type: true },
+      },
+    },
+    orderBy: { created_at: "desc" }
+  })
+
+  return brincadeiras.map(b => formatBrincadeira(b, session.user.id))
+}
+
 
 /**
  * Toggles a LIKE interaction on a brincadeira.
