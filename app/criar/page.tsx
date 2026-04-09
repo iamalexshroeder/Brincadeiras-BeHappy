@@ -422,7 +422,7 @@ export default function CreateBrincadeiraForm() {
           onClick={handleNext}
           disabled={
             isSubmitting ||
-            (step === 1 && (!title || !description || !category)) ||
+            (step === 1 && (!title || !description || selectedCategories.length === 0)) ||
             (step === 2 && (!age || !duration || !participants)) ||
             (step === 3 && steps[0].trim() === "")
           }
