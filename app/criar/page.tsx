@@ -193,16 +193,16 @@ export default function CreateBrincadeiraForm() {
                     type="single" 
                     value={category}
                     onValueChange={setCategory}
-                    className="flex-wrap justify-start gap-2"
+                    spacing={8}
+                    className="flex-wrap justify-start"
                   >
                     {CATEGORIES.map(cat => (
                       <ToggleGroupItem 
                         key={cat} 
                         value={cat}
                         className={cn(
-                          "rounded-full px-5 h-10 text-[14px] font-bold transition-all border border-[#E5E5EA]",
-                          "bg-white text-[#8E8E93]",
-                          "data-[state=on]:bg-[#FF9500] data-[state=on]:border-[#FF9500] data-[state=on]:text-white data-[state=on]:shadow-sm"
+                          "rounded-full px-5 h-10 text-[14px] font-bold transition-all border-none bg-white text-[#8E8E93]",
+                          "data-[state=on]:bg-[#FF9500] data-[state=on]:text-white data-[state=on]:shadow-sm outline-none ring-0"
                         )}
                       >
                         {cat}
