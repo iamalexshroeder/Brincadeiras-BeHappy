@@ -251,7 +251,8 @@ export async function getFavorites() {
     orderBy: { created_at: "desc" }
   })
 
-  return favors.map(f => formatBrincadeira(f.brincadeira, session.user.id))
+  const userId = session.user.id
+  return favors.map(f => formatBrincadeira(f.brincadeira, userId))
 }
 
 /**
@@ -283,7 +284,8 @@ export async function getContributions() {
     orderBy: { created_at: "desc" }
   })
 
-  return brincadeiras.map(b => formatBrincadeira(b, session.user.id))
+  const userId = session.user.id
+  return brincadeiras.map(b => formatBrincadeira(b, userId))
 }
 
 
