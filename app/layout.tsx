@@ -5,6 +5,8 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { BottomNav } from "@/components/layout/BottomNav"
+import { Toaster } from "@/components/ui/sonner"
+import { NotificationPoller } from "@/components/shared/NotificationPoller"
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
@@ -44,6 +46,8 @@ export default function RootLayout({
               {children}
             </main>
             <BottomNav />
+            <Toaster position="top-center" richColors theme="light" />
+            <NotificationPoller />
           </ThemeProvider>
         </SessionProvider>
       </body>

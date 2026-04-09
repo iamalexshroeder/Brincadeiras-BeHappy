@@ -63,9 +63,7 @@ export default function Perfil() {
     {
       title: "Preferências",
       items: [
-        { icon: RiNotification3Line, label: "Notificações", href: "/perfil/configuracoes" },
-        { icon: RiShieldCheckLine, label: "Privacidade", href: "/perfil/configuracoes" },
-        { icon: RiSettings4Line, label: "Configurações", href: "/perfil/configuracoes" },
+        { icon: RiSettings4Line, label: "Configurações Globais", href: "/perfil/configuracoes" },
       ]
     },
     {

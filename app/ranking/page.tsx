@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Header } from "@/components/layout/Header"
+import Link from "next/link"
 
 import { UserAvatar } from "@/components/ui/UserAvatar"
 import { Card } from "@/components/ui/card"
@@ -92,7 +93,7 @@ export default function Ranking() {
               <div className="flex items-end justify-center gap-0 relative max-w-sm mx-auto mb-10 px-2 h-44">
                 {/* Rank 2 (Left) */}
                 {topThree[1] && (
-                  <div className="flex flex-col items-center gap-3 flex-1 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                  <Link href={`/recreador/${topThree[1].id}`} className="flex flex-col items-center gap-3 flex-1 animate-in fade-in slide-in-from-bottom-4 duration-500 hover:opacity-80 transition-opacity">
                     <div className="relative">
                       <UserAvatar 
                         src={topThree[1].avatar} 
@@ -108,12 +109,12 @@ export default function Ranking() {
                       <span className="block text-[10px] font-bold text-[#8E8E93] uppercase tracking-tight leading-none mb-1">{getTitleForLevel(topThree[1].level)}</span>
                       <span className="block text-[10px] font-extrabold text-slate-500">{topThree[1].xp} XP</span>
                     </div>
-                  </div>
+                  </Link>
                 )}
 
                 {/* Rank 1 (Center) */}
                 {topThree[0] && (
-                  <div className="flex flex-col items-center gap-3 flex-1 z-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
+                  <Link href={`/recreador/${topThree[0].id}`} className="flex flex-col items-center gap-3 flex-1 z-10 animate-in fade-in slide-in-from-bottom-8 duration-700 hover:opacity-80 transition-opacity">
                     <div className="relative">
                       <UserAvatar 
                         src={topThree[0].avatar} 
@@ -129,12 +130,12 @@ export default function Ranking() {
                       <span className="block text-[11px] font-bold text-yellow-700 uppercase tracking-tight leading-none mb-1">{getTitleForLevel(topThree[0].level)}</span>
                       <span className="block text-[11px] font-black text-yellow-600 uppercase tracking-tight">{topThree[0].xp} XP</span>
                     </div>
-                  </div>
+                  </Link>
                 )}
 
                 {/* Rank 3 (Right) */}
                 {topThree[2] && (
-                  <div className="flex flex-col items-center gap-3 flex-1 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
+                  <Link href={`/recreador/${topThree[2].id}`} className="flex flex-col items-center gap-3 flex-1 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100 hover:opacity-80 transition-opacity">
                     <div className="relative">
                       <UserAvatar 
                         src={topThree[2].avatar} 
@@ -150,7 +151,7 @@ export default function Ranking() {
                       <span className="block text-[10px] font-bold text-amber-800/60 uppercase tracking-tight leading-none mb-1">{getTitleForLevel(topThree[2].level)}</span>
                       <span className="block text-[10px] font-extrabold text-amber-700">{topThree[2].xp} XP</span>
                     </div>
-                  </div>
+                  </Link>
                 )}
               </div>
 
@@ -158,30 +159,32 @@ export default function Ranking() {
               {rest.length > 0 && (
                 <div className="space-y-2 mt-4">
                   {rest.map((user) => (
-                    <Card key={user.rank} className="p-3 border border-[#F2F2F7] shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-white transition-all active:scale-[0.98]">
-                      <div className="flex items-center gap-4">
-                        <span className="text-[14px] font-black text-[#8E8E93] w-5 text-center">{user.rank}</span>
-                        <UserAvatar 
-                          src={user.avatar}
-                          name={user.name}
-                          className="h-12 w-12"
-                          fallbackClassName="bg-gray-50 text-gray-400"
-                        />
-                        <div className="flex-1 min-w-0">
-                          <span className="block text-[15px] font-bold text-[#1A1A1A] truncate">{user.name}</span>
-                          <span className="block text-[11px] font-bold uppercase tracking-tight text-[#8E8E93]">{user.title || getTitleForLevel(user.level)}</span>
-                        </div>
+                    <Link key={user.rank} href={`/recreador/${user.id}`} className="block">
+                      <Card className="p-3 border border-[#F2F2F7] shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-white transition-all hover:bg-gray-50 active:scale-[0.98]">
+                        <div className="flex items-center gap-4">
+                          <span className="text-[14px] font-black text-[#8E8E93] w-5 text-center">{user.rank}</span>
+                          <UserAvatar 
+                            src={user.avatar}
+                            name={user.name}
+                            className="h-12 w-12"
+                            fallbackClassName="bg-gray-50 text-gray-400"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <span className="block text-[15px] font-bold text-[#1A1A1A] truncate">{user.name}</span>
+                            <span className="block text-[11px] font-bold uppercase tracking-tight text-[#8E8E93]">{user.title || getTitleForLevel(user.level)}</span>
+                          </div>
 
-                        <div className="flex flex-col items-end">
-                          <span className="text-[14px] font-black text-[#1A1A1A]">
-                            {user.xp} <span className="text-[10px] text-[#8E8E93] uppercase">XP</span>
-                          </span>
-                          <span className={cn("text-[10px] font-bold uppercase tracking-wide", getLevelColor(user.level))}>
-                            Nível {user.level}
-                          </span>
+                          <div className="flex flex-col items-end">
+                            <span className="text-[14px] font-black text-[#1A1A1A]">
+                              {user.xp} <span className="text-[10px] text-[#8E8E93] uppercase">XP</span>
+                            </span>
+                            <span className={cn("text-[10px] font-bold uppercase tracking-wide", getLevelColor(user.level))}>
+                              Nível {user.level}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </Card>
+                      </Card>
+                    </Link>
                   ))}
                 </div>
               )}

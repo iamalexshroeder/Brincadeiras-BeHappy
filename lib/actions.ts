@@ -716,6 +716,29 @@ export async function clearAllNotifications() {
 
   revalidatePath("/notificacoes")
 }
+
+/**
+ * Fetches unread notifications since a specific time for the floating toaster.
+ */
+export async function getLatestUnreadNotifications(sinceTime?: string) {
+  const session = await auth()
+  if (!session?.user?.id) return []
+
+  const dateFilter = sinceTime ? new Date(sinceTime) : new Date(Date.now() - 60000) // Last 60s by default
+
+  const notifications = await prisma.notification.findMany({
+    where: {
+      user_id: session.user.id,
+      read: false,
+      created_at: {
+        gt: dateFilter
+      }
+    },
+    orderBy: { created_at: "asc" },
+  })
+
+  return notifications
+}
 /**
  * Adds a comment to a brincadeira.
  */
