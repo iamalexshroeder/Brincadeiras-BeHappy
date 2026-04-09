@@ -17,8 +17,19 @@ import {
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 
+interface SettingsItem {
+  icon: any
+  label: string
+  status?: string
+  href?: string
+  showArrow?: boolean
+  isInfoOnly?: boolean
+  showCheck?: boolean
+  faded?: boolean
+}
+
 export default function Configuracoes() {
-  const settingsGroups = [
+  const settingsGroups: { title: string; items: SettingsItem[] }[] = [
     {
       title: "Conta",
       items: [
