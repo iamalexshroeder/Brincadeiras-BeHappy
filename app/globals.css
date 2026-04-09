@@ -48,36 +48,55 @@
 }
 
 :root {
-    --background: #FFFFFF;
+    --background: #F9F9F7;
     --foreground: #1A1A1A;
     --card: #FFFFFF;
     --card-foreground: #1A1A1A;
     --popover: #FFFFFF;
     --popover-foreground: #1A1A1A;
-    --primary: #FF6B00;
-    --primary-foreground: #FFFFFF;
-    --secondary: #F9F9F7;
+    --primary: #FFCC00;
+    --primary-foreground: #1A1A1A;
+    --secondary: #FFFFFF;
     --secondary-foreground: #1A1A1A;
-    --muted: #F9F9F7;
-    --muted-foreground: #6B6B6B;
-    --accent: #FFD426;
-    --accent-foreground: #1A1A1A;
-    --destructive: #EF4444;
+    --muted: #F2F2F7;
+    --muted-foreground: #8E8E93;
+    --accent: #FF9500;
+    --accent-foreground: #FFFFFF;
+    --destructive: #FF3B30;
     --destructive-foreground: #FFFFFF;
-    --border: #E0E0E0;
-    --input: #E0E0E0;
-    --ring: #FF6B00;
-    --radius: 4px;
+    --border: #F2F2F7;
+    --input: #F2F2F7;
+    --ring: #FFCC00;
+    --radius: 6px;
 
-    /* Semantic Accents */
+    /* Semantic Accents (30% & 10% categories) */
     --blue: #007AFF;
     --blue-bg: #E5F1FF;
     --purple: #AF52DE;
     --purple-bg: #F5E9FF;
     --red: #FF3B30;
     --red-bg: #FFEBEA;
-    --yellow: #FF9500;
-    --yellow-bg: #FFF4E5;
+    --orange: #FF9500;
+    --orange-bg: #FFF4E5;
+    --yellow: #FFCC00;
+    --yellow-bg: #FFF9E5;
+}
+
+/* Global utility to hide scrollbars */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@layer base {
+  * {
+    @apply no-scrollbar;
+  }
 }
 
 .dark {

@@ -88,7 +88,7 @@ export default function CreateBrincadeiraForm() {
           </span>
           <div className="w-10" /> {/* Spacer for alignment */}
         </div>
-        <Progress value={progress} className="h-2 bg-[#F2F2F7]" />
+        <Progress value={progress} className="h-1.5 bg-[#F2F2F7]" indicatorClassName="bg-[#AF52DE]" />
       </header>
 
       <main className="flex-1 px-5 py-8 overflow-y-auto pb-32">
@@ -147,7 +147,7 @@ export default function CreateBrincadeiraForm() {
                         className={cn(
                           "rounded-[6px] px-5 h-10 text-[14px] font-bold transition-all border border-[#E5E5EA]",
                           "bg-white text-[#8E8E93]",
-                          "data-[state=on]:bg-primary data-[state=on]:border-primary data-[state=on]:text-white data-[state=on]:shadow-sm"
+                          "data-[state=on]:bg-[#FF9500] data-[state=on]:border-[#FF9500] data-[state=on]:text-white data-[state=on]:shadow-sm"
                         )}
                       >
                         {cat}
@@ -348,7 +348,7 @@ export default function CreateBrincadeiraForm() {
             (step === 2 && (!age || !duration || !participants)) ||
             (step === 3 && steps[0].trim() === "")
           }
-          className="w-full h-14 bg-primary text-white font-extrabold text-[16px] rounded-[6px] shadow-lg disabled:opacity-50 disabled:bg-gray-300"
+          className="w-full h-14 bg-[#FFCC00] text-[#1A1A1A] font-black text-[16px] rounded-[6px] shadow-xl shadow-[#FFCC00]/20 disabled:opacity-50 disabled:bg-gray-300 border-none active:scale-[0.97]"
         >
           {step === totalSteps ? "Publicar Brincadeira" : "Continuar"}
         </Button>

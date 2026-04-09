@@ -17,6 +17,7 @@ import {
 } from "@remixicon/react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
+import { signOut } from "next-auth/react"
 
 export default function Perfil() {
   const activities = [
@@ -137,6 +138,7 @@ export default function Perfil() {
           <section className="pt-4">
             <Button 
               variant="ghost" 
+              onClick={() => signOut({ callbackUrl: "/login" })}
               className="w-full h-12 text-[#EF4444] font-bold rounded-[6px] bg-red-50/50 active:bg-red-50 transition-all gap-2"
             >
               <RiLogoutBoxRLine size={20} />

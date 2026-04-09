@@ -50,15 +50,15 @@ export function BottomNav() {
             href={item.href}
             className={cn(
               "flex flex-1 flex-col items-center justify-center gap-1.5 transition-all active:opacity-70",
-              isActive ? "text-primary" : "text-[#8E8E93]"
+              isActive ? "text-[#FF9500]" : "text-[#8E8E93]"
             )}
           >
             <div className="flex h-6 w-6 items-center justify-center">
               <Icon size={26} strokeWidth={1.5} />
             </div>
             <span className={cn(
-              "text-[10px] font-bold tracking-tight uppercase",
-              isActive ? "opacity-100" : "opacity-60"
+              "text-[10px] font-bold tracking-tight uppercase transition-opacity",
+              isActive ? "opacity-100 text-[#FF9500]" : "opacity-60"
             )}>
               {item.label}
             </span>

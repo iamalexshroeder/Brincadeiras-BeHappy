@@ -187,10 +187,10 @@ export default function Ranking() {
                 >
                   <div className="flex items-center gap-4">
                     <div className={cn(
-                      "flex items-center justify-center h-12 w-12 rounded-full border-2 shadow-sm font-black text-[18px]",
-                      isCompleted && "border-transparent bg-gray-200 text-gray-400",
-                      isLocked && "border-transparent bg-gray-200 text-gray-400",
-                      isCurrent && `${levelColorClass} border-transparent text-white ring-2 ring-offset-1 ring-primary/20`,
+                      "flex items-center justify-center h-12 w-12 rounded-full border-2 shadow-sm font-black text-[18px] shrink-0",
+                      isCompleted && "border-transparent bg-[#AF52DE]/10 text-[#AF52DE]",
+                      isLocked && "border-transparent bg-gray-100 text-gray-400",
+                      isCurrent && "bg-[#FFCC00] border-transparent text-[#1A1A1A] ring-4 ring-[#FFCC00]/20",
                     )}>
                       {tier.level}
                     </div>

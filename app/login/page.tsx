@@ -58,9 +58,9 @@ export default function LoginPage() {
       <div className="px-6 pb-16 w-full max-w-[400px] mx-auto">
         <button
           onClick={() => signIn("google", { callbackUrl: "/" })}
-          className="w-full h-[60px] bg-[#4285F4] text-white font-bold text-[17px] rounded-[12px] flex items-center justify-center gap-3 active:scale-[0.98] transition-transform shadow-lg shadow-[#4285F4]/30 mb-5"
+          className="w-full h-[60px] bg-[#FFCC00] text-[#1A1A1A] font-extrabold text-[17px] rounded-[12px] flex items-center justify-center gap-3 active:scale-[0.95] transition-all shadow-xl shadow-[#FFCC00]/20 mb-5 border-none"
         >
-          <RiGoogleFill size={22} />
+          <RiGoogleFill size={24} />
           Entrar com Google
         </button>
 

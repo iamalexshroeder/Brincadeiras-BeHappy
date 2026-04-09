@@ -205,8 +205,8 @@ export function BrincadeiraCard({
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" className="text-primary active:bg-primary/5 text-[15px] h-9 px-4 font-medium rounded-[6px]">
-              Detalhes
+            <Button variant="ghost" className="text-[#FF9500] active:bg-[#FF9500]/10 text-[15px] h-9 px-4 font-bold rounded-[6px]">
+              Ver Detalhes
             </Button>
           </SheetTrigger>
           <SheetContent side="bottom" className="h-[90vh] rounded-t-[20px] px-5 pt-8 overflow-y-auto border-none bg-white">

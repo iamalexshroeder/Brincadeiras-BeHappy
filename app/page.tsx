@@ -37,6 +37,7 @@ export default async function Home() {
             )}
           </div>
 
+          {feed.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-center">
               <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-4">
                 <RiFileList3Line size={32} className="text-[#C7C7CC]" />
@@ -68,7 +69,7 @@ export default async function Home() {
       {/* Floating Action Button */}
       <div className="fixed bottom-[64px] left-0 right-0 px-5 pb-4 bg-gradient-to-t from-[#F9F9F7] via-[#F9F9F7] to-transparent pt-8">
         <Link href="/criar" className="w-full">
-          <Button className="w-full h-12 bg-primary text-white font-extrabold text-[15px] rounded-[6px] shadow-none border-none active:scale-[0.98] active:opacity-90">
+          <Button className="w-full h-14 bg-[#FFCC00] text-[#1A1A1A] font-black text-[15px] rounded-[6px] shadow-sm border-none active:scale-[0.98] active:opacity-90">
             Registrar Brincadeira
           </Button>
         </Link>

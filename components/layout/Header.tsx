@@ -43,31 +43,36 @@ export function Header({
   const progressValue = (user.xp / user.nextLevelXp) * 100
 
   return (
-    <header className="w-full bg-white px-5 pt-12 pb-8 space-y-8">
-      {/* Title Section */}
-      <div className="flex items-center justify-between shrink-0">
-        <h1 className="text-[28px] font-extrabold tracking-[-0.03em] text-[#1A1A1A]">
-          {title || `Olá, ${user.name}`}
-        </h1>
-        <div className="flex items-center gap-1">
-          <button 
-            onClick={() => {
-              if (isNotificationsPage) {
-                router.back()
-              } else {
-                router.push("/notificacoes")
-              }
-            }}
-            className={cn(
-              "relative flex items-center justify-center h-10 w-10 transition-colors bg-transparent",
-              isNotificationsPage ? "text-yellow-500" : "text-[#8E8E93] active:text-yellow-500"
-            )}
-          >
-            {isNotificationsPage ? <RiNotification3Fill size={26} /> : <RiNotification3Line size={26} />}
-            <div className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-[#EF4444] border-[2px] border-white" />
-          </button>
+    <header className="w-full bg-[#F9F9F7] space-y-8 pb-8">
+      {/* Title Section (Sticky & Stable) */}
+      <div className="sticky top-0 z-40 bg-[#F9F9F7]/90 backdrop-blur-md px-5 pt-12 pb-4 border-b border-transparent shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+        <div className="flex items-center justify-between">
+          <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-[#1A1A1A]">
+            {title || `Olá, ${user.name}`}
+          </h1>
+          <div className="flex items-center gap-1">
+            <button 
+              onClick={() => {
+                if (isNotificationsPage) {
+                  router.back()
+                } else {
+                  router.push("/notificacoes")
+                }
+              }}
+              className={cn(
+                "relative flex items-center justify-center h-10 w-10 transition-colors bg-transparent",
+                isNotificationsPage ? "text-[#FF9500]" : "text-[#8E8E93] active:text-[#FF9500]"
+              )}
+            >
+              {isNotificationsPage ? <RiNotification3Fill size={26} /> : <RiNotification3Line size={26} />}
+              <div className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-[#EF4444] border-[2px] border-white" />
+            </button>
+          </div>
         </div>
       </div>
+      
+      {/* Search and User Container */}
+      <div className="px-5 space-y-8">
 
       {/* Search Section (Optional) */}
       {showSearch && (
@@ -116,10 +121,11 @@ export function Header({
                 {user.xp} XP
               </span>
             </div>
-            <Progress value={progressValue} className="h-2 bg-[#E5E5EA]" />
+            <Progress value={progressValue} className="h-2 bg-[#E5E5EA]" indicatorClassName="bg-[#AF52DE]" />
           </div>
         </Card>
       )}
+      </div>
     </header>
   )
 }
