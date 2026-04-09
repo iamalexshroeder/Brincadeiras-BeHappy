@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import { 
   RiCloudyLine, RiDropFill, RiTentLine, RiHome4Line, RiUserVoiceLine,
   RiMusicLine, RiArrowRightSLine, RiCloseLine, RiDownload2Line,
@@ -418,8 +419,64 @@ function CollectionModal({ collection, onClose, hidden }: { collection: Collecti
 
 export function BibliotecaList() {
   const [openCollection, setOpenCollection] = useState<string | null>(null)
+  const [selectedFlatGame, setSelectedFlatGame] = useState<SystemGame | null>(null)
+  const searchParams = useSearchParams()
+  const query = (searchParams.get("q") ?? "").toLowerCase()
 
   const activeCollection = SYSTEM_COLLECTIONS.find(c => c.id === openCollection)
+
+  if (query) {
+    const flatGames = SYSTEM_COLLECTIONS.flatMap(c => c.games).filter(g => 
+      g.title.toLowerCase().includes(query) || 
+      g.description.toLowerCase().includes(query) ||
+      g.materials.some(m => m.toLowerCase().includes(query))
+    )
+
+    return (
+      <>
+        <div className="space-y-3 pb-8">
+          {flatGames.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <span className="text-[40px] mb-3">🔍</span>
+              <p className="text-[15px] font-bold text-[#1A1A1A]">Nenhuma brincadeira encontrada</p>
+              <p className="text-[13px] text-[#8E8E93] mt-1">Tente palavras diferentes como piscina, gincana ou bambolê.</p>
+            </div>
+          ) : (
+            flatGames.map(game => (
+              <div
+                key={game.id}
+                className="bg-white rounded-[12px] border border-[#E5E5EA] p-4 shadow-[0_2px_8px_rgba(0,0,0,0.03)]"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="flex-1 min-w-0">
+                    <span className="block text-[15px] font-extrabold text-[#1A1A1A] truncate">{game.title}</span>
+                    <span className="block text-[12px] text-[#8E8E93] mt-0.5 line-clamp-2">{game.description}</span>
+                    <div className="flex gap-2 mt-2 flex-wrap">
+                      <span className="text-[10px] font-bold text-[#8E8E93] bg-[#F2F2F7] rounded-full px-2 py-0.5">{game.duration}</span>
+                      <span className="text-[10px] font-bold text-[#8E8E93] bg-[#F2F2F7] rounded-full px-2 py-0.5">{game.participants}</span>
+                      {game.materials.length === 0 && (
+                        <span className="text-[10px] font-bold text-[#FF3B30] bg-[#FFEBEA] rounded-full px-2 py-0.5">Sem material</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setSelectedFlatGame(game)}
+                  className="mt-3 w-full h-10 rounded-[10px] border border-[#E5E5EA] bg-[#F9F9F7] text-[13px] font-bold text-[#1A1A1A] flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
+                >
+                  Abrir brincadeira
+                </button>
+              </div>
+            ))
+          )}
+        </div>
+
+        {selectedFlatGame && (
+          <GameModal game={selectedFlatGame} onClose={() => setSelectedFlatGame(null)} />
+        )}
+      </>
+    )
+  }
 
   return (
     <>

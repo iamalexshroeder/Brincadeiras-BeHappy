@@ -3,14 +3,41 @@
 import { RiSearchLine, RiNotification3Line, RiNotification3Fill } from "@remixicon/react"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { getTitleForLevel } from "@/utils/gamification"
 import { getProfile } from "@/lib/actions"
 import { UserAvatar } from "@/components/ui/UserAvatar"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef, Suspense } from "react"
+
+function SearchInput() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value
+    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current)
+    searchTimeoutRef.current = setTimeout(() => {
+      const params = new URLSearchParams(searchParams.toString())
+      if (val) params.set("q", val)
+      else params.delete("q")
+      router.push(`/explorar?${params.toString()}`)
+    }, 300)
+  }
+
+  return (
+    <Input
+      type="search"
+      defaultValue={searchParams.get("q") ?? ""}
+      onChange={handleSearchChange}
+      placeholder="Encontre sua próxima brincadeira..."
+      className="pl-10 h-10 bg-[#F2F2F7] border-none rounded-[8px] text-[15px] placeholder:text-[#C7C7CC] focus-visible:ring-0 font-medium"
+    />
+  )
+}
 
 interface HeaderProps {
   title?: string
@@ -112,11 +139,15 @@ export function Header({
                 size={17}
                 className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#C7C7CC]"
               />
-              <Input
-                type="search"
-                placeholder="Encontre sua próxima brincadeira..."
-                className="pl-10 h-10 bg-[#F2F2F7] border-none rounded-[8px] text-[15px] placeholder:text-[#C7C7CC] focus-visible:ring-0 font-medium"
-              />
+              <Suspense fallback={
+                <Input
+                  type="search"
+                  placeholder="Encontre sua próxima brincadeira..."
+                  className="pl-10 h-10 bg-[#F2F2F7] border-none rounded-[8px] text-[15px] placeholder:text-[#C7C7CC] focus-visible:ring-0 font-medium"
+                />
+              }>
+                <SearchInput />
+              </Suspense>
             </div>
           </div>
         )}
