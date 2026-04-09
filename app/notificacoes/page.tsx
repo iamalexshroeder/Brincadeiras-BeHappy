@@ -74,7 +74,7 @@ export default function Notificacoes() {
     <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
       <Header title="Notificações" showSearch={false} showUserCard={false} />
 
-      <main className="px-5 pt-4 pb-32">
+      <main className="px-5 pt-2 pb-32">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-[13px] font-extrabold text-[#8E8E93] uppercase tracking-widest pl-1">
             Recentes
@@ -93,7 +93,7 @@ export default function Notificacoes() {
               <Card
                 key={notif.id}
                 className={cn(
-                  "p-4 border-none shadow-[0_2px_8px_rgba(0,0,0,0.02)] rounded-[6px] active:scale-[0.98] transition-all bg-white relative overflow-hidden",
+                  "p-4 border border-[#F2F2F7] shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] active:scale-[0.98] transition-all bg-white relative overflow-hidden",
                   !notif.read && "ring-1 ring-primary/20"
                 )}
               >
@@ -136,13 +136,13 @@ export default function Notificacoes() {
               await markNotificationsRead()
               fetchNotifications()
             }}
-            className="flex-1 h-12 rounded-[6px] border border-[#E5E5EA] bg-white text-[15px] font-bold text-[#1A1A1A] active:scale-[0.98] transition-all shadow-sm"
+            className="flex-1 h-12 rounded-[12px] border border-[#F2F2F7] bg-white text-[15px] font-bold text-[#1A1A1A] active:scale-[0.98] transition-all shadow-sm"
           >
             Marcar como lidas
           </button>
           <button
             onClick={handleClearAll}
-            className="flex-1 h-12 rounded-[6px] border border-[#EF4444]/30 bg-white text-[15px] font-bold text-[#EF4444] active:scale-[0.98] transition-all shadow-sm"
+            className="flex-1 h-12 rounded-[12px] border border-[#EF4444]/30 bg-white text-[15px] font-bold text-[#EF4444] active:scale-[0.98] transition-all shadow-sm"
           >
             Limpar tudo
           </button>

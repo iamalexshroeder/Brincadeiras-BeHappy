@@ -239,6 +239,8 @@ function formatBrincadeira(b: any, userId?: string) {
     userHasLiked: b.interactions?.some((i: any) => i.type === "LIKE") ?? false,
     userHasUsed: b.interactions?.some((i: any) => i.type === "USED") ?? false,
     userHasSaved: b.interactions?.some((i: any) => i.type === "SAVED") ?? false,
+    steps: b.steps || [],
+    materials: b.materials || [],
   }
 }
 
@@ -703,7 +705,8 @@ export async function updateBrincadeira(id: string, data: any) {
     data: {
       title: data.title,
       short_description: data.short_description,
-      // In a more complete app we would update all fields
+      steps: data.steps,
+      materials: data.materials,
     },
   })
 

@@ -57,7 +57,7 @@ export default async function Home({
               </p>
             </div>
           ) : (
-            <div className="space-y-8">
+            <div className="space-y-6">
               {feed.map((game) => game && (
                 <BrincadeiraCard
                   key={game.id}
@@ -73,6 +73,8 @@ export default async function Home({
                   initialLiked={game.userHasLiked}
                   initialUsed={game.userHasUsed}
                   currentUserId={session?.user?.id}
+                  steps={game.steps}
+                  materials={game.materials}
                 />
               ))}
             </div>
@@ -83,7 +85,7 @@ export default async function Home({
       {/* Floating Action Button */}
       <div className="fixed bottom-[64px] left-0 right-0 px-5 pb-4 bg-gradient-to-t from-[#F9F9F7] via-[#F9F9F7] to-transparent pt-8">
         <Link href="/criar" className="w-full">
-          <Button className="w-full h-12 bg-[#FF9500] text-white font-medium text-[14px] rounded-[6px] shadow-sm border-none active:scale-[0.98] active:opacity-90">
+          <Button className="w-full h-12 bg-[#FF9500] text-white font-medium text-[14px] rounded-[12px] shadow-sm border-none active:scale-[0.98] active:opacity-90">
             Criar nova brincadeira
           </Button>
         </Link>

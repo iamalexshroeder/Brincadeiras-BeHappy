@@ -14,8 +14,9 @@ interface LibraryItem {
   likesCount: number
   usedCount: number
   comments?: any[]
-  initialLiked?: boolean
   initialUsed?: boolean
+  steps?: string[]
+  materials?: string[]
 }
 
 interface LibraryListProps {
@@ -31,7 +32,7 @@ export function LibraryList({ items, initialDisplay = 10, currentUserId }: Libra
 
   return (
     <>
-      <div className="grid gap-10">
+      <div className="grid gap-6">
         {displayed.map((item) => item && (
           <BrincadeiraCard key={item.id} {...item} currentUserId={currentUserId} />
         ))}
@@ -41,7 +42,7 @@ export function LibraryList({ items, initialDisplay = 10, currentUserId }: Libra
         <Button
           onClick={() => setShowAll(!showAll)}
           variant="ghost"
-          className="w-full h-12 text-[#8E8E93] font-bold text-[14px] active:bg-gray-100 rounded-[6px] mt-6"
+          className="w-full h-12 text-[#8E8E93] font-bold text-[14px] active:bg-gray-100 rounded-[12px] mt-6"
         >
           {showAll ? "Mostrar Menos" : `Ver Mais (${remaining} existentes)`}
         </Button>

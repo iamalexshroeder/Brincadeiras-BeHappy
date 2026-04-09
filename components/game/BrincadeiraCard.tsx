@@ -76,6 +76,8 @@ interface BrincadeiraCardProps {
   initialLiked?: boolean
   initialUsed?: boolean
   currentUserId?: string
+  steps?: string[]
+  materials?: string[]
 }
 
 const MOCK_COMMENTS: any[] = []
@@ -94,7 +96,9 @@ export function BrincadeiraCard({
   comments = [],
   initialLiked = false,
   initialUsed = false,
-  currentUserId
+  currentUserId,
+  steps = [],
+  materials = []
 }: BrincadeiraCardProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
@@ -115,13 +119,17 @@ export function BrincadeiraCard({
   const [isEditingBrincadeira, setIsEditingBrincadeira] = useState(false)
   const [editedTitle, setEditedTitle] = useState(title)
   const [editedDescription, setEditedDescription] = useState(description)
+  const [editedSteps, setEditedSteps] = useState<string[]>(steps.length > 0 ? steps : [""])
+  const [editedMaterials, setEditedMaterials] = useState<string[]>(materials)
 
   const handleUpdateBrincadeira = async () => {
     startTransition(async () => {
       try {
         await updateBrincadeira(id, {
           title: editedTitle,
-          short_description: editedDescription
+          short_description: editedDescription,
+          steps: editedSteps.filter(s => s.trim() !== ""),
+          materials: editedMaterials.filter(m => m.trim() !== "")
         })
         setIsEditingBrincadeira(false)
         router.refresh()
@@ -382,24 +390,72 @@ export function BrincadeiraCard({
                 </div>
 
                 {isEditingBrincadeira ? (
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                       <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-wider">Título da Brincadeira</label>
-                       <input 
-                         className="w-full h-12 px-4 rounded-[8px] bg-[#F2F2F7] text-[16px] text-[#1A1A1A] font-bold border-none focus:ring-1 ring-primary/20"
-                         value={editedTitle}
-                         onChange={(e) => setEditedTitle(e.target.value)}
-                       />
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-wider">Materiais (Opcional)</label>
+                        <div className="space-y-2">
+                          {editedMaterials.map((mat, index) => (
+                            <div key={`edit-mat-${index}`} className="flex items-center gap-2">
+                              <input 
+                                className="flex-1 h-10 px-3 bg-[#F2F2F7] rounded-[8px] text-[14px] text-[#1A1A1A] font-medium border-none"
+                                value={mat}
+                                onChange={(e) => {
+                                  const newMats = [...editedMaterials]
+                                  newMats[index] = e.target.value
+                                  setEditedMaterials(newMats)
+                                }}
+                              />
+                              <button 
+                                onClick={() => setEditedMaterials(editedMaterials.filter((_, i) => i !== index))}
+                                className="text-[#8E8E93] p-1"
+                              >
+                                <RiCloseLine size={20} />
+                              </button>
+                            </div>
+                          ))}
+                          <button 
+                            onClick={() => setEditedMaterials([...editedMaterials, ""])}
+                            className="text-[13px] font-bold text-primary flex items-center gap-1 mt-1"
+                          >
+                            <RiAddLine size={18} /> Adicionar Material
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                         <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-wider">Passo a Passo</label>
+                         <div className="space-y-3">
+                           {editedSteps.map((step, index) => (
+                             <div key={`edit-step-${index}`} className="flex gap-2">
+                               <div className="shrink-0 h-6 w-6 rounded-full bg-primary/10 text-primary font-black text-[12px] flex items-center justify-center mt-2">
+                                 {index + 1}
+                               </div>
+                               <textarea 
+                                 className="flex-1 p-3 bg-[#F2F2F7] rounded-[8px] text-[14px] text-[#1A1A1A] font-medium border-none min-h-[60px] resize-none"
+                                 value={step}
+                                 onChange={(e) => {
+                                   const newSteps = [...editedSteps]
+                                   newSteps[index] = e.target.value
+                                   setEditedSteps(newSteps)
+                                 }}
+                               />
+                               <button 
+                                 onClick={() => setEditedSteps(editedSteps.filter((_, i) => i !== index))}
+                                 className="text-[#8E8E93] p-1"
+                               >
+                                 <RiCloseLine size={20} />
+                               </button>
+                             </div>
+                           ))}
+                           <button 
+                            onClick={() => setEditedSteps([...editedSteps, ""])}
+                            className="text-[13px] font-bold text-primary flex items-center gap-1 mt-1"
+                           >
+                             <RiAddLine size={18} /> Adicionar Passo
+                           </button>
+                         </div>
+                      </div>
                     </div>
-                    <div className="space-y-2">
-                       <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-wider">Descrição</label>
-                       <textarea 
-                         className="w-full h-32 p-4 rounded-[8px] bg-[#F2F2F7] text-[14px] text-[#1A1A1A] font-medium border-none focus:ring-1 ring-primary/20 resize-none"
-                         value={editedDescription}
-                         onChange={(e) => setEditedDescription(e.target.value)}
-                       />
-                    </div>
-                  </div>
                 ) : (
                   <>
                     <h3 className="text-[24px] font-extrabold leading-tight text-[#1A1A1A] tracking-[-0.03em]">
@@ -409,6 +465,37 @@ export function BrincadeiraCard({
                     <p className="text-[16px] leading-relaxed text-[#1A1A1A] font-medium opacity-80">
                       {description}
                     </p>
+
+                    {materials.length > 0 && (
+                      <div className="space-y-3 pt-2">
+                        <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-widest">Materiais</label>
+                        <div className="flex flex-wrap gap-2">
+                          {materials.map((mat, i) => (
+                            <span key={i} className="px-3 py-1.5 bg-[#F2F2F7] rounded-full text-[13px] font-medium text-[#1A1A1A]">
+                              • {mat}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {steps.length > 0 && (
+                      <div className="space-y-4 pt-2">
+                        <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-widest">Passo a Passo</label>
+                        <div className="space-y-4">
+                          {steps.map((step, i) => (
+                            <div key={i} className="flex gap-4">
+                              <div className="shrink-0 h-6 w-6 rounded-full bg-primary/10 text-primary font-black text-[12px] flex items-center justify-center mt-1">
+                                {i + 1}
+                              </div>
+                              <p className="text-[15px] text-[#1A1A1A] leading-relaxed font-medium opacity-90">
+                                {step}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </>
                 )}
 

@@ -72,10 +72,10 @@ export default async function Explorar() {
     <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
       <Header title="Explorar" showUserCard={false} />
 
-      <main className="px-5 pt-4 pb-32 space-y-12">
+      <main className="px-5 pt-2 pb-32 space-y-6">
         {/* Category Filters */}
         <section>
-          <h2 className="text-[13px] font-extrabold text-[#8E8E93] uppercase tracking-widest mb-4">
+          <h2 className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-widest mb-4 pl-1">
             Categorias
           </h2>
           <CategoryFilters />
@@ -83,8 +83,8 @@ export default async function Explorar() {
 
         {/* Biblioteca */}
         <section>
-          <div className="flex items-baseline justify-between mb-6">
-            <h2 className="text-[24px] font-extrabold text-[#1A1A1A] tracking-[-0.03em]">
+          <div className="flex items-baseline justify-between mb-6 pl-1">
+            <h2 className="text-[18px] font-extrabold text-[#1A1A1A] tracking-[-0.03em]">
               Biblioteca
             </h2>
             {library.length > 0 && (
