@@ -21,9 +21,10 @@ interface LibraryItem {
 interface LibraryListProps {
   items: LibraryItem[]
   initialDisplay?: number
+  currentUserId?: string
 }
 
-export function LibraryList({ items, initialDisplay = 10 }: LibraryListProps) {
+export function LibraryList({ items, initialDisplay = 10, currentUserId }: LibraryListProps) {
   const [showAll, setShowAll] = useState(false)
   const displayed = showAll ? items : items.slice(0, initialDisplay)
   const remaining = items.length - initialDisplay
@@ -32,7 +33,7 @@ export function LibraryList({ items, initialDisplay = 10 }: LibraryListProps) {
     <>
       <div className="grid gap-10">
         {displayed.map((item) => (
-          <BrincadeiraCard key={item.id} {...item} />
+          <BrincadeiraCard key={item.id} {...item} currentUserId={currentUserId} />
         ))}
       </div>
 

@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache"
 
 // XP awarded per action
 const XP_VALUES = {
-  PUBLISHED: 150,
+  PUBLISHED: 250,
   LIKE_RECEIVED: 10,
   USED_RECEIVED: 30,
   STREAK: 100,
@@ -495,4 +495,40 @@ export async function addComment(brincadeiraId: string, text: string) {
   revalidatePath("/")
   revalidatePath("/explorar")
   return comment
+}
+
+/**
+ * Updates an existing comment.
+ */
+export async function updateComment(commentId: string, text: string) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Não autenticado")
+  const userId = session.user.id
+
+  if (!text.trim()) return
+
+  const comment = await prisma.comment.update({
+    where: { id: commentId, user_id: userId },
+    data: { text },
+  })
+
+  revalidatePath("/")
+  revalidatePath("/explorar")
+  return comment
+}
+
+/**
+ * Deletes a comment.
+ */
+export async function deleteComment(commentId: string) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Não autenticado")
+  const userId = session.user.id
+
+  await prisma.comment.delete({
+    where: { id: commentId, user_id: userId },
+  })
+
+  revalidatePath("/")
+  revalidatePath("/explorar")
 }

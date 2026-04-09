@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { RiAddLine, RiFileList3Line } from "@remixicon/react"
 import { getFeed } from "@/lib/actions"
+import { auth } from "@/auth"
 
 // Example entries for code reference (not rendered in production)
 // const EXAMPLE_GAMES = [
@@ -20,6 +21,7 @@ export default async function Home({
 }) {
   const { category } = await searchParams
   const { items: feed } = await getFeed(20, undefined, category)
+  const session = await auth()
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
@@ -73,6 +75,7 @@ export default async function Home({
                   comments={game.comments}
                   initialLiked={game.userHasLiked}
                   initialUsed={game.userHasUsed}
+                  currentUserId={session?.user?.id}
                 />
               ))}
             </div>
@@ -84,7 +87,7 @@ export default async function Home({
       <div className="fixed bottom-[64px] left-0 right-0 px-5 pb-4 bg-gradient-to-t from-[#F9F9F7] via-[#F9F9F7] to-transparent pt-8">
         <Link href="/criar" className="w-full">
           <Button className="w-full h-12 bg-[#FF9500] text-white font-medium text-[14px] rounded-[6px] shadow-sm border-none active:scale-[0.98] active:opacity-90">
-            Registrar Brincadeira
+            Criar nova brincadeira
           </Button>
         </Link>
       </div>

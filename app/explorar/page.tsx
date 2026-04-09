@@ -65,6 +65,7 @@ async function getLibrary() {
 
 export default async function Explorar() {
   const library = await getLibrary()
+  const session = await auth()
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
@@ -102,7 +103,7 @@ export default async function Explorar() {
               </p>
             </div>
           ) : (
-            <LibraryList items={library} initialDisplay={10} />
+            <LibraryList items={library} initialDisplay={10} currentUserId={session?.user?.id} />
           )}
         </section>
       </main>

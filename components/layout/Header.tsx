@@ -70,7 +70,7 @@ export function Header({
   return (
     <>
       {/* Title Section (Sticky & Fixed) */}
-      <div className="sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-5 pt-12 pb-4 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+      <div className="sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-5 pt-14 pb-4 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
         <div className="flex items-center justify-between">
           <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-[#1A1A1A]">
             {title || `Olá, ${user.name}`}

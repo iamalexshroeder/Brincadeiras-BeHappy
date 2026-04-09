@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
+import { cn } from "@/lib/utils"
 import { 
   RiHeartLine, 
   RiHeartFill, 
@@ -14,7 +15,11 @@ import {
   RiChat3Line,
   RiCloseLine,
   RiLoader4Line,
-  RiArrowDownSLine
+  RiArrowDownSLine,
+  RiArrowLeftSLine,
+  RiEditLine,
+  RiDeleteBinLine,
+  RiSaveLine
 } from "@remixicon/react"
 import { 
   Card, 
@@ -33,7 +38,7 @@ import {
   SheetClose
 } from "@/components/ui/sheet"
 import { getTitleForLevel } from "@/utils/gamification"
-import { addComment, toggleLike, toggleUsed } from "@/lib/actions"
+import { addComment, deleteComment, updateComment, toggleLike, toggleUsed } from "@/lib/actions"
 
 const AGE_GROUP_LABELS: Record<string, string> = {
   "AGE_3_5": "3 a 5 anos",
@@ -67,6 +72,7 @@ interface BrincadeiraCardProps {
   comments?: any[]
   initialLiked?: boolean
   initialUsed?: boolean
+  currentUserId?: string
 }
 
 const MOCK_COMMENTS: any[] = []
@@ -79,22 +85,27 @@ export function BrincadeiraCard({
   creator,
   metadata,
   tags,
-  likesCount,
-  usedCount,
+  likesCount = 0,
+  usedCount = 0,
   commentsCount = 0,
   comments = [],
   initialLiked = false,
-   initialUsed = false
- }: BrincadeiraCardProps) {
-   const router = useRouter()
-   const [isPending, startTransition] = useTransition()
-   const [isSheetOpen, setIsSheetOpen] = useState(false)
-   const [isLiked, setIsLiked] = useState(initialLiked)
-   const [isUsed, setIsUsed] = useState(initialUsed)
-   const [localLikes, setLocalLikes] = useState(likesCount)
-   const [localUsed, setLocalUsed] = useState(usedCount)
-   const [isAddingComment, setIsAddingComment] = useState(false)
-   const [commentText, setCommentText] = useState("")
+  initialUsed = false,
+  currentUserId
+}: BrincadeiraCardProps) {
+  const router = useRouter()
+  const [isPending, startTransition] = useTransition()
+  const [isSheetOpen, setIsSheetOpen] = useState(false)
+  const [isLiked, setIsLiked] = useState(initialLiked)
+  const [isUsed, setIsUsed] = useState(initialUsed)
+  const [localLikes, setLocalLikes] = useState(likesCount)
+  const [localUsed, setLocalUsed] = useState(usedCount)
+  const [isAddingComment, setIsAddingComment] = useState(false)
+  const [commentText, setCommentText] = useState("")
+
+  const [editingCommentId, setEditingCommentId] = useState<string | null>(null)
+  const [editingCommentText, setEditingCommentText] = useState("")
+  const [isDeletingId, setIsDeletingId] = useState<string | null>(null)
 
   const handleLike = async (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -240,152 +251,229 @@ export function BrincadeiraCard({
                Ver Detalhes
              </Button>
            </SheetTrigger>
-           <SheetContent side="bottom" className="h-[90vh] rounded-t-[20px] px-5 pt-8 overflow-y-auto border-none bg-white">
-             <SheetHeader className="mb-6 flex-row items-center justify-between space-y-0">
-               <SheetTitle className="text-[24px] font-extrabold tracking-[-0.03em] text-[#1A1A1A] text-left">
-                 Ficha da Brincadeira
-               </SheetTitle>
-               <SheetClose asChild>
-                <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#8E8E93]">
-                  <RiArrowDownSLine size={28} />
-                </Button>
-               </SheetClose>
-             </SheetHeader>
+           <SheetContent side="bottom" className="h-[95vh] rounded-t-[24px] p-0 flex flex-col border-none bg-white overflow-hidden">
+             {/* Fixed Header */}
+             <div className="px-5 pt-8 pb-4 border-b border-[#F2F2F7] bg-white">
+              <SheetHeader className="flex-row items-center justify-between space-y-0">
+                 <div className="flex items-center gap-2">
+                   <SheetClose asChild>
+                     <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#8E8E93]">
+                       <RiArrowLeftSLine size={24} />
+                     </Button>
+                   </SheetClose>
+                   <SheetTitle className="text-[20px] font-extrabold tracking-[-0.03em] text-[#1A1A1A]">Voltar</SheetTitle>
+                 </div>
+                 <SheetClose asChild>
+                  <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-[#F2F2F7] hover:bg-[#E5E5EA] text-[#8E8E93]">
+                    <RiArrowDownSLine size={28} />
+                  </Button>
+                 </SheetClose>
+               </SheetHeader>
+             </div>
 
-            {/* Reusing the same layout logic for a seamless transition */}
-            <div className="space-y-6">
-              <div className="flex items-center gap-4">
-                <Avatar className="h-10 w-10 border-2 border-[#F2F2F7]">
-                  <AvatarImage src={creator.avatar} />
-                  <AvatarFallback className="bg-primary/10 text-primary font-bold">{creator.name[0]}</AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col">
-                  <span className="text-[17px] font-extrabold text-[#1A1A1A] leading-tight">
-                    {creator.name}
-                  </span>
-                  <div className="flex items-center gap-1.5 mt-0.5">
-                    <span className="text-[11px] font-bold uppercase tracking-tight text-[#8E8E93]">
-                      {getTitleForLevel(creator.level)}
+             {/* Scrollable Content */}
+             <div className="flex-1 overflow-y-auto px-5 py-6">
+               <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <Avatar className="h-10 w-10 border-2 border-[#F2F2F7]">
+                    <AvatarImage src={creator.avatar} />
+                    <AvatarFallback className="bg-primary/10 text-primary font-bold">{creator.name[0]}</AvatarFallback>
+                  </Avatar>
+                  <div className="flex flex-col">
+                    <span className="text-[17px] font-extrabold text-[#1A1A1A] leading-tight">
+                      {creator.name}
                     </span>
-                    <span className="text-[12px] font-extrabold text-primary uppercase tracking-wider">
-                      • Nível {creator.level}
-                    </span>
+                    <div className="flex items-center gap-1.5 mt-0.5">
+                      <span className="text-[11px] font-bold uppercase tracking-tight text-[#8E8E93]">
+                        {getTitleForLevel(creator.level)}
+                      </span>
+                      <span className="text-[12px] font-extrabold text-primary uppercase tracking-wider">
+                        • Nível {creator.level}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <h3 className="text-[22px] font-extrabold leading-tight text-[#1A1A1A] tracking-[-0.03em]">
-                {title}
-              </h3>
-              
-              <p className="text-[16px] leading-relaxed text-[#1A1A1A] font-medium opacity-80">
-                {description}
-              </p>
-
-              <div className="flex flex-wrap gap-2">
-                <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--blue-bg)] rounded-[4px] text-[13px] font-bold text-[var(--blue)]">
-                  <RiUserVoiceLine size={16} />
-                  {formatAgeGroup(metadata.ageRange)}
-                </div>
-                <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--purple-bg)] rounded-[4px] text-[13px] font-bold text-[var(--purple)]">
-                  <RiTimeLine size={16} />
-                  {metadata.duration}
-                </div>
-                <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--yellow-bg)] rounded-[4px] text-[13px] font-bold text-[var(--yellow)]">
-                  <RiGroupLine size={16} />
-                  {metadata.participants}
-                </div>
-              </div>
-
-              <div className="pt-8 border-t border-[#F2F2F7] pb-40">
-                <h4 className="text-[18px] font-extrabold text-[#1A1A1A] mb-6 tracking-[-0.02em]">
-                  Comentários ({comments.length})
-                </h4>
+                <h3 className="text-[24px] font-extrabold leading-tight text-[#1A1A1A] tracking-[-0.03em]">
+                  {title}
+                </h3>
                 
-                  {comments.length === 0 && !isAddingComment ? (
+                <p className="text-[16px] leading-relaxed text-[#1A1A1A] font-medium opacity-80">
+                  {description}
+                </p>
+
+                <div className="flex flex-wrap gap-2">
+                  <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--blue-bg)] rounded-[4px] text-[13px] font-bold text-[var(--blue)]">
+                    <RiUserVoiceLine size={16} />
+                    {formatAgeGroup(metadata.ageRange)}
+                  </div>
+                  <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--purple-bg)] rounded-[4px] text-[13px] font-bold text-[var(--purple)]">
+                    <RiTimeLine size={16} />
+                    {metadata.duration}
+                  </div>
+                  <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--yellow-bg)] rounded-[4px] text-[13px] font-bold text-[var(--yellow)]">
+                    <RiGroupLine size={16} />
+                    {metadata.participants}
+                  </div>
+                </div>
+
+                <div className="pt-8 border-t border-[#F2F2F7]">
+                  <h4 className="text-[18px] font-extrabold text-[#1A1A1A] mb-6 tracking-[-0.02em]">
+                    Comentários ({comments.length})
+                  </h4>
+                  
+                  {comments.length === 0 ? (
                     <p className="text-[14px] text-[#8E8E93] text-center py-8">Nenhum comentário ainda. Seja o primeiro a comentar!</p>
                   ) : (
                     <div className="space-y-6">
-                      {comments.map((comment: any) => (
-                        <div key={comment.id} className="flex gap-4">
-                          <Avatar className="h-8 w-8 flex-shrink-0">
-                            <AvatarImage src={comment.user.avatar_url || comment.user.image} />
-                            <AvatarFallback className="font-bold">{comment.user.name[0]}</AvatarFallback>
-                          </Avatar>
-                          <div className="flex flex-col gap-1">
-                            <div className="flex items-center gap-2">
-                              <span className="text-[14px] font-bold text-[#1A1A1A]">{comment.user.name}</span>
-                              <span className="text-[12px] text-[#8E8E93]">
-                                {new Date(comment.created_at).toLocaleDateString("pt-BR")}
-                              </span>
+                      {comments.map((comment: any) => {
+                        const isOwner = currentUserId === comment.user_id
+                        const isEditing = editingCommentId === comment.id
+                        const isDeleting = isDeletingId === comment.id
+
+                        return (
+                          <div key={comment.id} className={cn("flex gap-4 group", isDeleting && "opacity-50 grayscale transition-all")}>
+                            <Avatar className="h-8 w-8 flex-shrink-0">
+                              <AvatarImage src={comment.user.avatar_url || comment.user.image} />
+                              <AvatarFallback className="font-bold">{comment.user.name[0]}</AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1 flex flex-col gap-1">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-[14px] font-bold text-[#1A1A1A]">{comment.user.name}</span>
+                                  <span className="text-[12px] text-[#8E8E93]">
+                                    {new Date(comment.created_at).toLocaleDateString("pt-BR")}
+                                  </span>
+                                </div>
+                                {isOwner && !isEditing && (
+                                  <div className="flex items-center gap-2 transition-opacity">
+                                    <button 
+                                      onClick={() => {
+                                        setEditingCommentId(comment.id)
+                                        setEditingCommentText(comment.text)
+                                      }}
+                                      className="text-[#8E8E93] hover:text-primary transition-colors"
+                                    >
+                                      <RiEditLine size={16} />
+                                    </button>
+                                    <button 
+                                      onClick={async () => {
+                                        if (confirm("Deseja excluir seu comentário?")) {
+                                          setIsDeletingId(comment.id)
+                                          await deleteComment(comment.id)
+                                          setIsDeletingId(null)
+                                          router.refresh()
+                                        }
+                                      }}
+                                      className="text-[#8E8E93] hover:text-red-500 transition-colors"
+                                    >
+                                      {isDeleting ? <RiLoader4Line size={16} className="animate-spin" /> : <RiDeleteBinLine size={16} />}
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
+                              
+                              {isEditing ? (
+                                <div className="space-y-2 mt-1">
+                                  <textarea
+                                    className="w-full p-3 rounded-[8px] bg-[#F2F2F7] text-[14px] font-medium border-none focus:ring-1 ring-primary/20 resize-none"
+                                    value={editingCommentText}
+                                    onChange={(e) => setEditingCommentText(e.target.value)}
+                                    autoFocus
+                                  />
+                                  <div className="flex gap-2">
+                                    <Button 
+                                      size="sm" 
+                                      className="h-8 bg-primary text-white font-bold rounded-[4px]"
+                                      onClick={async () => {
+                                        await updateComment(comment.id, editingCommentText)
+                                        setEditingCommentId(null)
+                                        router.refresh()
+                                      }}
+                                    >
+                                      Salvar
+                                    </Button>
+                                    <Button 
+                                      variant="ghost" 
+                                      size="sm" 
+                                      className="h-8 text-[#8E8E93] font-bold"
+                                      onClick={() => setEditingCommentId(null)}
+                                    >
+                                      Cancelar
+                                    </Button>
+                                  </div>
+                                </div>
+                              ) : (
+                                <p className="text-[14px] text-[#1A1A1A] leading-relaxed opacity-90">
+                                  {comment.text}
+                                </p>
+                              )}
                             </div>
-                            <p className="text-[14px] text-[#1A1A1A] leading-relaxed opacity-90">
-                              {comment.text}
-                            </p>
                           </div>
-                        </div>
-                      ))}
+                        )
+                      })}
                     </div>
                   )}
-
-                  <div className="mt-8 border-t border-[#F2F2F7] pt-6">
-                    {isAddingComment ? (
-                      <div className="space-y-4">
-                        <textarea
-                          autoFocus
-                          placeholder="Sua experiência com essa brincadeira..."
-                          className="w-full h-24 p-4 rounded-[12px] bg-[#F2F2F7] border-none text-[15px] focus:ring-1 focus:ring-primary/20 transition-all resize-none"
-                          value={commentText}
-                          onChange={(e) => setCommentText(e.target.value)}
-                        />
-                        <div className="flex gap-3">
-                          <Button 
-                            variant="ghost"
-                            onClick={() => setIsAddingComment(false)}
-                            className="flex-1 h-11 font-bold text-[#8E8E93]"
-                          >
-                            Cancelar
-                          </Button>
-                           <Button 
-                             className="flex-2 h-11 bg-primary text-white font-bold rounded-[6px] px-8"
-                             onClick={async () => {
-                               if (!commentText.trim()) return
-                               
-                               startTransition(async () => {
-                                 try {
-                                   await addComment(id, commentText)
-                                   setIsAddingComment(false)
-                                   setCommentText("")
-                                   router.refresh()
-                                   // Optionally close the sheet to "undock" the frozen feeling
-                                   setIsSheetOpen(false)
-                                 } catch (error) {
-                                   console.error("Erro ao postar comentário:", error)
-                                 }
-                               })
-                             }}
-                             disabled={!commentText.trim() || isPending}
-                           >
-                             {isPending ? (
-                               <RiLoader4Line className="animate-spin" size={20} />
-                             ) : (
-                               "Postar"
-                             )}
-                           </Button>
-                        </div>
-                      </div>
-                    ) : (
-                      <Button 
-                        onClick={() => setIsAddingComment(true)}
-                        className="w-full h-12 bg-primary text-white font-bold rounded-[6px] shadow-sm active:scale-[0.98] transition-all"
-                      >
-                        Adicionar Comentário
-                      </Button>
-                    )}
-                  </div>
                 </div>
-              </div>
-          </SheetContent>
+               </div>
+             </div>
+
+             {/* Fixed Footer Action Area */}
+             <div className="px-5 py-4 border-t border-[#F2F2F7] bg-white safe-area-bottom">
+               {isAddingComment ? (
+                 <div className="space-y-4">
+                   <textarea
+                     autoFocus
+                     placeholder="Sua experiência com essa brincadeira..."
+                     className="w-full h-24 p-4 rounded-[12px] bg-[#F2F2F7] border-none text-[15px] focus:ring-1 focus:ring-primary/20 transition-all resize-none font-medium"
+                     value={commentText}
+                     onChange={(e) => setCommentText(e.target.value)}
+                   />
+                   <div className="flex gap-3">
+                     <Button 
+                       variant="ghost"
+                       onClick={() => setIsAddingComment(false)}
+                       className="flex-1 h-11 font-bold text-[#8E8E93]"
+                     >
+                       Cancelar
+                     </Button>
+                      <Button 
+                        className="flex-2 h-11 bg-primary text-white font-bold rounded-[6px] px-8"
+                        onClick={async () => {
+                          if (!commentText.trim()) return
+                          
+                          startTransition(async () => {
+                            try {
+                              await addComment(id, commentText)
+                              setIsAddingComment(false)
+                              setCommentText("")
+                              router.refresh()
+                              // Success feedback: we keep it open so user can see their comment
+                            } catch (error) {
+                              console.error("Erro ao postar comentário:", error)
+                            }
+                          })
+                        }}
+                        disabled={!commentText.trim() || isPending}
+                      >
+                        {isPending ? (
+                          <RiLoader4Line className="animate-spin" size={20} />
+                        ) : (
+                          "Postar"
+                        )}
+                      </Button>
+                   </div>
+                 </div>
+               ) : (
+                 <Button 
+                   onClick={() => setIsAddingComment(true)}
+                   className="w-full h-12 bg-[#FF9500] text-white font-bold rounded-[6px] shadow-sm active:scale-[0.98] transition-all text-[15px]"
+                 >
+                   Adicionar Comentário
+                 </Button>
+               )}
+             </div>
+           </SheetContent>
         </Sheet>
       </CardFooter>
     </Card>

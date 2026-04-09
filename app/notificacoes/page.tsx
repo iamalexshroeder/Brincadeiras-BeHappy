@@ -79,25 +79,6 @@ export default function Notificacoes() {
           <h2 className="text-[13px] font-extrabold text-[#8E8E93] uppercase tracking-widest pl-1">
             Recentes
           </h2>
-          {notifications.length > 0 && (
-            <div className="flex gap-4">
-              <button
-                onClick={async () => {
-                  await markNotificationsRead()
-                  fetchNotifications()
-                }}
-                className="text-[13px] font-bold text-primary active:opacity-70"
-              >
-                Lidas
-              </button>
-              <button
-                onClick={handleClearAll}
-                className="text-[13px] font-bold text-[#EF4444] active:opacity-70"
-              >
-                Limpar tudo
-              </button>
-            </div>
-          )}
         </div>
 
         {notifications.length === 0 && !loading ? (
@@ -146,6 +127,27 @@ export default function Notificacoes() {
           </div>
         )}
       </main>
+
+      {/* Ações fixas no rodapé */}
+      {notifications.length > 0 && (
+        <div className="fixed bottom-[64px] left-0 right-0 px-5 pb-4 bg-gradient-to-t from-[#F9F9F7] via-[#F9F9F7] to-transparent pt-8 flex gap-3">
+          <button
+            onClick={async () => {
+              await markNotificationsRead()
+              fetchNotifications()
+            }}
+            className="flex-1 h-12 rounded-[6px] border border-[#E5E5EA] bg-white text-[15px] font-bold text-[#1A1A1A] active:scale-[0.98] transition-all shadow-sm"
+          >
+            Marcar como lidas
+          </button>
+          <button
+            onClick={handleClearAll}
+            className="flex-1 h-12 rounded-[6px] border border-[#EF4444]/30 bg-white text-[15px] font-bold text-[#EF4444] active:scale-[0.98] transition-all shadow-sm"
+          >
+            Limpar tudo
+          </button>
+        </div>
+      )}
     </div>
   )
 }
