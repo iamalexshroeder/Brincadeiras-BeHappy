@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { RiArrowLeftSLine, RiQuestionLine, RiMailLine, RiChatHelpLine } from "@remixicon/react"
+import { RiArrowLeftSLine, RiQuestionLine, RiMailLine, RiCustomerService2Line } from "@remixicon/react"
 import { useRouter } from "next/navigation"
 
 export default function AjudaPage() {
