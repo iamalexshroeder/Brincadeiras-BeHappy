@@ -29,6 +29,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { getTitleForLevel } from "@/utils/gamification"
+import { addComment } from "@/lib/actions"
 
 const AGE_GROUP_LABELS: Record<string, string> = {
   "AGE_3_5": "3 a 5 anos",
@@ -59,12 +60,14 @@ interface BrincadeiraCardProps {
   likesCount: number
   usedCount: number
   commentsCount?: number
+  comments?: any[]
 }
 
 const MOCK_COMMENTS: any[] = []
 
 
 export function BrincadeiraCard({
+  id,
   title,
   description,
   creator,
@@ -72,7 +75,8 @@ export function BrincadeiraCard({
   tags,
   likesCount,
   usedCount,
-  commentsCount = 0
+  commentsCount = 0,
+  comments = []
 }: BrincadeiraCardProps) {
   const [isLiked, setIsLiked] = useState(false)
   const [isUsed, setIsUsed] = useState(false)
@@ -253,25 +257,27 @@ export function BrincadeiraCard({
                 </div>
               </div>
 
-              <div className="pt-8 border-t border-[#F2F2F7]">
+              <div className="pt-8 border-t border-[#F2F2F7] pb-40">
                 <h4 className="text-[18px] font-extrabold text-[#1A1A1A] mb-6 tracking-[-0.02em]">
-                  Comentários ({MOCK_COMMENTS.length})
+                  Comentários ({comments.length})
                 </h4>
                 
-                  {MOCK_COMMENTS.length === 0 && !isAddingComment ? (
+                  {comments.length === 0 && !isAddingComment ? (
                     <p className="text-[14px] text-[#8E8E93] text-center py-8">Nenhum comentário ainda. Seja o primeiro a comentar!</p>
                   ) : (
                     <div className="space-y-6">
-                      {MOCK_COMMENTS.map((comment) => (
+                      {comments.map((comment: any) => (
                         <div key={comment.id} className="flex gap-4">
                           <Avatar className="h-8 w-8 flex-shrink-0">
-                            <AvatarImage src={comment.avatar} />
-                            <AvatarFallback className="font-bold">{comment.user[0]}</AvatarFallback>
+                            <AvatarImage src={comment.user.avatar_url || comment.user.image} />
+                            <AvatarFallback className="font-bold">{comment.user.name[0]}</AvatarFallback>
                           </Avatar>
                           <div className="flex flex-col gap-1">
                             <div className="flex items-center gap-2">
-                              <span className="text-[14px] font-bold text-[#1A1A1A]">{comment.user}</span>
-                              <span className="text-[12px] text-[#8E8E93]">{comment.date}</span>
+                              <span className="text-[14px] font-bold text-[#1A1A1A]">{comment.user.name}</span>
+                              <span className="text-[12px] text-[#8E8E93]">
+                                {new Date(comment.created_at).toLocaleDateString("pt-BR")}
+                              </span>
                             </div>
                             <p className="text-[14px] text-[#1A1A1A] leading-relaxed opacity-90">
                               {comment.text}
@@ -302,8 +308,9 @@ export function BrincadeiraCard({
                           </Button>
                           <Button 
                             className="flex-2 h-11 bg-primary text-white font-bold rounded-[6px] px-8"
-                            onClick={() => {
-                              // Simulando envio para produção real
+                            onClick={async () => {
+                              if (!commentText.trim()) return
+                              await addComment(id, commentText)
                               setIsAddingComment(false)
                               setCommentText("")
                             }}

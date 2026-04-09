@@ -21,6 +21,14 @@ async function getLibrary() {
         user: {
           select: { id: true, name: true, avatar_url: true, image: true, xp: true },
         },
+        comments: {
+          include: {
+            user: {
+              select: { name: true, avatar_url: true, image: true },
+            },
+          },
+          orderBy: { created_at: "desc" },
+        },
       },
     })
 
@@ -41,6 +49,7 @@ async function getLibrary() {
       tags: b.tags,
       likesCount: b.likes_count,
       usedCount: b.used_count,
+      comments: b.comments,
     }))
   } catch {
     return []

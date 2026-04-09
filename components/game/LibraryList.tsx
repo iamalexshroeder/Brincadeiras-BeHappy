@@ -13,6 +13,7 @@ interface LibraryItem {
   tags: string[]
   likesCount: number
   usedCount: number
+  comments?: any[]
 }
 
 interface LibraryListProps {

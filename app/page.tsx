@@ -70,6 +70,7 @@ export default async function Home({
                   tags={game.tags}
                   likesCount={game.likesCount}
                   usedCount={game.usedCount}
+                  comments={game.comments}
                 />
               ))}
             </div>

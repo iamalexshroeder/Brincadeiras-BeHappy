@@ -160,6 +160,14 @@ export async function getFeed(limit = 20, cursor?: string, category?: string) {
       user: {
         select: { id: true, name: true, avatar_url: true, image: true, xp: true },
       },
+      comments: {
+        include: {
+          user: {
+            select: { name: true, avatar_url: true, image: true },
+          },
+        },
+        orderBy: { created_at: "desc" },
+      },
       interactions: userId
         ? {
             where: { user_id: userId },
@@ -180,6 +188,7 @@ export async function getFeed(limit = 20, cursor?: string, category?: string) {
       tags: b.tags,
       likesCount: b.likes_count,
       usedCount: b.used_count,
+      comments: b.comments,
       metadata: {
         ageRange: b.age_groups.join(", "),
         duration: `${b.duration_minutes} min`,
@@ -459,4 +468,31 @@ export async function clearAllNotifications() {
   })
 
   revalidatePath("/notificacoes")
+}
+/**
+ * Adds a comment to a brincadeira.
+ */
+export async function addComment(brincadeiraId: string, text: string) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Não autenticado")
+  const userId = session.user.id
+
+  if (!text.trim()) return
+
+  const comment = await prisma.comment.create({
+    data: {
+      brincadeira_id: brincadeiraId,
+      user_id: userId,
+      text: text,
+    },
+    include: {
+      user: {
+        select: { name: true, avatar_url: true, image: true },
+      },
+    },
+  })
+
+  revalidatePath("/")
+  revalidatePath("/explorar")
+  return comment
 }
