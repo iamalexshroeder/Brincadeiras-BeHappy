@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google"
 import { SessionProvider } from "next-auth/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -38,6 +39,7 @@ export default function RootLayout({
             <BottomNav />
           </ThemeProvider>
         </SessionProvider>
+        <SpeedInsights />
       </body>
     </html>
   )
