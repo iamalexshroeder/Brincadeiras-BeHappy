@@ -10,7 +10,7 @@ import {
   RiStarFill, 
   RiChat3Line, 
   RiTimeLine, 
-  RiUserGroupLine, 
+  RiGroupLine, 
   RiEditLine, 
   RiDeleteBinLine, 
   RiLoader4Line,
@@ -223,7 +223,7 @@ export function BrincadeiraCard({
             {metadata.duration}
           </div>
           <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--yellow-bg)] rounded-[4px] text-[13px] font-bold text-[var(--yellow)]">
-            <RiUserGroupLine size={16} />
+            <RiGroupLine size={16} />
             {metadata.participants}
           </div>
         </div>
@@ -417,7 +417,7 @@ export function BrincadeiraCard({
                     {metadata.duration}
                   </div>
                   <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--yellow-bg)] rounded-[4px] text-[13px] font-bold text-[var(--yellow)]">
-                    <RiUserGroupLine size={16} />
+                    <RiGroupLine size={16} />
                     {metadata.participants}
                   </div>
                 </div>
