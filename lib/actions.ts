@@ -163,6 +163,69 @@ export async function getProfile() {
   }
 }
 
+
+/**
+ * Gets a public profile of another user by their ID.
+ */
+export async function getPublicProfile(userId: string) {
+  const session = await auth()
+  const currentUserId = session?.user?.id
+
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      name: true,
+      avatar_url: true,
+      image: true,
+      xp: true,
+      created_at: true,
+      _count: {
+        select: {
+          brincadeiras: true,
+        },
+      },
+    },
+  })
+
+  if (!user) return null
+
+  const gamification = getLevelFromXp(user.xp)
+
+  // Get their brincadeiras
+  const brincadeiras = await prisma.brincadeira.findMany({
+    where: { user_id: userId, published_at: { not: null } },
+    include: {
+      user: {
+        select: { id: true, name: true, avatar_url: true, image: true, xp: true },
+      },
+      comments: {
+        include: {
+          user: {
+            select: { name: true, avatar_url: true, image: true },
+          },
+        },
+        orderBy: { created_at: "desc" },
+      },
+      interactions: currentUserId
+        ? {
+            where: { user_id: currentUserId },
+            select: { type: true },
+          }
+        : false,
+    },
+    orderBy: { published_at: "desc" }
+  })
+
+  return {
+    ...user,
+    ...gamification,
+    avatar: user.avatar_url ?? user.image,
+    brincadeiras: brincadeiras.map(b => formatBrincadeira(b, currentUserId)).filter(Boolean),
+    totalContributions: user._count.brincadeiras
+  }
+}
+
 /**
  * Fetches the feed of brincadeiras for the home screen.
  */

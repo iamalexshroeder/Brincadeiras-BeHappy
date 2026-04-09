@@ -109,16 +109,16 @@ export function Header({
 
       {/* Search Section (Optional) */}
       {showSearch && (
-        <div className="w-full bg-white p-[6px] py-[12px] rounded-full border border-[#F2F2F7] shadow-[0_2px_10px_rgba(0,0,0,0.02)] mb-4">
+        <div className="w-full bg-white p-[6px] py-[10px] rounded-[12px] border border-[#F2F2F7] shadow-[0_4px_16px_rgba(0,0,0,0.03)] mb-4">
           <div className="relative group">
             <RiSearchLine 
               size={18} 
-              className="absolute left-5 top-1/2 -translate-y-1/2 text-[#8E8E93] group-focus-within:text-primary transition-colors" 
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8E8E93] group-focus-within:text-primary transition-colors" 
             />
             <Input 
               type="search" 
               placeholder="Encontre sua próxima brincadeira..." 
-              className="pl-12 h-11 bg-[#F2F2F7] border-none rounded-full text-[15px] placeholder:text-[#8E8E93] focus-visible:ring-1 focus-visible:ring-primary/10 transition-all font-medium"
+              className="pl-11 h-11 bg-[#F2F2F7] border-none rounded-[10px] text-[15px] placeholder:text-[#8E8E93] focus-visible:ring-1 focus-visible:ring-primary/10 transition-all font-medium"
             />
           </div>
         </div>

@@ -4,6 +4,7 @@ import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
+import Link from "next/link"
 import { 
   RiHistoryLine, 
   RiHeartFill, 
@@ -21,7 +22,8 @@ import {
   RiCheckboxCircleLine,
   RiCheckboxCircleFill,
   RiUserVoiceLine,
-  RiAddLine
+  RiAddLine,
+  RiShieldUserLine
 } from "@remixicon/react"
 import { 
   Card, 
@@ -194,8 +196,8 @@ export function BrincadeiraCard({
   return (
     <Card className="overflow-hidden border border-[#F2F2F7] shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-white transition-transform active:scale-[0.98]">
       <CardHeader className="p-6 pb-2">
-        <div className="flex items-center gap-4">
-          <Avatar className="h-10 w-10 border-2 border-[#F2F2F7]">
+        <Link href={`/recreador/${creator.id}`} className="flex items-center gap-4 active:opacity-70 transition-opacity">
+          <Avatar className="h-11 w-11 border-2 border-[#F2F2F7]">
             <AvatarImage src={creator.avatar} />
             <AvatarFallback className="bg-primary/10 text-primary font-bold">{creator.name[0]}</AvatarFallback>
           </Avatar>
@@ -212,7 +214,7 @@ export function BrincadeiraCard({
               </span>
             </div>
           </div>
-        </div>
+        </Link>
       </CardHeader>
 
       <CardContent className="p-6 pt-2">
@@ -370,7 +372,7 @@ export function BrincadeiraCard({
                 isEditingBrincadeira ? "pt-12 pb-20" : "py-6"
               )}>
                 <div className="space-y-6">
-                <div className="flex items-center gap-4">
+                <Link href={`/recreador/${creator.id}`} className="flex items-center gap-4 active:opacity-70 transition-opacity">
                   <Avatar className="h-10 w-10 border-2 border-[#F2F2F7]">
                     <AvatarImage src={creator.avatar} />
                     <AvatarFallback className="bg-primary/10 text-primary font-bold">{creator.name[0]}</AvatarFallback>
@@ -388,7 +390,7 @@ export function BrincadeiraCard({
                       </span>
                     </div>
                   </div>
-                </div>
+                </Link>
 
                 {isEditingBrincadeira ? (
                     <div className="space-y-4">
