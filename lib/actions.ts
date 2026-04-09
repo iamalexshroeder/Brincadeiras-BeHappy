@@ -196,24 +196,27 @@ export async function getFeed(limit = 20, cursor?: string, category?: string) {
  * Helper to format DB brincadeira to UI structure
  */
 function formatBrincadeira(b: any, userId?: string) {
+  if (!b) return null;
+  const user = b.user || {};
+  
   return {
     id: b.id,
-    title: b.title,
-    description: b.short_description,
-    tags: b.tags,
-    likesCount: b.likes_count,
-    usedCount: b.used_count,
-    comments: b.comments,
+    title: b.title || "Sem título",
+    description: b.short_description || "",
+    tags: b.tags || [],
+    likesCount: b.likes_count || 0,
+    usedCount: b.used_count || 0,
+    comments: b.comments || [],
     metadata: {
-      ageRange: b.age_groups.join(", "),
-      duration: `${b.duration_minutes} min`,
-      participants: `${b.min_participants}${b.max_participants ? `–${b.max_participants}` : "+"}`,
+      ageRange: (b.age_groups || []).join(", ") || "Qualquer idade",
+      duration: `${b.duration_minutes || 0} min`,
+      participants: `${b.min_participants || 1}${b.max_participants ? `–${b.max_participants}` : "+"}`,
     },
     creator: {
-      id: b.user.id,
-      name: b.user.name ?? "Recreador",
-      level: getLevelFromXp(b.user.xp).level,
-      avatar: b.user.avatar_url ?? b.user.image ?? undefined,
+      id: user.id || "",
+      name: user.name ?? "Recreador",
+      level: getLevelFromXp(user.xp || 0).level,
+      avatar: user.avatar_url ?? user.image ?? undefined,
     },
     userHasLiked: b.interactions?.some((i: any) => i.type === "LIKE") ?? false,
     userHasUsed: b.interactions?.some((i: any) => i.type === "USED") ?? false,
