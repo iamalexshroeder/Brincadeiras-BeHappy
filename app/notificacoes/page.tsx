@@ -129,20 +129,21 @@ export default function Notificacoes() {
       </main>
 
       {/* Ações fixas no rodapé */}
+      {/* Floating Action Buttons */}
       {notifications.length > 0 && (
-        <div className="fixed bottom-[64px] left-0 right-0 px-5 pb-4 bg-gradient-to-t from-[#F9F9F7] via-[#F9F9F7] to-transparent pt-8 flex gap-3">
+        <div className="fixed bottom-[64px] left-0 right-0 px-5 pb-4 bg-gradient-to-t from-[#F9F9F7] via-[#F9F9F7]/90 to-transparent pt-8 flex gap-3 no-print">
           <button
             onClick={async () => {
               await markNotificationsRead()
               fetchNotifications()
             }}
-            className="flex-1 h-12 rounded-[12px] border border-border bg-card text-[15px] font-bold text-foreground active:scale-[0.98] transition-all shadow-sm"
+            className="flex-1 h-12 rounded-[12px] border border-[#E5E5EA] bg-white text-[15px] font-bold text-[#1A1A1A] active:scale-[0.98] transition-all shadow-sm"
           >
             Marcar como lidas
           </button>
           <button
             onClick={handleClearAll}
-            className="flex-1 h-12 rounded-[12px] border border-[#EF4444]/30 bg-card text-[15px] font-bold text-[#EF4444] active:scale-[0.98] transition-all shadow-sm"
+            className="flex-1 h-12 rounded-[12px] border border-[#EF4444]/30 bg-white text-[15px] font-bold text-[#EF4444] active:scale-[0.98] transition-all shadow-sm"
           >
             Limpar tudo
           </button>

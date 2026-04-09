@@ -42,7 +42,7 @@ export default async function Home({
         {/* Feed Section */}
         <section>
           <div className="flex items-baseline justify-between mb-6">
-            <h2 className="text-[18px] font-extrabold text-foreground tracking-[-0.03em]">
+            <h2 className="text-[18px] font-extrabold text-muted-foreground tracking-[-0.03em]">
               Novidades
             </h2>
             {feed.length > 0 && (
@@ -94,9 +94,9 @@ export default async function Home({
       </main>
 
       {/* Floating Action Button */}
-      <div className="fixed bottom-[64px] left-0 right-0 px-5 pb-4 bg-gradient-to-t from-[#F9F9F7] via-[#F9F9F7] to-transparent pt-8">
+      <div className="fixed bottom-[64px] left-0 right-0 px-5 pb-4 bg-gradient-to-t from-[#F9F9F7] via-[#F9F9F7]/90 to-transparent pt-8 no-print">
         <Link href="/criar" className="w-full">
-          <Button className="w-full h-12 bg-[#FF9500] text-white font-medium text-[14px] rounded-[12px] shadow-sm border-none active:scale-[0.98] active:opacity-90">
+          <Button className="w-full h-12 bg-[#FF9500] text-white font-bold text-[14px] rounded-[12px] shadow-md border-none active:scale-[0.98] active:opacity-90">
             Criar nova brincadeira
           </Button>
         </Link>

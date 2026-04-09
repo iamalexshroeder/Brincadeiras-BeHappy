@@ -412,7 +412,7 @@ export default function CreateBrincadeiraForm() {
       </main>
 
       {/* Floating Action Button */}
-      <div className="fixed bottom-[24px] left-0 right-0 px-5 bg-gradient-to-t from-[#F9F9F7] via-[#F9F9F7] to-transparent pt-8 z-[60]">
+      <div className="fixed bottom-[24px] left-0 right-0 px-5 bg-gradient-to-t from-background via-background to-transparent pt-8 z-[60]">
         {error && (
           <p className="text-red-500 text-[12px] font-bold text-center mb-4 bg-red-50 py-2 rounded-[6px]">
             {error}

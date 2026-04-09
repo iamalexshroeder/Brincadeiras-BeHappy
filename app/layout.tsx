@@ -1,8 +1,8 @@
 import { Inter } from "next/font/google"
 import { SessionProvider } from "next-auth/react"
+import React from "react"
 
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { BottomNav } from "@/components/layout/BottomNav"
 import { Toaster } from "@/components/ui/sonner"
@@ -25,7 +25,7 @@ export const viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: "#FFFFFF",
+  themeColor: "#F9F9F7",
 }
 
 export default function RootLayout({
@@ -41,14 +41,12 @@ export default function RootLayout({
     >
       <body className="flex-1 pb-[64px] md:pb-0 bg-background text-foreground">
         <SessionProvider>
-          <ThemeProvider>
-            <main className="flex-1">
-              {children}
-            </main>
-            <BottomNav />
-            <Toaster position="top-center" richColors theme="light" />
-            <NotificationPoller />
-          </ThemeProvider>
+          <main className="flex-1">
+            {children}
+          </main>
+          <BottomNav />
+          <Toaster position="top-center" richColors />
+          <NotificationPoller />
         </SessionProvider>
       </body>
     </html>
