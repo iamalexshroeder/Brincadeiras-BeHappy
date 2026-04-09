@@ -288,7 +288,8 @@ export function BrincadeiraCard({
              <Button variant="ghost" className="text-[#AF52DE] active:bg-[#AF52DE]/5 text-[15px] h-9 px-4 font-bold rounded-[6px] transition-colors">
                Ver Detalhes
              </Button>
-           </SheetTrigge            <SheetContent side="bottom" className="h-[95vh] rounded-t-[32px] p-0 flex flex-col border-none bg-white overflow-hidden outline-none">
+           </SheetTrigger>
+           <SheetContent side="bottom" className="h-[95vh] rounded-t-[32px] p-0 flex flex-col border-none bg-white overflow-hidden outline-none">
               {/* Barra de Ações Fixa (Top Bar) */}
               <div className="absolute top-0 left-0 right-0 h-16 bg-white/90 backdrop-blur-md border-b border-[#F2F2F7] px-5 flex items-center justify-between z-[100]">
                 <div className="flex items-center gap-3">
