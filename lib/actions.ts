@@ -142,14 +142,19 @@ export async function getProfile() {
 /**
  * Fetches the feed of brincadeiras for the home screen.
  */
-export async function getFeed(limit = 20, cursor?: string) {
+export async function getFeed(limit = 20, cursor?: string, category?: string) {
   const session = await auth()
   const userId = session?.user?.id
 
   const brincadeiras = await prisma.brincadeira.findMany({
     take: limit + 1,
     ...(cursor ? { skip: 1, cursor: { id: cursor } } : {}),
-    where: { published_at: { not: null } },
+    where: { 
+      published_at: { not: null },
+      ...(category && category.toLowerCase() !== "todos" ? {
+        tags: { has: category }
+      } : {})
+    },
     orderBy: { published_at: "desc" },
     include: {
       user: {

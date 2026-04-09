@@ -13,8 +13,13 @@ import { getFeed } from "@/lib/actions"
 
 export const dynamic = "force-dynamic"
 
-export default async function Home() {
-  const { items: feed } = await getFeed(20)
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>
+}) {
+  const { category } = await searchParams
+  const { items: feed } = await getFeed(20, undefined, category)
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
@@ -36,14 +41,20 @@ export default async function Home() {
               </span>
             )}
           </div>
-
           {feed.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-center">
               <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-4">
                 <RiFileList3Line size={32} className="text-[#C7C7CC]" />
               </div>
               <p className="text-[17px] font-bold text-[#1A1A1A] mb-1">
-                Nenhuma brincadeira ainda
+                {category && category !== "todos" 
+                  ? `Nenhuma brincadeira em "${category}"`
+                  : "Nenhuma brincadeira ainda"}
+              </p>
+              <p className="text-[14px] text-[#8E8E93]">
+                {category && category !== "todos" 
+                  ? "Tente outra categoria ou seja o primeiro a criar uma!" 
+                  : "Seja o primeiro a compartilhar uma brincadeira!"}
               </p>
             </div>
           ) : (

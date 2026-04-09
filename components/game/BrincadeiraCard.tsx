@@ -30,6 +30,17 @@ import {
 } from "@/components/ui/sheet"
 import { getTitleForLevel } from "@/utils/gamification"
 
+const AGE_GROUP_LABELS: Record<string, string> = {
+  "AGE_3_5": "3 a 5 anos",
+  "AGE_6_9": "6 a 9 anos",
+  "AGE_10_PLUS": "10+ anos",
+}
+
+function formatAgeGroup(age?: string) {
+  if (!age) return "Qualquer idade"
+  return AGE_GROUP_LABELS[age] || age.replace(/AGE_/, "").replace(/_/g, " ")
+}
+
 interface BrincadeiraCardProps {
   id: string
   title: string
@@ -67,6 +78,8 @@ export function BrincadeiraCard({
   const [isUsed, setIsUsed] = useState(false)
   const [localLikes, setLocalLikes] = useState(likesCount)
   const [localUsed, setLocalUsed] = useState(usedCount)
+  const [isAddingComment, setIsAddingComment] = useState(false)
+  const [commentText, setCommentText] = useState("")
 
   const handleLike = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -184,7 +197,7 @@ export function BrincadeiraCard({
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" className="text-[#FF9500] active:bg-[#FF9500]/10 text-[15px] h-9 px-4 font-bold rounded-[6px]">
+            <Button variant="ghost" className="text-primary hover:bg-primary/5 text-[15px] h-9 px-4 font-bold rounded-[6px] transition-colors">
               Ver Detalhes
             </Button>
           </SheetTrigger>
@@ -228,7 +241,7 @@ export function BrincadeiraCard({
               <div className="flex flex-wrap gap-2">
                 <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--blue-bg)] rounded-[4px] text-[13px] font-bold text-[var(--blue)]">
                   <RiUserVoiceLine size={16} />
-                  {metadata.ageRange}
+                  {formatAgeGroup(metadata.ageRange)}
                 </div>
                 <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--purple-bg)] rounded-[4px] text-[13px] font-bold text-[var(--purple)]">
                   <RiTimeLine size={16} />
@@ -245,37 +258,72 @@ export function BrincadeiraCard({
                   Comentários ({MOCK_COMMENTS.length})
                 </h4>
                 
-                <div className="space-y-6">
-                  {MOCK_COMMENTS.length === 0 ? (
+                  {MOCK_COMMENTS.length === 0 && !isAddingComment ? (
                     <p className="text-[14px] text-[#8E8E93] text-center py-8">Nenhum comentário ainda. Seja o primeiro a comentar!</p>
                   ) : (
-                    MOCK_COMMENTS.map((comment) => (
-                      <div key={comment.id} className="flex gap-4">
-                        <Avatar className="h-8 w-8 flex-shrink-0">
-                          <AvatarImage src={comment.avatar} />
-                          <AvatarFallback className="font-bold">{comment.user[0]}</AvatarFallback>
-                        </Avatar>
-                        <div className="flex flex-col gap-1">
-                          <div className="flex items-center gap-2">
-                            <span className="text-[14px] font-bold text-[#1A1A1A]">{comment.user}</span>
-                            <span className="text-[12px] text-[#8E8E93]">{comment.date}</span>
+                    <div className="space-y-6">
+                      {MOCK_COMMENTS.map((comment) => (
+                        <div key={comment.id} className="flex gap-4">
+                          <Avatar className="h-8 w-8 flex-shrink-0">
+                            <AvatarImage src={comment.avatar} />
+                            <AvatarFallback className="font-bold">{comment.user[0]}</AvatarFallback>
+                          </Avatar>
+                          <div className="flex flex-col gap-1">
+                            <div className="flex items-center gap-2">
+                              <span className="text-[14px] font-bold text-[#1A1A1A]">{comment.user}</span>
+                              <span className="text-[12px] text-[#8E8E93]">{comment.date}</span>
+                            </div>
+                            <p className="text-[14px] text-[#1A1A1A] leading-relaxed opacity-90">
+                              {comment.text}
+                            </p>
                           </div>
-                          <p className="text-[14px] text-[#1A1A1A] leading-relaxed opacity-90">
-                            {comment.text}
-                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="mt-8 border-t border-[#F2F2F7] pt-6">
+                    {isAddingComment ? (
+                      <div className="space-y-4">
+                        <textarea
+                          autoFocus
+                          placeholder="Sua experiência com essa brincadeira..."
+                          className="w-full h-24 p-4 rounded-[12px] bg-[#F2F2F7] border-none text-[15px] focus:ring-1 focus:ring-primary/20 transition-all resize-none"
+                          value={commentText}
+                          onChange={(e) => setCommentText(e.target.value)}
+                        />
+                        <div className="flex gap-3">
+                          <Button 
+                            variant="ghost"
+                            onClick={() => setIsAddingComment(false)}
+                            className="flex-1 h-11 font-bold text-[#8E8E93]"
+                          >
+                            Cancelar
+                          </Button>
+                          <Button 
+                            className="flex-2 h-11 bg-primary text-white font-bold rounded-[6px] px-8"
+                            onClick={() => {
+                              // Simulando envio para produção real
+                              setIsAddingComment(false)
+                              setCommentText("")
+                            }}
+                            disabled={!commentText.trim()}
+                          >
+                            Postar
+                          </Button>
                         </div>
                       </div>
-                    ))
-                  )}
-                </div>
-
-                <div className="mt-8">
-                  <Button className="w-full h-10 bg-primary text-white font-medium rounded-[6px]">
-                    Adicionar Comentário
-                  </Button>
+                    ) : (
+                      <Button 
+                        onClick={() => setIsAddingComment(true)}
+                        className="w-full h-12 bg-primary text-white font-bold rounded-[6px] shadow-sm active:scale-[0.98] transition-all"
+                      >
+                        Adicionar Comentário
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
           </SheetContent>
         </Sheet>
       </CardFooter>

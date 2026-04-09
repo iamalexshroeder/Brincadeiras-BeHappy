@@ -151,12 +151,15 @@ export default function Ranking() {
                           <AvatarImage src={user.avatar ?? undefined} />
                           <AvatarFallback>{user.name[0]}</AvatarFallback>
                         </Avatar>
-                        <div className="flex-1 flex flex-col justify-center">
-                          <div className="flex items-center justify-between">
-                            <span className="text-[16px] font-bold text-[#1A1A1A]">{user.name}</span>
-                            <span className={cn("text-[14px] font-extrabold", getLevelColor(user.level))}>Nível {user.level}</span>
-                          </div>
-                          <span className="text-[11px] font-bold uppercase tracking-tight text-[#8E8E93]">{getTitleForLevel(user.level)}</span>
+                        <div className="flex-1 min-w-0">
+                          <span className="block text-[15px] font-bold text-[#1A1A1A] truncate">{user.name}</span>
+                          <span className="block text-[11px] font-bold uppercase tracking-tight text-[#8E8E93]">{getTitleForLevel(user.level)}</span>
+                        </div>
+
+                        <div className="flex flex-col items-end">
+                          <span className={cn("text-[13px] font-extrabold uppercase tracking-wide", getLevelColor(user.level))}>
+                            Nível {user.level}
+                          </span>
                         </div>
                       </div>
                     </Card>

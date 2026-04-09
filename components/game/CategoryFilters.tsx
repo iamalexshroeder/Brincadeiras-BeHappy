@@ -2,6 +2,7 @@
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { cn } from "@/lib/utils"
+import { useRouter, useSearchParams } from "next/navigation"
 
 const CATEGORIES = [
   "Todos", 
@@ -14,11 +15,27 @@ const CATEGORIES = [
 ]
 
 export function CategoryFilters() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const currentCategory = searchParams.get("category") || "todos"
+
+  const handleCategoryChange = (value: string) => {
+    if (!value) return
+    const params = new URLSearchParams(searchParams.toString())
+    if (value === "todos") {
+      params.delete("category")
+    } else {
+      params.set("category", value)
+    }
+    router.push(`/?${params.toString()}`)
+  }
+
   return (
     <div className="w-full overflow-x-auto no-scrollbar py-2 px-5 bg-transparent">
       <ToggleGroup 
         type="single" 
-        defaultValue="todos" 
+        value={currentCategory}
+        onValueChange={handleCategoryChange}
         className="justify-start gap-2 min-w-max"
       >
         {CATEGORIES.map((cat) => (
