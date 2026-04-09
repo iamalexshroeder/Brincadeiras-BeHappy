@@ -50,29 +50,8 @@ interface BrincadeiraCardProps {
   commentsCount?: number
 }
 
-const MOCK_COMMENTS = [
-  {
-    id: "1",
-    user: "Maria Kids",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria",
-    text: "As crianças adoraram! Fizemos no final de semana e foi um sucesso.",
-    date: "2 dias atrás"
-  },
-  {
-    id: "2",
-    user: "João Recreador",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Joao",
-    text: "Ótima variação para grupos grandes. Recomendo usar um apito para o comando.",
-    date: "1 semana atrás"
-  },
-  {
-    id: "3",
-    user: "Ana Paula",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ana",
-    text: "Muito simples de preparar, não precisa de quase nenhum material.",
-    date: "2 semanas atrás"
-  }
-]
+const MOCK_COMMENTS: any[] = []
+
 
 export function BrincadeiraCard({
   title,
@@ -267,23 +246,27 @@ export function BrincadeiraCard({
                 </h4>
                 
                 <div className="space-y-6">
-                  {MOCK_COMMENTS.map((comment) => (
-                    <div key={comment.id} className="flex gap-4">
-                      <Avatar className="h-8 w-8 flex-shrink-0">
-                        <AvatarImage src={comment.avatar} />
-                        <AvatarFallback className="font-bold">{comment.user[0]}</AvatarFallback>
-                      </Avatar>
-                      <div className="flex flex-col gap-1">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[14px] font-bold text-[#1A1A1A]">{comment.user}</span>
-                          <span className="text-[12px] text-[#8E8E93]">{comment.date}</span>
+                  {MOCK_COMMENTS.length === 0 ? (
+                    <p className="text-[14px] text-[#8E8E93] text-center py-8">Nenhum comentário ainda. Seja o primeiro a comentar!</p>
+                  ) : (
+                    MOCK_COMMENTS.map((comment) => (
+                      <div key={comment.id} className="flex gap-4">
+                        <Avatar className="h-8 w-8 flex-shrink-0">
+                          <AvatarImage src={comment.avatar} />
+                          <AvatarFallback className="font-bold">{comment.user[0]}</AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col gap-1">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[14px] font-bold text-[#1A1A1A]">{comment.user}</span>
+                            <span className="text-[12px] text-[#8E8E93]">{comment.date}</span>
+                          </div>
+                          <p className="text-[14px] text-[#1A1A1A] leading-relaxed opacity-90">
+                            {comment.text}
+                          </p>
                         </div>
-                        <p className="text-[14px] text-[#1A1A1A] leading-relaxed opacity-90">
-                          {comment.text}
-                        </p>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
                 </div>
 
                 <div className="mt-8">

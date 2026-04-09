@@ -4,7 +4,7 @@ import { CategoryFilters } from "@/components/game/CategoryFilters"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { RiAddLine, RiFileList3Line } from "@remixicon/react"
-import { getFeed } from "@/lib/actions"
+import { getFeed, RESET_GLOBAL_DATA } from "@/lib/actions"
 
 // Example entries for code reference (not rendered in production)
 // const EXAMPLE_GAMES = [
@@ -14,6 +14,10 @@ import { getFeed } from "@/lib/actions"
 export const dynamic = "force-dynamic"
 
 export default async function Home() {
+  // Chamada temporária para resetar os dados iniciais conforme solicitado pelo usuário
+  // Isso será removido após a primeira execução bem-sucedida
+  await RESET_GLOBAL_DATA()
+  
   const { items: feed } = await getFeed(20)
 
   return (

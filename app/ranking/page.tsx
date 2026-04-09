@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { RiTrophyLine, RiLoader4Line, RiCheckLine } from "@remixicon/react"
 import { getTitleForLevel, GAMIFICATION_TIERS } from "@/utils/gamification"
-import { getRanking } from "@/lib/actions"
+import { getRanking, getProfile } from "@/lib/actions"
 
 type RankingUser = {
   rank: number
@@ -31,15 +31,22 @@ export default function Ranking() {
   const [rankingData, setRankingData] = useState<RankingUser[]>([])
   const [loading, setLoading] = useState(true)
   const [showAllMissions, setShowAllMissions] = useState(false)
+  const [currentUserXp, setCurrentUserXp] = useState(0)
 
   useEffect(() => {
+    // Busca o ranking global
     getRanking(50).then((data) => {
       setRankingData(data as RankingUser[])
       setLoading(false)
     })
+    
+    // Busca o perfil do usuário atual para a trilha de títulos
+    getProfile().then(profile => {
+      if (profile) setCurrentUserXp(profile.xp)
+    })
   }, [])
 
-  const userXp = rankingData.find((u) => u.rank === 4)?.xp ?? 0
+  const userXp = currentUserXp
 
   const tiersWithStatus = GAMIFICATION_TIERS.map((tier, index) => {
     let status = "locked"
