@@ -43,9 +43,9 @@ export function Header({
   const progressValue = (user.xp / user.nextLevelXp) * 100
 
   return (
-    <header className="w-full bg-[#F9F9F7] space-y-8 pb-8">
+    <header className="w-full bg-[#F9F9F7] flex flex-col">
       {/* Title Section (Sticky & Stable) */}
-      <div className="sticky top-0 z-40 bg-[#F9F9F7]/90 backdrop-blur-md px-5 pt-12 pb-4 border-b border-transparent shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+      <div className="sticky top-0 z-40 bg-[#F9F9F7]/90 backdrop-blur-md px-5 pt-12 pb-4 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
         <div className="flex items-center justify-between">
           <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-[#1A1A1A]">
             {title || `Olá, ${user.name}`}
@@ -71,8 +71,8 @@ export function Header({
         </div>
       </div>
       
-      {/* Search and User Container */}
-      <div className="px-5 space-y-8">
+      {/* Search and User Container (Scrolls with page) */}
+      <div className="px-5 space-y-8 pt-8 pb-8">
 
       {/* Search Section (Optional) */}
       {showSearch && (
