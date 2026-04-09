@@ -69,7 +69,7 @@ export default async function Home() {
       {/* Floating Action Button */}
       <div className="fixed bottom-[64px] left-0 right-0 px-5 pb-4 bg-gradient-to-t from-[#F9F9F7] via-[#F9F9F7] to-transparent pt-8">
         <Link href="/criar" className="w-full">
-          <Button className="w-full h-14 bg-[#FFCC00] text-[#1A1A1A] font-black text-[15px] rounded-[6px] shadow-sm border-none active:scale-[0.98] active:opacity-90">
+          <Button className="w-full h-12 bg-[#FF9500] text-white font-medium text-[14px] rounded-[6px] shadow-sm border-none active:scale-[0.98] active:opacity-90">
             Registrar Brincadeira
           </Button>
         </Link>

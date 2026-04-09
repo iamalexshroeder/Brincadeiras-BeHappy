@@ -91,7 +91,7 @@ export default function CreateBrincadeiraForm() {
         <Progress value={progress} className="h-1.5 bg-[#F2F2F7]" indicatorClassName="bg-[#AF52DE]" />
       </header>
 
-      <main className="flex-1 px-5 py-8 overflow-y-auto pb-32">
+      <main className="flex-1 px-5 py-8 overflow-y-auto pb-40">
         <AnimatePresence mode="wait">
           {step === 1 && (
             <motion.div
@@ -340,7 +340,7 @@ export default function CreateBrincadeiraForm() {
       </main>
 
       {/* Floating Action Button */}
-      <div className="fixed bottom-[24px] left-0 right-0 px-5 bg-gradient-to-t from-white via-white to-transparent pt-8">
+      <div className="fixed bottom-[24px] left-0 right-0 px-5 bg-gradient-to-t from-[#F9F9F7] via-[#F9F9F7] to-transparent pt-8 z-[60]">
         <Button 
           onClick={handleNext}
           disabled={
@@ -348,7 +348,7 @@ export default function CreateBrincadeiraForm() {
             (step === 2 && (!age || !duration || !participants)) ||
             (step === 3 && steps[0].trim() === "")
           }
-          className="w-full h-14 bg-[#FFCC00] text-[#1A1A1A] font-black text-[16px] rounded-[6px] shadow-xl shadow-[#FFCC00]/20 disabled:opacity-50 disabled:bg-gray-300 border-none active:scale-[0.97]"
+          className="w-full h-12 bg-[#FF9500] text-white font-medium text-[14px] rounded-[6px] shadow-sm disabled:opacity-50 disabled:bg-gray-300 border-none active:scale-[0.97] transition-all"
         >
           {step === totalSteps ? "Publicar Brincadeira" : "Continuar"}
         </Button>

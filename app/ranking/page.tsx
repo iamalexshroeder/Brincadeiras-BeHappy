@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { RiTrophyLine, RiLoader4Line } from "@remixicon/react"
+import { RiTrophyLine, RiLoader4Line, RiCheckLine } from "@remixicon/react"
 import { getTitleForLevel, GAMIFICATION_TIERS } from "@/utils/gamification"
 import { getRanking } from "@/lib/actions"
 
@@ -180,7 +180,6 @@ export default function Ranking() {
                   key={tier.level}
                   className={cn(
                     "p-3 border-none shadow-[0_2px_8px_rgba(0,0,0,0.02)] rounded-[6px] transition-all bg-white relative overflow-hidden",
-                    isCompleted && "opacity-60 bg-[#F9F9F7]",
                     isLocked && "opacity-60 grayscale bg-[#F9F9F7]",
                     isCurrent && "ring-1 ring-primary/20 shadow-sm"
                   )}
@@ -188,16 +187,18 @@ export default function Ranking() {
                   <div className="flex items-center gap-4">
                     <div className={cn(
                       "flex items-center justify-center h-12 w-12 rounded-full border-2 shadow-sm font-black text-[18px] shrink-0",
-                      isCompleted && "border-transparent bg-[#AF52DE]/10 text-[#AF52DE]",
+                      isCompleted && "border-transparent bg-[#34C759] text-white",
                       isLocked && "border-transparent bg-gray-100 text-gray-400",
                       isCurrent && "bg-[#FFCC00] border-transparent text-[#1A1A1A] ring-4 ring-[#FFCC00]/20",
                     )}>
-                      {tier.level}
+                      {isCompleted ? <RiCheckLine size={24} /> : tier.level}
                     </div>
                     <div className="flex-1 flex flex-col justify-center">
                       <div className="flex items-center justify-between">
-                        <span className={cn("text-[16px] font-bold", isCurrent ? "text-[#1A1A1A]" : "text-[#8E8E93]")}>{tier.title}</span>
-                        <span className={cn("text-[14px] font-extrabold", isCurrent ? "text-[#1A1A1A]" : "text-[#8E8E93]")}>{tier.minXp} XP</span>
+                        <span className={cn("text-[16px] font-bold", isCurrent || isCompleted ? "text-[#1A1A1A]" : "text-[#8E8E93]")}>{tier.title}</span>
+                        <span className={cn("text-[14px] font-extrabold", isCurrent ? "text-[#1A1A1A]" : isCompleted ? "text-[#34C759]" : "text-[#8E8E93]")}>
+                          {isCompleted ? "Obtido" : `${tier.minXp} XP`}
+                        </span>
                       </div>
                       <span className={cn("text-[11px] font-bold uppercase tracking-tight mt-0.5",
                         isLocked ? "text-[#8E8E93]" : isCompleted ? "text-[#8E8E93]" : textColorClass

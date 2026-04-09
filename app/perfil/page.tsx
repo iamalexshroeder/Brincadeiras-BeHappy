@@ -137,9 +137,8 @@ export default function Perfil() {
           {/* Logout Button */}
           <section className="pt-4">
             <Button 
-              variant="ghost" 
               onClick={() => signOut({ callbackUrl: "/login" })}
-              className="w-full h-12 text-[#EF4444] font-bold rounded-[6px] bg-red-50/50 active:bg-red-50 transition-all gap-2"
+              className="w-full h-12 bg-[#FF9500] text-white font-medium text-[14px] rounded-[6px] shadow-sm active:scale-[0.98] transition-all gap-2 border-none"
             >
               <RiLogoutBoxRLine size={20} />
               Sair da Conta
