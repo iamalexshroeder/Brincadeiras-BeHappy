@@ -16,6 +16,7 @@ import {
 } from "@remixicon/react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
+import { useTheme } from "next-themes"
 
 interface SettingsItem {
   icon: any
@@ -26,9 +27,12 @@ interface SettingsItem {
   isInfoOnly?: boolean
   showCheck?: boolean
   faded?: boolean
+  onClick?: () => void
 }
 
 export default function Configuracoes() {
+  const { theme, setTheme } = useTheme()
+
   const settingsGroups: { title: string; items: SettingsItem[] }[] = [
     {
       title: "Conta",
@@ -49,7 +53,13 @@ export default function Configuracoes() {
     {
       title: "Preferências",
       items: [
-        { icon: RiSmartphoneLine, label: "Aparência", status: "Sistema", showArrow: false },
+        { 
+          icon: RiSmartphoneLine, 
+          label: "Aparência", 
+          status: theme === "dark" ? "Modo Escuro" : "Modo Claro", 
+          showArrow: false,
+          onClick: () => setTheme(theme === "dark" ? "light" : "dark")
+        },
       ]
     },
     {
@@ -63,32 +73,33 @@ export default function Configuracoes() {
   ]
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header title="Configurações" showSearch={false} showUserCard={false} />
       
       <main className="px-5 pb-32 pt-8 space-y-10">
         {settingsGroups.map((group) => (
           <section key={group.title} className="space-y-4">
-            <h3 className="text-[13px] font-bold text-[#8E8E93] uppercase tracking-widest pl-1">
+            <h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-widest pl-1">
               {group.title}
             </h3>
             
-            <div className="bg-white rounded-[6px] shadow-[0_2px_12px_rgba(0,0,0,0.02)] overflow-hidden">
+            <div className="bg-card rounded-[6px] shadow-[0_2px_12px_rgba(0,0,0,0.02)] overflow-hidden">
               {group.items.map((item, index) => {
                 const content = (
                   <div 
+                    onClick={item.onClick}
                     className={cn(
                       "w-full flex items-center justify-between p-4 transition-colors",
-                      !item.isInfoOnly && "active:bg-gray-50 cursor-pointer",
+                      (!item.isInfoOnly || item.onClick) && "active:bg-gray-50 cursor-pointer",
                       item.faded && "opacity-50",
-                      index !== group.items.length - 1 && "border-b border-[#F2F2F7]"
+                      index !== group.items.length - 1 && "border-b border-border"
                     )}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="text-[#1A1A1A] opacity-70">
+                      <div className="text-foreground opacity-70">
                         <item.icon size={20} />
                       </div>
-                      <span className="text-[15px] font-bold text-[#1A1A1A]">
+                      <span className="text-[15px] font-bold text-foreground">
                         {item.label}
                       </span>
                     </div>
@@ -98,12 +109,12 @@ export default function Configuracoes() {
                         <RiCheckboxCircleFill size={18} className="text-[#34C759]" />
                       )}
                       {item.status && (
-                        <span className="text-[13px] font-medium text-[#8E8E93]">
+                        <span className="text-[13px] font-medium text-muted-foreground">
                           {item.status}
                         </span>
                       )}
                       {item.showArrow && (
-                        <RiArrowRightSLine size={20} className="text-[#8E8E93] opacity-40" />
+                        <RiArrowRightSLine size={20} className="text-muted-foreground opacity-40" />
                       )}
                     </div>
                   </div>
@@ -132,7 +143,7 @@ export default function Configuracoes() {
             <RiLogoutBoxRLine size={20} />
             Sair da Conta Google
           </Button>
-          <p className="text-center text-[12px] text-[#8E8E93] mt-4 font-medium px-4">
+          <p className="text-center text-[12px] text-muted-foreground mt-4 font-medium px-4">
             Você está conectado como alexs@google.com. 
             Todas as suas brincadeiras e progresso são salvos na sua conta BeHappy.
           </p>

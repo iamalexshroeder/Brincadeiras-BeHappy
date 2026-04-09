@@ -28,18 +28,18 @@ export default function PrivacidadePage() {
   ]
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
-      <div className="sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-5 pt-14 pb-4 border-b border-[#F2F2F7]">
+    <div className="flex flex-col min-h-screen bg-background">
+      <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-md px-5 pt-14 pb-4 border-b border-border">
         <div className="flex items-center gap-4">
           <Button 
               variant="ghost" 
               size="icon" 
-              className="h-10 w-10 rounded-full bg-white shadow-sm text-[#8E8E93]"
+              className="h-10 w-10 rounded-full bg-card shadow-sm text-muted-foreground"
               onClick={() => router.back()}
             >
               <RiArrowLeftSLine size={24} />
           </Button>
-          <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-[#1A1A1A]">
+          <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-foreground">
             Privacidade e Dados
           </h1>
         </div>
@@ -48,16 +48,16 @@ export default function PrivacidadePage() {
       <main className="px-5 pt-8 space-y-8 pb-32">
         <section className="space-y-6">
           <div className="text-center space-y-2 mb-10">
-            <h2 className="text-[24px] font-black text-[#1A1A1A]">Sua segurança em primeiro lugar</h2>
-            <p className="text-[15px] font-medium text-[#8E8E93]">Entenda como cuidamos das suas informações</p>
+            <h2 className="text-[24px] font-black text-foreground">Sua segurança em primeiro lugar</h2>
+            <p className="text-[15px] font-medium text-muted-foreground">Entenda como cuidamos das suas informações</p>
           </div>
 
           <div className="space-y-4">
             {sections.map((section, index) => (
-              <Card key={index} className="p-6 border-none shadow-[0_4px_24px_rgba(0,0,0,0.02)] rounded-[12px] bg-white space-y-3">
+              <Card key={index} className="p-6 border-none shadow-[0_4px_24px_rgba(0,0,0,0.02)] rounded-[12px] bg-card space-y-3">
                 <div className="flex items-center gap-3 text-primary">
                   <section.icon size={24} />
-                  <h3 className="text-[17px] font-extrabold text-[#1A1A1A]">{section.title}</h3>
+                  <h3 className="text-[17px] font-extrabold text-foreground">{section.title}</h3>
                 </div>
                 <p className="text-[14px] leading-relaxed text-[#5C5C5C] font-medium">
                   {section.content}

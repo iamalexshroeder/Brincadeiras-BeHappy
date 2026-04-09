@@ -77,9 +77,9 @@ export function Header({
   return (
     <>
       {/* Title Section (Sticky & Fixed) */}
-      <div className="sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-5 pt-14 pb-4 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+      <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-md px-5 pt-14 pb-4 shadow-[0_4px_24px_rgba(0,0,0,0.02)] no-print">
         <div className="flex items-center justify-between">
-          <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-[#1A1A1A]">
+          <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-foreground">
             {title || `Olá, ${user.name}`}
           </h1>
           <div className="flex items-center gap-1">
@@ -93,7 +93,7 @@ export function Header({
               }}
               className={cn(
                 "relative flex items-center justify-center h-10 w-10 transition-colors bg-transparent",
-                isNotificationsPage ? "text-[#FF9500]" : "text-[#8E8E93] active:text-[#FF9500]"
+                isNotificationsPage ? "text-[#FF9500]" : "text-muted-foreground active:text-[#FF9500]"
               )}
             >
               {isNotificationsPage ? <RiNotification3Fill size={26} /> : <RiNotification3Line size={26} />}
@@ -107,22 +107,22 @@ export function Header({
       
       {/* Search and User Container (Scrolls with page) */}
       <div className={cn(
-        "w-full bg-[#F9F9F7] flex flex-col px-5 space-y-5 pb-2",
+        "w-full bg-background flex flex-col px-5 space-y-5 pb-2",
         (showSearch || showUserCard) ? "pt-4" : "pt-0"
       )}>
 
       {/* Search Section (Optional) */}
       {showSearch && (
-        <div className="w-full bg-white p-[6px] py-[10px] rounded-[12px] border border-[#F2F2F7] shadow-[0_4px_16px_rgba(0,0,0,0.03)] mb-4">
+        <div className="w-full bg-card p-[6px] py-[10px] rounded-[12px] border border-border shadow-[0_4px_16px_rgba(0,0,0,0.03)] mb-4">
           <div className="relative group">
             <RiSearchLine 
               size={18} 
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8E8E93] group-focus-within:text-primary transition-colors" 
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" 
             />
             <Input 
               type="search" 
               placeholder="Encontre sua próxima brincadeira..." 
-              className="pl-11 h-11 bg-[#F2F2F7] border-none rounded-[10px] text-[15px] placeholder:text-[#8E8E93] focus-visible:ring-1 focus-visible:ring-primary/10 transition-all font-medium"
+              className="pl-11 h-11 bg-[#F2F2F7] border-none rounded-[10px] text-[15px] placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-primary/10 transition-all font-medium"
             />
           </div>
         </div>
@@ -130,7 +130,7 @@ export function Header({
 
       {/* User XP Card */}
       {showUserCard && (
-        <Card className="p-4 border border-[#F2F2F7] shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-white">
+        <Card className="p-4 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-card">
           <Link href="/perfil" className="flex items-center gap-4 mb-3 active:opacity-75 transition-opacity">
             <UserAvatar 
               src={user.avatar} 
@@ -140,11 +140,11 @@ export function Header({
               fallbackClassName="bg-primary/10 text-primary"
             />
             <div className="flex flex-col">
-              <span className="text-[16px] font-extrabold text-[#1A1A1A] tracking-[-0.01em]">
+              <span className="text-[16px] font-extrabold text-foreground tracking-[-0.01em]">
                 {user.name}
               </span>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="text-[11px] font-bold uppercase tracking-tight text-[#8E8E93]">
+                <span className="text-[11px] font-bold uppercase tracking-tight text-muted-foreground">
                   {getTitleForLevel(user.level)}
                 </span>
                 <span className="text-[11px] font-extrabold text-[#FF9500] uppercase tracking-widest">
@@ -156,10 +156,10 @@ export function Header({
 
           <div className="space-y-2">
             <div className="flex justify-between items-end">
-              <span className="text-[11px] font-medium text-[#8E8E93]">
+              <span className="text-[11px] font-medium text-muted-foreground">
                 Faltam {xpRemaining} XP para o próximo nível
               </span>
-              <span className="text-[12px] font-bold text-[#1A1A1A]">
+              <span className="text-[12px] font-bold text-foreground">
                 {user.xp} XP
               </span>
             </div>

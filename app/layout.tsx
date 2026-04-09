@@ -37,9 +37,9 @@ export default function RootLayout({
     <html
       lang="pt-BR"
       suppressHydrationWarning
-      className={cn("antialiased flex min-h-screen flex-col bg-[#F9F9F7]", inter.variable, "font-sans")}
+      className={cn("antialiased flex min-h-screen flex-col bg-background text-foreground", inter.variable, "font-sans")}
     >
-      <body className="flex-1 pb-[64px] md:pb-0 bg-[#F9F9F7]">
+      <body className="flex-1 pb-[64px] md:pb-0 bg-background text-foreground">
         <SessionProvider>
           <ThemeProvider>
             <main className="flex-1">

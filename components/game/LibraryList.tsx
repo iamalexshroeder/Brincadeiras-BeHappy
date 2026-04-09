@@ -42,7 +42,7 @@ export function LibraryList({ items, initialDisplay = 10, currentUserId }: Libra
         <Button
           onClick={() => setShowAll(!showAll)}
           variant="ghost"
-          className="w-full h-12 text-[#8E8E93] font-bold text-[14px] active:bg-gray-100 rounded-[12px] mt-6"
+          className="w-full h-12 text-muted-foreground font-bold text-[14px] active:bg-gray-100 rounded-[12px] mt-6"
         >
           {showAll ? "Mostrar Menos" : `Ver Mais (${remaining} existentes)`}
         </Button>

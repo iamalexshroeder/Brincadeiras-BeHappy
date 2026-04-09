@@ -39,7 +39,7 @@ export function BottomNav() {
   if (pathname === "/login" || pathname === "/criar") return null
 
   return (
-    <nav className="fixed bottom-0 left-0 w-full z-50 flex items-center justify-around bg-[#F9F9F7] shadow-[0_-1px_0_rgba(0,0,0,0.05)] md:hidden px-4 h-[calc(64px+env(safe-area-inset-bottom))] pb-[env(safe-area-inset-bottom)]">
+    <nav className="fixed bottom-0 left-0 w-full z-50 flex items-center justify-around bg-background shadow-[0_-1px_0_rgba(0,0,0,0.05)] md:hidden px-4 h-[calc(64px+env(safe-area-inset-bottom))] pb-[env(safe-area-inset-bottom)] no-print">
       {navItems.map((item) => {
         const isActive = pathname === item.href
         const Icon = item.icon
@@ -50,7 +50,7 @@ export function BottomNav() {
             href={item.href}
             className={cn(
               "flex flex-1 flex-col items-center justify-center gap-1.5 transition-all active:opacity-70",
-              isActive ? "text-[#FF9500]" : "text-[#8E8E93]"
+              isActive ? "text-[#FF9500]" : "text-muted-foreground"
             )}
           >
             <div className="flex h-6 w-6 items-center justify-center">

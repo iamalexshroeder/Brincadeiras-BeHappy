@@ -5,7 +5,7 @@ import { RiGoogleFill, RiShieldCheckLine } from "@remixicon/react"
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-[#F9F9F7] flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Top Brand Section */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 pt-16 pb-8">
         
@@ -16,7 +16,7 @@ export default function LoginPage() {
             alt="BeHappy Logo" 
             className="w-auto h-[100px] object-contain mb-4"
           />
-          <p className="text-[16px] text-[#8E8E93] font-medium text-center leading-snug">
+          <p className="text-[16px] text-muted-foreground font-medium text-center leading-snug">
             A plataforma dos recreadores
           </p>
         </div>
@@ -42,12 +42,12 @@ export default function LoginPage() {
           ].map((item) => (
             <div
               key={item.title}
-              className="flex items-center gap-5 bg-white rounded-[12px] p-5 shadow-[0_2px_12px_rgba(0,0,0,0.04)]"
+              className="flex items-center gap-5 bg-card rounded-[12px] p-5 shadow-[0_2px_12px_rgba(0,0,0,0.04)]"
             >
               <span className="text-[28px] w-10 text-center shrink-0">{item.icon}</span>
               <div>
-                <p className="font-bold text-[15px] text-[#1A1A1A] leading-tight">{item.title}</p>
-                <p className="text-[13px] text-[#8E8E93] leading-snug mt-1">{item.desc}</p>
+                <p className="font-bold text-[15px] text-foreground leading-tight">{item.title}</p>
+                <p className="text-[13px] text-muted-foreground leading-snug mt-1">{item.desc}</p>
               </div>
             </div>
           ))}
@@ -60,7 +60,7 @@ export default function LoginPage() {
           onClick={() => signIn("google", { callbackUrl: "/" })}
           className="w-full h-[56px] bg-[#4285F4] text-white font-medium text-[14px] rounded-[12px] flex items-center justify-center gap-3 active:scale-[0.95] transition-all shadow-lg shadow-[#4285F4]/20 mb-5 border-none"
         >
-          <div className="bg-white p-2 rounded-full flex items-center justify-center">
+          <div className="bg-card p-2 rounded-full flex items-center justify-center">
             <svg width="18" height="18" viewBox="0 0 18 18">
               <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/>
               <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/>
@@ -71,7 +71,7 @@ export default function LoginPage() {
           Entrar com Google
         </button>
 
-        <div className="flex items-center justify-center gap-2 text-[12px] text-[#8E8E93]">
+        <div className="flex items-center justify-center gap-2 text-[12px] text-muted-foreground">
           <RiShieldCheckLine size={14} className="text-[#C7C7CC]" />
           <span>
             Ao continuar, você concorda com os{" "}

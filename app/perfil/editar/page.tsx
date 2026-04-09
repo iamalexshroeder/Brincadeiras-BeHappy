@@ -54,20 +54,20 @@ export default function EditarPerfil() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
+    <div className="flex flex-col min-h-screen bg-background">
       {/* Custom Header with standardized back button */}
-      <div className="sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-5 pt-14 pb-4 border-b border-[#F2F2F7]">
+      <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-md px-5 pt-14 pb-4 border-b border-border">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Button 
                 variant="ghost" 
                 size="icon" 
-                className="h-10 w-10 rounded-full bg-white shadow-sm text-[#8E8E93]"
+                className="h-10 w-10 rounded-full bg-card shadow-sm text-muted-foreground"
                 onClick={() => router.back()}
               >
                 <RiArrowLeftSLine size={24} />
             </Button>
-            <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-[#1A1A1A]">
+            <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-foreground">
               Editar Perfil
             </h1>
           </div>
@@ -102,7 +102,7 @@ export default function EditarPerfil() {
             <Button 
               asChild
               variant="outline" 
-              className="h-10 px-6 rounded-full border-[#E5E5EA] text-[#8E8E93] font-bold text-[13px] bg-white active:bg-gray-50 transition-all cursor-pointer"
+              className="h-10 px-6 rounded-full border-border text-muted-foreground font-bold text-[13px] bg-card active:bg-gray-50 transition-all cursor-pointer"
             >
               <label htmlFor="avatar-upload">
                 <RiImageLine size={18} className="mr-2" />
@@ -115,17 +115,17 @@ export default function EditarPerfil() {
         <div className="space-y-6">
           {/* Name Field */}
           <section className="space-y-2">
-            <label className="text-[13px] font-bold text-[#8E8E93] uppercase tracking-widest pl-1">
+            <label className="text-[13px] font-bold text-muted-foreground uppercase tracking-widest pl-1">
               Nome de Exibição
             </label>
-            <Card className="p-1 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] bg-white overflow-hidden">
+            <Card className="p-1 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] bg-card overflow-hidden">
               <div className="flex items-center px-4 h-12 gap-3">
-                <RiUser3Line size={20} className="text-[#8E8E93]" />
+                <RiUser3Line size={20} className="text-muted-foreground" />
                 <Input 
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Seu nome"
-                  className="border-none bg-transparent h-full px-0 focus-visible:ring-0 text-[15px] font-medium text-[#1A1A1A]"
+                  className="border-none bg-transparent h-full px-0 focus-visible:ring-0 text-[15px] font-medium text-foreground"
                 />
               </div>
             </Card>
@@ -133,12 +133,12 @@ export default function EditarPerfil() {
 
           {/* Photo Field (Hidden from user or kept as optional) */}
           <section className="space-y-2 opacity-50">
-            <label className="text-[13px] font-bold text-[#8E8E93] uppercase tracking-widest pl-1">
+            <label className="text-[13px] font-bold text-muted-foreground uppercase tracking-widest pl-1">
               Link da Foto (Opcional)
             </label>
-            <Card className="p-1 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] bg-white overflow-hidden">
+            <Card className="p-1 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] bg-card overflow-hidden">
               <div className="flex items-center px-4 h-12 gap-3">
-                <RiImageLine size={20} className="text-[#8E8E93]" />
+                <RiImageLine size={20} className="text-muted-foreground" />
                 <Input 
                   value={avatarUrl}
                   onChange={(e) => setAvatarUrl(e.target.value)}
@@ -151,11 +151,11 @@ export default function EditarPerfil() {
 
           {/* Read-only Email Field */}
           <section className="space-y-2 opacity-60">
-            <label className="text-[13px] font-bold text-[#8E8E93] uppercase tracking-widest pl-1">
+            <label className="text-[13px] font-bold text-muted-foreground uppercase tracking-widest pl-1">
               E-mail da Conta
             </label>
-            <Card className="p-4 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] bg-white">
-              <span className="text-[15px] font-medium text-[#8E8E93]">
+            <Card className="p-4 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] bg-card">
+              <span className="text-[15px] font-medium text-muted-foreground">
                 {session?.user?.email}
               </span>
             </Card>

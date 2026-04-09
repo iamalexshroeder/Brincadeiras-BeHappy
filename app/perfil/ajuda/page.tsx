@@ -24,18 +24,18 @@ export default function AjudaPage() {
   ]
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
-      <div className="sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-5 pt-14 pb-4 border-b border-[#F2F2F7]">
+    <div className="flex flex-col min-h-screen bg-background">
+      <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-md px-5 pt-14 pb-4 border-b border-border">
         <div className="flex items-center gap-4">
           <Button 
               variant="ghost" 
               size="icon" 
-              className="h-10 w-10 rounded-full bg-white shadow-sm text-[#8E8E93]"
+              className="h-10 w-10 rounded-full bg-card shadow-sm text-muted-foreground"
               onClick={() => router.back()}
             >
               <RiArrowLeftSLine size={24} />
           </Button>
-          <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-[#1A1A1A]">
+          <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-foreground">
             Central de Ajuda
           </h1>
         </div>
@@ -44,16 +44,16 @@ export default function AjudaPage() {
       <main className="px-5 pt-8 space-y-8 pb-32">
         <section className="space-y-6">
           <div className="text-center space-y-2 mb-10">
-            <h2 className="text-[24px] font-black text-[#1A1A1A]">Como podemos ajudar?</h2>
-            <p className="text-[15px] font-medium text-[#8E8E93]">Dúvidas frequentes e suporte</p>
+            <h2 className="text-[24px] font-black text-foreground">Como podemos ajudar?</h2>
+            <p className="text-[15px] font-medium text-muted-foreground">Dúvidas frequentes e suporte</p>
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-[13px] font-bold text-[#8E8E93] uppercase tracking-widest pl-1">FAQ</h3>
+            <h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-widest pl-1">FAQ</h3>
             {faqs.map((faq, index) => (
-              <Card key={index} className="p-5 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] bg-white space-y-2">
-                <h4 className="text-[15px] font-extrabold text-[#1A1A1A]">{faq.q}</h4>
-                <p className="text-[14px] leading-relaxed text-[#8E8E93] font-medium">
+              <Card key={index} className="p-5 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] bg-card space-y-2">
+                <h4 className="text-[15px] font-extrabold text-foreground">{faq.q}</h4>
+                <p className="text-[14px] leading-relaxed text-muted-foreground font-medium">
                   {faq.a}
                 </p>
               </Card>
@@ -61,14 +61,14 @@ export default function AjudaPage() {
           </div>
 
           <div className="space-y-4 pt-4">
-            <h3 className="text-[13px] font-bold text-[#8E8E93] uppercase tracking-widest pl-1">Ainda com dúvidas?</h3>
-            <Card className="p-5 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] bg-white flex items-center gap-4">
+            <h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-widest pl-1">Ainda com dúvidas?</h3>
+            <Card className="p-5 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] bg-card flex items-center gap-4">
               <div className="h-12 w-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
                 <RiMailLine size={24} />
               </div>
               <div>
-                <h4 className="text-[15px] font-extrabold text-[#1A1A1A]">Suporte por E-mail</h4>
-                <p className="text-[13px] text-[#8E8E93]">responde em até 24h</p>
+                <h4 className="text-[15px] font-extrabold text-foreground">Suporte por E-mail</h4>
+                <p className="text-[13px] text-muted-foreground">responde em até 24h</p>
               </div>
             </Card>
           </div>

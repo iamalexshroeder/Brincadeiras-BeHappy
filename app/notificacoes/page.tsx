@@ -71,18 +71,18 @@ export default function Notificacoes() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header title="Notificações" showSearch={false} showUserCard={false} />
 
       <main className="px-5 pt-2 pb-32">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-[13px] font-extrabold text-[#8E8E93] uppercase tracking-widest pl-1">
+          <h2 className="text-[13px] font-extrabold text-muted-foreground uppercase tracking-widest pl-1">
             Recentes
           </h2>
         </div>
 
         {notifications.length === 0 && !loading ? (
-          <div className="text-center py-24 text-[#8E8E93]">
+          <div className="text-center py-24 text-muted-foreground">
             <RiSettings4Fill size={48} className="mx-auto mb-4 opacity-20" />
             <p className="font-bold text-[16px]">Nenhuma notificação ainda</p>
             <p className="text-[14px] mt-1">Quando houver, elas aparecerão aqui.</p>
@@ -93,7 +93,7 @@ export default function Notificacoes() {
               <Card
                 key={notif.id}
                 className={cn(
-                  "p-4 border border-[#F2F2F7] shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] active:scale-[0.98] transition-all bg-white relative overflow-hidden",
+                  "p-4 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] active:scale-[0.98] transition-all bg-card relative overflow-hidden",
                   !notif.read && "ring-1 ring-primary/20"
                 )}
               >
@@ -101,13 +101,13 @@ export default function Notificacoes() {
                   {getIcon(notif.type)}
 
                   <div className="flex-1 min-w-0 pr-8">
-                    <span className="text-[16px] font-bold text-[#1A1A1A] leading-tight mb-1 block truncate">
+                    <span className="text-[16px] font-bold text-foreground leading-tight mb-1 block truncate">
                       {notif.title}
                     </span>
-                    <span className="text-[14px] text-[#8E8E93] leading-snug">
+                    <span className="text-[14px] text-muted-foreground leading-snug">
                       {notif.message}
                     </span>
-                    <span className="text-[11px] font-bold text-[#8E8E93] mt-2 uppercase tracking-wide block">
+                    <span className="text-[11px] font-bold text-muted-foreground mt-2 uppercase tracking-wide block">
                       {formatDistanceToNow(new Date(notif.created_at), {
                         addSuffix: true,
                         locale: ptBR,
@@ -136,13 +136,13 @@ export default function Notificacoes() {
               await markNotificationsRead()
               fetchNotifications()
             }}
-            className="flex-1 h-12 rounded-[12px] border border-[#F2F2F7] bg-white text-[15px] font-bold text-[#1A1A1A] active:scale-[0.98] transition-all shadow-sm"
+            className="flex-1 h-12 rounded-[12px] border border-border bg-card text-[15px] font-bold text-foreground active:scale-[0.98] transition-all shadow-sm"
           >
             Marcar como lidas
           </button>
           <button
             onClick={handleClearAll}
-            className="flex-1 h-12 rounded-[12px] border border-[#EF4444]/30 bg-white text-[15px] font-bold text-[#EF4444] active:scale-[0.98] transition-all shadow-sm"
+            className="flex-1 h-12 rounded-[12px] border border-[#EF4444]/30 bg-card text-[15px] font-bold text-[#EF4444] active:scale-[0.98] transition-all shadow-sm"
           >
             Limpar tudo
           </button>

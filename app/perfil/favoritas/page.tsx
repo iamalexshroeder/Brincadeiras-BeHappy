@@ -22,15 +22,15 @@ export default function FavoritasPage() {
   }, [])
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
-      <div className="sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-5 pt-14 pb-4 border-b border-[#F2F2F7]">
+    <div className="flex flex-col min-h-screen bg-background">
+      <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-md px-5 pt-14 pb-4 border-b border-border">
         <div className="flex items-center gap-4">
           <Link href="/perfil">
-            <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-white shadow-sm text-[#8E8E93]">
+            <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-card shadow-sm text-muted-foreground">
               <RiArrowLeftSLine size={24} />
             </Button>
           </Link>
-          <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-[#1A1A1A]">
+          <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-foreground">
             Favoritas
           </h1>
         </div>
@@ -45,13 +45,13 @@ export default function FavoritasPage() {
           </div>
         ) : items.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm">
+            <div className="w-16 h-16 bg-card rounded-full flex items-center justify-center mb-4 shadow-sm">
               <RiHeartLine size={32} className="text-[#C7C7CC]" />
             </div>
-            <p className="text-[17px] font-bold text-[#1A1A1A] mb-1">
+            <p className="text-[17px] font-bold text-foreground mb-1">
               Nenhuma favoritada ainda
             </p>
-            <p className="text-[14px] text-[#8E8E93]">
+            <p className="text-[14px] text-muted-foreground">
               As brincadeiras que você curtir aparecerão aqui.
             </p>
           </div>

@@ -126,19 +126,19 @@ export default function CreateBrincadeiraForm() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-card">
       {/* Header */}
-      <header className="px-5 pt-12 pb-4 bg-white sticky top-0 z-10 border-b border-[#F2F2F7]">
+      <header className="px-5 pt-12 pb-4 bg-card sticky top-0 z-10 border-b border-border">
         <div className="flex items-center justify-between mb-6">
           <Button 
             variant="ghost" 
             size="icon" 
             onClick={handleBack}
-            className="h-10 w-10 text-[#1A1A1A] -ml-2 active:bg-gray-100 rounded-full"
+            className="h-10 w-10 text-foreground -ml-2 active:bg-gray-100 rounded-full"
           >
             <RiArrowLeftSLine size={28} />
           </Button>
-          <span className="text-[15px] font-bold text-[#1A1A1A]">
+          <span className="text-[15px] font-bold text-foreground">
             Passo {step} de {totalSteps}
           </span>
           <div className="w-10" /> {/* Spacer for alignment */}
@@ -158,37 +158,37 @@ export default function CreateBrincadeiraForm() {
               className="space-y-8"
             >
               <div>
-                <h2 className="text-[20px] font-extrabold text-[#1A1A1A] tracking-[-0.03em] leading-tight mb-2">
+                <h2 className="text-[20px] font-extrabold text-foreground tracking-[-0.03em] leading-tight mb-2">
                   Qual é a ideia de hoje?
                 </h2>
-                <p className="text-[15px] text-[#8E8E93] font-medium leading-relaxed">
+                <p className="text-[15px] text-muted-foreground font-medium leading-relaxed">
                   Comece com o básico. Um bom título chama toda atenção.
                 </p>
               </div>
 
               <div className="space-y-6">
                 <div className="space-y-3">
-                  <label className="text-[14px] font-extrabold text-[#1A1A1A]">Título da Brincadeira</label>
+                  <label className="text-[14px] font-extrabold text-foreground">Título da Brincadeira</label>
                   <Input 
                     value={title}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
                     placeholder="Ex: Pega-Pega Congelado" 
-                    className="h-14 bg-[#F2F2F7] border-none rounded-[12px] text-[16px] text-[#1A1A1A] font-bold px-4 focus-visible:ring-2 ring-primary/20"
+                    className="h-14 bg-[#F2F2F7] border-none rounded-[12px] text-[16px] text-foreground font-bold px-4 focus-visible:ring-2 ring-primary/20"
                   />
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-[14px] font-extrabold text-[#1A1A1A]">Pequeno Resumo</label>
+                  <label className="text-[14px] font-extrabold text-foreground">Pequeno Resumo</label>
                   <Textarea 
                     value={description}
                     onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)}
                     placeholder="Conte resumidamente como funciona..." 
-                    className="min-h-[120px] bg-[#F2F2F7] border-none rounded-[12px] text-[16px] text-[#1A1A1A] font-medium p-4 resize-none focus-visible:ring-2 ring-primary/20"
+                    className="min-h-[120px] bg-[#F2F2F7] border-none rounded-[12px] text-[16px] text-foreground font-medium p-4 resize-none focus-visible:ring-2 ring-primary/20"
                   />
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-[14px] font-extrabold text-[#1A1A1A]">Categoria Principal</label>
+                  <label className="text-[14px] font-extrabold text-foreground">Categoria Principal</label>
                   <ToggleGroup 
                     type="multiple" 
                     value={selectedCategories}
@@ -201,7 +201,7 @@ export default function CreateBrincadeiraForm() {
                         key={cat} 
                         value={cat}
                         className={cn(
-                          "rounded-full px-5 h-10 text-[14px] font-bold transition-all border-none bg-white text-[#8E8E93]",
+                          "rounded-full px-5 h-10 text-[14px] font-bold transition-all border-none bg-card text-muted-foreground",
                           "data-[state=on]:bg-[#FF9500] data-[state=on]:text-white data-[state=on]:shadow-sm outline-none ring-0"
                         )}
                       >
@@ -224,17 +224,17 @@ export default function CreateBrincadeiraForm() {
               className="space-y-8"
             >
               <div>
-                <h2 className="text-[20px] font-extrabold text-[#1A1A1A] tracking-[-0.03em] leading-tight mb-2">
+                <h2 className="text-[20px] font-extrabold text-foreground tracking-[-0.03em] leading-tight mb-2">
                   Detalhes Técnicos
                 </h2>
-                <p className="text-[15px] text-[#8E8E93] font-medium leading-relaxed">
+                <p className="text-[15px] text-muted-foreground font-medium leading-relaxed">
                   Avalie o perfil dessa atividade para ajudar outros recreadores.
                 </p>
               </div>
 
               <div className="space-y-8">
                 <div className="space-y-4">
-                  <label className="text-[14px] font-extrabold text-[#1A1A1A] uppercase tracking-wider text-[#8E8E93]">Faixa Etária</label>
+                  <label className="text-[14px] font-extrabold text-foreground uppercase tracking-wider text-muted-foreground">Faixa Etária</label>
                   <div className="grid grid-cols-2 gap-3">
                     {AGE_RANGES.map(r => (
                       <button
@@ -242,7 +242,7 @@ export default function CreateBrincadeiraForm() {
                         onClick={() => setAge(r)}
                         className={cn(
                           "h-12 rounded-[12px] font-bold text-[14px] border-2 transition-all",
-                          age === r ? "border-primary text-primary bg-primary/5" : "border-[#F2F2F7] text-[#8E8E93] bg-white"
+                          age === r ? "border-primary text-primary bg-primary/5" : "border-border text-muted-foreground bg-card"
                         )}
                       >
                         {r}
@@ -252,7 +252,7 @@ export default function CreateBrincadeiraForm() {
                 </div>
 
                 <div className="space-y-4">
-                  <label className="text-[14px] font-extrabold text-[#1A1A1A] uppercase tracking-wider text-[#8E8E93]">Tempo Estimado</label>
+                  <label className="text-[14px] font-extrabold text-foreground uppercase tracking-wider text-muted-foreground">Tempo Estimado</label>
                   <div className="grid grid-cols-2 gap-3">
                     {DURATIONS.map(d => (
                       <button
@@ -260,7 +260,7 @@ export default function CreateBrincadeiraForm() {
                         onClick={() => setDuration(d)}
                         className={cn(
                           "h-12 rounded-[12px] font-bold text-[14px] border-2 transition-all",
-                          duration === d ? "border-[var(--purple)] text-[var(--purple)] bg-[var(--purple-bg)]" : "border-[#F2F2F7] text-[#8E8E93] bg-white"
+                          duration === d ? "border-[var(--purple)] text-[var(--purple)] bg-[var(--purple-bg)]" : "border-border text-muted-foreground bg-card"
                         )}
                       >
                         {d}
@@ -271,7 +271,7 @@ export default function CreateBrincadeiraForm() {
 
                  <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <label className="text-[14px] font-extrabold text-[#1A1A1A] uppercase tracking-wider text-[#8E8E93]">Tamanho do Grupo</label>
+                    <label className="text-[14px] font-extrabold text-foreground uppercase tracking-wider text-muted-foreground">Tamanho do Grupo</label>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     {PARTICIPANTS.map(p => (
@@ -283,7 +283,7 @@ export default function CreateBrincadeiraForm() {
                         }}
                         className={cn(
                           "h-12 rounded-[12px] font-bold text-[14px] border-2 transition-all",
-                          (participants === p && !customParticipants) ? "border-[var(--yellow)] text-[var(--yellow)] bg-[var(--yellow-bg)]" : "border-[#F2F2F7] text-[#8E8E93] bg-white"
+                          (participants === p && !customParticipants) ? "border-[var(--yellow)] text-[var(--yellow)] bg-[var(--yellow-bg)]" : "border-border text-muted-foreground bg-card"
                         )}
                       >
                         {p}
@@ -294,7 +294,7 @@ export default function CreateBrincadeiraForm() {
                     <Input 
                       type="number"
                       placeholder="Ou insira a quantidade exata..."
-                      className="h-12 bg-[#F2F2F7] border-none rounded-[12px] text-[15px] text-[#1A1A1A] font-bold px-4"
+                      className="h-12 bg-[#F2F2F7] border-none rounded-[12px] text-[15px] text-foreground font-bold px-4"
                       value={customParticipants}
                       onChange={(e) => {
                         setCustomParticipants(e.target.value)
@@ -317,10 +317,10 @@ export default function CreateBrincadeiraForm() {
               className="space-y-8"
             >
               <div>
-                <h2 className="text-[20px] font-extrabold text-[#1A1A1A] tracking-[-0.03em] leading-tight mb-2">
+                <h2 className="text-[20px] font-extrabold text-foreground tracking-[-0.03em] leading-tight mb-2">
                   Como Brincar?
                 </h2>
-                <p className="text-[15px] text-[#8E8E93] font-medium leading-relaxed">
+                <p className="text-[15px] text-muted-foreground font-medium leading-relaxed">
                   A melhor parte! Descreva os passos com clareza.
                 </p>
               </div>
@@ -329,14 +329,14 @@ export default function CreateBrincadeiraForm() {
                 {/* Materiais */}
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <label className="text-[14px] font-extrabold text-[#1A1A1A]">Materiais (Opcional)</label>
+                    <label className="text-[14px] font-extrabold text-foreground">Materiais (Opcional)</label>
                     <Button onClick={handleAddMaterial} variant="ghost" size="sm" className="text-primary font-bold h-8 px-2">
                       <RiAddLine size={18} className="mr-1" /> Adicionar
                     </Button>
                   </div>
                   <div className="space-y-3">
                     {materials.length === 0 && (
-                      <div className="text-[14px] text-[#8E8E93] italic bg-[#F9F9F7] p-4 rounded-[8px]">
+                      <div className="text-[14px] text-muted-foreground italic bg-background p-4 rounded-[8px]">
                         Nenhum material necessário? Pule esta parte!
                       </div>
                     )}
@@ -346,7 +346,7 @@ export default function CreateBrincadeiraForm() {
                           value={mat}
                           onChange={(e) => handleMaterialChange(index, e.target.value)}
                           placeholder="Ex: 5 Cones, 1 Bola" 
-                          className="h-12 bg-[#F2F2F7] border-none rounded-[12px] text-[15px] text-[#1A1A1A]"
+                          className="h-12 bg-[#F2F2F7] border-none rounded-[12px] text-[15px] text-foreground"
                         />
                         <Button 
                           onClick={() => handleRemoveMaterial(index)}
@@ -366,7 +366,7 @@ export default function CreateBrincadeiraForm() {
                 {/* Passo a Passo */}
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <label className="text-[14px] font-extrabold text-[#1A1A1A]">Passo a Passo (Crucial)</label>
+                    <label className="text-[14px] font-extrabold text-foreground">Passo a Passo (Crucial)</label>
                   </div>
                   <div className="space-y-4">
                     {steps.map((s, index) => (
@@ -379,14 +379,14 @@ export default function CreateBrincadeiraForm() {
                             value={s}
                             onChange={(e) => handleStepChange(index, e.target.value)}
                             placeholder={`Explique o passo ${index + 1}...`} 
-                            className="min-h-[80px] bg-[#F2F2F7] border-none rounded-[12px] text-[15px] text-[#1A1A1A] p-3 resize-none focus-visible:ring-2 ring-primary/20 pr-10"
+                            className="min-h-[80px] bg-[#F2F2F7] border-none rounded-[12px] text-[15px] text-foreground p-3 resize-none focus-visible:ring-2 ring-primary/20 pr-10"
                           />
                           {steps.length > 1 && (
                             <Button 
                               onClick={() => handleRemoveStep(index)}
                               variant="ghost" 
                               size="icon" 
-                              className="absolute top-1 right-1 text-[#8E8E93] active:text-[#EF4444] h-8 w-8"
+                              className="absolute top-1 right-1 text-muted-foreground active:text-[#EF4444] h-8 w-8"
                             >
                               <RiCloseLine size={18} />
                             </Button>
@@ -397,7 +397,7 @@ export default function CreateBrincadeiraForm() {
                     
                     <Button 
                       onClick={handleAddStep}
-                      className="w-full h-12 border-2 border-dashed border-[#E5E5EA] bg-transparent text-[#8E8E93] font-bold rounded-[12px] active:bg-[#F9F9F7]"
+                      className="w-full h-12 border-2 border-dashed border-border bg-transparent text-muted-foreground font-bold rounded-[12px] active:bg-background"
                     >
                       <RiAddLine size={20} className="mr-2" />
                       Adicionar Regra

@@ -69,13 +69,13 @@ export default async function Explorar() {
   const session = await auth()
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header title="Explorar" showUserCard={false} />
 
       <main className="px-5 pt-2 pb-32 space-y-6">
         {/* Category Filters */}
         <section>
-          <h2 className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-widest mb-4 pl-1">
+          <h2 className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest mb-4 pl-1">
             Categorias
           </h2>
           <CategoryFilters />
@@ -84,11 +84,11 @@ export default async function Explorar() {
         {/* Biblioteca */}
         <section>
           <div className="flex items-baseline justify-between mb-6 pl-1">
-            <h2 className="text-[18px] font-extrabold text-[#1A1A1A] tracking-[-0.03em]">
+            <h2 className="text-[18px] font-extrabold text-foreground tracking-[-0.03em]">
               Biblioteca
             </h2>
             {library.length > 0 && (
-              <span className="text-[13px] font-bold text-[#8E8E93]">
+              <span className="text-[13px] font-bold text-muted-foreground">
                 {library.length} brincadeiras
               </span>
             )}
@@ -99,7 +99,7 @@ export default async function Explorar() {
               <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-4">
                 <RiBookOpenLine size={32} className="text-[#C7C7CC]" />
               </div>
-              <p className="text-[17px] font-bold text-[#8E8E93] mb-1">
+              <p className="text-[17px] font-bold text-muted-foreground mb-1">
                 A biblioteca está vazia
               </p>
             </div>

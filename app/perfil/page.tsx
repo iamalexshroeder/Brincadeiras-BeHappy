@@ -76,14 +76,14 @@ export default function Perfil() {
   ]
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header title="Perfil" showSearch={false} />
       
       <main className="pb-32 pt-2">
         {/* Horizontal Activities Section */}
         <section className="mb-10">
           <div className="px-5 mb-4">
-            <h2 className="text-[20px] font-extrabold text-[#1A1A1A] tracking-[-0.03em]">
+            <h2 className="text-[20px] font-extrabold text-foreground tracking-[-0.03em]">
               Minhas Atividades
             </h2>
           </div>
@@ -96,19 +96,19 @@ export default function Perfil() {
               return (
                 <Link key={activity.label} href={href} className="flex-shrink-0 cursor-pointer">
                   <Card 
-                    className="w-[160px] p-4 border border-[#F2F2F7] shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-white hover:bg-gray-50 active:bg-gray-100 transition-all text-left"
+                    className="w-[160px] p-4 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-card hover:bg-gray-50 active:bg-gray-100 transition-all text-left"
                   >
                     <div className={cn("h-10 w-10 flex items-center justify-center mb-3", activity.color)}>
                       <activity.icon size={28} />
                     </div>
                     <div className="space-y-0.5">
-                      <span className="block text-[18px] font-extrabold text-[#1A1A1A]">
+                      <span className="block text-[18px] font-extrabold text-foreground">
                         {activity.count}
                       </span>
-                      <span className="block text-[14px] font-bold text-[#1A1A1A]">
+                      <span className="block text-[14px] font-bold text-foreground">
                         {activity.label}
                       </span>
-                      <span className="block text-[11px] text-[#8E8E93] font-medium leading-tight">
+                      <span className="block text-[11px] text-muted-foreground font-medium leading-tight">
                         {activity.description}
                       </span>
                     </div>
@@ -123,30 +123,30 @@ export default function Perfil() {
         <div className="px-5 space-y-10">
           {settingsGroups.map((group) => (
             <section key={group.title} className="space-y-4">
-              <h3 className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-widest pl-1">
+              <h3 className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest pl-1">
                 {group.title}
               </h3>
               
-              <div className="bg-white rounded-[12px] border border-[#F2F2F7] shadow-[0_4px_12px_rgba(0,0,0,0.03)] overflow-hidden">
+              <div className="bg-card rounded-[12px] border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] overflow-hidden">
                 {group.items.map((item, index) => (
                   <Link 
                     key={item.label}
                     href={item.href}
                     className={cn(
                       "w-full flex items-center justify-between p-4 active:bg-gray-50 transition-colors",
-                      index !== group.items.length - 1 && "border-b border-[#F2F2F7]"
+                      index !== group.items.length - 1 && "border-b border-border"
                     )}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="text-[#1A1A1A] opacity-70">
+                      <div className="text-foreground opacity-70">
                         <item.icon size={20} />
                       </div>
-                      <span className="text-[15px] font-bold text-[#1A1A1A]">
+                      <span className="text-[15px] font-bold text-foreground">
                         {item.label}
                       </span>
                     </div>
                     
-                    <RiArrowRightSLine size={20} className="text-[#8E8E93] opacity-40" />
+                    <RiArrowRightSLine size={20} className="text-muted-foreground opacity-40" />
                   </Link>
                 ))}
               </div>

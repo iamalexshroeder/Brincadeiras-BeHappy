@@ -65,7 +65,7 @@ export default function Ranking() {
   const rest = rankingData.slice(3)
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header title="Ranking" showSearch={false} showUserCard={false} />
 
       <main className="px-5 pb-32 pt-2">
@@ -73,7 +73,7 @@ export default function Ranking() {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-32">
             <RiLoader4Line size={32} className="text-primary animate-spin mb-3" />
-            <p className="text-[14px] text-[#8E8E93] font-medium">Carregando ranking...</p>
+            <p className="text-[14px] text-muted-foreground font-medium">Carregando ranking...</p>
           </div>
         ) : rankingData.length === 0 ? (
           /* Empty State */
@@ -81,13 +81,13 @@ export default function Ranking() {
             <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-4">
               <RiTrophyLine size={32} className="text-[#C7C7CC]" />
             </div>
-            <p className="text-[17px] font-bold text-[#8E8E93] mb-1">Ranking ainda vazio</p>
+            <p className="text-[17px] font-bold text-muted-foreground mb-1">Ranking ainda vazio</p>
           </div>
         ) : (
           <>
             {/* Global Ranking Section */}
             <section className="mb-12">
-              <h2 className="text-[13px] font-extrabold text-[#8E8E93] uppercase tracking-widest pl-1 mb-6">Top Recreadores</h2>
+              <h2 className="text-[13px] font-extrabold text-muted-foreground uppercase tracking-widest pl-1 mb-6">Top Recreadores</h2>
               
               {/* Flexible Podium */}
               <div className="flex items-end justify-center gap-0 relative max-w-sm mx-auto mb-10 px-2 h-44">
@@ -105,8 +105,8 @@ export default function Ranking() {
                       <div className="absolute -bottom-1 -right-1 bg-slate-400 text-white text-[10px] font-bold h-6 w-6 rounded-full flex items-center justify-center border-2 border-white shadow-sm">2</div>
                     </div>
                     <div className="text-center w-full">
-                      <span className="block text-[13px] font-bold text-[#1A1A1A] truncate mx-auto max-w-[80px]">{topThree[1].name}</span>
-                      <span className="block text-[10px] font-bold text-[#8E8E93] uppercase tracking-tight leading-none mb-1">{getTitleForLevel(topThree[1].level)}</span>
+                      <span className="block text-[13px] font-bold text-foreground truncate mx-auto max-w-[80px]">{topThree[1].name}</span>
+                      <span className="block text-[10px] font-bold text-muted-foreground uppercase tracking-tight leading-none mb-1">{getTitleForLevel(topThree[1].level)}</span>
                       <span className="block text-[10px] font-extrabold text-slate-500">{topThree[1].xp} XP</span>
                     </div>
                   </Link>
@@ -126,7 +126,7 @@ export default function Ranking() {
                       <div className="absolute -bottom-1 -right-1 bg-yellow-400 text-white text-[12px] font-bold h-8 w-8 rounded-full flex items-center justify-center border-2 border-white shadow-sm">1</div>
                     </div>
                     <div className="text-center w-full">
-                      <span className="block text-[15px] font-extrabold text-[#1A1A1A] truncate mx-auto max-w-full">{topThree[0].name}</span>
+                      <span className="block text-[15px] font-extrabold text-foreground truncate mx-auto max-w-full">{topThree[0].name}</span>
                       <span className="block text-[11px] font-bold text-yellow-700 uppercase tracking-tight leading-none mb-1">{getTitleForLevel(topThree[0].level)}</span>
                       <span className="block text-[11px] font-black text-yellow-600 uppercase tracking-tight">{topThree[0].xp} XP</span>
                     </div>
@@ -147,7 +147,7 @@ export default function Ranking() {
                       <div className="absolute -bottom-1 -right-1 bg-amber-600 text-white text-[10px] font-bold h-6 w-6 rounded-full flex items-center justify-center border-2 border-white shadow-sm">3</div>
                     </div>
                     <div className="text-center w-full">
-                      <span className="block text-[13px] font-bold text-[#1A1A1A] truncate mx-auto max-w-[80px]">{topThree[2].name}</span>
+                      <span className="block text-[13px] font-bold text-foreground truncate mx-auto max-w-[80px]">{topThree[2].name}</span>
                       <span className="block text-[10px] font-bold text-amber-800/60 uppercase tracking-tight leading-none mb-1">{getTitleForLevel(topThree[2].level)}</span>
                       <span className="block text-[10px] font-extrabold text-amber-700">{topThree[2].xp} XP</span>
                     </div>
@@ -160,9 +160,9 @@ export default function Ranking() {
                 <div className="space-y-2 mt-4">
                   {rest.map((user) => (
                     <Link key={user.rank} href={`/recreador/${user.id}`} className="block">
-                      <Card className="p-3 border border-[#F2F2F7] shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-white transition-all hover:bg-gray-50 active:scale-[0.98]">
+                      <Card className="p-3 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-card transition-all hover:bg-gray-50 active:scale-[0.98]">
                         <div className="flex items-center gap-4">
-                          <span className="text-[14px] font-black text-[#8E8E93] w-5 text-center">{user.rank}</span>
+                          <span className="text-[14px] font-black text-muted-foreground w-5 text-center">{user.rank}</span>
                           <UserAvatar 
                             src={user.avatar}
                             name={user.name}
@@ -170,13 +170,13 @@ export default function Ranking() {
                             fallbackClassName="bg-gray-50 text-gray-400"
                           />
                           <div className="flex-1 min-w-0">
-                            <span className="block text-[15px] font-bold text-[#1A1A1A] truncate">{user.name}</span>
-                            <span className="block text-[11px] font-bold uppercase tracking-tight text-[#8E8E93]">{user.title || getTitleForLevel(user.level)}</span>
+                            <span className="block text-[15px] font-bold text-foreground truncate">{user.name}</span>
+                            <span className="block text-[11px] font-bold uppercase tracking-tight text-muted-foreground">{user.title || getTitleForLevel(user.level)}</span>
                           </div>
 
                           <div className="flex flex-col items-end">
-                            <span className="text-[14px] font-black text-[#1A1A1A]">
-                              {user.xp} <span className="text-[10px] text-[#8E8E93] uppercase">XP</span>
+                            <span className="text-[14px] font-black text-foreground">
+                              {user.xp} <span className="text-[10px] text-muted-foreground uppercase">XP</span>
                             </span>
                             <span className={cn("text-[10px] font-bold uppercase tracking-wide", getLevelColor(user.level))}>
                               Nível {user.level}
@@ -193,9 +193,9 @@ export default function Ranking() {
         )}
 
         {/* Trilha de Títulos */}
-        <section className="space-y-4 pt-8 border-t border-[#E5E5EA]">
+        <section className="space-y-4 pt-8 border-t border-border">
           <div className="pl-1 mb-2">
-            <h2 className="text-[13px] font-extrabold text-[#8E8E93] uppercase tracking-widest">Trilha de Títulos</h2>
+            <h2 className="text-[13px] font-extrabold text-muted-foreground uppercase tracking-widest">Trilha de Títulos</h2>
             <span className="text-[12px] font-bold text-primary mt-1 block">Nível Máximo: 100</span>
           </div>
 
@@ -211,7 +211,7 @@ export default function Ranking() {
                 <Card
                   key={tier.level}
                   className={cn(
-                    "p-3 border border-[#F2F2F7] shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] transition-all bg-white relative overflow-hidden",
+                    "p-3 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] transition-all bg-card relative overflow-hidden",
                     isCompleted && "opacity-40",
                     isCurrent && "ring-1 ring-primary/20 shadow-sm"
                   )}
@@ -239,17 +239,17 @@ export default function Ranking() {
                     <div className="flex-1 flex flex-col justify-center">
                       <div className="flex items-center justify-between">
                         <span 
-                          className={cn("text-[16px] font-bold", (isCurrent || isCompleted) ? "text-[#1A1A1A]" : "text-[#8E8E93]")}
+                          className={cn("text-[16px] font-bold", (isCurrent || isCompleted) ? "text-foreground" : "text-muted-foreground")}
                           style={{ color: (isCurrent || isCompleted) ? tier.color : undefined }}
                         >
                           {tier.title}
                         </span>
-                        <span className={cn("text-[14px] font-extrabold", isCurrent ? "text-[#1A1A1A]" : isCompleted ? "opacity-60" : "text-[#8E8E93]")}>
+                        <span className={cn("text-[14px] font-extrabold", isCurrent ? "text-foreground" : isCompleted ? "opacity-60" : "text-muted-foreground")}>
                           {isCompleted ? "Obtido" : `${tier.minXp} XP`}
                         </span>
                       </div>
                       <span className={cn("text-[11px] font-bold uppercase tracking-tight mt-0.5",
-                        isLocked ? "text-[#8E8E93]" : isCompleted ? "text-[#8E8E93] opacity-60" : "opacity-80"
+                        isLocked ? "text-muted-foreground" : isCompleted ? "text-muted-foreground opacity-60" : "opacity-80"
                       )}
                       style={{ color: isCurrent ? tier.color : undefined }}>
                         {isLocked ? `Requer Nível ${tier.level}` : isCompleted ? "Conquista Desbloqueada" : "Título Atual"}
@@ -265,7 +265,7 @@ export default function Ranking() {
             <Button
               onClick={() => setShowAllMissions(!showAllMissions)}
               variant="ghost"
-              className="w-full h-12 text-[#8E8E93] font-bold text-[14px] active:bg-gray-100 rounded-[6px] mt-2"
+              className="w-full h-12 text-muted-foreground font-bold text-[14px] active:bg-gray-100 rounded-[6px] mt-2"
             >
               {showAllMissions ? "Mostrar menos" : "Ver mais conquistas"}
             </Button>

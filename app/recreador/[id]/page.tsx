@@ -23,7 +23,7 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
 
   if (loading) {
     return (
-      <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
+      <div className="flex flex-col min-h-screen bg-background">
         <Header title="Perfil do Recreador" showSearch={false} showUserCard={false} />
         <main className="flex flex-col items-center justify-center py-32">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
@@ -34,24 +34,24 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
 
   if (!profileData) {
     return (
-      <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
+      <div className="flex flex-col min-h-screen bg-background">
         <Header title="Inexistente" showSearch={false} showUserCard={false} />
         <main className="flex flex-col items-center justify-center py-32 px-5 text-center">
           <RiShieldUserLine size={48} className="text-[#C7C7CC] mb-4" />
-          <h2 className="text-[18px] font-extrabold text-[#1A1A1A]">Recreador não encontrado</h2>
-          <p className="text-[14px] text-[#8E8E93] mt-1">Este perfil pode ter sido removido ou o ID está incorreto.</p>
+          <h2 className="text-[18px] font-extrabold text-foreground">Recreador não encontrado</h2>
+          <p className="text-[14px] text-muted-foreground mt-1">Este perfil pode ter sido removido ou o ID está incorreto.</p>
         </main>
       </div>
     )
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
+    <div className="flex flex-col min-h-screen bg-background">
       <Header title={`Perfil de ${profileData.name}`} showSearch={false} showUserCard={false} />
       
       <main className="px-5 pt-2 pb-32 space-y-6">
         {/* Profile Card */}
-        <Card className="p-5 border border-[#F2F2F7] shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-white overflow-hidden relative">
+        <Card className="p-5 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-card overflow-hidden relative">
            <div className="absolute top-0 right-0 p-4 opacity-5">
               <RiShieldUserLine size={80} />
            </div>
@@ -65,7 +65,7 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
                 fallbackClassName="bg-primary/10 text-primary text-[32px]"
               />
               
-              <h1 className="text-[22px] font-black text-[#1A1A1A] tracking-tight">
+              <h1 className="text-[22px] font-black text-foreground tracking-tight">
                 {profileData.name}
               </h1>
               
@@ -73,20 +73,20 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
                 <span className="text-[12px] font-bold uppercase tracking-wider text-primary bg-primary/5 px-3 py-1 rounded-full">
                   {getTitleForLevel(profileData.level)}
                 </span>
-                <span className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-widest">
+                <span className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest">
                   • Nível {profileData.level}
                 </span>
               </div>
            </div>
 
-           <div className="grid grid-cols-2 gap-4 pt-4 border-t border-[#F2F2F7]">
-              <div className="flex flex-col items-center p-3 rounded-[12px] bg-[#F9F9F7]">
-                 <span className="text-[18px] font-black text-[#1A1A1A]">{profileData.xp}</span>
-                 <span className="text-[11px] font-bold text-[#8E8E93] uppercase tracking-widest">XP Total</span>
+           <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border">
+              <div className="flex flex-col items-center p-3 rounded-[12px] bg-background">
+                 <span className="text-[18px] font-black text-foreground">{profileData.xp}</span>
+                 <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">XP Total</span>
               </div>
-              <div className="flex flex-col items-center p-3 rounded-[12px] bg-[#F9F9F7]">
-                 <span className="text-[18px] font-black text-[#1A1A1A]">{profileData.totalContributions}</span>
-                 <span className="text-[11px] font-bold text-[#8E8E93] uppercase tracking-widest">Postagens</span>
+              <div className="flex flex-col items-center p-3 rounded-[12px] bg-background">
+                 <span className="text-[18px] font-black text-foreground">{profileData.totalContributions}</span>
+                 <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">Postagens</span>
               </div>
            </div>
         </Card>
@@ -94,18 +94,18 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
         {/* Contributions Section */}
         <section className="space-y-4">
           <div className="flex items-baseline justify-between pl-1">
-            <h2 className="text-[18px] font-extrabold text-[#1A1A1A] tracking-[-0.03em]">
+            <h2 className="text-[18px] font-extrabold text-foreground tracking-[-0.03em]">
               Brincadeiras Criadas
             </h2>
-            <span className="text-[13px] font-bold text-[#8E8E93]">
+            <span className="text-[13px] font-bold text-muted-foreground">
               {profileData.brincadeiras.length} itens
             </span>
           </div>
 
           {profileData.brincadeiras.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 bg-white rounded-[12px] border border-dashed border-[#E5E5EA]">
+            <div className="flex flex-col items-center justify-center py-20 bg-card rounded-[12px] border border-dashed border-border">
               <RiFileList3Line size={32} className="text-[#C7C7CC] mb-2" />
-              <p className="text-[14px] font-bold text-[#8E8E93]">Nenhuma brincadeira publicada ainda.</p>
+              <p className="text-[14px] font-bold text-muted-foreground">Nenhuma brincadeira publicada ainda.</p>
             </div>
           ) : (
             <LibraryList items={profileData.brincadeiras} initialDisplay={20} />

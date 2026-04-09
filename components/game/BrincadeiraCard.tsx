@@ -23,6 +23,7 @@ import {
   RiCheckboxCircleFill,
   RiUserVoiceLine,
   RiAddLine,
+  RiPrinterLine,
   RiShieldUserLine
 } from "@remixicon/react"
 import { 
@@ -196,7 +197,7 @@ export function BrincadeiraCard({
   }
 
   return (
-    <Card className="overflow-hidden border border-[#F2F2F7] shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-white transition-transform active:scale-[0.98]">
+    <Card className="overflow-hidden border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-card transition-transform active:scale-[0.98]">
       <CardHeader className="p-6 pb-2">
         <Link href={`/recreador/${creator.id}`} className="flex items-center gap-4 active:opacity-70 transition-opacity">
           <UserAvatar 
@@ -207,11 +208,11 @@ export function BrincadeiraCard({
             fallbackClassName="bg-primary/10 text-primary"
           />
           <div className="flex flex-col flex-1">
-            <span className="text-[16px] font-extrabold text-[#1A1A1A] tracking-[-0.02em] leading-tight">
+            <span className="text-[16px] font-extrabold text-foreground tracking-[-0.02em] leading-tight">
               {creator.name}
             </span>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="text-[12px] font-bold uppercase tracking-tight text-[#8E8E93]">
+              <span className="text-[12px] font-bold uppercase tracking-tight text-muted-foreground">
                 {getTitleForLevel(creator.level)}
               </span>
               <span className="text-[12px] font-extrabold text-primary uppercase tracking-wider">
@@ -223,10 +224,10 @@ export function BrincadeiraCard({
       </CardHeader>
 
       <CardContent className="p-6 pt-2">
-        <h3 className="text-[18px] font-extrabold leading-tight text-[#1A1A1A] mb-4 tracking-[-0.03em]">
+        <h3 className="text-[18px] font-extrabold leading-tight text-foreground mb-4 tracking-[-0.03em]">
           {title}
         </h3>
-        <p className="text-[14px] leading-relaxed text-[#8E8E93] line-clamp-3 mb-6 font-medium opacity-90">
+        <p className="text-[14px] leading-relaxed text-muted-foreground line-clamp-3 mb-6 font-medium opacity-90">
           {description}
         </p>
 
@@ -254,11 +255,11 @@ export function BrincadeiraCard({
         </div>
       </CardContent>
 
-      <CardFooter className="px-6 py-4 flex justify-between items-center bg-white border-none">
+      <CardFooter className="px-6 py-4 flex justify-between items-center bg-card border-none">
         <div className="flex gap-6">
           <button 
             onClick={handleLike}
-            className="flex items-center gap-2 text-[#8E8E93] active:scale-90 transition-all font-medium"
+            className="flex items-center gap-2 text-muted-foreground active:scale-90 transition-all font-medium"
           >
             <motion.div
               key={isLiked ? "liked" : "unliked"}
@@ -272,12 +273,12 @@ export function BrincadeiraCard({
                 <RiHeartLine size={24} />
               )}
             </motion.div>
-            <span className={isLiked ? "text-[#EF4444]" : "text-[#8E8E93]"}>{localLikes}</span>
+            <span className={isLiked ? "text-[#EF4444]" : "text-muted-foreground"}>{localLikes}</span>
           </button>
 
           <button 
             onClick={handleUse}
-            className="flex items-center gap-2 text-[#8E8E93] active:scale-90 transition-all font-medium"
+            className="flex items-center gap-2 text-muted-foreground active:scale-90 transition-all font-medium"
           >
             <motion.div
               key={isUsed ? "used" : "unused"}
@@ -291,13 +292,22 @@ export function BrincadeiraCard({
                 <RiCheckboxCircleLine size={24} />
               )}
             </motion.div>
-            <span className={isUsed ? "text-[#16A34A]" : "text-[#8E8E93]"}>{localUsed}</span>
+            <span className={isUsed ? "text-[#16A34A]" : "text-muted-foreground"}>{localUsed}</span>
           </button>
 
-          <div className="flex items-center gap-2 text-[#8E8E93] font-medium">
+          <div className="flex items-center gap-2 text-muted-foreground font-medium">
             <RiChat3Line size={24} />
             <span className="text-[15px]">{comments.length || commentsCount}</span>
           </div>
+
+          <button 
+            onClick={() => window.print()}
+            className="flex items-center gap-1.5 text-muted-foreground active:scale-90 transition-all ml-auto font-medium bg-secondary/50 px-3 py-1.5 rounded-full hover:bg-secondary no-print"
+            title="Exportar PDF / Imprimir"
+          >
+            <RiPrinterLine size={18} />
+            <span className="text-[13px] hidden sm:inline">Modo Prancheta</span>
+          </button>
         </div>
 
          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
@@ -306,22 +316,22 @@ export function BrincadeiraCard({
                Ver Detalhes
              </Button>
            </SheetTrigger>
-           <SheetContent side="bottom" className="h-[95vh] rounded-t-[32px] p-0 flex flex-col border-none bg-white overflow-hidden outline-none">
+           <SheetContent side="bottom" className="h-[95vh] rounded-t-[32px] p-0 flex flex-col border-none bg-card overflow-hidden outline-none">
               {/* Barra de Ações Fixa (Top Bar) */}
-              <div className="absolute top-0 left-0 right-0 h-16 bg-white/90 backdrop-blur-md border-b border-[#F2F2F7] px-5 flex items-center justify-between z-[100]">
+              <div className="absolute top-0 left-0 right-0 h-16 bg-card/90 backdrop-blur-md border-b border-border px-5 flex items-center justify-between z-[100]">
                 <div className="flex items-center gap-3">
                   <SheetClose asChild>
                     <Button 
                       variant="ghost" 
                       size="icon" 
-                      className="h-10 w-10 rounded-full bg-white shadow-[0_2px_12px_rgba(0,0,0,0.08)] text-[#8E8E93] active:scale-90 transition-all"
+                      className="h-10 w-10 rounded-full bg-card shadow-[0_2px_12px_rgba(0,0,0,0.08)] text-muted-foreground active:scale-90 transition-all"
                       onClick={() => setIsEditingBrincadeira(false)}
                     >
                       <RiArrowLeftSLine size={24} />
                     </Button>
                   </SheetClose>
                   {isEditingBrincadeira && (
-                    <span className="text-[17px] font-black text-[#1A1A1A]">Editando</span>
+                    <span className="text-[17px] font-black text-foreground">Editando</span>
                   )}
                 </div>
 
@@ -332,7 +342,7 @@ export function BrincadeiraCard({
                         <Button 
                           variant="ghost" 
                           size="icon" 
-                          className="h-10 w-10 text-[#8E8E93] active:bg-[#F2F2F7] rounded-full transition-colors"
+                          className="h-10 w-10 text-muted-foreground active:bg-[#F2F2F7] rounded-full transition-colors"
                           onClick={() => setIsEditingBrincadeira(true)}
                         >
                           <RiEditLine size={22} />
@@ -340,7 +350,7 @@ export function BrincadeiraCard({
                         <Button 
                           variant="ghost" 
                           size="icon" 
-                          className="h-10 w-10 text-[#8E8E93] active:text-red-500 active:bg-red-50 rounded-full transition-colors"
+                          className="h-10 w-10 text-muted-foreground active:text-red-500 active:bg-red-50 rounded-full transition-colors"
                           onClick={handleDeleteBrincadeira}
                         >
                           <RiDeleteBinLine size={22} />
@@ -350,7 +360,7 @@ export function BrincadeiraCard({
                       <div className="flex items-center gap-2">
                         <Button 
                           variant="ghost" 
-                          className="h-9 px-4 text-[#8E8E93] font-bold text-[14px] hover:bg-transparent"
+                          className="h-9 px-4 text-muted-foreground font-bold text-[14px] hover:bg-transparent"
                           onClick={() => setIsEditingBrincadeira(false)}
                         >
                           Cancelar
@@ -386,11 +396,11 @@ export function BrincadeiraCard({
                     fallbackClassName="bg-primary/10 text-primary px-3"
                   />
                   <div className="flex flex-col">
-                    <span className="text-[17px] font-extrabold text-[#1A1A1A] leading-tight">
+                    <span className="text-[17px] font-extrabold text-foreground leading-tight">
                       {creator.name}
                     </span>
                     <div className="flex items-center gap-1.5 mt-0.5">
-                      <span className="text-[11px] font-bold uppercase tracking-tight text-[#8E8E93]">
+                      <span className="text-[11px] font-bold uppercase tracking-tight text-muted-foreground">
                         {getTitleForLevel(creator.level)}
                       </span>
                       <span className="text-[12px] font-extrabold text-primary uppercase tracking-wider">
@@ -403,12 +413,12 @@ export function BrincadeiraCard({
                 {isEditingBrincadeira ? (
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-wider">Materiais (Opcional)</label>
+                        <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-wider">Materiais (Opcional)</label>
                         <div className="space-y-2">
                           {editedMaterials.map((mat, index) => (
                             <div key={`edit-mat-${index}`} className="flex items-center gap-2">
                               <input 
-                                className="flex-1 h-10 px-3 bg-[#F2F2F7] rounded-[8px] text-[14px] text-[#1A1A1A] font-medium border-none"
+                                className="flex-1 h-10 px-3 bg-[#F2F2F7] rounded-[8px] text-[14px] text-foreground font-medium border-none"
                                 value={mat}
                                 onChange={(e) => {
                                   const newMats = [...editedMaterials]
@@ -418,7 +428,7 @@ export function BrincadeiraCard({
                               />
                               <button 
                                 onClick={() => setEditedMaterials(editedMaterials.filter((_, i) => i !== index))}
-                                className="text-[#8E8E93] p-1"
+                                className="text-muted-foreground p-1"
                               >
                                 <RiCloseLine size={20} />
                               </button>
@@ -434,7 +444,7 @@ export function BrincadeiraCard({
                       </div>
 
                       <div className="space-y-2">
-                         <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-wider">Passo a Passo</label>
+                         <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-wider">Passo a Passo</label>
                          <div className="space-y-3">
                            {editedSteps.map((step, index) => (
                              <div key={`edit-step-${index}`} className="flex gap-2">
@@ -442,7 +452,7 @@ export function BrincadeiraCard({
                                  {index + 1}
                                </div>
                                <textarea 
-                                 className="flex-1 p-3 bg-[#F2F2F7] rounded-[8px] text-[14px] text-[#1A1A1A] font-medium border-none min-h-[60px] resize-none"
+                                 className="flex-1 p-3 bg-[#F2F2F7] rounded-[8px] text-[14px] text-foreground font-medium border-none min-h-[60px] resize-none"
                                  value={step}
                                  onChange={(e) => {
                                    const newSteps = [...editedSteps]
@@ -452,7 +462,7 @@ export function BrincadeiraCard({
                                />
                                <button 
                                  onClick={() => setEditedSteps(editedSteps.filter((_, i) => i !== index))}
-                                 className="text-[#8E8E93] p-1"
+                                 className="text-muted-foreground p-1"
                                >
                                  <RiCloseLine size={20} />
                                </button>
@@ -469,20 +479,20 @@ export function BrincadeiraCard({
                     </div>
                 ) : (
                   <>
-                    <h3 className="text-[24px] font-extrabold leading-tight text-[#1A1A1A] tracking-[-0.03em]">
+                    <h3 className="text-[24px] font-extrabold leading-tight text-foreground tracking-[-0.03em]">
                       {title}
                     </h3>
                     
-                    <p className="text-[16px] leading-relaxed text-[#1A1A1A] font-medium opacity-80">
+                    <p className="text-[16px] leading-relaxed text-foreground font-medium opacity-80">
                       {description}
                     </p>
 
                     {materials.length > 0 && (
                       <div className="space-y-3 pt-2">
-                        <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-widest">Materiais</label>
+                        <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest">Materiais</label>
                         <div className="flex flex-wrap gap-2">
                           {materials.map((mat, i) => (
-                            <span key={i} className="px-3 py-1.5 bg-[#F2F2F7] rounded-full text-[13px] font-medium text-[#1A1A1A]">
+                            <span key={i} className="px-3 py-1.5 bg-[#F2F2F7] rounded-full text-[13px] font-medium text-foreground">
                               • {mat}
                             </span>
                           ))}
@@ -492,14 +502,14 @@ export function BrincadeiraCard({
 
                     {steps.length > 0 && (
                       <div className="space-y-4 pt-2">
-                        <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-widest">Passo a Passo</label>
+                        <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest">Passo a Passo</label>
                         <div className="space-y-4">
                           {steps.map((step, i) => (
                             <div key={i} className="flex gap-4">
                               <div className="shrink-0 h-6 w-6 rounded-full bg-primary/10 text-primary font-black text-[12px] flex items-center justify-center mt-1">
                                 {i + 1}
                               </div>
-                              <p className="text-[15px] text-[#1A1A1A] leading-relaxed font-medium opacity-90">
+                              <p className="text-[15px] text-foreground leading-relaxed font-medium opacity-90">
                                 {step}
                               </p>
                             </div>
@@ -526,13 +536,13 @@ export function BrincadeiraCard({
                 </div>
 
                 {!isEditingBrincadeira && (
-                  <div className="pt-8 border-t border-[#F2F2F7]">
-                    <h4 className="text-[18px] font-extrabold text-[#1A1A1A] mb-6 tracking-[-0.02em]">
+                  <div className="pt-8 border-t border-border">
+                    <h4 className="text-[18px] font-extrabold text-foreground mb-6 tracking-[-0.02em]">
                       Comentários ({comments.length})
                     </h4>
                     
                     {comments.length === 0 ? (
-                      <p className="text-[14px] text-[#8E8E93] text-center py-8">Nenhum comentário ainda. Seja o primeiro a comentar!</p>
+                      <p className="text-[14px] text-muted-foreground text-center py-8">Nenhum comentário ainda. Seja o primeiro a comentar!</p>
                     ) : (
                       <div className="space-y-6">
                         {comments.map((comment: any) => {
@@ -549,8 +559,8 @@ export function BrincadeiraCard({
                               <div className="flex-1 flex flex-col gap-1">
                                 <div className="flex items-center justify-between">
                                   <div className="flex items-center gap-2">
-                                    <span className="text-[14px] font-bold text-[#1A1A1A]">{comment.user.name}</span>
-                                    <span className="text-[12px] text-[#8E8E93]">
+                                    <span className="text-[14px] font-bold text-foreground">{comment.user.name}</span>
+                                    <span className="text-[12px] text-muted-foreground">
                                       {new Date(comment.created_at).toLocaleDateString("pt-BR")}
                                     </span>
                                   </div>
@@ -561,7 +571,7 @@ export function BrincadeiraCard({
                                           setEditingCommentId(comment.id)
                                           setEditingCommentText(comment.text)
                                         }}
-                                        className="text-[#8E8E93] active:text-primary transition-colors"
+                                        className="text-muted-foreground active:text-primary transition-colors"
                                       >
                                         <RiEditLine size={16} />
                                       </button>
@@ -574,7 +584,7 @@ export function BrincadeiraCard({
                                             router.refresh()
                                           }
                                         }}
-                                        className="text-[#8E8E93] active:text-red-500 transition-colors"
+                                        className="text-muted-foreground active:text-red-500 transition-colors"
                                       >
                                         {isDeleting ? <RiLoader4Line size={16} className="animate-spin" /> : <RiDeleteBinLine size={16} />}
                                       </button>
@@ -585,7 +595,7 @@ export function BrincadeiraCard({
                                 {isEditing ? (
                                   <div className="space-y-2 mt-1">
                                     <textarea
-                                      className="w-full p-3 rounded-[8px] bg-[#F2F2F7] text-[#1A1A1A] text-[14px] font-medium border-none focus:ring-1 ring-primary/20 resize-none"
+                                      className="w-full p-3 rounded-[8px] bg-[#F2F2F7] text-foreground text-[14px] font-medium border-none focus:ring-1 ring-primary/20 resize-none"
                                       value={editingCommentText}
                                       onChange={(e) => setEditingCommentText(e.target.value)}
                                       autoFocus
@@ -605,7 +615,7 @@ export function BrincadeiraCard({
                                       <Button 
                                         variant="ghost" 
                                         size="sm" 
-                                        className="h-8 text-[#8E8E93] font-bold"
+                                        className="h-8 text-muted-foreground font-bold"
                                         onClick={() => setEditingCommentId(null)}
                                       >
                                         Cancelar
@@ -613,7 +623,7 @@ export function BrincadeiraCard({
                                     </div>
                                   </div>
                                 ) : (
-                                  <p className="text-[14px] text-[#1A1A1A] leading-relaxed opacity-90">
+                                  <p className="text-[14px] text-foreground leading-relaxed opacity-90">
                                     {comment.text}
                                   </p>
                                 )}
@@ -630,13 +640,13 @@ export function BrincadeiraCard({
 
              {/* Fixed Footer Action Area */}
              {!isEditingBrincadeira && (
-               <div className="px-5 py-4 border-t border-[#F2F2F7] bg-white safe-area-bottom">
+               <div className="px-5 py-4 border-t border-border bg-card safe-area-bottom">
                  {isAddingComment ? (
                    <div className="space-y-4">
                      <textarea
                        autoFocus
                        placeholder="Sua experiência com essa brincadeira..."
-                       className="w-full h-24 p-4 rounded-[12px] bg-[#F2F2F7] border-none text-[15px] text-[#1A1A1A] focus:ring-1 focus:ring-primary/20 transition-all resize-none font-medium"
+                       className="w-full h-24 p-4 rounded-[12px] bg-[#F2F2F7] border-none text-[15px] text-foreground focus:ring-1 focus:ring-primary/20 transition-all resize-none font-medium"
                        value={commentText}
                        onChange={(e) => setCommentText(e.target.value)}
                      />
@@ -644,7 +654,7 @@ export function BrincadeiraCard({
                        <Button 
                          variant="ghost"
                          onClick={() => setIsAddingComment(false)}
-                         className="flex-1 h-11 font-bold text-[#8E8E93]"
+                         className="flex-1 h-11 font-bold text-muted-foreground"
                        >
                          Cancelar
                        </Button>
