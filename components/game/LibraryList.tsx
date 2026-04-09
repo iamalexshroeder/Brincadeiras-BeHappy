@@ -14,6 +14,8 @@ interface LibraryItem {
   likesCount: number
   usedCount: number
   comments?: any[]
+  initialLiked?: boolean
+  initialUsed?: boolean
 }
 
 interface LibraryListProps {

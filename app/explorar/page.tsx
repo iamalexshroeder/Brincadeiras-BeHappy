@@ -4,6 +4,7 @@ import { LibraryList } from "@/components/game/LibraryList"
 import { getLevelFromXp } from "@/utils/gamification"
 import { RiBookOpenLine } from "@remixicon/react"
 import prisma from "@/lib/prisma"
+import { auth } from "@/auth"
 
 export const dynamic = "force-dynamic"
 
@@ -13,6 +14,7 @@ export const dynamic = "force-dynamic"
 // ]
 
 async function getLibrary() {
+  const session = await auth()
   try {
     const items = await prisma.brincadeira.findMany({
       where: { published_at: { not: null } },
@@ -28,6 +30,9 @@ async function getLibrary() {
             },
           },
           orderBy: { created_at: "desc" },
+        },
+        interactions: {
+          where: session?.user?.id ? { user_id: session.user.id } : { user_id: "none" },
         },
       },
     })
@@ -50,6 +55,8 @@ async function getLibrary() {
       likesCount: b.likes_count,
       usedCount: b.used_count,
       comments: b.comments,
+      initialLiked: b.interactions?.some((i) => i.type === "LIKE") ?? false,
+      initialUsed: b.interactions?.some((i) => i.type === "USED") ?? false,
     }))
   } catch {
     return []

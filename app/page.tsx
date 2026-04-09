@@ -71,6 +71,8 @@ export default async function Home({
                   likesCount={game.likesCount}
                   usedCount={game.usedCount}
                   comments={game.comments}
+                  initialLiked={game.userHasLiked}
+                  initialUsed={game.userHasUsed}
                 />
               ))}
             </div>

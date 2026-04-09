@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useTransition } from "react"
+import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { 
   RiHeartLine, 
@@ -11,7 +12,8 @@ import {
   RiGroupLine,
   RiUserVoiceLine,
   RiChat3Line,
-  RiCloseLine
+  RiCloseLine,
+  RiLoader4Line
 } from "@remixicon/react"
 import { 
   Card, 
@@ -29,7 +31,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { getTitleForLevel } from "@/utils/gamification"
-import { addComment } from "@/lib/actions"
+import { addComment, toggleLike, toggleUsed } from "@/lib/actions"
 
 const AGE_GROUP_LABELS: Record<string, string> = {
   "AGE_3_5": "3 a 5 anos",
@@ -61,6 +63,8 @@ interface BrincadeiraCardProps {
   usedCount: number
   commentsCount?: number
   comments?: any[]
+  initialLiked?: boolean
+  initialUsed?: boolean
 }
 
 const MOCK_COMMENTS: any[] = []
@@ -76,25 +80,53 @@ export function BrincadeiraCard({
   likesCount,
   usedCount,
   commentsCount = 0,
-  comments = []
+  comments = [],
+  initialLiked = false,
+  initialUsed = false
 }: BrincadeiraCardProps) {
-  const [isLiked, setIsLiked] = useState(false)
-  const [isUsed, setIsUsed] = useState(false)
+  const router = useRouter()
+  const [isPending, startTransition] = useTransition()
+  const [isLiked, setIsLiked] = useState(initialLiked)
+  const [isUsed, setIsUsed] = useState(initialUsed)
   const [localLikes, setLocalLikes] = useState(likesCount)
   const [localUsed, setLocalUsed] = useState(usedCount)
   const [isAddingComment, setIsAddingComment] = useState(false)
   const [commentText, setCommentText] = useState("")
 
-  const handleLike = (e: React.MouseEvent) => {
+  const handleLike = async (e: React.MouseEvent) => {
     e.stopPropagation()
+    // Optimistic UI
     setIsLiked(!isLiked)
     setLocalLikes(prev => isLiked ? prev - 1 : prev + 1)
+    
+    startTransition(async () => {
+      try {
+        await toggleLike(id)
+        router.refresh()
+      } catch (error) {
+        // Rollback on error
+        setIsLiked(isLiked)
+        setLocalLikes(localLikes)
+      }
+    })
   }
 
-  const handleUse = (e: React.MouseEvent) => {
+  const handleUse = async (e: React.MouseEvent) => {
     e.stopPropagation()
+    // Optimistic UI
     setIsUsed(!isUsed)
     setLocalUsed(prev => isUsed ? prev - 1 : prev + 1)
+
+    startTransition(async () => {
+      try {
+        await toggleUsed(id)
+        router.refresh()
+      } catch (error) {
+        // Rollback on error
+        setIsUsed(isUsed)
+        setLocalUsed(localUsed)
+      }
+    })
   }
 
   return (
@@ -306,18 +338,30 @@ export function BrincadeiraCard({
                           >
                             Cancelar
                           </Button>
-                          <Button 
-                            className="flex-2 h-11 bg-primary text-white font-bold rounded-[6px] px-8"
-                            onClick={async () => {
-                              if (!commentText.trim()) return
-                              await addComment(id, commentText)
-                              setIsAddingComment(false)
-                              setCommentText("")
-                            }}
-                            disabled={!commentText.trim()}
-                          >
-                            Postar
-                          </Button>
+                           <Button 
+                             className="flex-2 h-11 bg-primary text-white font-bold rounded-[6px] px-8"
+                             onClick={async () => {
+                               if (!commentText.trim()) return
+                               
+                               startTransition(async () => {
+                                 try {
+                                   await addComment(id, commentText)
+                                   setIsAddingComment(false)
+                                   setCommentText("")
+                                   router.refresh()
+                                 } catch (error) {
+                                   console.error("Erro ao postar comentário:", error)
+                                 }
+                               })
+                             }}
+                             disabled={!commentText.trim() || isPending}
+                           >
+                             {isPending ? (
+                               <RiLoader4Line className="animate-spin" size={20} />
+                             ) : (
+                               "Postar"
+                             )}
+                           </Button>
                         </div>
                       </div>
                     ) : (
