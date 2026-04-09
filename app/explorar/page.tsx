@@ -84,9 +84,6 @@ export default async function Explorar() {
               <p className="text-[17px] font-bold text-[#1A1A1A] mb-1">
                 A biblioteca está vazia
               </p>
-              <p className="text-[14px] text-[#8E8E93] max-w-[240px] leading-relaxed">
-                Seja o primeiro a contribuir e registrar uma brincadeira para a comunidade!
-              </p>
             </div>
           ) : (
             <LibraryList items={library} initialDisplay={10} />

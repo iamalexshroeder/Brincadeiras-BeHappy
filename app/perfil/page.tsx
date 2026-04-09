@@ -22,21 +22,21 @@ export default function Perfil() {
   const activities = [
     { 
       label: "Favoritas", 
-      count: "12", 
+      count: "0", 
       icon: RiHeartLine, 
       color: "text-red-500",
       description: "Salvas por você"
     },
     { 
       label: "Minhas", 
-      count: "5", 
+      count: "0", 
       icon: RiHistoryLine, 
       color: "text-blue-500",
       description: "Suas contribuições"
     },
     { 
       label: "Conquistas", 
-      count: "3", 
+      count: "0", 
       icon: RiStarLine, 
       color: "text-yellow-500",
       description: "Medalhas ganhas"

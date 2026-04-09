@@ -37,7 +37,6 @@ export default async function Home() {
             )}
           </div>
 
-          {feed.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-center">
               <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-4">
                 <RiFileList3Line size={32} className="text-[#C7C7CC]" />
@@ -45,15 +44,6 @@ export default async function Home() {
               <p className="text-[17px] font-bold text-[#1A1A1A] mb-1">
                 Nenhuma brincadeira ainda
               </p>
-              <p className="text-[14px] text-[#8E8E93] max-w-[240px] leading-relaxed mb-6">
-                Que tal ser o primeiro a registrar uma brincadeira e começar a ganhar XP?
-              </p>
-              <Link href="/criar">
-                <Button className="h-12 px-8 bg-primary text-white font-bold rounded-[6px]">
-                  <RiAddLine size={20} className="mr-2" />
-                  Registrar Brincadeira
-                </Button>
-              </Link>
             </div>
           ) : (
             <div className="space-y-8">

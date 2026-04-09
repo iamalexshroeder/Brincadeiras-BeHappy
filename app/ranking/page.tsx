@@ -73,9 +73,6 @@ export default function Ranking() {
               <RiTrophyLine size={32} className="text-[#C7C7CC]" />
             </div>
             <p className="text-[17px] font-bold text-[#1A1A1A] mb-1">Ranking ainda vazio</p>
-            <p className="text-[14px] text-[#8E8E93] max-w-[240px] leading-relaxed">
-              Registre brincadeiras e ganhe XP para aparecer no ranking!
-            </p>
           </div>
         ) : (
           <>

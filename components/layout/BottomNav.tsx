@@ -39,7 +39,7 @@ export function BottomNav() {
   if (pathname === "/login") return null
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 flex h-[64px] items-center justify-around bg-[#F9F9F7] pb-safe-area shadow-[0_-1px_0_rgba(0,0,0,0.05)] md:hidden px-4">
+    <nav className="fixed bottom-0 left-0 w-full z-50 flex items-center justify-around bg-[#F9F9F7] shadow-[0_-1px_0_rgba(0,0,0,0.05)] md:hidden px-4 h-[calc(64px+env(safe-area-inset-bottom))] pb-[env(safe-area-inset-bottom)]">
       {navItems.map((item) => {
         const isActive = pathname === item.href
         const Icon = item.icon
