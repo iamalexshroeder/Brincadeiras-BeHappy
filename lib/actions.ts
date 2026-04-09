@@ -634,17 +634,18 @@ export async function deleteBrincadeira(id: string) {
 
   if (!brincadeira) throw new Error("Brincadeira não encontrada")
 
-  // Subtract XP (50 points for creation)
-  await prisma.user.update({
-    where: { id: session.user.id },
-    data: {
-      xp: { decrement: 50 }
-    }
-  })
-
-  await prisma.brincadeira.delete({
-    where: { id }
-  })
+  // Safe deletion: Remove all related records first to avoid foreign key constraints
+  // since Cascade might not be active in the DB yet
+  await prisma.$transaction([
+    prisma.interaction.deleteMany({ where: { brincadeira_id: id } }),
+    prisma.comment.deleteMany({ where: { brincadeira_id: id } }),
+    prisma.brincadeira.delete({ where: { id } }),
+    // Subtract XP from user
+    prisma.user.update({
+      where: { id: session.user.id },
+      data: { xp: { decrement: 50 } }
+    })
+  ])
 
   revalidatePath("/")
   revalidatePath("/perfil")
