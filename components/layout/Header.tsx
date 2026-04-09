@@ -184,12 +184,12 @@ export function Header({
                   {user.xp} XP
                 </span>
               </div>
-              <div className="relative h-1.5 w-full bg-[#F2F2F7] rounded-full overflow-hidden">
+              <div className="relative h-[10px] w-full bg-[#F2F2F7] rounded-full overflow-hidden">
                 <div
                   className="absolute inset-y-0 left-0 rounded-full transition-all duration-1000 ease-out overflow-hidden"
                   style={{
                     width: `${progressValue}%`,
-                    background: "linear-gradient(90deg, #7C3AED 0%, #A855F7 50%, #D946EF 100%)",
+                    background: "linear-gradient(90deg, #4C1D95 0%, #6B21A8 50%, #7E22CE 100%)",
                   }}
                 >
                   <div className="absolute inset-y-0 -left-[20px] rounded-full animate-shimmer-progress opacity-40" />
