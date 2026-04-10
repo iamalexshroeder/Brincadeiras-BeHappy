@@ -1,10 +1,12 @@
 import { Header } from "@/components/layout/Header"
 import { BibliotecaList } from "@/components/game/BibliotecaList"
+import { ExplorarSearch } from "@/components/game/ExplorarSearch"
 import { getFeed } from "@/lib/actions"
 import { BrincadeiraCard } from "@/components/game/BrincadeiraCard"
 import { RiSearchLine } from "@remixicon/react"
 import { auth } from "@/auth"
 import { SYSTEM_COLLECTIONS } from "@/lib/data/biblioteca"
+import { Suspense } from "react"
 
 export const dynamic = "force-dynamic"
 
@@ -35,8 +37,19 @@ export default async function Explorar({
         title={kit ? activeKit?.label : "Explorar"} 
         showUserCard={false} 
         showBackButton={!!kit} 
-        showSearch={!kit}
+        showSearch={false}
       />
+
+      {/* Barra de busca com autocomplete — só aparece quando não está num kit */}
+      {!kit && (
+        <div className="px-4 sm:px-6 py-3 bg-[#F9F9F7] border-b border-[#E5E5EA]">
+          <div className="bg-white p-[6px] rounded-[12px] border border-[#E5E5EA] shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+            <Suspense fallback={<div className="h-10" />}>
+              <ExplorarSearch />
+            </Suspense>
+          </div>
+        </div>
+      )}
 
       <main className="page-main pb-32">
         {(!q && !kit) ? (
