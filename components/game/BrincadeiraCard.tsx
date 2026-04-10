@@ -161,13 +161,13 @@ export function BrincadeiraCard({
             <span className="text-[14px] font-extrabold text-foreground leading-tight">{creator.name}</span>
             <div className="flex items-center gap-1 mt-0.5">
               <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">
-                \u2022 {creator.title || getTitleForLevel(creator.level)}
+                • {creator.title || getTitleForLevel(creator.level)}
               </span>
               <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">
-                \u2022 N\u00edvel {creator.level}
+                • Nível {creator.level}
               </span>
               <span className="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-tight">
-                \u2022 {publishedAt}
+                • {publishedAt}
               </span>
             </div>
           </div>
