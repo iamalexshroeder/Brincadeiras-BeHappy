@@ -3,7 +3,7 @@
 import { auth } from "@/auth"
 import prisma from "@/lib/prisma"
 import { XPReason } from "@prisma/client"
-import { getLevelFromXp, getTitleForLevel, GAMIFICATION_TIERS } from "@/utils/gamification"
+import { getLevelFromXp, getTitleForLevel, GAMIFICATION_TIERS, EXCLUSIVE_TITLES } from "@/utils/gamification"
 import { revalidatePath } from "next/cache"
 
 // XP awarded per action
