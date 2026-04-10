@@ -337,6 +337,9 @@ export async function getFeed(
     if (kit === "ferias") whereClause.tags = { ...whereClause.tags, hasSome: ["Físico", "Cooperativo", "Gincana"] }
     if (kit === "pequenos") whereClause.tags = { ...whereClause.tags, hasSome: ["Musical", "Sensorial", "Roda"] }
     if (kit === "sem_material") whereClause.materials = { isEmpty: true }
+  } else {
+    // Se NÃO estivermos visualizando um kit (ex: Feed Geral ou Galeria), escondemos as brincadeiras do sistema
+    whereClause.user = { email: { not: "equipe@behappy.com" } }
   }
 
   if (searchQuery) {
