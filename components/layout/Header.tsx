@@ -49,7 +49,7 @@ interface HeaderProps {
 export function Header({
   title,
   showSearch = true,
-  showUserCard = true,
+  showUserCard = false,
   showBackButton = false
 }: HeaderProps) {
   const pathname = usePathname()

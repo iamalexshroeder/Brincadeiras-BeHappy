@@ -26,7 +26,7 @@ export default async function Home({
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <Header showSearch={false} />
+      <Header showSearch={false} showUserCard={true} />
 
       <main className="px-4 sm:px-5 pb-48 pt-2 space-y-5">
         {/* Curated Kits Section */}

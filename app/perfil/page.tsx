@@ -94,7 +94,7 @@ export default function Perfil() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <Header title="Perfil" showSearch={false} />
+      <Header title="Perfil" showSearch={false} showUserCard={true} />
       
       <main className="pb-32 pt-2">
         {/* Horizontal Activities Section */}
