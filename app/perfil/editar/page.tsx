@@ -88,7 +88,16 @@ export default function EditarPerfil() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-[#1A1A1A]">
-      <Header title="Editar Perfil" showSearch={false} showBackButton={true} />
+      <Header 
+        title="Editar Perfil" 
+        showSearch={false} 
+        showBackButton={true}
+        rightAction={
+          <button className="h-10 w-10 flex items-center justify-center rounded-full text-muted-foreground active:bg-gray-100 transition-all">
+            <RiUser3Line size={24} className="opacity-70" />
+          </button>
+        }
+      />
       
       <main className="page-main pt-8 pb-32 space-y-8">
         {/* Profile Preview & Upload */}

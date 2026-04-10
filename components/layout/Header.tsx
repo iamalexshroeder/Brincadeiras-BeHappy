@@ -44,13 +44,15 @@ interface HeaderProps {
   showSearch?: boolean
   showUserCard?: boolean
   showBackButton?: boolean
+  rightAction?: React.ReactNode
 }
 
 export function Header({
   title,
   showSearch = true,
   showUserCard = false,
-  showBackButton = false
+  showBackButton = false,
+  rightAction
 }: HeaderProps) {
   const pathname = usePathname()
   const router = useRouter()
@@ -119,24 +121,28 @@ export function Header({
               {title || `Olá, ${user.name.split(" ")[0]}`}
             </h1>
           </div>
-          <button
-            onClick={() => {
-              if (isNotificationsPage) {
-                router.back()
-              } else {
-                router.push("/notificacoes")
-              }
-            }}
-            className={cn(
-              "relative flex items-center justify-center h-10 w-10 rounded-full transition-colors",
-              isNotificationsPage ? "text-[#EAB308]" : "text-[#8E8E93] active:text-[#EAB308]"
-            )}
-          >
-            {isNotificationsPage ? <RiNotification3Fill size={24} /> : <RiNotification3Line size={24} />}
-            {user.unreadNotificationsCount > 0 && (
-              <div className="absolute top-1.5 right-1.5 h-2.5 w-2.5 rounded-full bg-[#EF4444] border-2 border-[#F9F9F7]" />
-            )}
-          </button>
+          
+          <div className="flex items-center gap-2 shrink-0">
+            {rightAction}
+            <button
+              onClick={() => {
+                if (isNotificationsPage) {
+                  router.back()
+                } else {
+                  router.push("/notificacoes")
+                }
+              }}
+              className={cn(
+                "relative flex items-center justify-center h-10 w-10 rounded-full transition-colors",
+                isNotificationsPage ? "text-[#EAB308]" : "text-[#8E8E93] active:text-[#EAB308]"
+              )}
+            >
+              {isNotificationsPage ? <RiNotification3Fill size={24} /> : <RiNotification3Line size={24} />}
+              {user.unreadNotificationsCount > 0 && (
+                <div className="absolute top-1.5 right-1.5 h-2.5 w-2.5 rounded-full bg-[#EF4444] border-2 border-[#F9F9F7]" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
