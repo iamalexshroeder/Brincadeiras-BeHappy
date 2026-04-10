@@ -107,7 +107,7 @@ export function ExplorarClient({ initialFeed, currentUserId }: Props) {
               </div>
             ) : (
               <div className="space-y-4 px-1 pb-4">
-                {results.map((game) => (
+                {results.map((game) => game && (
                   <BrincadeiraCard
                     key={game.id}
                     id={game.id}
@@ -145,7 +145,7 @@ export function ExplorarClient({ initialFeed, currentUserId }: Props) {
               <h2 className="section-label">Galeria</h2>
             </div>
             <div className="space-y-4 px-1 pb-4">
-              {initialFeed.map((game) => (
+              {initialFeed.map((game) => game && (
                 <BrincadeiraCard
                   key={game.id}
                   id={game.id}
