@@ -333,8 +333,11 @@ export function BrincadeiraCard({
                Ver Detalhes
              </Button>
            </SheetTrigger>
-           <SheetContent side="bottom" className="h-[92dvh] rounded-t-[32px] p-0 flex flex-col border-none bg-background overflow-hidden outline-none">
-              {/* Header Fixo (Top Bar) - Refinado */}
+            <SheetContent 
+              side="bottom" 
+              className="h-[92dvh] w-auto inset-x-4 bottom-4 rounded-[24px] p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
+            >
+              {/* Header Fixo (Top Bar) - Floating Style */}
               <div className="flex items-center justify-between h-16 bg-white border-b border-border px-6 shrink-0 z-[100] shadow-sm">
                 <div className="flex items-center gap-3">
                   <SheetClose asChild>
@@ -397,8 +400,7 @@ export function BrincadeiraCard({
 
               {/* Scrollable Content */}
               <div className={cn(
-                "flex-1 overflow-y-auto px-6 py-6 space-y-7",
-                isEditingBrincadeira ? "pb-24" : "pb-32"
+                "flex-1 overflow-y-auto px-6 py-6 space-y-7 pb-32"
               )}>
                 <div className="space-y-6">
                 <Link href={`/recreador/${creator.id}`} className="flex items-center gap-4 active:opacity-70 transition-opacity">
