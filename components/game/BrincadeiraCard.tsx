@@ -168,18 +168,18 @@ export function BrincadeiraCard({
               <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide">
                 · Nível {creator.level}
               </span>
-              <span className="text-[11px] font-bold text-muted-foreground/60 uppercase tracking-wide">
-                · {publishedAt}
-              </span>
             </div>
           </div>
         </Link>
       </CardHeader>
 
       <CardContent className="px-4 py-0.5 cursor-pointer" onClick={() => router.push(`/brincadeira/${id}`)}>
-        <h3 className="text-[16px] font-extrabold leading-snug text-foreground mb-1 tracking-[-0.01em]">
+        <h3 className="text-[16px] font-extrabold leading-snug text-foreground tracking-[-0.01em]">
           {title}
         </h3>
+        <span className="text-[11px] font-bold text-muted-foreground/60 uppercase tracking-wide block mb-1">
+          {publishedAt}
+        </span>
         <p className="text-[13px] leading-snug text-muted-foreground line-clamp-2 mb-3 font-medium opacity-80">
           {description}
         </p>

@@ -64,7 +64,7 @@ export default function TitulosPage() {
           </p>
           {!activeTitle && (
              <p className="text-[14px] text-muted-foreground font-medium italic">
-               "{GAMIFICATION_TIERS.find(t => userLevel >= t.level)?.title || "Observador Curioso"}"
+               "{getTitleForLevel(userLevel)}"
              </p>
           )}
         </div>
@@ -122,7 +122,7 @@ export default function TitulosPage() {
 
             {[...GAMIFICATION_TIERS].reverse().map((tier) => {
               const isUnlocked = userLevel >= tier.level
-              const isSelected = !activeTitle && isUnlocked && GAMIFICATION_TIERS.find(t => userLevel >= t.level)?.title === tier.title
+              const isSelected = (!activeTitle && isUnlocked && getTitleForLevel(userLevel) === tier.title)
                                  || activeTitle === tier.title
 
               return (
