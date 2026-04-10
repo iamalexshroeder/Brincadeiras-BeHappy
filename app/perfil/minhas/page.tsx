@@ -1,7 +1,7 @@
 "use client"
 
 import { Header } from "@/components/layout/Header"
-import { BrincadeiraCard } from "@/components/game/BrincadeiraCard"
+import { LibraryList } from "@/components/game/LibraryList"
 import { RiHistoryLine, RiArrowLeftSLine } from "@remixicon/react"
 import { getContributions } from "@/lib/actions"
 import { useEffect, useState } from "react"
@@ -50,26 +50,7 @@ export default function MinhasBrincadeirasPage() {
             </Link>
           </div>
         ) : (
-          <div className="space-y-4">
-            {items.map((game) => game && (
-              <BrincadeiraCard
-                key={game.id}
-                id={game.id}
-                title={game.title}
-                description={game.description}
-                creator={game.creator}
-                metadata={game.metadata}
-                tags={game.tags}
-                likesCount={game.likesCount}
-                usedCount={game.usedCount}
-                comments={game.comments}
-                initialLiked={game.userHasLiked}
-                initialUsed={game.userHasUsed}
-                currentUserId={session?.user?.id}
-                publishedAt={game.publishedAt}
-              />
-            ))}
-          </div>
+          <LibraryList items={items} currentUserId={session?.user?.id} />
         )}
       </main>
     </div>

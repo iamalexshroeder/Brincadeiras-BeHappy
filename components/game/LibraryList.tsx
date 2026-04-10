@@ -15,6 +15,8 @@ interface LibraryItem {
   usedCount: number
   comments?: any[]
   initialUsed?: boolean
+  initialLiked?: boolean
+  initialSaved?: boolean
   steps?: string[]
   materials?: string[]
   publishedAt?: string

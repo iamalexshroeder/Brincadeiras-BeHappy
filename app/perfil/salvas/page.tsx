@@ -1,7 +1,7 @@
 "use client"
 
 import { Header } from "@/components/layout/Header"
-import { BrincadeiraCard } from "@/components/game/BrincadeiraCard"
+import { LibraryList } from "@/components/game/LibraryList"
 import { RiBookmarkLine } from "@remixicon/react"
 import { getSavedBrincadeiras } from "@/lib/actions"
 import { useEffect, useState } from "react"
@@ -43,27 +43,7 @@ export default function SalvasPage() {
             </p>
           </div>
         ) : (
-          <div className="space-y-4">
-            {items.map((game) => game && (
-              <BrincadeiraCard
-                key={game.id}
-                id={game.id}
-                title={game.title}
-                description={game.description}
-                creator={game.creator}
-                metadata={game.metadata}
-                tags={game.tags}
-                likesCount={game.likesCount}
-                usedCount={game.usedCount}
-                comments={game.comments}
-                initialLiked={game.userHasLiked}
-                initialUsed={game.userHasUsed}
-                initialSaved={game.userHasSaved}
-                currentUserId={session?.user?.id}
-                publishedAt={game.publishedAt}
-              />
-            ))}
-          </div>
+          <LibraryList items={items} currentUserId={session?.user?.id} />
         )}
       </main>
     </div>

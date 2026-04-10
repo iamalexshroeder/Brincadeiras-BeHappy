@@ -168,7 +168,7 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
               <p className="text-[14px] font-bold text-muted-foreground">Nenhuma brincadeira publicada ainda.</p>
             </div>
           ) : (
-            <LibraryList items={profileData.brincadeiras} initialDisplay={20} />
+            <LibraryList items={profileData.brincadeiras} initialDisplay={20} currentUserId={session?.user?.id} />
           )}
         </section>
       </main>
