@@ -101,15 +101,21 @@ export function Header({
   return (
     <>
       {/* Sticky top bar — title + notification bell */}
-      <div className="sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-5 pt-10 pb-3 border-b border-[#E5E5EA] no-print">
+      <div className={cn(
+        "sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-5 border-b border-[#E5E5EA] no-print",
+        showBackButton ? "pt-12 pb-4" : "pt-10 pb-3"
+      )}>
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-1 overflow-hidden">
             {showBackButton && (
-              <button onClick={() => router.back()} className="text-[#1A1A1A] active:opacity-50 transition-opacity shrink-0 -ml-1">
-                <RiArrowLeftSLine size={28} />
+              <button 
+                onClick={() => router.back()} 
+                className="h-10 w-10 rounded-full bg-white shadow-sm border border-border flex items-center justify-center text-muted-foreground active:scale-95 transition-all shrink-0 -ml-1 mr-1"
+              >
+                <RiArrowLeftSLine size={24} />
               </button>
             )}
-            <h1 className="text-[22px] font-bold tracking-[-0.02em] text-[#1A1A1A] truncate min-w-0">
+            <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-[#1A1A1A] truncate min-w-0">
               {title || `Olá, ${user.name.split(" ")[0]}`}
             </h1>
           </div>

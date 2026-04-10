@@ -23,18 +23,7 @@ export default function FavoritasPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-md px-5 pt-14 pb-4 border-b border-border">
-        <div className="flex items-center gap-4">
-          <Link href="/perfil">
-            <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-card shadow-sm text-muted-foreground">
-              <RiArrowLeftSLine size={24} />
-            </Button>
-          </Link>
-          <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-foreground">
-            Favoritas
-          </h1>
-        </div>
-      </div>
+      <Header title="Favoritas" showSearch={false} showBackButton={true} />
 
       <main className="px-5 pb-32 pt-8">
         {loading ? (

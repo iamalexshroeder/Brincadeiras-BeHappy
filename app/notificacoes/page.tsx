@@ -72,7 +72,7 @@ export default function Notificacoes() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <Header title="Notificações" showSearch={false} showUserCard={false} />
+      <Header title="Notificações" showSearch={false} showUserCard={false} showBackButton={true} />
 
       <main className="px-5 pt-2 pb-32">
         <div className="flex justify-between items-center mb-6">
@@ -131,7 +131,7 @@ export default function Notificacoes() {
       {/* Ações fixas no rodapé */}
       {/* Floating Action Buttons */}
       {notifications.length > 0 && (
-        <div className="fixed bottom-[64px] left-0 right-0 px-5 pb-4 bg-gradient-to-t from-[#F9F9F7] via-[#F9F9F7]/90 to-transparent pt-8 flex gap-3 no-print">
+        <div className="fixed bottom-[64px] left-0 right-0 px-5 py-4 bg-white border-t border-border z-40 flex gap-3 no-print shadow-[0_-8px_20px_rgba(0,0,0,0.05)]">
           <button
             onClick={async () => {
               await markNotificationsRead()

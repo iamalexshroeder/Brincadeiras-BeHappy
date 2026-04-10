@@ -29,21 +29,7 @@ export default function PrivacidadePage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-md px-5 pt-14 pb-4 border-b border-border">
-        <div className="flex items-center gap-4">
-          <Button 
-              variant="ghost" 
-              size="icon" 
-              className="h-10 w-10 rounded-full bg-card shadow-sm text-muted-foreground"
-              onClick={() => router.back()}
-            >
-              <RiArrowLeftSLine size={24} />
-          </Button>
-          <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-foreground">
-            Privacidade e Dados
-          </h1>
-        </div>
-      </div>
+      <Header title="Privacidade e Dados" showSearch={false} showBackButton={true} />
 
       <main className="px-5 pt-8 space-y-8 pb-32">
         <section className="space-y-6">

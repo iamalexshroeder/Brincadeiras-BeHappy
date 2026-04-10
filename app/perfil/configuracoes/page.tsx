@@ -74,7 +74,7 @@ export default function Configuracoes() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <Header title="Configurações" showSearch={false} showUserCard={false} />
+      <Header title="Configurações" showSearch={false} showUserCard={false} showBackButton={true} />
       
       <main className="page-main pt-8 space-y-10">
         {settingsGroups.map((group) => (

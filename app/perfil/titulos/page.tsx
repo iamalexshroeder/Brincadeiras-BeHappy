@@ -48,19 +48,7 @@ export default function TitulosPage() {
 
   return (
     <div className="flex flex-col flex-1 bg-background">
-      {/* Header Fixo - Padronizado com Header.tsx */}
-      <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-md px-5 pt-10 pb-3 border-b border-border no-print">
-        <div className="flex items-center gap-4">
-          <Link href="/perfil">
-            <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-muted text-muted-foreground active:scale-95 transition-all">
-              <RiArrowLeftSLine size={24} />
-            </Button>
-          </Link>
-          <h1 className="text-[22px] font-bold tracking-[-0.02em] text-foreground">
-            Meus Títulos
-          </h1>
-        </div>
-      </div>
+      <Header title="Meus Títulos" showSearch={false} showBackButton={true} />
 
       <main className="px-5 py-6 space-y-8 pb-32">
         {/* Banner Atual */}
