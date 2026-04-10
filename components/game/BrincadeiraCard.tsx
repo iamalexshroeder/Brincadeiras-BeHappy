@@ -167,8 +167,8 @@ export function BrincadeiraCard({
   }
 
   return (
-    <Card className="overflow-hidden border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-card transition-transform active:scale-[0.98]">
-      <CardHeader className="p-4 flex flex-row items-center justify-between border-none bg-card">
+    <Card className="overflow-hidden p-0 gap-0 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-card transition-transform active:scale-[0.98]">
+      <CardHeader className="px-4 pt-4 pb-2 flex flex-row items-center justify-between border-none bg-card">
         <Link href={`/recreador/${creator.id}`} className="flex items-center gap-2.5 active:scale-95 transition-all">
           <UserAvatar 
             name={creator.name} 
@@ -198,7 +198,7 @@ export function BrincadeiraCard({
         </Link>
       </CardHeader>
 
-      <CardContent className="px-4 py-2 cursor-pointer" onClick={() => router.push(`/brincadeira/${id}`)}>
+      <CardContent className="px-4 pb-4 pt-2 cursor-pointer" onClick={() => router.push(`/brincadeira/${id}`)}>
         <h3 className="text-h3 mb-2">
           {title}
         </h3>
