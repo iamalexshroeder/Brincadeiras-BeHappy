@@ -213,6 +213,8 @@ export async function getPublicProfile(userId: string) {
       _count: {
         select: {
           brincadeiras: true,
+          followers: true,
+          following: true,
         },
       },
     },
