@@ -1,6 +1,6 @@
 "use client"
 
-import { RiSearchLine, RiNotification3Line, RiNotification3Fill } from "@remixicon/react"
+import { RiSearchLine, RiNotification3Line, RiNotification3Fill, RiArrowLeftSLine } from "@remixicon/react"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
@@ -43,12 +43,14 @@ interface HeaderProps {
   title?: string
   showSearch?: boolean
   showUserCard?: boolean
+  showBackButton?: boolean
 }
 
 export function Header({
   title,
   showSearch = true,
-  showUserCard = true
+  showUserCard = true,
+  showBackButton = false
 }: HeaderProps) {
   const pathname = usePathname()
   const router = useRouter()
@@ -101,9 +103,16 @@ export function Header({
       {/* Sticky top bar — title + notification bell */}
       <div className="sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-5 pt-10 pb-3 border-b border-[#E5E5EA] no-print">
         <div className="flex items-center justify-between gap-2">
-          <h1 className="text-[22px] font-bold tracking-[-0.02em] text-[#1A1A1A] truncate min-w-0">
-            {title || `Olá, ${user.name.split(" ")[0]}`}
-          </h1>
+          <div className="flex items-center gap-1 overflow-hidden">
+            {showBackButton && (
+              <button onClick={() => router.back()} className="text-[#1A1A1A] active:opacity-50 transition-opacity shrink-0 -ml-1">
+                <RiArrowLeftSLine size={28} />
+              </button>
+            )}
+            <h1 className="text-[22px] font-bold tracking-[-0.02em] text-[#1A1A1A] truncate min-w-0">
+              {title || `Olá, ${user.name.split(" ")[0]}`}
+            </h1>
+          </div>
           <button
             onClick={() => {
               if (isNotificationsPage) {

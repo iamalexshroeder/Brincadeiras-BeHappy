@@ -22,7 +22,7 @@ export default async function EditBrincadeiraPage({ params }: EditPageProps) {
   if (brincadeira.creator.id !== session?.user?.id) {
     return (
       <div className="flex flex-col min-h-screen bg-background">
-        <Header title="Editar Brincadeira" showSearch={false} />
+        <Header title="Editar Brincadeira" showSearch={false} showBackButton={true} />
         
         <main className="flex-1 flex items-center justify-center p-6">
           <div className="bg-white p-8 rounded-[24px] shadow-xl text-center max-w-sm w-full animate-in fade-in zoom-in duration-300">
@@ -39,7 +39,7 @@ export default async function EditBrincadeiraPage({ params }: EditPageProps) {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <Header title="Editar Brincadeira" showSearch={false} />
+      <Header title="Editar Brincadeira" showSearch={false} showBackButton={true} />
       
       <main className="page-main">
         <BrincadeiraForm 
