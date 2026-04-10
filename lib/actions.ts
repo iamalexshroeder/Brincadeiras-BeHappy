@@ -301,12 +301,31 @@ export async function getPublicProfile(userId: string) {
   }
 }
 
-export async function getFeed(limit = 20, cursor?: string, category?: string, kit?: string, searchQuery?: string) {
+export async function getFeed(
+  limit = 20, 
+  cursor?: string, 
+  category?: string, 
+  kit?: string, 
+  searchQuery?: string,
+  followingOnly = false
+) {
   const session = await auth()
   const userId = session?.user?.id
   const topThreeIds = await getTopThreeIds()
 
   let whereClause: any = { published_at: { not: null } }
+
+  // Social Filtering (Followers)
+  if (followingOnly && userId) {
+    const following = await prisma.follow.findMany({
+      where: { followerId: userId },
+      select: { followingId: true }
+    })
+    const followingIds = following.map(f => f.followingId)
+    
+    // If user follows no one, but requested followingOnly, we return an empty list or their own posts
+    whereClause.user_id = { in: followingIds }
+  }
 
   if (category && category.toLowerCase() !== "todos") {
     whereClause.tags = { has: category }
