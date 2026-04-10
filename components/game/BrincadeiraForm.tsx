@@ -148,20 +148,25 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
               value={title}
               onChange={e => setTitle(e.target.value)}
               placeholder="Ex: Dança das Cadeiras Musical"
-              className={cn("input-base font-bold", mode === "VIEW" && "bg-transparent border-none px-0 shadow-none pointer-events-none text-[20px]")}
+              className={cn("input-base font-bold", mode === "VIEW" && "bg-transparent border-none px-0 shadow-none text-[20px] h-auto")}
               readOnly={mode === "VIEW"}
             />
           </div>
 
           <div>
             <label className="section-label mb-2 block">Descrição Curta</label>
-            <textarea
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-              placeholder="Qual o objetivo principal desta brincadeira?"
-              className={cn("textarea-base", mode === "VIEW" && "bg-transparent border-none p-0 shadow-none pointer-events-none text-[16px] min-h-[auto] resize-none")}
-              readOnly={mode === "VIEW"}
-            />
+            {mode === "VIEW" ? (
+              <p className="text-[15px] font-medium text-foreground leading-relaxed whitespace-pre-wrap py-1">
+                {description || "Sem descrição disponível."}
+              </p>
+            ) : (
+              <textarea
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+                placeholder="Qual o objetivo principal desta brincadeira?"
+                className="textarea-base min-h-[100px]"
+              />
+            )}
           </div>
         </div>
 
@@ -313,16 +318,18 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
                   {i + 1}
                 </div>
                 <div className="flex-1 relative">
-                  <textarea
-                    value={step}
-                    onChange={e => handleStepChange(i, e.target.value)}
-                    placeholder={`O que fazer na etapa ${i + 1}?`}
-                    className={cn(
-                      "w-full bg-[#F2F2F7] border-2 border-transparent rounded-[12px] p-4 pr-12 min-h-[80px] text-[15px] font-medium text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none resize-none focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/10 transition-all",
-                      mode === "VIEW" && "bg-transparent border-none px-0 pr-0 shadow-none pointer-events-none text-[16px] min-h-[auto]"
-                    )}
-                    readOnly={mode === "VIEW"}
-                  />
+                  {mode === "VIEW" ? (
+                    <div className="text-[16px] font-medium text-foreground leading-relaxed py-2.5 whitespace-pre-wrap">
+                      {step}
+                    </div>
+                  ) : (
+                    <textarea
+                      value={step}
+                      onChange={e => handleStepChange(i, e.target.value)}
+                      placeholder={`O que fazer na etapa ${i + 1}?`}
+                      className="w-full bg-[#F2F2F7] border-2 border-transparent rounded-[12px] p-4 pr-12 min-h-[80px] text-[15px] font-medium text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none resize-none focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/10 transition-all"
+                    />
+                  )}
                   {steps.length > 1 && mode !== "VIEW" && (
                     <button
                       type="button"
