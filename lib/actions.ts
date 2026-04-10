@@ -107,6 +107,25 @@ async function awardXP(
 }
 
 /**
+ * Creates a notification for a specific user.
+ */
+async function notifyUser(userId: string, type: "GAMIFICATION" | "SOCIAL" | "SYSTEM", title: string, message: string, referenceId?: string) {
+  try {
+    await prisma.notification.create({
+      data: {
+        user_id: userId,
+        type,
+        title,
+        message,
+        reference_id: referenceId ?? null
+      }
+    })
+  } catch (e) {
+    console.error("Erro ao criar notificação:", e)
+  }
+}
+
+/**
  * Gets the authenticated user's profile from the DB, including
  * computed level, title and progress from their raw XP.
  */
