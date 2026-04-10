@@ -41,7 +41,7 @@ export function LibraryList({ items, initialDisplay = 10, currentUserId }: Libra
     <>
       <div className="grid gap-4">
         {displayed.map((item) => item && (
-          <BrincadeiraCard key={item.id} {...item} currentUserId={currentUserId} />
+          <BrincadeiraCard key={item.id} {...item} currentUserId={currentUserId} isSystemGame={item.id?.toString().startsWith('pdf-')} />
         ))}
       </div>
 

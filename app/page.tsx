@@ -136,6 +136,7 @@ export default async function Home({
                   initialUsed={game.userHasUsed}
                   initialSaved={game.userHasSaved}
                   currentUserId={session?.user?.id}
+                  isSystemGame={game.id?.toString().startsWith('pdf-')}
                   steps={game.steps}
                   materials={game.materials}
                   publishedAt={game.publishedAt}

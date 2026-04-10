@@ -237,7 +237,7 @@ export function BrincadeiraCard({
         <h3 className="text-[15px] font-bold mb-1.5 text-foreground leading-snug">
           {title}
         </h3>
-        <p className="text-[13px] font-medium text-muted-foreground line-clamp-2 mb-3 leading-relaxed opacity-90">
+        <p className="text-[13px] font-medium text-muted-foreground mb-3 leading-relaxed opacity-90">
           {description}
         </p>
 
