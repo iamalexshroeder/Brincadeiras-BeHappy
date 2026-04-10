@@ -18,9 +18,40 @@ export default async function Explorar({
 
   const activeKit = kit ? SYSTEM_COLLECTIONS.find(c => c.id === kit) : null
 
-  // Modo Kit: busca server-side pelas brincadeiras da coleção
+  // Modo Kit
   if (kit) {
-    const { items: kitItems } = await getFeed(40, undefined, undefined, kit)
+    let kitItems: any[] = []
+    
+    if (activeKit) {
+      // Se for uma coleção do sistema, usamos os dados estáticos da biblioteca
+      kitItems = activeKit.games.map(g => ({
+        ...g,
+        creator: {
+          id: "system",
+          name: "BeHappyinha",
+          avatar: "/behappyinha.png",
+          level: 10,
+          title: "Curadoria Oficial"
+        },
+        metadata: {
+          ageRange: g.age,
+          duration: g.duration,
+          participants: g.participants
+        },
+        tags: [activeKit.label],
+        likesCount: 0,
+        usedCount: 0,
+        userHasLiked: false,
+        userHasUsed: false,
+        userHasSaved: false,
+        comments: [],
+        publishedAt: "Oficial"
+      }))
+    } else {
+      // Se não for do sistema, busca no banco (coleções de usuários)
+      const { items } = await getFeed(40, undefined, undefined, kit)
+      kitItems = items
+    }
     return (
       <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
         <Header
