@@ -445,6 +445,9 @@ export interface Brincadeira {
   userHasLiked: boolean
   userHasUsed: boolean
   userHasSaved: boolean
+  initialLiked: boolean
+  initialUsed: boolean
+  initialSaved: boolean
   comments: any[]
   steps: string[]
   materials: string[]
