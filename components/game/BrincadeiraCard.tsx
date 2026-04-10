@@ -333,25 +333,23 @@ export function BrincadeiraCard({
                Ver Detalhes
              </Button>
            </SheetTrigger>
-           <SheetContent side="bottom" className="h-[92dvh] rounded-t-[24px] p-0 flex flex-col border-none bg-background overflow-hidden outline-none">
-              {/* Header Fixo (Top Bar) - Padronizado */}
-              <div className="flex items-center justify-between h-16 bg-background/95 backdrop-blur-md border-b border-border px-5 shrink-0 z-50">
+           <SheetContent side="bottom" className="h-[92dvh] rounded-t-[32px] p-0 flex flex-col border-none bg-background overflow-hidden outline-none">
+              {/* Header Fixo (Top Bar) - Refinado */}
+              <div className="flex items-center justify-between h-16 bg-white border-b border-border px-6 shrink-0 z-[100] shadow-sm">
                 <div className="flex items-center gap-3">
                   <SheetClose asChild>
                     <Button 
                       variant="ghost" 
                       size="icon" 
-                      className="h-10 w-10 rounded-full bg-muted text-muted-foreground active:scale-90 transition-all"
+                      className="h-10 w-10 rounded-full bg-muted text-muted-foreground active:scale-95 transition-all"
                       onClick={() => setIsEditingBrincadeira(false)}
                     >
                       <RiArrowLeftSLine size={24} />
                     </Button>
                   </SheetClose>
-                  {isEditingBrincadeira ? (
-                    <span className="text-[17px] font-extrabold text-foreground">Editando</span>
-                  ) : (
-                    <span className="text-[17px] font-extrabold text-foreground max-w-[200px] truncate">{title}</span>
-                  )}
+                  <span className="text-[17px] font-extrabold text-foreground truncate max-w-[180px]">
+                    {isEditingBrincadeira ? "Editar Brincadeira" : title}
+                  </span>
                 </div>
 
                 {isOwner && (
@@ -379,13 +377,13 @@ export function BrincadeiraCard({
                       <div className="flex items-center gap-2">
                         <Button 
                           variant="ghost" 
-                          className="h-9 px-4 text-muted-foreground font-bold text-[14px] hover:bg-transparent"
+                          className="h-9 px-3 text-muted-foreground font-bold text-[13px] hover:bg-transparent"
                           onClick={() => setIsEditingBrincadeira(false)}
                         >
                           Cancelar
                         </Button>
                         <Button 
-                          className="h-9 px-6 bg-primary text-white font-bold text-[14px] rounded-full shadow-md border-none active:scale-95 transition-all"
+                          className="h-9 px-5 bg-primary text-white font-bold text-[13px] rounded-full shadow-md border-none active:scale-95 transition-all"
                           onClick={handleUpdateBrincadeira}
                           disabled={isPending}
                         >
@@ -399,7 +397,7 @@ export function BrincadeiraCard({
 
               {/* Scrollable Content */}
               <div className={cn(
-                "flex-1 overflow-y-auto px-5 py-6 space-y-8",
+                "flex-1 overflow-y-auto px-6 py-6 space-y-7",
                 isEditingBrincadeira ? "pb-24" : "pb-32"
               )}>
                 <div className="space-y-6">

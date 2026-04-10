@@ -165,12 +165,12 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame; isOpen: boolea
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <SheetContent side="bottom" className="h-[92dvh] rounded-t-[24px] p-0 flex flex-col border-none bg-background overflow-hidden outline-none">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-border bg-white h-16 shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-white h-16 shrink-0 z-50 shadow-sm">
           <div className="flex items-center gap-3">
              <Button 
                variant="ghost" 
                size="icon" 
-               className="h-10 w-10 rounded-full bg-[#F2F2F7] text-muted-foreground active:scale-90"
+               className="h-10 w-10 rounded-full bg-muted text-muted-foreground active:scale-95 transition-all"
                onClick={onClose}
              >
                <RiArrowLeftSLine size={24} />
@@ -180,14 +180,14 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame; isOpen: boolea
              </SheetTitle>
           </div>
           <div className="flex gap-2">
-             <span className="flex items-center gap-1 text-[11px] font-bold bg-[#F2F2F7] text-[#8E8E93] rounded-full px-2.5 py-1">
+             <span className="flex items-center gap-1 text-[11px] font-bold bg-muted text-muted-foreground rounded-full px-2.5 py-1">
                <RiTimeLine size={12} /> {game.duration}
              </span>
           </div>
         </div>
 
         {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto px-5 py-6 space-y-6 pb-24">
+        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-7 pb-24">
           <p className="text-[16px] text-foreground leading-relaxed font-medium opacity-80">{game.description}</p>
 
           <div className="flex flex-wrap gap-2 pt-2">
@@ -296,12 +296,12 @@ function CollectionModal({ collection, isOpen, onClose }: { collection: Collecti
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <SheetContent side="bottom" className="h-[92dvh] rounded-t-[24px] p-0 flex flex-col border-none bg-background overflow-hidden outline-none">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-border bg-white h-16 shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-white h-16 shrink-0 z-50 shadow-sm">
           <div className="flex items-center gap-3">
              <Button 
                variant="ghost" 
                size="icon" 
-               className="h-10 w-10 rounded-full bg-[#F2F2F7] text-muted-foreground active:scale-90"
+               className="h-10 w-10 rounded-full bg-muted text-muted-foreground active:scale-95 transition-all"
                onClick={onClose}
              >
                <RiArrowLeftSLine size={24} />
@@ -310,13 +310,13 @@ function CollectionModal({ collection, isOpen, onClose }: { collection: Collecti
                {collection.label}
              </SheetTitle>
           </div>
-          <span className="text-[12px] font-bold text-muted-foreground bg-[#F2F2F7] rounded-full px-3 py-1">
+          <span className="text-[12px] font-bold text-muted-foreground bg-muted rounded-full px-3 py-1">
             {collection.games.length} itens
           </span>
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto px-5 py-6 space-y-6 pb-20">
+        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-7 pb-20">
           <p className="text-[13px] font-medium text-muted-foreground leading-relaxed pl-1">{collection.description}</p>
 
           <div className="space-y-3">
