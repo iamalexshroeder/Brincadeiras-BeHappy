@@ -1,6 +1,7 @@
 import { getBrincadeiraById } from "@/lib/actions"
 import BrincadeiraForm from "@/components/game/BrincadeiraForm"
 import { notFound } from "next/navigation"
+import { auth } from "@/auth"
 import { Header } from "@/components/layout/Header"
 
 export const revalidate = 0 // Disable cache for this page so it's always up-to-date
@@ -19,6 +20,9 @@ export default async function ViewBrincadeiraPage(props: ViewPageProps) {
     notFound()
   }
 
+  const session = await auth()
+  const isOwner = session?.user?.id === brincadeira.creator.id
+
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header title="Detalhes da Brincadeira" showSearch={false} showBackButton={true} />
@@ -28,6 +32,7 @@ export default async function ViewBrincadeiraPage(props: ViewPageProps) {
           id={params.id}
           initialData={brincadeira}
           mode="VIEW" 
+          isOwner={isOwner}
         />
       </main>
     </div>

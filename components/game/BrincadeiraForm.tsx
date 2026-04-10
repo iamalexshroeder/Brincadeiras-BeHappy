@@ -6,6 +6,7 @@ import { RiCloseLine, RiAddLine, RiLoader4Line } from "@remixicon/react"
 import { cn } from "@/lib/utils"
 import { createBrincadeira, updateBrincadeira, deleteBrincadeira } from "@/lib/actions"
 import { RiDeleteBinLine } from "@remixicon/react"
+import Link from "next/link"
 
 const CATEGORIES = ["Físico", "Musical", "Criativo", "Educativo", "Cooperação"]
 const AGE_LABELS: Record<string, string> = {
@@ -18,9 +19,10 @@ interface BrincadeiraFormProps {
   initialData?: any
   mode: "CREATE" | "EDIT" | "VIEW"
   id?: string
+  isOwner?: boolean
 }
 
-export default function BrincadeiraForm({ initialData, mode, id }: BrincadeiraFormProps) {
+export default function BrincadeiraForm({ initialData, mode, id, isOwner = false }: BrincadeiraFormProps) {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -308,8 +310,27 @@ export default function BrincadeiraForm({ initialData, mode, id }: BrincadeiraFo
       </div>
 
       {/* Footer de Ação */}
-      {mode !== "VIEW" && (
+      {(mode !== "VIEW" || (mode === "VIEW" && isOwner)) && (
         <div className="fixed bottom-[64px] left-0 right-0 px-4 sm:px-5 py-4 border-t border-border bg-white z-30 flex gap-3 pb-safe no-print">
+          {mode === "VIEW" && isOwner && (
+            <>
+              <button
+                type="button"
+                onClick={handleDelete}
+                disabled={isSubmitting}
+                className="flex-1 btn-danger"
+              >
+                <RiDeleteBinLine size={20} />
+                <span>Excluir</span>
+              </button>
+              <Link href={`/editar/${id}`} className="flex-[2] flex">
+                <button type="button" className="btn-secondary w-full">
+                  Editar Brincadeira
+                </button>
+              </Link>
+            </>
+          )}
+
           {mode === "EDIT" && (
             <button
               type="button"
@@ -321,24 +342,27 @@ export default function BrincadeiraForm({ initialData, mode, id }: BrincadeiraFo
               <span>Excluir</span>
             </button>
           )}
-          <button
-            type="button"
-            onClick={handleSubmit}
-            disabled={isSubmitting || !title || steps.every(s => s.trim() === "")}
-            className={cn(
-              "btn-primary disabled:opacity-50 disabled:shadow-none",
-              mode === "EDIT" ? "flex-[2]" : "w-full"
-            )}
-          >
-            {isSubmitting ? (
-              <>
-                <RiLoader4Line className="animate-spin" size={20} />
-                <span>{mode === "CREATE" ? "Publicando..." : "Salvando..."}</span>
-              </>
-            ) : (
-              <span>{mode === "CREATE" ? "Publicar Brincadeira" : "Salvar Alterações"}</span>
-            )}
-          </button>
+
+          {(mode === "CREATE" || mode === "EDIT") && (
+            <button
+              type="button"
+              onClick={handleSubmit}
+              disabled={isSubmitting || !title || steps.every(s => s.trim() === "")}
+              className={cn(
+                "btn-primary disabled:opacity-50 disabled:shadow-none",
+                mode === "EDIT" ? "flex-[2]" : "w-full"
+              )}
+            >
+              {isSubmitting ? (
+                <>
+                  <RiLoader4Line className="animate-spin" size={20} />
+                  <span>{mode === "CREATE" ? "Publicando..." : "Salvando..."}</span>
+                </>
+              ) : (
+                <span>{mode === "CREATE" ? "Publicar Brincadeira" : "Salvar Alterações"}</span>
+              )}
+            </button>
+          )}
         </div>
       )}
     </div>
