@@ -134,6 +134,7 @@ export default async function Home({
                   comments={game.comments}
                   initialLiked={game.userHasLiked}
                   initialUsed={game.userHasUsed}
+                  initialSaved={game.userHasSaved}
                   currentUserId={session?.user?.id}
                   steps={game.steps}
                   materials={game.materials}

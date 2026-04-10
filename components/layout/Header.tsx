@@ -188,7 +188,7 @@ export function Header({
         {/* User XP Card */}
         {showUserCard && (
           <Card className="p-3.5 border border-[#E5E5EA] shadow-[0_2px_12px_rgba(0,0,0,0.04)] rounded-[12px] bg-white">
-            <Link href="/perfil" className="flex items-center gap-3 mb-2 active:opacity-75 transition-opacity">
+            <Link href="/perfil" className="flex items-center gap-3 mb-3 active:opacity-75 transition-opacity">
               <div className="relative">
                 <UserAvatar
                   src={user.avatar}
@@ -198,41 +198,47 @@ export function Header({
                   fallbackClassName="bg-[#FEF9C3] text-[#EAB308]"
                 />
               </div>
-              <div className="flex flex-col">
-                <span className="text-[16px] font-bold text-[#1A1A1A] tracking-[-0.01em]">
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[16px] font-bold text-[#1A1A1A] tracking-[-0.01em] leading-tight">
                   {user.name}
                 </span>
-                <span className="text-[11px] font-bold uppercase tracking-wide text-[#8E8E93]">
-                  {user.title} · Nível {user.level}
+                <span className="text-[11px] font-bold uppercase tracking-wide text-[#8E8E93] leading-tight">
+                  {user.title}
                 </span>
-                <div className="flex gap-4 mt-1">
-                  <span className="text-[12px] font-bold text-foreground">
-                    {user.followersCount} <span className="text-muted-foreground font-medium">seguidores</span>
-                  </span>
-                  <span className="text-[12px] font-bold text-foreground">
-                    {user.followingCount} <span className="text-muted-foreground font-medium">seguindo</span>
-                  </span>
-                </div>
+                <span className="text-[10px] font-semibold text-[#A855F7] leading-tight">
+                  Nível {user.level}
+                </span>
               </div>
             </Link>
 
-            <div className="space-y-1.5">
-              <div className="flex justify-between items-center">
-                <span className="text-[11px] font-medium text-[#8E8E93]">
-                  Faltam {xpRemaining} XP para o próximo nível
+            <div className="space-y-3">
+              <div className="flex gap-4">
+                <span className="text-[12px] font-bold text-foreground">
+                  {user.followersCount} <span className="text-muted-foreground font-medium">seguidores</span>
                 </span>
-                <span className="text-[11px] font-bold text-[#1A1A1A]">
-                  {user.xp} XP
+                <span className="text-[12px] font-bold text-foreground">
+                  {user.followingCount} <span className="text-muted-foreground font-medium">seguindo</span>
                 </span>
               </div>
-              <div className="relative h-[10px] w-full bg-[#F2F2F7] rounded-full overflow-hidden">
-                <div
-                  className="absolute inset-y-0 left-0 rounded-full transition-all duration-1000 ease-out overflow-hidden"
-                  style={{
-                    width: `${progressValue}%`,
-                    backgroundColor: "#A855F7",
-                  }}
-                />
+
+              <div className="space-y-1.5 border-t border-[#F2F2F7] pt-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-[11px] font-medium text-[#8E8E93]">
+                    Faltam {xpRemaining} XP para o próximo nível
+                  </span>
+                  <span className="text-[11px] font-bold text-[#1A1A1A]">
+                    {user.xp} XP
+                  </span>
+                </div>
+                <div className="relative h-[10px] w-full bg-[#F2F2F7] rounded-full overflow-hidden">
+                  <div
+                    className="absolute inset-y-0 left-0 rounded-full transition-all duration-1000 ease-out overflow-hidden"
+                    style={{
+                      width: `${progressValue}%`,
+                      backgroundColor: "#A855F7",
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </Card>

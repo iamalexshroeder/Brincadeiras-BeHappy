@@ -62,16 +62,17 @@ model User {
   unlocked_titles   String[]  @default([])
   created_at        DateTime  @default(now())
 
-  accounts          Account[]
-  sessions          Session[]
-  brincadeiras      Brincadeira[]
-  interactions      Interaction[]
-  xp_transactions   XPTransaction[]
-  collections       Collection[]
-  notifications     Notification[]
-  comments          Comment[]
-  followers         Follow[]  @relation("followers")
-  following         Follow[]  @relation("following")
+  accounts           Account[]
+  sessions           Session[]
+  brincadeiras       Brincadeira[]
+  interactions       Interaction[]
+  xp_transactions    XPTransaction[]
+  collections        Collection[]
+  notifications      Notification[]
+  comments           Comment[]
+  followers          Follow[]  @relation("followers")
+  following          Follow[]  @relation("following")
+  system_interactions SystemInteraction[]
 }
 
 model Follow {
@@ -205,4 +206,17 @@ model Comment {
   created_at        DateTime         @default(now())
 
   @@index([brincadeira_id])
+}
+
+// For system/curated games (pdf-* IDs) that don't exist in the Brincadeira table
+model SystemInteraction {
+  id         String          @id @default(uuid())
+  user_id    String
+  user       User            @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  game_id    String          // The pdf-* style ID
+  type       InteractionType
+  created_at DateTime        @default(now())
+
+  @@unique([user_id, game_id, type])
+  @@index([user_id, game_id])
 }

@@ -397,6 +397,18 @@ export async function getBrincadeiraById(id: string) {
     for (const col of SYSTEM_COLLECTIONS) {
       const g = col.games.find(game => game.id === id);
       if (g) {
+        // Fetch real user interaction state
+        const session = await auth()
+        let hasLiked = false, hasUsed = false, hasSaved = false
+        if (session?.user?.id) {
+          const interactions = await prisma.systemInteraction.findMany({
+            where: { user_id: session.user.id, game_id: id },
+            select: { type: true }
+          })
+          hasLiked = interactions.some(i => i.type === "LIKE")
+          hasUsed = interactions.some(i => i.type === "USED")
+          hasSaved = interactions.some(i => i.type === "SAVED")
+        }
         return {
           id: g.id,
           title: g.title,
@@ -416,12 +428,12 @@ export async function getBrincadeiraById(id: string) {
           tags: [col.label],
           likesCount: 0,
           usedCount: 0,
-          userHasLiked: false,
-          userHasUsed: false,
-          userHasSaved: false,
-          initialLiked: false,
-          initialUsed: false,
-          initialSaved: false,
+          userHasLiked: hasLiked,
+          userHasUsed: hasUsed,
+          userHasSaved: hasSaved,
+          initialLiked: hasLiked,
+          initialUsed: hasUsed,
+          initialSaved: hasSaved,
           comments: [],
           steps: g.steps,
           materials: g.materials,
@@ -820,6 +832,108 @@ export async function getSavedBrincadeiras() {
 
   const userId = session.user.id
   return saved.map(s => formatBrincadeira(s.brincadeira, userId, topThreeIds)).filter(Boolean)
+}
+
+/**
+ * Gets the current user's interaction state (hasLiked, hasUsed, hasSaved)
+ * for a list of system/pdf game IDs. Since system games are not in the DB,
+ * they are stored in the SystemInteraction table.
+ */
+export async function getSystemStats(ids: string[]): Promise<Record<string, { hasLiked: boolean; hasUsed: boolean; hasSaved: boolean }>> {
+  const session = await auth()
+  if (!session?.user?.id || ids.length === 0) return {}
+
+  const interactions = await prisma.systemInteraction.findMany({
+    where: {
+      user_id: session.user.id,
+      game_id: { in: ids }
+    },
+    select: { game_id: true, type: true }
+  })
+
+  const result: Record<string, { hasLiked: boolean; hasUsed: boolean; hasSaved: boolean }> = {}
+  for (const id of ids) {
+    result[id] = { hasLiked: false, hasUsed: false, hasSaved: false }
+  }
+  for (const interaction of interactions) {
+    if (!result[interaction.game_id]) result[interaction.game_id] = { hasLiked: false, hasUsed: false, hasSaved: false }
+    if (interaction.type === "LIKE") result[interaction.game_id].hasLiked = true
+    if (interaction.type === "USED") result[interaction.game_id].hasUsed = true
+    if (interaction.type === "SAVED") result[interaction.game_id].hasSaved = true
+  }
+  return result
+}
+
+/**
+ * Toggles a LIKE on a system/curated game (pdf-* IDs).
+ */
+export async function toggleSystemLike(gameId: string) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Não autenticado")
+  const userId = session.user.id
+
+  const existing = await prisma.systemInteraction.findUnique({
+    where: { user_id_game_id_type: { user_id: userId, game_id: gameId, type: "LIKE" } }
+  })
+
+  if (existing) {
+    await prisma.systemInteraction.delete({ where: { id: existing.id } })
+  } else {
+    await prisma.systemInteraction.create({
+      data: { user_id: userId, game_id: gameId, type: "LIKE" }
+    })
+    await awardXP(userId, XP_VALUES.LIKE_GIVEN, "LIKE_GIVEN", gameId)
+  }
+
+  revalidatePath("/explorar")
+}
+
+/**
+ * Toggles a USED on a system/curated game (pdf-* IDs).
+ */
+export async function toggleSystemUsed(gameId: string) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Não autenticado")
+  const userId = session.user.id
+
+  const existing = await prisma.systemInteraction.findUnique({
+    where: { user_id_game_id_type: { user_id: userId, game_id: gameId, type: "USED" } }
+  })
+
+  if (existing) {
+    await prisma.systemInteraction.delete({ where: { id: existing.id } })
+  } else {
+    await prisma.systemInteraction.create({
+      data: { user_id: userId, game_id: gameId, type: "USED" }
+    })
+    await awardXP(userId, XP_VALUES.USED_CHECKED, "USED_CHECKED", gameId)
+  }
+
+  revalidatePath("/explorar")
+}
+
+/**
+ * Toggles a SAVED on a system/curated game (pdf-* IDs).
+ */
+export async function toggleSystemSave(gameId: string) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Não autenticado")
+  const userId = session.user.id
+
+  const existing = await prisma.systemInteraction.findUnique({
+    where: { user_id_game_id_type: { user_id: userId, game_id: gameId, type: "SAVED" } }
+  })
+
+  if (existing) {
+    await prisma.systemInteraction.delete({ where: { id: existing.id } })
+  } else {
+    await prisma.systemInteraction.create({
+      data: { user_id: userId, game_id: gameId, type: "SAVED" }
+    })
+  }
+
+  revalidatePath("/explorar")
+  revalidatePath("/perfil")
 }
 
 /**

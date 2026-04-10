@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useTransition } from "react"
+import { useState, useTransition, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
@@ -32,7 +32,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { UserAvatar } from "@/components/ui/UserAvatar"
 import { getTitleForLevel } from "@/utils/gamification"
-import { toggleLike, toggleUsed, deleteBrincadeira, toggleSave } from "@/lib/actions"
+import { toggleLike, toggleUsed, deleteBrincadeira, toggleSave, toggleSystemLike, toggleSystemUsed, toggleSystemSave } from "@/lib/actions"
 
 
 const AGE_GROUP_LABELS: Record<string, string> = {
@@ -75,6 +75,7 @@ interface BrincadeiraCardProps {
   materials?: string[]
   publishedAt?: string
   currentUserId?: string
+  isSystemGame?: boolean
 }
 
 export function BrincadeiraCard({
@@ -95,6 +96,7 @@ export function BrincadeiraCard({
   steps = [],
   materials = [],
   publishedAt = "Recentemente",
+  isSystemGame = false,
 }: BrincadeiraCardProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
@@ -103,6 +105,27 @@ export function BrincadeiraCard({
   const [isSaved, setIsSaved] = useState(initialSaved)
   const [localLikes, setLocalLikes] = useState(likesCount)
   const [localUsed, setLocalUsed] = useState(usedCount)
+
+  // Sync local state when server re-renders with new data (after router.refresh)
+  useEffect(() => {
+    setIsLiked(initialLiked)
+  }, [initialLiked])
+
+  useEffect(() => {
+    setIsUsed(initialUsed)
+  }, [initialUsed])
+
+  useEffect(() => {
+    setIsSaved(initialSaved)
+  }, [initialSaved])
+
+  useEffect(() => {
+    setLocalLikes(likesCount)
+  }, [likesCount])
+
+  useEffect(() => {
+    setLocalUsed(usedCount)
+  }, [usedCount])
 
   const isOwner = currentUserId === creator.id
 
@@ -127,7 +150,11 @@ export function BrincadeiraCard({
     
     startTransition(async () => {
       try {
-        await toggleLike(id)
+        if (isSystemGame) {
+          await toggleSystemLike(id)
+        } else {
+          await toggleLike(id)
+        }
         router.refresh()
       } catch (error) {
         setIsLiked(isLiked)
@@ -143,7 +170,11 @@ export function BrincadeiraCard({
 
     startTransition(async () => {
       try {
-        await toggleUsed(id)
+        if (isSystemGame) {
+          await toggleSystemUsed(id)
+        } else {
+          await toggleUsed(id)
+        }
         router.refresh()
       } catch (error) {
         setIsUsed(isUsed)
@@ -158,7 +189,11 @@ export function BrincadeiraCard({
 
     startTransition(async () => {
       try {
-        await toggleSave(id)
+        if (isSystemGame) {
+          await toggleSystemSave(id)
+        } else {
+          await toggleSave(id)
+        }
         router.refresh()
       } catch (error) {
         setIsSaved(isSaved)

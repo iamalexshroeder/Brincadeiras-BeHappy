@@ -121,6 +121,7 @@ export function ExplorarClient({ initialFeed, currentUserId }: Props) {
                     comments={game.comments}
                     initialLiked={game.userHasLiked}
                     initialUsed={game.userHasUsed}
+                    initialSaved={game.userHasSaved}
                     currentUserId={currentUserId}
                     steps={game.steps}
                     materials={game.materials}
@@ -157,6 +158,7 @@ export function ExplorarClient({ initialFeed, currentUserId }: Props) {
                   comments={game.comments}
                   initialLiked={game.userHasLiked}
                   initialUsed={game.userHasUsed}
+                  initialSaved={game.userHasSaved}
                   currentUserId={currentUserId}
                   steps={game.steps}
                   materials={game.materials}

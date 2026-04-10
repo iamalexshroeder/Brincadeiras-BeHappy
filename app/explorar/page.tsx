@@ -1,6 +1,6 @@
 import { Header } from "@/components/layout/Header"
 import { ExplorarClient } from "@/components/game/ExplorarClient"
-import { getFeed } from "@/lib/actions"
+import { getFeed, getSystemStats } from "@/lib/actions"
 import { BrincadeiraCard } from "@/components/game/BrincadeiraCard"
 import { RiSearchLine } from "@remixicon/react"
 import { auth } from "@/auth"
@@ -24,6 +24,13 @@ export default async function Explorar({
     
     if (activeKit) {
       // Se for uma coleção do sistema, usamos os dados estáticos da biblioteca
+      const systemIds = activeKit.games.map(g => g.id)
+      
+      // Busca o estado real de interação do usuário para esses jogos
+      const systemStats = session?.user?.id
+        ? await getSystemStats(systemIds)
+        : {}
+
       kitItems = activeKit.games.map(g => ({
         ...g,
         creator: {
@@ -41,9 +48,9 @@ export default async function Explorar({
         tags: [activeKit.label],
         likesCount: 0,
         usedCount: 0,
-        userHasLiked: false,
-        userHasUsed: false,
-        userHasSaved: false,
+        userHasLiked: systemStats[g.id]?.hasLiked ?? false,
+        userHasUsed: systemStats[g.id]?.hasUsed ?? false,
+        userHasSaved: systemStats[g.id]?.hasSaved ?? false,
         comments: [],
         publishedAt: "Oficial"
       }))
@@ -90,10 +97,12 @@ export default async function Explorar({
                   comments={game!.comments}
                   initialLiked={game!.userHasLiked}
                   initialUsed={game!.userHasUsed}
+                  initialSaved={game!.userHasSaved}
                   currentUserId={session?.user?.id}
                   steps={game!.steps}
                   materials={game!.materials}
                   publishedAt={game!.publishedAt}
+                  isSystemGame={game!.id?.startsWith('pdf-')}
                 />
               ))}
             </div>
