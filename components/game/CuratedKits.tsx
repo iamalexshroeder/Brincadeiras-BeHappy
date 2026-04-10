@@ -2,21 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import { useRouter, useSearchParams } from "next/navigation"
-import { 
-  RiCloudyLine, 
-  RiDropFill, 
-  RiTentLine, 
-  RiHome4Line, 
-  RiUserVoiceLine 
-} from "@remixicon/react"
-
-const KITS = [
-  { id: "chuva",       label: "Na Chuva",       icon: RiCloudyLine,   color: "#8E8E93", bg: "#F2F2F7" },
-  { id: "piscina",     label: "Piscina",         icon: RiDropFill,     color: "#007AFF", bg: "#E5F1FF" },
-  { id: "ferias",      label: "Colônia Acamp",   icon: RiTentLine,     color: "#EAB308", bg: "#FEF9C3" },
-  { id: "pequenos",    label: "Locais Pequenos", icon: RiHome4Line,    color: "#AF52DE", bg: "#F5E9FF" },
-  { id: "sem_material",label: "Zero Material",   icon: RiUserVoiceLine,color: "#FF3B30", bg: "#FFEBEA" },
-]
+import { SYSTEM_COLLECTIONS } from "@/lib/data/biblioteca"
 
 export function CuratedKits() {
   const router = useRouter()
@@ -36,14 +22,15 @@ export function CuratedKits() {
   return (
     <div className="w-full overflow-x-auto no-scrollbar py-2 -my-2 px-0.5 mb-1">
       <div className="flex items-center gap-2.5 w-max">
-        {KITS.map((kit) => {
+        {SYSTEM_COLLECTIONS.map((kit) => {
           const isActive = currentKit === kit.id
+          const Icon = kit.icon
           return (
             <button
               key={kit.id}
               onClick={() => handleKitClick(kit.id)}
               className={cn(
-                "flex items-center gap-2 px-3.5 h-9 rounded-[10px] font-bold text-[13px] transition-all active:scale-95 border",
+                "flex items-center gap-2 px-3.5 h-9 rounded-[10px] font-bold text-[13px] transition-all active:scale-95 border whitespace-nowrap",
                 isActive
                   ? "border-2 shadow-sm"
                   : "bg-white border-[#E5E5EA] text-[#1A1A1A] hover:bg-[#F9F9F7]"
@@ -54,7 +41,7 @@ export function CuratedKits() {
                 color: kit.color,
               } : {}}
             >
-              <kit.icon size={16} style={{ color: kit.color }} />
+              <Icon size={16} style={{ color: kit.color }} />
               {kit.label}
             </button>
           )

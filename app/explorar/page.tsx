@@ -4,6 +4,7 @@ import { getFeed } from "@/lib/actions"
 import { BrincadeiraCard } from "@/components/game/BrincadeiraCard"
 import { RiSearchLine } from "@remixicon/react"
 import { auth } from "@/auth"
+import { SYSTEM_COLLECTIONS } from "@/lib/data/biblioteca"
 
 export const dynamic = "force-dynamic"
 
@@ -31,9 +32,9 @@ export default async function Explorar({
             {/* Biblioteca de Coleções */}
             <div className="flex items-baseline justify-between mb-4 pl-1">
               <h2 className="section-label">
-                Biblioteca
+                Kits Sugeridos
               </h2>
-              <span className="text-[13px] font-bold text-[#8E8E93]">6 coleções</span>
+              <span className="text-[13px] font-bold text-[#8E8E93]">{SYSTEM_COLLECTIONS.length} coleções</span>
             </div>
             <BibliotecaList />
           </>
