@@ -181,8 +181,8 @@ export default function EditarPerfil() {
         </div>
       </main>
 
-      {/* Standardized Bottom Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 px-4 sm:px-5 py-4 bg-white border-t border-border z-40 no-print shadow-[0_-8px_20px_rgba(0,0,0,0.05)] pb-[env(safe-area-inset-bottom)]">
+      {/* Standardized Bottom Action Bar with extra breath */}
+      <div className="fixed bottom-0 left-0 right-0 px-6 pt-5 pb-[calc(24px+env(safe-area-inset-bottom))] bg-white border-t border-border z-40 no-print shadow-[0_-12px_30px_rgba(0,0,0,0.06)]">
         <button
           onClick={handleSave}
           disabled={isPending || loading}

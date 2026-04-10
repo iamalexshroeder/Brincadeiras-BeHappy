@@ -196,64 +196,77 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame | null; isOpen:
           </div>
         </div>
 
-        {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-7 pb-24">
-          <p className="text-[16px] text-foreground leading-relaxed font-medium opacity-80">{game.description}</p>
+        {/* Scrollable Content - Minimalist Document Style */}
+        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8 pb-32">
+          {/* Main Description */}
+          <div className="space-y-2">
+            <p className="text-[17px] text-foreground leading-relaxed font-medium opacity-90">
+              {game.description}
+            </p>
+          </div>
 
-          <div className="flex flex-wrap gap-2 pt-2">
-            <span className="flex items-center gap-1.5 px-3 py-1.5 bg-[#F2F2F7] text-[#8E8E93] rounded-[6px] text-[13px] font-bold">
-              <RiGroupLine size={16} /> {game.participants} pessoas
-            </span>
-            <span className="flex items-center gap-1.5 px-3 py-1.5 bg-[#F2F2F7] text-[#8E8E93] rounded-[6px] text-[13px] font-bold">
-              <RiUser3Line size={16} /> {game.age}
-            </span>
+          {/* Quick Info - Clean Text Style (No Chips) */}
+          <div className="flex flex-col gap-3 pt-2 text-[#8E8E93]">
+            <div className="flex items-center gap-3">
+              <RiGroupLine size={20} className="text-primary/70" /> 
+              <span className="text-[15px] font-bold text-foreground/80">{game.participants} pessoas</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <RiUser3Line size={20} className="text-primary/70" /> 
+              <span className="text-[15px] font-bold text-foreground/80">{game.age}</span>
+            </div>
             {game.materials.length === 0 && (
-              <span className="text-[13px] font-bold bg-[#FFEBEA] text-[#FF3B30] rounded-[6px] px-3 py-1.5">
-                Sem material
-              </span>
+              <div className="flex items-center gap-3 text-[#FF3B30]">
+                <RiCloseLine size={20} />
+                <span className="text-[15px] font-bold">Sem necessidade de material</span>
+              </div>
             )}
           </div>
 
+          <hr className="border-border/50" />
+
+          {/* Materials Section - Free Content on White */}
           {game.materials.length > 0 && (
             <div className="space-y-3">
-              <h3 className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest">Materiais</h3>
-              <div className="flex flex-wrap gap-2">
-                {game.materials.map((m, i) => (
-                  <span key={i} className="text-[14px] font-bold bg-white border border-border shadow-sm text-foreground rounded-[8px] px-4 py-2">{m}</span>
-                ))}
-              </div>
+              <h3 className="text-[12px] font-black text-muted-foreground uppercase tracking-[0.1em]">Materiais</h3>
+              <p className="text-[16px] font-medium text-foreground/90 leading-relaxed">
+                {game.materials.join(", ")}
+              </p>
             </div>
           )}
 
+          {/* Steps Section - Minimalist List */}
           <div className="space-y-4">
-            <h3 className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest">Como Jogar</h3>
-            <div className="space-y-3">
+            <h3 className="text-[12px] font-black text-muted-foreground uppercase tracking-[0.1em]">Como Jogar</h3>
+            <div className="space-y-5">
               {game.steps.map((step, i) => (
                 <div key={i} className="flex items-start gap-4">
-                  <div className="w-6 h-6 rounded-full bg-[#EAB308] text-white text-[12px] font-extrabold flex items-center justify-center shrink-0 mt-1">
-                    {i + 1}
-                  </div>
-                  <p className="text-[15px] text-foreground leading-relaxed font-medium opacity-90 flex-1">{step}</p>
+                  <span className="text-[15px] font-black text-primary pt-0.5">{i + 1}.</span>
+                  <p className="text-[16px] text-foreground leading-relaxed font-medium opacity-90 flex-1">
+                    {step}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Action Buttons - Fixed Footer */}
-        <div className="absolute bottom-0 left-0 right-0 px-5 pt-4 pb-[calc(24px+env(safe-area-inset-bottom))] border-t border-border bg-white flex gap-3 shadow-[0_-8px_24px_rgba(0,0,0,0.04)]">
+        {/* Action Buttons - Standardized Bottom Action Bar with extra breath */}
+        <div className="absolute bottom-0 left-0 right-0 px-6 pt-5 pb-[calc(24px+env(safe-area-inset-bottom))] border-t border-border bg-white flex gap-3 shadow-[0_-12px_30px_rgba(0,0,0,0.06)]">
           <Button
-            variant="ghost"
+            variant="secondary"
             onClick={handleDownload}
             disabled={downloading}
-            className="flex-1 h-12 rounded-[12px] bg-[#F9F9F7] border border-border text-[15px] font-bold text-foreground gap-2"
+            className="btn-secondary flex-1 h-12 rounded-[12px] bg-[#F2F2F7] border-none text-[15px] font-bold text-foreground gap-2 active:scale-95 transition-all"
           >
-            {downloading ? "Gerando..." : "Baixar imagem"}
+            <RiDownload2Line size={20} />
+            {downloading ? "Gerando..." : "Baixar Ficha"}
           </Button>
           <Button
             onClick={handleShare}
-            className="flex-1 h-12 rounded-[12px] bg-[#FF9500] text-white text-[15px] font-bold shadow-sm active:scale-95 transition-all"
+            className="btn-primary flex-1 h-12 rounded-[12px] bg-primary text-white text-[15px] font-bold gap-2 active:scale-95 transition-all shadow-lg shadow-primary/20"
           >
+            <RiShareLine size={20} />
             Compartilhar
           </Button>
         </div>
@@ -345,7 +358,7 @@ function CollectionModal({ collection, isOpen, onClose }: { collection: Collecti
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <SheetContent 
         side="bottom" 
-        className="h-[92dvh] w-auto inset-x-4 bottom-4 rounded-t-[24px] rounded-b-none p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
+        className="h-[88dvh] w-auto inset-x-4 bottom-4 rounded-t-[24px] rounded-b-none p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-white h-16 shrink-0 z-50 shadow-sm">

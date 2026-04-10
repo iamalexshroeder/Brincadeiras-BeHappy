@@ -52,14 +52,27 @@ export default function Ranking() {
   }, [])
 
   const userXp = currentUser?.xp ?? 0
+  const activeTitle = currentUser?.activeTitle
+
+  // Encontrar o título que seria o padrão para o nível atual
+  let levelTitle = GAMIFICATION_TIERS[0].title
+  for (const tier of GAMIFICATION_TIERS) {
+    if (userXp >= tier.minXp) levelTitle = tier.title
+    else break
+  }
+
+  const currentActiveTitle = activeTitle || levelTitle
 
   const tiersWithStatus = GAMIFICATION_TIERS.map((tier, index) => {
+    const isCompleted = userXp >= tier.minXp
+    const isEquipped = tier.title === currentActiveTitle
+    const isTarget = !isCompleted && (index === 0 || userXp >= (GAMIFICATION_TIERS[index - 1]?.minXp || 0))
+    
     let status = "locked"
-    if (userXp >= tier.minXp) {
-      status = "completed"
-    } else if (index === 0 || userXp >= (GAMIFICATION_TIERS[index - 1]?.minXp || 0)) {
-      status = "current"
-    }
+    if (isEquipped) status = "equipped"
+    else if (isCompleted) status = "completed"
+    else if (isTarget) status = "target"
+    
     return { ...tier, status }
   })
   const displayedTiers = showAllMissions ? tiersWithStatus : tiersWithStatus.slice(0, 10)
@@ -204,73 +217,64 @@ export default function Ranking() {
 
           <div className="space-y-2">
             {displayedTiers.map((tier) => {
+              const isEquipped = tier.status === "equipped"
+              const isCompleted = tier.status === "completed" || isEquipped
+              const isTarget = tier.status === "target"
               const isLocked = tier.status === "locked"
-              const isCompleted = tier.status === "completed"
-              const isCurrent = tier.status === "current"
-              const levelColorClass = getLevelColor(tier.level).replace("text-", "bg-")
-              const textColorClass = getLevelColor(tier.level)
 
               return (
-                <Card
+                <div 
                   key={tier.level}
-                  onClick={() => setSelectedTitleInfo({ ...tier, isUnlocked: !isLocked, type: 'RANK' })}
                   className={cn(
-                    "p-3 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] transition-all bg-card relative overflow-hidden cursor-pointer active:scale-[0.98]",
-                    isCompleted && "opacity-40",
-                    isCurrent && "ring-1 ring-primary/20 shadow-sm"
+                    "flex flex-col p-5 rounded-[20px] transition-all border-2",
+                    isEquipped ? "bg-primary/5 border-primary shadow-[0_8px_20px_rgba(255,149,0,0.1)]" : 
+                    isCompleted ? "bg-white border-border" : "bg-[#F9F9F7] border-[#E5E5EA]"
                   )}
                 >
                   <div className="flex items-center gap-4">
                     <div 
                       className={cn(
                         "flex items-center justify-center h-12 w-12 rounded-full shrink-0 font-black text-[17px] relative",
-                        isLocked && "bg-[#F2F2F7]",
+                        isLocked && "bg-[#E5E5EA]",
                       )}
                       style={{
-                        backgroundColor: (isCompleted || isCurrent) ? tier.color : undefined,
-                        // Glow pulsante para títulos level 50+
-                        boxShadow: isCurrent && tier.level >= 50
+                        backgroundColor: (isCompleted) ? tier.color : undefined,
+                        boxShadow: isEquipped 
                           ? `0 0 0 3px ${tier.color}33, 0 0 18px ${tier.color}55`
-                          : isCurrent
-                          ? `0 0 0 3px ${tier.color}22, 0 0 10px ${tier.color}33`
                           : undefined,
                       }}
                     >
                       {isCompleted ? (
                         <RiCheckLine size={22} className="text-white" />
-                      ) : isLocked ? (
-                        <span className="text-[16px] font-black" style={{ color: `${tier.color}55` }}>{tier.level}</span>
                       ) : (
-                        // Current — número branco dentro do círculo colorido
-                        <span className="text-white text-[16px] font-black">{tier.level}</span>
-                      )}
-                      {/* Anel pulsante para títulos premium (level 50+) */}
-                      {isCurrent && tier.level >= 50 && (
-                        <span
-                          className="absolute inset-0 rounded-full animate-pulse-gentle"
-                          style={{ boxShadow: `0 0 0 4px ${tier.color}44` }}
-                        />
+                        <span className="text-[16px] font-black" style={{ color: `${tier.color}55` }}>{tier.level}</span>
                       )}
                     </div>
-                    <div className="flex-1 flex flex-col justify-center text-left">
-                      <div className="flex items-center justify-between">
-                        <span 
-                          className={cn("text-[16px] font-bold", (isCurrent || isCompleted) ? "text-[#1A1A1A]" : "text-[#8E8E93]")}
-                        >
-                          {tier.title}
-                        </span>
-                        <span className={cn("text-[14px] font-extrabold", (isCurrent || isCompleted) ? "text-[#EAB308]" : "text-[#8E8E93]")}>
-                          {isCompleted ? "Obtido" : `${tier.minXp} XP`}
-                        </span>
+
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <h4 className="text-[15px] font-black text-foreground truncate">{tier.title}</h4>
+                        {isEquipped && (
+                          <span className="bg-primary text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-full tracking-wider">ATIVO</span>
+                        )}
                       </div>
-                      <span className={cn("text-[11px] font-bold uppercase tracking-tight mt-0.5",
-                        (isCurrent || isCompleted) ? "text-[#EAB308]" : "text-[#8E8E93]"
+                      <span className={cn("text-[11px] font-extrabold uppercase tracking-tight mt-0.5",
+                        isEquipped ? "text-primary" : isCompleted ? "text-[#EAB308]" : isTarget ? "text-[#8E8E93]" : "text-[#AEAEB2]"
                       )}>
-                        {isLocked ? `Requer Nível ${tier.level}` : isCompleted ? "Conquista Desbloqueada" : "Título Atual"}
+                        {isEquipped ? "Título em Uso 🎖️" : isCompleted ? "Conquista Desbloqueada ✅" : isTarget ? "Próximo Objetivo 🎯" : `Requer Nível ${tier.level} 🔒`}
                       </span>
                     </div>
+
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setSelectedTitleInfo({ ...tier, isUnlocked: isCompleted, type: 'RANK' })}
+                      className="h-9 px-4 rounded-full bg-white border border-border text-[12px] font-extrabold"
+                    >
+                      Detalhes
+                    </Button>
                   </div>
-                </Card>
+                </div>
               )
             })}
           </div>
