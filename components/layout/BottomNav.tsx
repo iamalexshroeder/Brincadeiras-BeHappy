@@ -25,7 +25,9 @@ export function BottomNav() {
   return (
     <nav className="fixed bottom-0 left-0 w-full z-50 flex items-center justify-around bg-[#F9F9F7] border-t border-[#E5E5EA] md:hidden px-4 h-[calc(64px+env(safe-area-inset-bottom))] pb-[env(safe-area-inset-bottom)] no-print">
       {navItems.map((item) => {
-        const isActive = pathname === item.href
+        const isActive = item.href === "/" 
+          ? pathname === "/" 
+          : pathname.startsWith(item.href)
         const Icon = item.icon
 
         return (
