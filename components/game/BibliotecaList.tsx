@@ -18,6 +18,8 @@ import { SYSTEM_COLLECTIONS, SystemGame, Collection } from "@/lib/data/bibliotec
 
 
 import { useRouter } from "next/navigation"
+import Link from "next/link"
+
 export function BibliotecaList() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -35,9 +37,9 @@ export function BibliotecaList() {
         {SYSTEM_COLLECTIONS.map((col) => {
           const Icon = col.icon
           return (
-            <div
+            <Link
+              href={`/explorar?kit=${col.id}`}
               key={col.id}
-              onClick={() => router.push(`/explorar?kit=${col.id}`)}
               className="bg-white rounded-[12px] border border-border p-4 shadow-[0_2px_12px_rgba(0,0,0,0.03)] flex items-center gap-4 active:scale-[0.98] transition-all cursor-pointer group"
             >
               <div
@@ -55,7 +57,7 @@ export function BibliotecaList() {
               <div className="flex items-center gap-0.5 shrink-0 opacity-40 group-active:opacity-100 transition-opacity">
                 <RiArrowRightSLine size={22} className="text-muted-foreground" />
               </div>
-            </div>
+            </Link>
           )
         })}
       </div>

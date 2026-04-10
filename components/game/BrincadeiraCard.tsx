@@ -174,27 +174,28 @@ export function BrincadeiraCard({
             name={creator.name} 
             src={creator.avatar} 
             rankBadge={creator.rankBadge}
-            className={cn("h-10 w-10", creator.name === "Equipe BeHappy" && "bg-white p-1 shadow-sm border border-border")}
+            className={cn("h-10 w-10 overflow-hidden", creator.name === "BeHappyinha" && "bg-[#F9F9F7] p-2 border border-border")}
           />
           <div className="flex flex-col">
             <span className="text-h3 leading-tight">
               {creator.name}
             </span>
-            {creator.name !== "Equipe BeHappy" && (
-            <div className="flex items-center gap-2 mt-0.5">
-              <span className="text-caption">
-                {creator.title || getTitleForLevel(creator.level)}
-              </span>
-              <span className="text-caption opacity-60">
-                · Nível {creator.level}
-              </span>
-            </div>
+            {creator.name !== "BeHappyinha" && (
+              <div className="flex items-center gap-2 mt-0.5">
+                <span className="text-caption">
+                  {creator.title || getTitleForLevel(creator.level)}
+                </span>
+                <span className="text-caption opacity-60">
+                  · Nível {creator.level}
+                </span>
+              </div>
             )}
+            
+            <span className={cn("text-caption opacity-70", creator.name === "BeHappyinha" ? "mt-0.5" : "mt-0.5")}>
+              {publishedAt}
+            </span>
           </div>
         </Link>
-        <span className="text-mini">
-          {publishedAt}
-        </span>
       </CardHeader>
 
       <CardContent className="px-4 py-2 cursor-pointer" onClick={() => router.push(`/brincadeira/${id}`)}>
