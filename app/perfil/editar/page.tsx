@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation"
 import { getProfile, updateProfile } from "@/lib/actions"
 import { useSession } from "next-auth/react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { toast } from "sonner"
 
 export default function EditarPerfil() {
   const router = useRouter()
@@ -33,12 +34,17 @@ export default function EditarPerfil() {
   const handleSave = async () => {
     startTransition(async () => {
       try {
-        await updateProfile({ name, avatar_url: avatarUrl })
-        await updateSession()
-        router.push("/perfil/configuracoes")
+        const result = await updateProfile({ name, avatar_url: avatarUrl })
+        if (result?.success) {
+          toast.success("Perfil atualizado com sucesso!")
+          // Try to update session, but don't block on failure
+          try { await updateSession() } catch (e) {}
+          router.push("/perfil")
+          router.refresh()
+        }
       } catch (error) {
         console.error("Erro ao atualizar perfil:", error)
-        alert("Ocorreu um erro ao salvar o perfil. Tente novamente.")
+        toast.error("Ocorreu um erro ao salvar o perfil.")
       }
     })
   }
@@ -99,7 +105,7 @@ export default function EditarPerfil() {
         }
       />
       
-      <main className="page-main pt-8 pb-32 space-y-8">
+      <main className="page-main pt-8 pb-60 space-y-8">
         {/* Profile Preview & Upload */}
         <div className="flex flex-col items-center justify-center space-y-6">
           <Avatar className="h-28 w-28 border-4 border-white shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
@@ -181,8 +187,8 @@ export default function EditarPerfil() {
         </div>
       </main>
 
-      {/* Standardized Bottom Action Bar with extra breath */}
-      <div className="fixed bottom-0 left-0 right-0 px-6 pt-5 pb-[calc(24px+env(safe-area-inset-bottom))] bg-white border-t border-border z-40 no-print shadow-[0_-12px_30px_rgba(0,0,0,0.06)]">
+      {/* Standardized Bottom Action Bar - Lifted above BottomNav */}
+      <div className="fixed bottom-[calc(64px+env(safe-area-inset-bottom))] left-0 right-0 px-6 pt-5 pb-5 bg-white border-t border-border z-40 no-print shadow-[0_-12px_30px_rgba(0,0,0,0.08)]">
         <button
           onClick={handleSave}
           disabled={isPending || loading}

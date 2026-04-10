@@ -1278,6 +1278,7 @@ export async function updateProfile(data: { name?: string, avatar_url?: string }
 
   revalidatePath("/")
   revalidatePath("/perfil")
+  return { success: true }
 }
 
 /**
