@@ -33,11 +33,11 @@ export default async function Home({
       <main className="pb-48 pt-2 space-y-8 overflow-visible">
         {/* Feed Tabs Selector */}
         <div className="px-5">
-           <div className="flex bg-[#F2F2F7] p-1 rounded-full w-fit">
+           <div className="flex bg-[#F2F2F7] p-1 rounded-[12px] w-full">
               <Link 
                 href="/?view=global"
                 className={cn(
-                  "px-5 py-2 rounded-full text-[13px] font-bold transition-all",
+                  "flex-1 py-3 rounded-[10px] text-[13px] font-bold transition-all text-center",
                   !isFollowingView ? "bg-white text-foreground shadow-sm" : "text-[#8E8E93]"
                 )}
               >
@@ -46,7 +46,7 @@ export default async function Home({
               <Link 
                 href="/?view=seguindo"
                 className={cn(
-                  "px-5 py-2 rounded-full text-[13px] font-bold transition-all",
+                  "flex-1 py-3 rounded-[10px] text-[13px] font-bold transition-all text-center",
                   isFollowingView ? "bg-white text-foreground shadow-sm" : "text-[#8E8E93]"
                 )}
               >
