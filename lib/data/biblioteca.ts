@@ -26,183 +26,1895 @@ export interface Collection {
 
 export const SYSTEM_COLLECTIONS: Collection[] = [
   {
-    id: "chuva",
-    label: "Na Chuva (Indoor)",
-    icon: RiCloudyLine,
-    color: "#8E8E93",
-    bg: "#F2F2F7",
-    description: "Brincadeiras perfeitas para dias chuvosos — dentro de casa ou cobertas.",
-    games: [
-      { id: "c1", title: "Cinema de Improviso", description: "O grupo deve criar uma cena de filme baseada em três palavras sorteadas pelo recreador.", duration: "20 min", participants: "6+", age: "8+", materials: ["Papel", "Caneta"], steps: ["Sorteie três palavras aleatórias.", "Divida o grupo em equipes.", "Cada equipe tem 5 minutos para ensaiar.", "Apresentação da cena para os demais."] },
-      { id: "c2", title: "Stop de Movimentos", description: "Um Stop adaptado onde as categorias são ações físicas que todos devem executar ao final.", duration: "15 min", participants: "4+", age: "6+", materials: ["Papel", "Lápis"], steps: ["Desenhe a tabela de Stop.", "Categorias: Animal, Objeto, Esporte, etc.", "Ao terminar, quem gritou Stop define um movimento que todos devem fazer.", "Soma de pontos tradicional."] },
-      { id: "c3", title: "Mestre das Sombras", description: "Usando uma lanterna ou luz forte, os participantes criam formas com as mãos na parede.", duration: "15 min", participants: "2+", age: "5+", materials: ["Lanterna ou luminária"], steps: ["Apague as luzes principais.", "Um participante por vez vai à 'tela'.", "Os outros tentam adivinhar o que a sombra representa.", "Troca de mestre a cada acerto."] },
-      { id: "c4", title: "Escultura de Papel", description: "Com folhas de rascunho, cada um deve criar a maior torre possível sem usar cola.", duration: "15 min", participants: "2+", age: "7+", materials: ["Papel de rascunho"], steps: ["Entregue 10 folhas para cada um.", "O desafio é apenas dobrar e encaixar.", "A torre deve ficar em pé por pelo menos 10 segundos.", "Medição final."] },
-      { id: "c5", title: "Telefone sem Fio de Desenho", description: "A clássica brincadeira, mas desenhando nas costas do colega.", duration: "20 min", participants: "6+", age: "8+", materials: ["Papel", "Canetinha"], steps: ["Formem uma fila.", "O último desenha algo nas costas do colega da frente com o dedo.", "A mensagem passa até o primeiro.", "O primeiro desenha no papel o que sentiu."] },
-      { id: "c6", title: "Museu de Cera", description: "Um vigia deve circular pelo salão enquanto as estátuas tentam mudar de lugar sem serem vistas.", duration: "15 min", participants: "8+", age: "6+", materials: [], steps: ["Um vigia fica de costas.", "As estátuas se movem em direção ao vigia.", "Quando o vigia vira, todos congelam.", "Se o vigia vir alguém se mexendo, essa pessoa volta ao início."] },
-      { id: "c7", title: "Maestro Famoso", description: "Um 'detetive' deve descobrir quem é o maestro que está liderando os movimentos de todos.", duration: "10 min", participants: "10+", age: "6+", materials: [], steps: ["Um participante sai da sala.", "O grupo escolhe o maestro.", "O maestro faz movimentos rítmicos e todos imitam.", "O detetive volta e tem 3 chances para achar o maestro."] },
-      { id: "c8", title: "Circuito de Copos", description: "Um mini desafio de agilidade empilhando e desempilhando copos plásticos.", duration: "10 min", participants: "2+", age: "6+", materials: ["Copos descartáveis"], steps: ["Crie uma pirâmide de 6 copos.", "Cronometre o tempo para montar e desmontar.", "Desafio: sem derrubar nenhum no chão.", "Quem fizer em menos tempo vence."] },
-      { id: "c9", title: "Jogo das Colheres", description: "Transporte pequenos objetos usando apenas uma colher na boca por um percurso curto.", duration: "15 min", participants: "4+", age: "7+", materials: ["Colheres", "Bolinhas de gude ou ping-pong"], steps: ["Marque uma linha de saída e chegada.", "Coloque a colher na boca com o objeto.", "As mãos devem ficar para trás.", "Se cair, volta para o início do percurso."] },
-      { id: "c10", title: "Mímica Temática", description: "Adivinhação clássica focada em temas como 'Profissões' ou 'Desenhos Animados'.", duration: "20 min", participants: "6+", age: "5+", materials: ["Papel picado"], steps: ["Sorteie o tema.", "Um participante atua sem emitir sons.", "O grupo que adivinhar primeiro ganha o ponto.", "Rodízio de atores."] }
-    ]
-  },
-  {
-    id: "piscina",
-    label: "Piscina e Água",
-    icon: RiDropFill,
-    color: "#007AFF",
-    bg: "#E5F1FF",
-    description: "Diversão aquática com segurança — para piscinas, clubes e colônias.",
-    games: [
-      { id: "p1", title: "Caça ao Tubarão", description: "Um tubarão tenta pegar os peixinhos que cruzam a piscina.", duration: "15 min", participants: "8+", age: "6+", materials: [], steps: ["O tubarão fica no centro da piscina.", "Os peixinhos na borda.", "Ao sinal, todos tentam atravessar.", "Quem for pego vira tubarão também."] },
-      { id: "p2", title: "Mergulho Colorido", description: "Itens coloridos são jogados e as equipes devem buscar as suas cores.", duration: "15 min", participants: "6+", age: "8+", materials: ["Objetos que afundam (argolas/tampinhas)"], steps: ["Jogue os itens no fundo da piscina.", "Divida o grupo por cores.", "Ao sinal, mergulham para pegar apenas sua cor.", "Vence quem recolher tudo primeiro."] },
-      { id: "p3", title: "Vôlei de Lençol Aquático", description: "Usar toalhas para lançar e receber balões de água sobre a rede.", duration: "20 min", participants: "4+", age: "10+", materials: ["Toalhas", "Balões de água"], steps: ["Duplas seguram as pontas da toalha.", "O balão deve ser lançado com a toalha.", "A outra dupla deve aparar sem estourar.", "Pode ser jogado com ou sem rede."] },
-      { id: "p4", title: "Marco Polo Tradicional", description: "Jogo de perseguição onde o pegador fica de olhos fechados guiando-se pelo som.", duration: "10 min", participants: "5+", age: "7+", materials: [], steps: ["O pegador fecha os olhos.", "Grita 'Marco', e os outros respondem 'Polo'.", "O pegador tenta tocar em alguém baseando-se nas vozes.", "Quem for tocado vira o Marco Polo."] },
-      { id: "p5", title: "Corrida de Esponjas", description: "Encher um balde usando apenas uma esponja molhada em um trajeto de ida e volta.", duration: "15 min", participants: "6+", age: "6+", materials: ["Esponjas", "Baldes"], steps: ["Coloque o balde vazio a uma distância da piscina.", "Molhe a esponja na piscina.", "Corra e esprema no balde.", "Vence a equipe que encher primeiro até a marca."] },
-      { id: "p6", title: "Rede de Peixes", description: "O pegador vai ganhando ajudantes que dão as mãos formando uma rede.", duration: "15 min", participants: "10+", age: "6+", materials: [], steps: ["Um pegador inicial.", "Sempre que pegar alguém, dão as mãos.", "A corrente vai crescendo.", "Apenas as pontas da rede podem tocar nos peixes."] },
-      { id: "p7", title: "Batalha de Cavalinho", description: "Coordenação e força em duplas (um no ombro do outro) para tentar derrubar o adversário na água.", duration: "20 min", participants: "4+", age: "12+", materials: [], steps: ["Monte as duplas.", "O de cima tenta desequilibrar o outro de cima.", "Não é permitido puxar o cabelo ou o de baixo.", "Derrubou na água, ponto para a dupla."] },
-      { id: "p8", title: "Basquete Hidráulico", description: "Arremessos em cestas flutuantes ou em um círculo formado pelos braços de um colega.", duration: "15 min", participants: "6+", age: "8+", materials: ["Bola de vinil"], steps: ["Divida as equipes.", "O objetivo é passar a bola até o alvo.", "Quem está com a bola não pode nadar/andar.", "Jogo de passes rápidos."] },
-      { id: "p9", title: "Estátua de Mergulho", description: "Quem consegue fazer a pose mais criativa antes de entrar na água (ou dentro dela).", duration: "10 min", participants: "4+", age: "6+", materials: [], steps: ["O recreador define um tema (ex: super-herói).", "Um por vez salta ou mergulha fazendo a pose.", "O grupo julga a melhor performance.", "Foco em diversão, não em técnica."] },
-      { id: "p10", title: "Fuga do Chafariz", description: "Passar por baixo de arcos de água sem se molhar (se estiver fora da piscina) ou sob cordas flutuantes.", duration: "10 min", participants: "5+", age: "5+", materials: ["Mangueira ou corda"], steps: ["Crie um obstáculo com a água ou corda.", "Desafio de agilidade e flexibilidade.", "Pode-se baixar o nível a cada rodada (estilo Limbo).", "Divertido para dias de calor."] }
-    ]
-  },
-  {
-    id: "ferias",
-    label: "Colônia de Férias",
-    icon: RiTentLine,
-    color: "#FF9500",
-    bg: "#FFF4E5",
-    description: "Programação completa para acampamentos e colônias de férias.",
-    games: [
-      { id: "f1", title: "Guerra das Tribos", description: "Gincana clássica de disputa de território e pontos com bandeiras coloridas.", duration: "60 min", participants: "20+", age: "8+", materials: ["Bandeiras", "Coletes", "Cones"], steps: ["Divida as tribos por cores.", "Esconda a bandeira da tribo no campo.", "O objetivo é roubar a bandeira adversária e levar à base.", "Se for tocado em campo inimigo, vai para a 'prisão'."] },
-      { id: "f2", title: "Caça ao Tesouro com Pistas", description: "Enigmas espalhados por todo o acampamento levam à grande recompensa final.", duration: "45 min", participants: "10+", age: "7+", materials: ["Envelopes com pistas", "Prêmio"], steps: ["Prepare as pistas rimadas ou em código.", "Espalhe pelos pontos estratégicos.", "Divida em equipes.", "A primeira a chegar ao tesouro vence."] },
-      { id: "f3", title: "Festival de Talentos", description: "Momento para cada criança mostrar uma habilidade especial: dança, canto, piada ou mágica.", duration: "40 min", participants: "Livre", age: "5+", materials: ["Som ou microfone fake"], steps: ["Inscrição prévia dos atos.", "Crie um palco improvisado.", "Apresentações curtas (2 min).", "Aplausômetro final para todos."] },
-      { id: "f4", title: "Desfile de Fantasias de Lixo", description: "Criatividade máxima usando apenas materiais recicláveis para criar um 'look' de gala.", duration: "50 min", participants: "10+", age: "6+", materials: ["Jornal", "Fita crepe", "Sacos plásticos"], steps: ["Distribua o material por grupo.", "Tempo para confecção da roupa no modelo da equipe.", "Desfile com trilha sonora animada.", "Votação por criatividade e resistência da roupa."] },
-      { id: "f5", title: "Rastro de Tinta", description: "Seguir trilhas de cores diferentes na grama ou quadra para encontrar o capitão perdido.", duration: "30 min", participants: "15+", age: "5+", materials: ["Farinha colorida ou fitas"], steps: ["O recreador marca caminhos que se cruzam.", "Cada equipe segue apenas sua cor.", "Existem caminhos falsos (becos sem saída).", "Encontre o capitão no final do caminho certo."] },
-      { id: "f6", title: "Mestre Cuca Maluco", description: "Montagem de lanches criativos ou esculturas de frutas em grupo.", duration: "30 min", participants: "6+", age: "5+", materials: ["Frutas", "Bolachas", "Pratos"], steps: ["Higienize as mãos de todos.", "Apresente o tema (ex: animal marinho).", "Grupos montam a comida usando os ingredientes.", "Momento da degustação coletiva."] },
-      { id: "f7", title: "Gruda-Gruda de Equipes", description: "Corrida onde os membros da equipe devem estar sempre em contato físico (ex: costas com costas).", duration: "15 min", participants: "10+", age: "7+", materials: [], steps: ["Defina o trajeto.", "As duplas ou trios devem se colar.", "Não pode soltar até a linha de chegada.", "Se soltar, volta 3 passos."] },
-      { id: "f8", title: "Quiz de Conhecimentos da Colônia", description: "Perguntas sobre os monitores, o local e as atividades realizadas no dia.", duration: "20 min", participants: "10+", age: "8+", materials: ["Apito"], steps: ["Forme os grupos.", "Pergunta lançada pelo monitor.", "Quem apitar primeiro responde.", "Sistema de pontos por acerto."] },
-      { id: "f9", title: "Cabo de Guerra Gigante", description: "Força coordenada com toda a tribo unida por uma única corda resistente.", duration: "10 min", participants: "20+", age: "9+", materials: ["Corda grossa", "Fita marcadora"], steps: ["Marque o centro da corda.", "Distribua as tribos nas pontas.", "Ao sinal, puxam com ritmo.", "A equipe que puxar a fita central para seu lado vence."] },
-      { id: "f10", title: "Hora do Grito de Guerra", description: "Criação e apresentação da coreografia e hino da tribo ou do grupo.", duration: "20 min", participants: "Livre", age: "6+", materials: [], steps: ["Tempo para criação (10 min).", "O hino deve incluir o nome da equipe.", "Apresentação para os juízes.", "Avaliação de entusiasmo, letra e união."] }
-    ]
-  },
-  {
     id: "pequenos",
-    label: "Locais Pequenos",
+    label: "Pequenos Aprendizes",
     icon: RiHome4Line,
     color: "#AF52DE",
     bg: "#F5E9FF",
-    description: "Brincadeiras para salas, corredores e espaços reduzidos.",
+    description: "Brincadeiras lúdicas e simples para crianças de 3 a 4 anos.",
     games: [
-      { id: "q1", title: "Detetive do Objeto", description: "Um objeto some da sala e o detetive deve descobrir o que mudou de lugar.", duration: "10 min", participants: "4+", age: "5+", materials: [], steps: ["O detetive observa a sala por 30 segundos.", "Sai da sala.", "O grupo esconde ou muda um objeto.", "O detetive volta e tenta identificar a mudança."] },
-      { id: "q2", title: "Mestre Mandou de Cadeira", description: "Comandos feitos todos sentados, exigindo apenas movimentos de braços e expressões.", duration: "10 min", participants: "3+", age: "4+", materials: ["Cadeiras"], steps: ["Todos sentados em círculo.", "Comandos tradicionais ('Mestre mandou mão na orelha').", "Velocidade aumenta progressivamente.", "Quem levantar ou errar sai."] },
-      { id: "q3", title: "Palavras Proibidas", description: "Um debate sobre um tema engraçado, mas ninguém pode dizer as palavras 'Sim' ou 'Não'.", duration: "15 min", participants: "4+", age: "9+", materials: [], steps: ["Escolha um tema polêmico e bobo.", "O mediador faz perguntas diretas.", "O participante deve responder sem as 2 palavras.", "Quem gaguejar ou falar os proibidos perde ponto."] },
-      { id: "q4", title: "Corrida de Tampinhas", description: "Trecho curto na mesa ou chão onde as tampinhas avançam com 'tecos' dos dedos.", duration: "15 min", participants: "2+", age: "7+", materials: ["Tampinhas de garrafa"], steps: ["Crie uma pista com fita crepe.", "Cada um tem um toque por vez.", "Se sair da pista, volta ao início.", "A primeira tampinha a cruzar vence."] },
-      { id: "q5", title: "História Coletiva de 1 Palavra", description: "O grupo cria um conto onde cada pessoa só pode falar uma única palavra por vez.", duration: "10 min", participants: "5+", age: "8+", materials: [], steps: ["Defina um título inicial (ex: O Gigante).", "Cada um fala uma palavra seguindo a ordem.", "O objetivo é fazer a história ter sentido.", "Tente finalizar a história em 2 minutos."] },
-      { id: "q6", title: "Escravos de Jó de Mão", description: "Ritmo e coordenação usando apenas as mãos na mesa ou colo.", duration: "10 min", participants: "4+", age: "6+", materials: ["Objetos pequenos ou mãos"], steps: ["Siga a música tradicional.", "O movimento deve ser síncrono.", "Aumente a velocidade da música.", "Quem errar o tempo continua, mas paga um mico."] },
-      { id: "q7", title: "Adivinhação de Desenho Minimalista", description: "Desenhar um objeto usando apenas 3 linhas retas ou curvas.", duration: "15 min", participants: "3+", age: "7+", materials: ["Lousa ou papel"], steps: ["O desenhista pensa em algo.", "Faz apenas as 3 linhas.", "O grupo tenta adivinhar.", "Se ninguém acertar, ele desenha mais uma linha."] },
-      { id: "q8", title: "Yoga dos Bichos", description: "Poses de equilíbrio inspiradas em animais, perfeitas para acalmar os pequenos.", duration: "10 min", participants: "2+", age: "4+", materials: [], steps: ["Pose do gato (alongar).", "Pose do flamingo (equilíbrio).", "Pose da cobra (chão).", "Foco na respiração e silêncio."] },
-      { id: "q9", title: "Mercado da Dona Maria", description: "Jogo de memória cumulativo: 'Fui ao mercado e comprei...'", duration: "10 min", participants: "4+", age: "6+", materials: [], steps: ["O primeiro diz um item.", "O segundo repete o item e adiciona outro.", "A lista vai crescendo.", "Quem esquecer um item anterior sai."] },
-      { id: "q10", title: "Bamba de Equilíbrio", description: "Andar sobre uma linha de fita no chão fazendo desafios como fechar os olhos por 3 segundos.", duration: "10 min", participants: "2+", age: "5+", materials: ["Fita crepe"], steps: ["Cole a fita em linha reta.", "O participante deve pisar apenas na fita.", "Desafios: agachar, girar ou andar de ré.", "Ótimo para coordenação motora fina."] }
-    ]
+      {
+            "id": "pdf-1",
+            "title": "O lobo",
+            "description": "Escolhe-se um participante para ser o lobo, e os outros contam até determinado número em um lugar designado como \"casa\". Enquanto todos contam o lobo se esconde, quando os outros participantes terminarem a contagem, saem a procura do lobo. Quando um participante o descobre, aproxima-se dizendo em voz alta \"vejo um cordeiro cheio de lã\". Os outros participantes aproximam-se. O lobo permanece quieto até que quem o viu grita \"vejo um lobo cheio de lã\", então o lobo saíra atrás dos participantes, quem for pego virará o lobo.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [],
+            "steps": [
+                  "Escolhe-se um participante para ser o lobo, e os outros contam até determinado número em um lugar designado como \"casa\". Enquanto todos contam o lobo se esconde, quando os outros participantes terminarem a contagem, saem a procura do lobo. Quando um participante o descobre, aproxima-se dizendo em voz alta \"vejo um cordeiro cheio de lã\". Os outros participantes aproximam-se. O lobo permanece quieto até que quem o viu grita \"vejo um lobo cheio de lã\", então o lobo saíra atrás dos participantes, quem for pego virará o lobo."
+            ]
+      },
+      {
+            "id": "pdf-2",
+            "title": "Para direita e para esquerda",
+            "description": "atividade para trabalhar a lateralidade com as crianças, usando marcaç├Áes no chão ou bambolês, o professor falará \"direita\" ou \"esquerda\" e as crianças seguirão os comandos do professor. Como variação, o professor pode usar o som do apito exemplo: dois silvos direita, um silvo esquerda. Poderá também usar frente e trás.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [
+                  "bambolês"
+            ],
+            "steps": [
+                  "atividade para trabalhar a lateralidade com as crianças, usando marcaç├Áes no chão ou bambolês, o professor falará \"direita\" ou \"esquerda\" e as crianças seguirão os comandos do professor. Como variação, o professor pode usar o som do apito exemplo: dois silvos direita, um silvo esquerda. Poderá também usar frente e trás."
+            ]
+      },
+      {
+            "id": "pdf-3",
+            "title": "Campo Minado",
+            "description": "Deve-se organizar o espaço com obstáculos, a criança deverá estar com os olhos vendados, e seguir as orientaç├Áes de seu guia para ultrapassar esses obstáculos sem encostar em nada, caso encoste volta para o início.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [
+                  "cones ou qualquer coisa que sirva como obstáculo."
+            ],
+            "steps": [
+                  "Deve-se organizar o espaço com obstáculos, a criança deverá estar com os olhos vendados, e seguir as orientaç├Áes de seu guia para ultrapassar esses obstáculos sem encostar em nada, caso encoste volta para o início."
+            ]
+      },
+      {
+            "id": "pdf-4",
+            "title": "Estrela",
+            "description": "Serão formadas equipes que se sentarão em colunas, ao sinal do professor o primeiro aluno de cada coluna sairá correndo em volta das outras equipes até chegar novamente a sua equipe, passara por cima de todos os seus colegas e pegará a bola que estará ao centro. Quem executar a tarefa primeiro marcará um ponto e assim seguirá até chegar a primeira criança novamente. ATIVIDADES (DE 3 A 6 ANOS)",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [
+                  "um cone",
+                  "uma bola"
+            ],
+            "steps": [
+                  "Serão formadas equipes que se sentarão em colunas, ao sinal do professor o primeiro aluno de cada coluna sairá correndo em volta das outras equipes até chegar novamente a sua equipe, passara por cima de todos os seus colegas e pegará a bola que estará ao centro. Quem executar a tarefa primeiro marcará um ponto e assim seguirá até chegar a primeira criança novamente. ATIVIDADES (DE 3 A 6 ANOS)"
+            ]
+      },
+      {
+            "id": "pdf-5",
+            "title": "Quero minha casa",
+            "description": "Todos os alunos ficarão dentro de um bambolê, exceto um que ficará fora do bambolê. Ao sinal do professor, todos troaram de \"casa\" e sempre um sobrará fora do bambolê. Usar como variação: Eliminar os bambolês para que as crianças trabalhem em equipe sem ninguém ficar fora da \"casa\".",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [
+                  "bambolê"
+            ],
+            "steps": [
+                  "Todos os alunos ficarão dentro de um bambolê, exceto um que ficará fora do bambolê. Ao sinal do professor, todos troaram de \"casa\" e sempre um sobrará fora do bambolê. Usar como variação: Eliminar os bambolês para que as crianças trabalhem em equipe sem ninguém ficar fora da \"casa\"."
+            ]
+      },
+      {
+            "id": "pdf-6",
+            "title": "Circuitos",
+            "description": "Circuitos psicomotores para trabalhar velocidade, lateralidade, coordenação das crianças, pode ser montado a escolha do monitor.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "3+ anos",
+            "materials": [
+                  "bambolês",
+                  "cones",
+                  "cordas",
+                  "bolas"
+            ],
+            "steps": [
+                  "Circuitos psicomotores para trabalhar velocidade, lateralidade, coordenação das crianças, pode ser montado a escolha do monitor."
+            ]
+      },
+      {
+            "id": "pdf-7",
+            "title": "A sombra",
+            "description": "As crianças deverão ser divididas em duplas, e ao sinal do instrutor as duplas irão caminhar pelo local, um da dupla fará movimentos diversos que deverá ser imitado pelo seu companheiro, ao próximo sinal, os participantes deverão trocar os papeis, o que era sombra passará a comandar e o outro será a \"sombra\". Como variação, o professor poderá ir mandando juntar, trios, quartetos etc.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [],
+            "steps": [
+                  "As crianças deverão ser divididas em duplas, e ao sinal do instrutor as duplas irão caminhar pelo local, um da dupla fará movimentos diversos que deverá ser imitado pelo seu companheiro, ao próximo sinal, os participantes deverão trocar os papeis, o que era sombra passará a comandar e o outro será a \"sombra\". Como variação, o professor poderá ir mandando juntar, trios, quartetos etc."
+            ]
+      },
+      {
+            "id": "pdf-8",
+            "title": "Medusa",
+            "description": "Uma criança será escolhida para ser a \"medusa\", ela fiará posicionada em um determinado lugar virada de costas para os outros participantes que estarão afastados da \"medusa\". Eles deverão se aproximar da \"medusa\" sem que ela veja nenhum movimento, e tentaram encostá-la. A \"medusa\" poderá virar para olhar os participantes quantas vezes quiser e se ela vir algum movimento poderá falar para o colega voltar ao lugar de início. O participante que encostar na medusa, tomara o seu lugar.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [],
+            "steps": [
+                  "Uma criança será escolhida para ser a \"medusa\", ela fiará posicionada em um determinado lugar virada de costas para os outros participantes que estarão afastados da \"medusa\". Eles deverão se aproximar da \"medusa\" sem que ela veja nenhum movimento, e tentaram encostá-la. A \"medusa\" poderá virar para olhar os participantes quantas vezes quiser e se ela vir algum movimento poderá falar para o colega voltar ao lugar de início. O participante que encostar na medusa, tomara o seu lugar."
+            ]
+      },
+      {
+            "id": "pdf-9",
+            "title": "Estatua Musical",
+            "description": "Colocar uma música, e deixar as crianças dançarem do seu jeito no ritmo da música. Ao pausar a música as crianças deverão parar em uma pose e voltar a se mexer quando a música voltar.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "3+ anos",
+            "materials": [
+                  "música"
+            ],
+            "steps": [
+                  "Colocar uma música, e deixar as crianças dançarem do seu jeito no ritmo da música. Ao pausar a música as crianças deverão parar em uma pose e voltar a se mexer quando a música voltar."
+            ]
+      },
+      {
+            "id": "pdf-11",
+            "title": "Pega-pega dos números",
+            "description": "Será formado um círculo, o monitor numerará cada participante de 1-5 (dependendo do número de participantes), ao sinal do monitor, o número chamado deverá levantar-se e correr para o lado direito, assim todos tentaram pegar o colega da sua frente e fugir do colega que está atrás, poderá apenas dar uma ou duas voltas, até chegar ao seu lugar de origem.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [],
+            "steps": [
+                  "Será formado um círculo, o monitor numerará cada participante de 1-5 (dependendo do número de participantes), ao sinal do monitor, o número chamado deverá levantar-se e correr para o lado direito, assim todos tentaram pegar o colega da sua frente e fugir do colega que está atrás, poderá apenas dar uma ou duas voltas, até chegar ao seu lugar de origem."
+            ]
+      },
+      {
+            "id": "pdf-12",
+            "title": "Toca do coelho",
+            "description": "Formar vários grupos de três pessoas, sendo que dois participantes vão dar as mãos simulando uma toca e o outro participante é o coelho que ficará dentro da toca, ao sinal do monitor, todos os coelhos devem trocar de toca, ao segundo sinal as tocas troaram de lugar. Quando o monitor falar em voz alta \"ventania\" todos saíram do seu lugar e caminharam livres como se estivesse ventando. Quando o monitor falar \"toca do coelho\", formam novamente grupos de três.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [],
+            "steps": [
+                  "Formar vários grupos de três pessoas, sendo que dois participantes vão dar as mãos simulando uma toca e o outro participante é o coelho que ficará dentro da toca, ao sinal do monitor, todos os coelhos devem trocar de toca, ao segundo sinal as tocas troaram de lugar. Quando o monitor falar em voz alta \"ventania\" todos saíram do seu lugar e caminharam livres como se estivesse ventando. Quando o monitor falar \"toca do coelho\", formam novamente grupos de três."
+            ]
+      },
+      {
+            "id": "pdf-13",
+            "title": "Mãos de cores",
+            "description": "Escolhe-se um para ser o condutor da brincadeira. Forma-se um círculo com todos os participantes (pedir para tirar os tênis). O condutor dará uma ordem como \"mão direita no vermelho\", e os participantes tocarão com a mão direita na cor vermelha de um companheiro sem sair do círculo. Ao passar do jogo e monitor troca o condutor da brincadeira.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [],
+            "steps": [
+                  "Escolhe-se um para ser o condutor da brincadeira. Forma-se um círculo com todos os participantes (pedir para tirar os tênis). O condutor dará uma ordem como \"mão direita no vermelho\", e os participantes tocarão com a mão direita na cor vermelha de um companheiro sem sair do círculo. Ao passar do jogo e monitor troca o condutor da brincadeira."
+            ]
+      },
+      {
+            "id": "pdf-14",
+            "title": "Caça ao tesouro",
+            "description": "O monitor irá esconder os objetos sem que as crianças o vejam, ao seu sinal todos os participantes deverão sair a procura dos objetos, os que forem encontrados deverão ser entregues ao monitor. Ir mudando quem irá esconder.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "3+ anos",
+            "materials": [
+                  "objetos pequenos para serem o tesouro"
+            ],
+            "steps": [
+                  "O monitor irá esconder os objetos sem que as crianças o vejam, ao seu sinal todos os participantes deverão sair a procura dos objetos, os que forem encontrados deverão ser entregues ao monitor. Ir mudando quem irá esconder."
+            ]
+      },
+      {
+            "id": "pdf-15",
+            "title": "Dança das cadeiras",
+            "description": "Organizar as cadeiras uma ao lado da outra, ao tocar a música as crianças deverão andar em volta das cadeiras, no ritmo da música, quando a música parar deverão sentar-se na cadeira. Com o passar da brincadeira ir tirando as cadeiras de uma em uma, a criança que ficar em pé sairá da brincadeira.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "3+ anos",
+            "materials": [
+                  "cadeiras ou bancos",
+                  "música"
+            ],
+            "steps": [
+                  "Organizar as cadeiras uma ao lado da outra, ao tocar a música as crianças deverão andar em volta das cadeiras, no ritmo da música, quando a música parar deverão sentar-se na cadeira. Com o passar da brincadeira ir tirando as cadeiras de uma em uma, a criança que ficar em pé sairá da brincadeira."
+            ]
+      },
+      {
+            "id": "pdf-18",
+            "title": "Bola por cima, Bola por baixo",
+            "description": "Dividi-los em dois grupos, e deixá-los em coluna, um atrás do outro. Ao sinal do monitor, o primeiro de ada coluna irá passar a bola por cima até chegar ao último participante, esse último deverá correr até a frente e repetir a mesma coisa, e assim sucessivamente até chegar o primeiro de novo. Usar como variação, passar a bola por baixo da perna.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [
+                  "Bola"
+            ],
+            "steps": [
+                  "Dividi-los em dois grupos, e deixá-los em coluna, um atrás do outro. Ao sinal do monitor, o primeiro de ada coluna irá passar a bola por cima até chegar ao último participante, esse último deverá correr até a frente e repetir a mesma coisa, e assim sucessivamente até chegar o primeiro de novo. Usar como variação, passar a bola por baixo da perna."
+            ]
+      },
+      {
+            "id": "pdf-20",
+            "title": "Corrida de saci",
+            "description": "Será demarcado uma linha de partida e uma outra de chegada, ao sinal do monitor todas as crianças deverão sair pulando em um pé só. A criança que colocar o pé no chão será eliminada e ganhará quem chegar primeiro com um pé só.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [],
+            "steps": [
+                  "Será demarcado uma linha de partida e uma outra de chegada, ao sinal do monitor todas as crianças deverão sair pulando em um pé só. A criança que colocar o pé no chão será eliminada e ganhará quem chegar primeiro com um pé só."
+            ]
+      },
+      {
+            "id": "pdf-22",
+            "title": "Camaleão",
+            "description": "Uma criança será escolhida para ser o camaleão, ao sinal do monitor, os restantes das crianças perguntaram para o \"camaleão\" qual é a cor, assim que a cor for dita as crianças correram e encostaram em algo com a cor dita, quem for pego vira o camaleão.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "3+ anos",
+            "materials": [],
+            "steps": [
+                  "Uma criança será escolhida para ser o camaleão, ao sinal do monitor, os restantes das crianças perguntaram para o \"camaleão\" qual é a cor, assim que a cor for dita as crianças correram e encostaram em algo com a cor dita, quem for pego vira o camaleão."
+            ]
+      },
+      {
+            "id": "pdf-23",
+            "title": "A fila",
+            "description": "Formarão uma corrente dando as mãos, um participante será escolhido para ser o condutor. O condutor dirá algumas ordens como \"a corrente se encolhe\" e todos irão se apertar para frente\" ou \"a corrente se alarga\" e todos se separam sem soltar as mãos. Poderá dar várias outras ordens como por exemplo \"a corrente se agacha, salta\" etc. Sempre mudar o condutor da brincadeira.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "3+ anos",
+            "materials": [],
+            "steps": [
+                  "Formarão uma corrente dando as mãos, um participante será escolhido para ser o condutor. O condutor dirá algumas ordens como \"a corrente se encolhe\" e todos irão se apertar para frente\" ou \"a corrente se alarga\" e todos se separam sem soltar as mãos. Poderá dar várias outras ordens como por exemplo \"a corrente se agacha, salta\" etc. Sempre mudar o condutor da brincadeira."
+            ]
+      },
+      {
+            "id": "pdf-24",
+            "title": "Travessia da Floresta",
+            "description": "Traçar no chão um ret├óngulo bem grande (sendo a floresta). Dentro ficam três participantes que são os pegadores, fora ficam os demais, à vontade. Dado o sinal de início, os jogadores que estão fora tentam cruzar o ret├óngulo, isto é, a \"floresta\", sem serem pegos. Os três jogadores de dentro tentam pegar os outros \"forasteiros\" que cruzam a floresta de um lado para o outro. Quem for preso, passa a ajudar os pegadores.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [],
+            "steps": [
+                  "Traçar no chão um ret├óngulo bem grande (sendo a floresta). Dentro ficam três participantes que são os pegadores, fora ficam os demais, à vontade. Dado o sinal de início, os jogadores que estão fora tentam cruzar o ret├óngulo, isto é, a \"floresta\", sem serem pegos. Os três jogadores de dentro tentam pegar os outros \"forasteiros\" que cruzam a floresta de um lado para o outro. Quem for preso, passa a ajudar os pegadores."
+            ]
+      },
+      {
+            "id": "pdf-25",
+            "title": "Reizinho mandou",
+            "description": "Uma criança será escolhida para ser o \"reizinho\" que comandará a brincadeira. A criança determinada como reizinho dirá \"reizinho mandou\" e o restante dirá \"fazer o que\", e o reizinho determinará a tarefa, como pular de um pé só, imitar um animal entre outras. O monitor deverá sempre trocar o comandante da brincadeira.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "3+ anos",
+            "materials": [],
+            "steps": [
+                  "Uma criança será escolhida para ser o \"reizinho\" que comandará a brincadeira. A criança determinada como reizinho dirá \"reizinho mandou\" e o restante dirá \"fazer o que\", e o reizinho determinará a tarefa, como pular de um pé só, imitar um animal entre outras. O monitor deverá sempre trocar o comandante da brincadeira."
+            ]
+      },
+      {
+            "id": "pdf-26",
+            "title": "Elefante Colorido",
+            "description": "Uma criança ficara ao centro, sendo o \"elefante\", essa criança falará \"elefante colorido\" e o restante dirá \"que cor\", e o elefante escolherá uma cor. Se a criança possuir a cor dita poderá passar pelo \"elefante\" sem ser pego, caso não tenha terá que passar correndo, se a criança for pega ela vira o \"elefante\".",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "3+ anos",
+            "materials": [],
+            "steps": [
+                  "Uma criança ficara ao centro, sendo o \"elefante\", essa criança falará \"elefante colorido\" e o restante dirá \"que cor\", e o elefante escolherá uma cor. Se a criança possuir a cor dita poderá passar pelo \"elefante\" sem ser pego, caso não tenha terá que passar correndo, se a criança for pega ela vira o \"elefante\"."
+            ]
+      },
+      {
+            "id": "pdf-28",
+            "title": "Reino dos sacis",
+            "description": "Em um canto do espaço determinado para fazer a atividade, marcasse o \"palácio\", onde fica um jogador, o \"saci-rei\". Os demais \"sacis\" dispersam-se à vontade pelo campo. Ao sinal de início, os sacis dirigem-se, pulando num pé só, ao palácio real, para provocar o rei. De repente, este anuncia: \"O rei está zangado!\", saindo a persegui-los, também aos pulos. Ele mesmo conduz ao palácio o primeiro que pega e o nomeia seu \"ajudante\". A brincadeira recomeça, tal como antes, saindo agora os dois, após novo aviso, em perseguição aos demais e assim por diante. O último apanhado será o novo rei, na repetição do jogo. Ninguém pode apoiar os dois pés no chão, sob pena de ser aprisionado, exceto nos seguintes casos: a) quando o jogador estiver dentro do palácio; b) quando o jogador estiver cansado, devendo, porém, ficar parado num mesmo lugar, ocasião em que poderá ser apanhado. O jogador aprisionado ficará dentro do palácio, até outro ser preso, só então podendo voltar ao lugar onde estava antes.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [],
+            "steps": [
+                  "Em um canto do espaço determinado para fazer a atividade, marcasse o \"palácio\", onde fica um jogador, o \"saci-rei\". Os demais \"sacis\" dispersam-se à vontade pelo campo. Ao sinal de início, os sacis dirigem-se, pulando num pé só, ao palácio real, para provocar o rei. De repente, este anuncia: \"O rei está zangado!\", saindo a persegui-los, também aos pulos. Ele mesmo conduz ao palácio o primeiro que pega e o nomeia seu \"ajudante\". A brincadeira recomeça, tal como antes, saindo agora os dois, após novo aviso, em perseguição aos demais e assim por diante. O último apanhado será o novo rei, na repetição do jogo. Ninguém pode apoiar os dois pés no chão, sob pena de ser aprisionado, exceto nos seguintes casos: a) quando o jogador estiver dentro do palácio; b) quando o jogador estiver cansado, devendo, porém, ficar parado num mesmo lugar, ocasião em que poderá ser apanhado. O jogador aprisionado ficará dentro do palácio, até outro ser preso, só então podendo voltar ao lugar onde estava antes."
+            ]
+      },
+      {
+            "id": "pdf-29",
+            "title": "Congelado",
+            "description": "Um tipo de pega-pega. Quem for pego, deve ficar parado no lugar onde foi tocado, até que alguém que ainda não foi pego toque nele, o libertando.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "3+ anos",
+            "materials": [],
+            "steps": [
+                  "Um tipo de pega-pega. Quem for pego, deve ficar parado no lugar onde foi tocado, até que alguém que ainda não foi pego toque nele, o libertando."
+            ]
+      },
+      {
+            "id": "pdf-30",
+            "title": "Arranca Rabo",
+            "description": "O grupo é dividido em dois, os integrantes de um dos times penduram um pedaço de fita na parte de trás da calça ou bermuda, eles serão fugitivos. Ao sinal do mestre, os fugitivos correm tentando impedir que as crianças do time adversário peguem suas fitas, quando todos os rabos forem arrancados, as equipes trocam os papéis, quem era pegador vira fugitivo.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [],
+            "steps": [
+                  "O grupo é dividido em dois, os integrantes de um dos times penduram um pedaço de fita na parte de trás da calça ou bermuda, eles serão fugitivos. Ao sinal do mestre, os fugitivos correm tentando impedir que as crianças do time adversário peguem suas fitas, quando todos os rabos forem arrancados, as equipes trocam os papéis, quem era pegador vira fugitivo."
+            ]
+      },
+      {
+            "id": "pdf-32",
+            "title": "Pega-pega espelho",
+            "description": "Pega-pega comum, quando a criança for pega deverá fazer uma pose, e para ser salva outra criança tem que parar na frente ela e fazer a pose igual.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "3+ anos",
+            "materials": [],
+            "steps": [
+                  "Pega-pega comum, quando a criança for pega deverá fazer uma pose, e para ser salva outra criança tem que parar na frente ela e fazer a pose igual."
+            ]
+      },
+      {
+            "id": "pdf-33",
+            "title": "Céu Terra",
+            "description": "Coloca-se uma corda no chão, um lado é o céu e o outro é a terra. Quando o monitor falar céu as crianças pulam para o céu, quando o monitor falar terra as crianças pulam para terra. O monitor poderá falar mais rápido ou repetir a mesma palavra.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "3+ anos",
+            "materials": [
+                  "uma corda"
+            ],
+            "steps": [
+                  "Coloca-se uma corda no chão, um lado é o céu e o outro é a terra. Quando o monitor falar céu as crianças pulam para o céu, quando o monitor falar terra as crianças pulam para terra. O monitor poderá falar mais rápido ou repetir a mesma palavra."
+            ]
+      },
+      {
+            "id": "pdf-34",
+            "title": "Cruzando o Rio",
+            "description": "cada criança receberá 3 folhas de sulfite. Eles deverão colocar o primeiro papel no chão, pisam nele e colocam o segundo na sua frente, quando colocam o terceiro, deverão recolher o primeiro para repetir o processo. Para que os pequenos entrem na brincadeira, fale que o chão é uma correnteza de água e para que eles consigam passar deverão que passar por cima dos papeis.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [
+                  "três folhas de sulfite por criança"
+            ],
+            "steps": [
+                  "cada criança receberá 3 folhas de sulfite. Eles deverão colocar o primeiro papel no chão, pisam nele e colocam o segundo na sua frente, quando colocam o terceiro, deverão recolher o primeiro para repetir o processo. Para que os pequenos entrem na brincadeira, fale que o chão é uma correnteza de água e para que eles consigam passar deverão que passar por cima dos papeis."
+            ]
+      },
+      {
+            "id": "pdf-37",
+            "title": "O Feiticeiro e suas estátuas",
+            "description": "Os participantes ficam de pé, dispersos em uma área delimitada para a brincadeira. Um voluntário será o \"feiticeiro\" que perseguirá os demais. Ao sinal do monitor, inicia-se a perseguição, e aquele que for tocado ficará \"enfeitiçado\": imóvel com as pernas afastadas, representando uma \"estátua\". Os outros companheiros poderão passar por baixo das pernas das \"estátuas\", salvando-as do \"feitiço\". Depois de algum tempo, o \"feiticeiro\" deverá ser substituído.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "3+ anos",
+            "materials": [],
+            "steps": [
+                  "Os participantes ficam de pé, dispersos em uma área delimitada para a brincadeira. Um voluntário será o \"feiticeiro\" que perseguirá os demais. Ao sinal do monitor, inicia-se a perseguição, e aquele que for tocado ficará \"enfeitiçado\": imóvel com as pernas afastadas, representando uma \"estátua\". Os outros companheiros poderão passar por baixo das pernas das \"estátuas\", salvando-as do \"feitiço\". Depois de algum tempo, o \"feiticeiro\" deverá ser substituído."
+            ]
+      },
+      {
+            "id": "pdf-39",
+            "title": "Não me faça rir",
+            "description": "Uma criança deve tentar fazer a outra rir (fazendo careta, cosquinha entre outros), enquanto a outra deve tentar segurar a risada.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "3+ anos",
+            "materials": [],
+            "steps": [
+                  "Uma criança deve tentar fazer a outra rir (fazendo careta, cosquinha entre outros), enquanto a outra deve tentar segurar a risada."
+            ]
+      },
+      {
+            "id": "pdf-40",
+            "title": "Corpo ou bola?",
+            "description": "As crianças serão dispostas em duas colunas uma de frente para a outra, o monitor irá falando as partes do corpo e a criança irá colocar a mão, quando o monitor falar \"bola\" as crianças tentaram pegar as bolas, que estarão separadas por dupla, uma bola para cada dupla.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [],
+            "steps": [
+                  "As crianças serão dispostas em duas colunas uma de frente para a outra, o monitor irá falando as partes do corpo e a criança irá colocar a mão, quando o monitor falar \"bola\" as crianças tentaram pegar as bolas, que estarão separadas por dupla, uma bola para cada dupla."
+            ]
+      },
+      {
+            "id": "pdf-41",
+            "title": "Cauda do dragão",
+            "description": "Todas as crianças ficam em pé, em coluna com as mãos na cintura um do outro, formando um dragão. O primeiro integrante da fila, representando a cabeça do dragão, terá como objetivo pegar o último da fila, a cauda. Ao sinal do monitor, o \"dragão\" passará a se movimentar, correndo, sob o comando da cabeça que tentará pegar a cauda. Esta, por sua vez, fará movimentos no sentido de evitar que isso aconteça. Caso consiga pegar a cauda, a criança que a representava passa para frente da fila, se tornado a cabeça do dragão.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [],
+            "steps": [
+                  "Todas as crianças ficam em pé, em coluna com as mãos na cintura um do outro, formando um dragão. O primeiro integrante da fila, representando a cabeça do dragão, terá como objetivo pegar o último da fila, a cauda. Ao sinal do monitor, o \"dragão\" passará a se movimentar, correndo, sob o comando da cabeça que tentará pegar a cauda. Esta, por sua vez, fará movimentos no sentido de evitar que isso aconteça. Caso consiga pegar a cauda, a criança que a representava passa para frente da fila, se tornado a cabeça do dragão."
+            ]
+      },
+      {
+            "id": "pdf-42",
+            "title": "O gafanhoto e a rã",
+            "description": "Faça um círculo no chão para que caiba todos os participantes e sobre espaço. Um será a \"rã\" e os outros serão os \"gafanhotos\" que terão que fugir da \"rã\". A \"rã\" deverá ficar agachada e os gafanhotos deverão fugir pulando de um pé só, quem for pego deverá virar \"rã\" ajudando a pegar os outros.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [
+                  "1 giz"
+            ],
+            "steps": [
+                  "Faça um círculo no chão para que caiba todos os participantes e sobre espaço. Um será a \"rã\" e os outros serão os \"gafanhotos\" que terão que fugir da \"rã\". A \"rã\" deverá ficar agachada e os gafanhotos deverão fugir pulando de um pé só, quem for pego deverá virar \"rã\" ajudando a pegar os outros."
+            ]
+      },
+      {
+            "id": "pdf-43",
+            "title": "Cuidado que o gato pega",
+            "description": "Um será o \"rato\", que segurará o tênis na mão, o os outros participantes deverão sentar-se no chão em um círculo. O rato deverá correr e deixar o tênis atrás de alguém, este será o gato, que correrá atrás do rato, o rato deverá sentar-se no lugar do gato, que virará automaticamente o rato e assim sucessivamente.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [
+                  "um tênis ou um objeto do mesmo tamanho"
+            ],
+            "steps": [
+                  "Um será o \"rato\", que segurará o tênis na mão, o os outros participantes deverão sentar-se no chão em um círculo. O rato deverá correr e deixar o tênis atrás de alguém, este será o gato, que correrá atrás do rato, o rato deverá sentar-se no lugar do gato, que virará automaticamente o rato e assim sucessivamente."
+            ]
+      },
+      {
+            "id": "pdf-44",
+            "title": "Reino Perdido",
+            "description": "No reino há várias princesas perdidas (escondidas), um bruxo(a) e uma dama ou cavalheiro. A dama ou cavalheiro tem que encontrar as princesas e levar para o reino antes do bruxo, que levará para o seu esconderijo. Vence quem tiver mais princesas capturadas. Resumindo são 2 pegadores e o restante se esconde.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "3+ anos",
+            "materials": [],
+            "steps": [
+                  "No reino há várias princesas perdidas (escondidas), um bruxo(a) e uma dama ou cavalheiro. A dama ou cavalheiro tem que encontrar as princesas e levar para o reino antes do bruxo, que levará para o seu esconderijo. Vence quem tiver mais princesas capturadas. Resumindo são 2 pegadores e o restante se esconde."
+            ]
+      },
+      {
+            "id": "pdf-45",
+            "title": "O monstro faminto",
+            "description": "Desenha-se no chão um monstro com a oca aberta, os participantes deverão ficar no corpo do monstro, ao sinal do monitor os participantes deverão se empurrar para que alguém pare na boca do monstro, quem entrar na boca do monstro deverá tentar puxar os outros amigos até que todos caiam nela.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [
+                  "1 giz"
+            ],
+            "steps": [
+                  "Desenha-se no chão um monstro com a oca aberta, os participantes deverão ficar no corpo do monstro, ao sinal do monitor os participantes deverão se empurrar para que alguém pare na boca do monstro, quem entrar na boca do monstro deverá tentar puxar os outros amigos até que todos caiam nela."
+            ]
+      },
+      {
+            "id": "pdf-47",
+            "title": "As cores",
+            "description": "Um será o Pegador, que dirá em voz alta alguma cor, o restante devera correr e encostar na cor dita, quem conseguir estará salvo, se o pegador pegar alguém, o mesmo vira o pegador.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [],
+            "steps": [
+                  "Um será o Pegador, que dirá em voz alta alguma cor, o restante devera correr e encostar na cor dita, quem conseguir estará salvo, se o pegador pegar alguém, o mesmo vira o pegador."
+            ]
+      },
+      {
+            "id": "pdf-48",
+            "title": "Bruxa",
+            "description": "Um dos participantes é escolhido para ser a bruxa. Este só inicia a perseguição após haver contado até vinte ou trinta (conforme o estipulado antes da brincadeira). Quando a Bruxa tocar com a mão em alguém, deverá dizer: Bruxa. Este será seu substituto. O grupo pode combinar um local par ser o ferrolho. Variante: Quando os que estão sendo perseguidos se cansam ou se machucam, gritam: Isola (ou Tempo ou Ara). Querendo, eles podem retornar à brincadeira. O pedido de isola não pode ser feito quando o jogador estiver sendo apanhado pela Bruxa.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "3+ anos",
+            "materials": [],
+            "steps": [
+                  "Um dos participantes é escolhido para ser a bruxa. Este só inicia a perseguição após haver contado até vinte ou trinta (conforme o estipulado antes da brincadeira). Quando a Bruxa tocar com a mão em alguém, deverá dizer: Bruxa. Este será seu substituto. O grupo pode combinar um local par ser o ferrolho. Variante: Quando os que estão sendo perseguidos se cansam ou se machucam, gritam: Isola (ou Tempo ou Ara). Querendo, eles podem retornar à brincadeira. O pedido de isola não pode ser feito quando o jogador estiver sendo apanhado pela Bruxa."
+            ]
+      },
+      {
+            "id": "pdf-49",
+            "title": "Em busca do tesouro",
+            "description": "Cortar a cartolina em vários pedaços e em cores diferentes, estipular pontos para cada cor e esconder em um ambiente. Depois falar para as crianças procurarem em certo tempo, ganha quem fizer mais pontos. Espelho (a partir dos 3 anos)",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [
+                  "Cartolina colorida",
+                  "quadro negro",
+                  "giz"
+            ],
+            "steps": [
+                  "Cortar a cartolina em vários pedaços e em cores diferentes, estipular pontos para cada cor e esconder em um ambiente. Depois falar para as crianças procurarem em certo tempo, ganha quem fizer mais pontos. Espelho (a partir dos 3 anos)"
+            ]
+      },
+      {
+            "id": "pdf-50",
+            "title": "Combinação de poção",
+            "description": "Espalhar os bambolês e cones pelo chão, trazer o lúdico em dizer que os bambolês são as \"casas/tocas\" dos magos e os cones as poç├Áes. A brincadeira consiste em os magos saírem de suas casas e resgatarem as poç├Áes sem ser pego pelo monstro (dento da casa não é pego), caso seja pego deverá devolver todas as poç├Áes que tiver para serem resgatadas novamente. Após resgatar todas as poç├Áes deve fazer a combinação entre elas, promovendo a cooperação entre todos, as poç├Áes precisam estar todas juntas com apenas um mago e serem da mesma cor, se caso forem pegas com todas as poç├Áes o monstro ganha.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [
+                  "bambolês",
+                  "cones coloridos"
+            ],
+            "steps": [
+                  "Espalhar os bambolês e cones pelo chão, trazer o lúdico em dizer que os bambolês são as \"casas/tocas\" dos magos e os cones as poç├Áes. A brincadeira consiste em os magos saírem de suas casas e resgatarem as poç├Áes sem ser pego pelo monstro (dento da casa não é pego), caso seja pego deverá devolver todas as poç├Áes que tiver para serem resgatadas novamente. Após resgatar todas as poç├Áes deve fazer a combinação entre elas, promovendo a cooperação entre todos, as poç├Áes precisam estar todas juntas com apenas um mago e serem da mesma cor, se caso forem pegas com todas as poç├Áes o monstro ganha."
+            ]
+      },
+      {
+            "id": "pdf-52",
+            "title": "Chefe Comanda",
+            "description": "As crianças colocam-se em fileira; em posição oposta, fica o chefe ou mestre. Inicia-se o diálogo entre o chefe e as crianças: Chefe: Boca de forno. Crianças: Forno. Chefe: Tirar um bolo. Crianças: Bolo. Chefe: Fareis tudo o que o mestre mandar? Crianças: Faremos todos. Seguem-se as ordens do mestre. Geralmente, elas consistem em coisas simples como: andar x passos, bater palmas, dar pulos, etc. A escolha do mestre ou chefe é feita através de sorteio.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "3+ anos",
+            "materials": [],
+            "steps": [
+                  "As crianças colocam-se em fileira; em posição oposta, fica o chefe ou mestre. Inicia-se o diálogo entre o chefe e as crianças: Chefe: Boca de forno. Crianças: Forno. Chefe: Tirar um bolo. Crianças: Bolo. Chefe: Fareis tudo o que o mestre mandar? Crianças: Faremos todos. Seguem-se as ordens do mestre. Geralmente, elas consistem em coisas simples como: andar x passos, bater palmas, dar pulos, etc. A escolha do mestre ou chefe é feita através de sorteio."
+            ]
+      },
+      {
+            "id": "pdf-53",
+            "title": "Balão Fujão",
+            "description": "Definir um lugar de largada e outro de chegada. Cada criança terá uma bexiga e um pedaço de papelão. As crianças colocarão o balão no chão e irão abaná-lo até a linha de chegada.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "3+ anos",
+            "materials": [
+                  "uma bexiga",
+                  "um papelão"
+            ],
+            "steps": [
+                  "Definir um lugar de largada e outro de chegada. Cada criança terá uma bexiga e um pedaço de papelão. As crianças colocarão o balão no chão e irão abaná-lo até a linha de chegada."
+            ]
+      },
+      {
+            "id": "pdf-54",
+            "title": "Pega o tesouro",
+            "description": "Enquanto o grupo se afasta, o monitor esconde bolinhas de papel por todo o lugar. Ao sinal de início, as crianças voltam no campo onde procuram encontrar as bolas de papel. Vence quem achar mais bolinhas de papel, e o vencedor passa a escondê-las na próxima rodada.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "3+ anos",
+            "materials": [
+                  "Bolinhas de papel ou qualquer coisa que substitua"
+            ],
+            "steps": [
+                  "Enquanto o grupo se afasta, o monitor esconde bolinhas de papel por todo o lugar. Ao sinal de início, as crianças voltam no campo onde procuram encontrar as bolas de papel. Vence quem achar mais bolinhas de papel, e o vencedor passa a escondê-las na próxima rodada."
+            ]
+      },
+      {
+            "id": "pdf-55",
+            "title": "Caixa de sensaç├Áes",
+            "description": "A caixa deverá ter um furo no meio para que as crianças coloquem a mão. Dentro da caixa deverá ter algum objeto. A criança deverá estar vendada, colocara a mão na caixa e tentará descobrir qual é o objeto.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [
+                  "Caixa de sapato ou qualquer outra",
+                  "objetos variados."
+            ],
+            "steps": [
+                  "A caixa deverá ter um furo no meio para que as crianças coloquem a mão. Dentro da caixa deverá ter algum objeto. A criança deverá estar vendada, colocara a mão na caixa e tentará descobrir qual é o objeto."
+            ]
+      },
+      {
+            "id": "pdf-75",
+            "title": "Quem tem medo do mico preto?",
+            "description": "O mico preto fica no meio da quadra, e os outros alunos ficam na linha de fundo da quadra. O mico preto chama duas vezes os caçadores: \"Quem tem medo do mico preto\" Caçadores respondem: Eu que não... E neste momento o mico preto tem de pegar os caçadores de mico preto. Quem for pego vira mico e ajuda na captura dos caçadores.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "4+ anos",
+            "materials": [],
+            "steps": [
+                  "O mico preto fica no meio da quadra, e os outros alunos ficam na linha de fundo da quadra. O mico preto chama duas vezes os caçadores: \"Quem tem medo do mico preto\" Caçadores respondem: Eu que não... E neste momento o mico preto tem de pegar os caçadores de mico preto. Quem for pego vira mico e ajuda na captura dos caçadores."
+            ]
+      }
+]
   },
   {
-    id: "sem_material",
-    label: "Zero Material",
+    id: "exploradores",
+    label: "Exploradores Ativos",
     icon: RiUserVoiceLine,
-    color: "#FF3B30",
-    bg: "#FFEBEA",
-    description: "Sem precisar de nada — só pessoas, voz e criatividade.",
+    color: "#FF9500",
+    bg: "#FFF4E5",
+    description: "Atividades dinâmicas e de coordenação para crianças de 5 anos.",
     games: [
-      { id: "z1", title: "O Rei Mandou", description: "Clássico jogo de atenção e comandos rápidos do líder.", duration: "15 min", participants: "5+", age: "4+", materials: [], steps: ["O líder dá ordens.", "Só vale se começar com 'O Rei Mandou'.", "Quem fizer sem o comando é eliminado.", "Último a ficar ganha."] },
-      { id: "z2", title: "Corre Cutia Humano", description: "Versão adaptada da roda onde o toque é a ferramenta de troca.", duration: "15 min", participants: "6+", age: "5+", materials: [], steps: ["Todos em círculo sentados.", "Um corre por fora.", "Toca no ombro de alguém.", "O escolhido deve correr para o lado oposto e chegar na vaga primeiro."] },
-      { id: "z3", title: "Mestre da Risada", description: "Ficar sério enquanto todos os outros tentam te fazer rir apenas com caretas.", duration: "10 min", participants: "4+", age: "5+", materials: [], steps: ["Um participante fica no centro.", "O grupo faz caretas e gestos (sem tocar).", "O do centro tenta aguentar 1 minuto sem rir.", "Se rir, perde o posto."] },
-      { id: "z4", title: "Jo-Ken-Pô Gigante", description: "Pedra, papel ou tesoura usando o corpo inteiro e equipes.", duration: "15 min", participants: "10+", age: "6+", materials: [], steps: ["Defina os gestos para cada um.", "Equipes decidem em segredo seu golpe.", "Ficam frente a frente.", "A equipe que ganhar tenta pegar os perdedores que correm para a base."] },
-      { id: "z5", title: "Verdade ou Mentira Vocal", description: "Contar um fato sobre si mesmo e o grupo deve deduzir se é real ou invenção.", duration: "20 min", participants: "5+", age: "9+", materials: [], steps: ["Conte uma história curta.", "O grupo pode fazer perguntas.", "Votação coletiva.", "Revelação final."] },
-      { id: "z6", title: "Maestro do Silêncio", description: "Tentar atravessar uma sala cheia de 'minas terrestres' imaginárias sem fazer barulho.", duration: "15 min", participants: "5+", age: "6+", materials: [], steps: ["O maestro fica de olhos vendados.", "Os outros devem passar ao redor dele.", "Se ele ouvir algo e apontar na direção certa, a pessoa volta.", "Chegar ao outro lado em silêncio absoluto."] },
-      { id: "z7", title: "Ponte Humana", description: "Trabalho em equipe para passar o último da fila para o início sem tocar o solo.", duration: "15 min", participants: "10+", age: "10+", materials: [], steps: ["Todos sentados em duas filas frente a frente.", "Dão as mãos formando uma rede.", "Um integrante (leve) deita sobre os braços.", "É passado até o fim da fila."] },
-      { id: "z8", title: "Adoleta Rítmico", description: "Sequência de palmas e batidas que vai acelerando e mudando de parceiro.", duration: "10 min", participants: "4+", age: "5+", materials: [], steps: ["Use músicas tradicionais.", "Crie batidas de mãos complexas.", "Incentive parcerias cruzadas.", "Quem perder o ritmo sai do círculo."] },
-      { id: "z9", title: "Tudo o que o Mestre fizer...", description: "Jogo de imitação direta onde todos devem ser a sombra do líder.", duration: "10 min", participants: "3+", age: "4+", materials: [], steps: ["O mestre caminha e faz gestos.", "Todos devem imitar perfeitamente atrás.", "O mestre tenta ser imprevisível.", "Troca de mestre a cada 2 minutos."] },
-      { id: "z10", title: "Batalha de Polegar", description: "O clássico 'Um, dois, três e já!' com os dedos entrelaçados.", duration: "5 min", participants: "2+", age: "6+", materials: [], steps: ["Entrelaçar as mãos deixando o polegar livre.", "Tentar prender o polegar do adversário por 3 segundos.", "Melhor de três rodadas.", "Torneio em chaves se houver muita gente."] }
-    ]
+      {
+            "id": "pdf-10",
+            "title": "Bola ao centro",
+            "description": "Serão divididos em duas equipes, uma bola será colocada ao centro, e cada equipe estará em um lugar demarcado. O objetivo de cada equipe, é ultrapassar a bola que está no centro para o campo da equipe adversária, acertando a bola que está no centro com as bolas que as equipes terão. Ganha quem acertar a bola no campo inimigo.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "5+ anos",
+            "materials": [
+                  "4/6 bolas"
+            ],
+            "steps": [
+                  "Serão divididos em duas equipes, uma bola será colocada ao centro, e cada equipe estará em um lugar demarcado. O objetivo de cada equipe, é ultrapassar a bola que está no centro para o campo da equipe adversária, acertando a bola que está no centro com as bolas que as equipes terão. Ganha quem acertar a bola no campo inimigo."
+            ]
+      },
+      {
+            "id": "pdf-16",
+            "title": "Dança da cadeira cooperativa",
+            "description": "Igual a dança das cadeiras, mas conforme for tirando as cadeiras, as crianças que ficarem sem cadeiras deverão sentar-se no colo do colega, até restar uma cadeira, um devera se sentar no colo do outro sem que ninguém fique em pé",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "5+ anos",
+            "materials": [
+                  "cadeiras ou bancos",
+                  "música"
+            ],
+            "steps": [
+                  "Igual a dança das cadeiras, mas conforme for tirando as cadeiras, as crianças que ficarem sem cadeiras deverão sentar-se no colo do colega, até restar uma cadeira, um devera se sentar no colo do outro sem que ninguém fique em pé"
+            ]
+      },
+      {
+            "id": "pdf-17",
+            "title": "Mata barata",
+            "description": "A turma será dividida em duas equipes, sendo que cada uma delas terá uma cor representativa. Cada integrante receberá um balão (cor da equipe) que, depois de estar cheio de ar, será amarrado com barbante em um dos seus tornozelos. O objetivo da brincadeira é que cada integrante proteja o seu balão e, ao mesmo tempo, tente estourar os bal├Áes da equipe adversária. Nesse sentido, a equipe vencedora será aquela que conseguir estourar todos os bal├Áes adversários e permanecer com apenas um balão cheio.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "5+ anos",
+            "materials": [
+                  "barbantes",
+                  "bexigas"
+            ],
+            "steps": [
+                  "A turma será dividida em duas equipes, sendo que cada uma delas terá uma cor representativa. Cada integrante receberá um balão (cor da equipe) que, depois de estar cheio de ar, será amarrado com barbante em um dos seus tornozelos. O objetivo da brincadeira é que cada integrante proteja o seu balão e, ao mesmo tempo, tente estourar os bal├Áes da equipe adversária. Nesse sentido, a equipe vencedora será aquela que conseguir estourar todos os bal├Áes adversários e permanecer com apenas um balão cheio."
+            ]
+      },
+      {
+            "id": "pdf-19",
+            "title": "Kung fu panda",
+            "description": "Todas as crianças se juntarão ao meio, com um dos pés à frente, quando o monitor falar \"kung fu panda\" todas as crianças se afastaram para trás com um salto. O objetivo é eliminar os colegas, tocando nos braços ou pernas, mas só poderá utilizar um movimento por vez para atingir um colega próximo. O colega que estiver prestes a ser atingido poderá desviar, mas usando apenas um movimento também. Ao acertar algum membro de algum companheiro, este \"perderá\" o membro atingido, não podendo usar para \"atacar\". Ganha quem ao final estiver com mais membros não atingidos.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "5+ anos",
+            "materials": [],
+            "steps": [
+                  "Todas as crianças se juntarão ao meio, com um dos pés à frente, quando o monitor falar \"kung fu panda\" todas as crianças se afastaram para trás com um salto. O objetivo é eliminar os colegas, tocando nos braços ou pernas, mas só poderá utilizar um movimento por vez para atingir um colega próximo. O colega que estiver prestes a ser atingido poderá desviar, mas usando apenas um movimento também. Ao acertar algum membro de algum companheiro, este \"perderá\" o membro atingido, não podendo usar para \"atacar\". Ganha quem ao final estiver com mais membros não atingidos."
+            ]
+      },
+      {
+            "id": "pdf-31",
+            "title": "Telefone sem fio",
+            "description": "As crianças sentam-se em roda, o monitor falará no ouvido de uma criança, a mesma deverá passar a frase escutada para o colega do lado e assim por diante, até chegar no primeiro participante, o objetivo é que a frase chegue igual até o primeiro, mas pode acontecer da frase ser escutada diferente.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "5+ anos",
+            "materials": [],
+            "steps": [
+                  "As crianças sentam-se em roda, o monitor falará no ouvido de uma criança, a mesma deverá passar a frase escutada para o colega do lado e assim por diante, até chegar no primeiro participante, o objetivo é que a frase chegue igual até o primeiro, mas pode acontecer da frase ser escutada diferente."
+            ]
+      },
+      {
+            "id": "pdf-35",
+            "title": "Caça Palitos",
+            "description": "Cada criança receberá três palitos, ao sinal do monitor as crianças começam um pega-pega entre elas, todas são o pegador, quem for pego deverá disputar pedra papel ou tesoura, quem ganhar pega um palito de quem perdeu e assim por diante. Ganha quem ficar com mais palito no final.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "5+ anos",
+            "materials": [
+                  "Palitos"
+            ],
+            "steps": [
+                  "Cada criança receberá três palitos, ao sinal do monitor as crianças começam um pega-pega entre elas, todas são o pegador, quem for pego deverá disputar pedra papel ou tesoura, quem ganhar pega um palito de quem perdeu e assim por diante. Ganha quem ficar com mais palito no final."
+            ]
+      },
+      {
+            "id": "pdf-46",
+            "title": "Palmas de papel",
+            "description": "Todos ficam em pé com uma folha entre as mãos, ao sinal do professor bateram palmas sem deixar a folha cair no chão, quem deixar cair se senta no chão.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "5+ anos",
+            "materials": [
+                  "1 folha para cada criança"
+            ],
+            "steps": [
+                  "Todos ficam em pé com uma folha entre as mãos, ao sinal do professor bateram palmas sem deixar a folha cair no chão, quem deixar cair se senta no chão."
+            ]
+      },
+      {
+            "id": "pdf-74",
+            "title": "Máquina de Lavar roupa",
+            "description": "Divide-se a turma em círculos com o mesmo número de participantes, todos numerados. Um aluno é escolhido para ficar fora do círculo. O jogo inicia quando o professor gritar um número e o aluno que está do lado de fora deverá pegá-lo. seus colegas para impedir q o número citado seja pego deverão girar de um lado para outro protegendo-o sem soltaras mãos. (Para Chuva).",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "5+ anos",
+            "materials": [
+                  "Nenhum."
+            ],
+            "steps": [
+                  "Divide-se a turma em círculos com o mesmo número de participantes, todos numerados. Um aluno é escolhido para ficar fora do círculo. O jogo inicia quando o professor gritar um número e o aluno que está do lado de fora deverá pegá-lo. seus colegas para impedir q o número citado seja pego deverão girar de um lado para outro protegendo-o sem soltaras mãos. (Para Chuva)."
+            ]
+      },
+      {
+            "id": "pdf-80",
+            "title": "Quanto mais melhor",
+            "description": "Cada crianças terá seu bambolê a e mesma quantidade de cones que as outras, posicionadas em seu bambolê, elas terão um tempo determinado para pegar os cones dos outros bambolês e colocar nos próprios, quem tiver mais cones no seu bambolê ganha. Obs: os bambolês devem estar espalhados, e não podem ser defendidos. Variação: pode ser totalmente ao contrário, \"quanto menos melhor\" então quem tiver menos ganha (colocando nos bambolês dos outros) Lúdico: Pode falar que os bambolês são a casa deles e os cones são comidas (quanto mais melhor) ou que são bombas (quanto menos melhor) ATIVIDADES (DE 7 A 10 ANOS)",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "5+ anos",
+            "materials": [
+                  "Bambolês (ou círculo de giz)",
+                  "cone (ou bolinha de papel)"
+            ],
+            "steps": [
+                  "Cada crianças terá seu bambolê a e mesma quantidade de cones que as outras, posicionadas em seu bambolê, elas terão um tempo determinado para pegar os cones dos outros bambolês e colocar nos próprios, quem tiver mais cones no seu bambolê ganha. Obs: os bambolês devem estar espalhados, e não podem ser defendidos. Variação: pode ser totalmente ao contrário, \"quanto menos melhor\" então quem tiver menos ganha (colocando nos bambolês dos outros) Lúdico: Pode falar que os bambolês são a casa deles e os cones são comidas (quanto mais melhor) ou que são bombas (quanto menos melhor) ATIVIDADES (DE 7 A 10 ANOS)"
+            ]
+      }
+]
   },
   {
-    id: "musical",
-    label: "Ritmo Musical",
-    icon: RiMusicLine,
-    color: "#FFCC00",
-    bg: "#FFF9E5",
-    description: "O ritmo como ferramenta de aprendizado e diversão.",
-    games: [
-      { id: "m1", title: "Dança das Cadeiras Musical", description: "O clássico, mas com gêneros musicais que definem como você deve caminhar.", duration: "20 min", participants: "8+", age: "5+", materials: ["Cadeiras", "Música"], steps: ["Organize as cadeiras.", "Se tocar Samba: samba; se tocar Rock: pula.", "Música parou, todos buscam lugar.", "Dificuldade aumenta com movimentos."] },
-      { id: "m2", title: "Batata Quente Rítmica", description: "Passar o objeto no tempo da música; quem estiver com ele quando a batida parar cumpre um desafio.", duration: "15 min", participants: "6+", age: "5+", materials: ["Bola ou objeto"], steps: ["Roda sentada.", "Objeto circula enquanto a música toca.", "Música para, a pessoa sorteada faz uma mímica musical.", "Reinicia o ritmo."] },
-      { id: "m3", title: "Eco Humano", description: "O mestre faz uma sequência de batidas corporais e o grupo deve repetir com o mesmo tempo e intensidade.", duration: "15 min", participants: "5+", age: "6+", materials: [], steps: ["Monitor faz: Palmas, batida no peito, estalo.", "Grupo repete sincronizado.", "Aumente a complexidade (ex: sapateado).", "Variações de volume (forte/fraco)."] },
-      { id: "m4", title: "Karaokê do Emoji", description: "Cantar músicas famosas substituindo as palavras por sons estranhos indicados por emojis.", duration: "20 min", participants: "4+", age: "8+", materials: ["Letra da música"], steps: ["Escolha uma música conhecida do grupo.", "Mostre um emoji (ex: sapo).", "Todos devem cantar a música fazendo som de sapo.", "Risada garantida."] },
-      { id: "m5", title: "Estátua Musical das Emoções", description: "Dançar livremente e, ao parar, expressar com o corpo uma emoção dita pelo recreador.", duration: "15 min", participants: "5+", age: "5+", materials: ["Música"], steps: ["Música animada.", "Grito: 'Estátua Triste!', 'Estátua Super-herói!'.", "Manter a pose por 5 segundos.", "Rodada de fotos divertidas."] },
-      { id: "m6", title: "Qual é a Música?", description: "O recreador batuca o ritmo de uma música famosa apenas com uma caneta na mesa, e o grupo adivinha.", duration: "15 min", participants: "4+", age: "7+", materials: ["Caneta"], steps: ["Monitor escolhe hit atual.", "Faz apenas a batida percussiva.", "Quem souber levanta a mão.", "Ponto para a equipe que cantar o refrão."] },
-      { id: "m7", title: "Limbo Tônico", description: "Passar por baixo da corda conforme o ritmo da música fica mais lento ou mais rápido.", duration: "15 min", participants: "6+", age: "6+", materials: ["Corda ou bastão"], steps: ["Corda horizontal.", "A pessoa deve passar inclinando para trás.", "A cada volta a corda desce.", "Não pode encostar as mãos no chão."] },
-      { id: "m8", title: "Percussão de Copos (Cup Song)", description: "Aprender a batida rítmica clássica usando copos plásticos na mesa.", duration: "30 min", participants: "4+", age: "10+", materials: ["Copos plásticos rígidos"], steps: ["Ensine o passo a passo lento da batida.", "Treine a virada do copo no tempo certo.", "Tente fazer todos juntos em uníssono.", "Adicione a música de fundo."] },
-      { id: "m9", title: "Orquestra Maluca", description: "Cada seção do grupo faz um som diferente (bumbo, prato, violino) criando uma harmonia engraçada.", duration: "15 min", participants: "10+", age: "6+", materials: [], steps: ["Divida o grupo em 3 seções.", "Seção A: 'Tum, Tum'; Seção B: 'Tchi!'; Seção C: 'Ui!'.", "O regente controla o volume de cada.", "Crie um 'refrão' do grupo."] },
-      { id: "m10", title: "Duelo de Rimas no Ritmo", description: "No tempo de 4 batidas, cada um deve falar uma palavra que rime com a anterior.", duration: "20 min", participants: "6+", age: "12+", materials: [], steps: ["Marque o tempo (1, 2, 3, 4).", "No 4, a pessoa rima.", "Se errar ou demorar, sai.", "Nível de dificuldade aumenta conforme o tema."] }
-    ]
-  },
-  {
-    id: "quebra_gelo",
-    label: "Quebra-Gelo",
+    id: "mestres",
+    label: "Mestres da Ação",
     icon: RiFireLine,
-    color: "#FF2D55",
-    bg: "#FFE5EB",
-    description: "Dinâmicas para turmas que acabaram de se conhecer.",
+    color: "#FF3B30",
+    bg: "#FFF2F2",
+    description: "Desafios em grupo e jogos complexos para crianças de 6 anos ou mais.",
     games: [
-      { id: "qg1", title: "Teia de Conexões", description: "Um novelo de lã que passa de mão em mão criando uma rede enquanto as pessoas se apresentam.", duration: "20 min", participants: "10+", age: "8+", materials: ["Novelo de lã"], steps: ["O primeiro segura a ponta e diz seu nome e um hobby.", "Joga o novelo para alguém de quem gostou da história.", "A rede vai se formando.", "Ao final, todos seguram a teia simbolizando união."] },
-      { id: "qg2", title: "Duas Verdades e uma Mentira", description: "Clássico jogo social para descobrir curiosidades inusitadas sobre o colega.", duration: "25 min", participants: "5+", age: "10+", materials: [], steps: ["Escreva 3 fatos sobre você.", "Dois são reais, um é falso.", "O grupo deve questionar e votar na mentira.", "O narrador revela a verdade no final."] },
-      { id: "qg3", title: "Encontre alguém que...", description: "Uma lista de características que os participantes devem sair perguntando aos outros para preencher a ficha.", duration: "15 min", participants: "15+", age: "7+", materials: ["Papel e caneta"], steps: ["Lista: 'Gosta de pizza', 'Fala outra língua', etc.", "Sair pelo salão conversando.", "Só vale um nome por item.", "Quem completar a lista primeiro grita 'Bingo!'."] },
-      { id: "qg4", title: "Sinal Verde de Nomes", description: "Apresentação de nomes através de um jogo de reflexo e apontamentos.", duration: "15 min", participants: "10+", age: "8+", materials: [], steps: ["Círculo em pé.", "Um no centro aponta e diz o nome de alguém.", "O apontado deve dizer o nome de quem está à esquerda.", "Se demorar, vai para o centro."] },
-      { id: "qg5", title: "Abraço Coletivo de Números", description: "O monitor grita um número e as pessoas devem formar grupos exatamente com essa quantidade.", duration: "15 min", participants: "20+", age: "5+", materials: [], steps: ["Todos circulam no espaço.", "Grito: 'Grupos de 4!'.", "Quem ficar de fora dos grupos paga um mico leve.", "Promove a mistura rápida de pessoas."] },
-      { id: "qg6", title: "Entrevista Relâmpago", description: "Duplas se entrevistam por 2 minutos e depois devem apresentar o parceiro para o grupo todo.", duration: "20 min", participants: "10+", age: "10+", materials: [], steps: ["Monte as duplas.", "Cronometre 1 min para cada lado.", "Apresentação: 'Este é o João e ele ama surfar'.", "Foco em ouvir o próximo."] },
-      { id: "qg7", title: "Nó Humano", description: "Todos dão as mãos de forma aleatória no centro e o desafio é desfazer o nó sem soltar as mãos.", duration: "20 min", participants: "8+", age: "9+", materials: [], steps: ["Todos no centro com olhos fechados dão as mãos.", "Seguram mãos de pessoas diferentes.", "Abram os olhos.", "Tentem virar e passar por baixo até virar um círculo perfeito."] },
-      { id: "qg8", title: "Mestre dos Elogios", description: "Colar um papel nas costas e os outros circulam escrevendo uma qualidade que perceberam na pessoa.", duration: "20 min", participants: "10+", age: "12+", materials: ["Fita", "Papel", "Caneta"], steps: ["Todos com papel nas costas.", "Silêncio e música calma.", "Cada um escreve algo positivo nos colegas.", "Leitura individual das qualidades ao final."] },
-      { id: "qg9", title: "Troca de Lugares", description: "Diga uma característica e todos que a possuem devem trocar de lugar no círculo.", duration: "15 min", participants: "15+", age: "7+", materials: ["Cadeiras ou marcação"], steps: ["Círculo menos uma vaga.", "Líder diz: 'Troque quem tem irmão'.", "Todos com irmão correm para novas vagas.", "Quem sobrar de pé vira o novo líder."] },
-      { id: "qg10", title: "Escultura Humana de Grupo", description: "Criação de uma única forma/estátua usando o corpo de todos os participantes juntos.", duration: "10 min", participants: "10+", age: "6+", materials: [], steps: ["Tema definido (ex: Nave espacial).", "Um começa no centro em uma pose.", "O próximo se conecta fisicamente.", "Até que todos façam parte da 'máquina' ou 'forma'."] }
-    ]
+      {
+            "id": "pdf-21",
+            "title": "Aro nos cones",
+            "description": "Arremessar os bambolês nos cones e tentar acertá-lo dentro do cone. Pode ser utilizado garrafas pets.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [
+                  "bambolês",
+                  "cones"
+            ],
+            "steps": [
+                  "Arremessar os bambolês nos cones e tentar acertá-lo dentro do cone. Pode ser utilizado garrafas pets."
+            ]
+      },
+      {
+            "id": "pdf-27",
+            "title": "Carniça",
+            "description": "Consiste num alinhamento de crianças, em rápido deslocamento, uma a uma, pulando sobre as costas dos companheiros parados, curvados, apoiando as mãos nas coxas. Pulada a última carniça, o jogador corre e para adiante, esperando que os demais saltem sobre ele. ├ë sempre revezado.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [],
+            "steps": [
+                  "Consiste num alinhamento de crianças, em rápido deslocamento, uma a uma, pulando sobre as costas dos companheiros parados, curvados, apoiando as mãos nas coxas. Pulada a última carniça, o jogador corre e para adiante, esperando que os demais saltem sobre ele. ├ë sempre revezado."
+            ]
+      },
+      {
+            "id": "pdf-36",
+            "title": "Quebra-Cabeça Gigante",
+            "description": "Os participantes devem, inicialmente, colorir um desenho em uma folha de papel. Após isso o desenho será recortado em algumas partes. As \"peças\" dos desenhos serão escondidas em um determinado local. Vence o participante que conseguir achar suas peças e montar o seu desenho primeiro.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [
+                  "Desenhos para colorir",
+                  "Tesoura",
+                  "cola ou fita adesiva."
+            ],
+            "steps": [
+                  "Os participantes devem, inicialmente, colorir um desenho em uma folha de papel. Após isso o desenho será recortado em algumas partes. As \"peças\" dos desenhos serão escondidas em um determinado local. Vence o participante que conseguir achar suas peças e montar o seu desenho primeiro."
+            ]
+      },
+      {
+            "id": "pdf-38",
+            "title": "A natureza fala",
+            "description": "O monitor mostrará um som para a criança, exemplo o barulho da chuva e a criança dirá qual é aquele som. Pode também mostrar uma foto e pedir para a criança imitar o som.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [],
+            "steps": [
+                  "O monitor mostrará um som para a criança, exemplo o barulho da chuva e a criança dirá qual é aquele som. Pode também mostrar uma foto e pedir para a criança imitar o som."
+            ]
+      },
+      {
+            "id": "pdf-51",
+            "title": "Não Pode Rir",
+            "description": "Crianças em duplas, frente a frente. Uma delas é espelho da outra. Imitar os movimentos do competidor sem rir. O que está à frente do espelho pode fazer careta. Paga multa (como no jogo de prendas) o que perder a competição. Na repetição da brincadeira, os papéis se invertem.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [],
+            "steps": [
+                  "Crianças em duplas, frente a frente. Uma delas é espelho da outra. Imitar os movimentos do competidor sem rir. O que está à frente do espelho pode fazer careta. Paga multa (como no jogo de prendas) o que perder a competição. Na repetição da brincadeira, os papéis se invertem."
+            ]
+      },
+      {
+            "id": "pdf-56",
+            "title": "Abraço Salvador",
+            "description": "Um aluno deverá ser escolhido como \"pegador\", para que ele pegue os outros participantes, deverá encostar a bola em sua barriga. Para que os \"fugitivos\" se salvem, deverão abraçar o outro colega, assim escondendo a sua barriga. Com o passar da brincadeira o professor deverá ir trocando o pegador.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "6+ anos",
+            "materials": [
+                  "uma bola"
+            ],
+            "steps": [
+                  "Um aluno deverá ser escolhido como \"pegador\", para que ele pegue os outros participantes, deverá encostar a bola em sua barriga. Para que os \"fugitivos\" se salvem, deverão abraçar o outro colega, assim escondendo a sua barriga. Com o passar da brincadeira o professor deverá ir trocando o pegador."
+            ]
+      },
+      {
+            "id": "pdf-57",
+            "title": "Letra Pegadora",
+            "description": "Os participantes estarão espalhados pela quadra caminhado, quando o monitor falar uma letra, os participantes que tiver o nome que comece com a letra falada serão o pegador, quem for pego deverá ficar abaixado, podendo ser salvo se algum colega o encostar. O monitor sempre falará letras diferentes para que troque o pegador.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "6+ anos",
+            "materials": [],
+            "steps": [
+                  "Os participantes estarão espalhados pela quadra caminhado, quando o monitor falar uma letra, os participantes que tiver o nome que comece com a letra falada serão o pegador, quem for pego deverá ficar abaixado, podendo ser salvo se algum colega o encostar. O monitor sempre falará letras diferentes para que troque o pegador."
+            ]
+      },
+      {
+            "id": "pdf-58",
+            "title": "Bola ao túnel",
+            "description": "Divididos em duas equipes, os participantes formarão uma coluna. Deitados no chão de barriga para baixo, o último participante da fila deverá passar por cima de seus amigos, chegando na frente ele deverá rolar a bola por baixo de sua equipe, todos deverão levantar o quadril (como se estivessem fazendo flexão de braços) o último da coluna pegará a bola e fará o mesmo, até chegar o primeiro novamente. Ganha a equipe que realizar a atividade mais rápido.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "6+ anos",
+            "materials": [
+                  "Duas bolas (a partir de 4 anos)"
+            ],
+            "steps": [
+                  "Divididos em duas equipes, os participantes formarão uma coluna. Deitados no chão de barriga para baixo, o último participante da fila deverá passar por cima de seus amigos, chegando na frente ele deverá rolar a bola por baixo de sua equipe, todos deverão levantar o quadril (como se estivessem fazendo flexão de braços) o último da coluna pegará a bola e fará o mesmo, até chegar o primeiro novamente. Ganha a equipe que realizar a atividade mais rápido."
+            ]
+      },
+      {
+            "id": "pdf-59",
+            "title": "Batalha Naval",
+            "description": "Divida o local do jogo em duas partes de forma que um lado não possa enxergar o outro (amarre uma corda e coloque um lençol por cima). A seguir, as pessoas de cada time escolhem um local para si e não podem se mover daí. Quando o jogo começa, cada time ganha algumas bolinhas de papel e devem tentar atingir o outro time com essas \"bombas\", o time que estiver com menos \"bombas\" em campo vence.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "6+ anos",
+            "materials": [
+                  "Bolinhas de papel"
+            ],
+            "steps": [
+                  "Divida o local do jogo em duas partes de forma que um lado não possa enxergar o outro (amarre uma corda e coloque um lençol por cima). A seguir, as pessoas de cada time escolhem um local para si e não podem se mover daí. Quando o jogo começa, cada time ganha algumas bolinhas de papel e devem tentar atingir o outro time com essas \"bombas\", o time que estiver com menos \"bombas\" em campo vence."
+            ]
+      },
+      {
+            "id": "pdf-60",
+            "title": "Killer",
+            "description": "escrever num papel a inicial K (de killer), em outro D (de detetive) e os outros com o V (de vítima) – some todos os participantes e subtraia dois para saber quantas vítimas o jogo terá. Misture e deixe cada criança pegar um papel sem saber o que é. O \"killer\" precisa \"matar\" o maior número de vítimas e, para isso, ele deve piscar discretamente para as pessoas. Quando as vítimas forem atingidas, elas devem dizer \"morri\" e abaixar a cabeça. Caso o detetive perceba as piscadas, ele deve dizer ao killer: \"Preso em nome da lei\".",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "6+ anos",
+            "materials": [
+                  "Papel",
+                  "caneta. (Ter no máximo 5 crianças)"
+            ],
+            "steps": [
+                  "escrever num papel a inicial K (de killer), em outro D (de detetive) e os outros com o V (de vítima) – some todos os participantes e subtraia dois para saber quantas vítimas o jogo terá. Misture e deixe cada criança pegar um papel sem saber o que é. O \"killer\" precisa \"matar\" o maior número de vítimas e, para isso, ele deve piscar discretamente para as pessoas. Quando as vítimas forem atingidas, elas devem dizer \"morri\" e abaixar a cabeça. Caso o detetive perceba as piscadas, ele deve dizer ao killer: \"Preso em nome da lei\"."
+            ]
+      },
+      {
+            "id": "pdf-61",
+            "title": "Campo Minado com mapa",
+            "description": "O monitor irá organizar os bambolês dispostos ao chão, em 3 ou mais fileiras e em 5 ou mais colunas (de acordo com o monitor) o monitor deverá formular o mapa onde se localizam todas as \"minas terrestres\", apenas o monitor poderá ver, através do mapa o monitor dirá se as crianças estão indo pelo lugar certo, caso pise em um lugar que tenha a \"bomba\" deverá voltar a fila. Ganha quem chegar sem pisar nenhuma vez nas \"bombas\", objetivo é trabalhar a memória das crianças.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "6+ anos",
+            "materials": [
+                  "10 ou mais bambolês",
+                  "caso não tenha",
+                  "usar marcação no chão"
+            ],
+            "steps": [
+                  "O monitor irá organizar os bambolês dispostos ao chão, em 3 ou mais fileiras e em 5 ou mais colunas (de acordo com o monitor) o monitor deverá formular o mapa onde se localizam todas as \"minas terrestres\", apenas o monitor poderá ver, através do mapa o monitor dirá se as crianças estão indo pelo lugar certo, caso pise em um lugar que tenha a \"bomba\" deverá voltar a fila. Ganha quem chegar sem pisar nenhuma vez nas \"bombas\", objetivo é trabalhar a memória das crianças."
+            ]
+      },
+      {
+            "id": "pdf-62",
+            "title": "PACMAN humano",
+            "description": "Pega-pega na quadra, porém só é permitido andar por cima das linhas da quadra. O \"pacman\" (pegador) também deverá andar apenas pelas linhas. Quem for pego, deverá sentar no local exato onde foi pego e servirá de obstáculo para quem está fugindo, mas N├âO para o \"pacman\", ou seja, o pegador pode pular as pessoas que foram pegas por ele e estão sentadas no chão, mas os fugitivos não podem pular esses obstáculos. Quem for o último a ser pego será o vencedor.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "6+ anos",
+            "materials": [],
+            "steps": [
+                  "Pega-pega na quadra, porém só é permitido andar por cima das linhas da quadra. O \"pacman\" (pegador) também deverá andar apenas pelas linhas. Quem for pego, deverá sentar no local exato onde foi pego e servirá de obstáculo para quem está fugindo, mas N├âO para o \"pacman\", ou seja, o pegador pode pular as pessoas que foram pegas por ele e estão sentadas no chão, mas os fugitivos não podem pular esses obstáculos. Quem for o último a ser pego será o vencedor."
+            ]
+      },
+      {
+            "id": "pdf-63",
+            "title": "Gato e Rato",
+            "description": "Todos estarão espalhados pelo espaço sentados com as pernas estendidas. O pegador será o \"Gato\" e o fugitivo é o \"Rato\". Ao sinal do monitor começa a brincadeira, o \"Rato\" deve fugir e o \"Gato\" deve pegá-lo. Quando o Rato estiver fugindo e encostar na cabeça de alguém que estiver sentado, essa pessoa vai levantar e virar o \"Gato\" ou seja o pegador.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "6+ anos",
+            "materials": [],
+            "steps": [
+                  "Todos estarão espalhados pelo espaço sentados com as pernas estendidas. O pegador será o \"Gato\" e o fugitivo é o \"Rato\". Ao sinal do monitor começa a brincadeira, o \"Rato\" deve fugir e o \"Gato\" deve pegá-lo. Quando o Rato estiver fugindo e encostar na cabeça de alguém que estiver sentado, essa pessoa vai levantar e virar o \"Gato\" ou seja o pegador."
+            ]
+      },
+      {
+            "id": "pdf-64",
+            "title": "Corrida dos sapatos",
+            "description": "Será dividida duas equipes, todos os participantes deverão tirar o sapato e colocar num local determinado pelo monitor (que misturará todos os sapatos), ao sinal do monitor deverão correr e procurar seus sapatos, quando achados deverão voltar ao seu lugar de origem. A equipe que estiver calçada primeiro ganha.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "6+ anos",
+            "materials": [],
+            "steps": [
+                  "Será dividida duas equipes, todos os participantes deverão tirar o sapato e colocar num local determinado pelo monitor (que misturará todos os sapatos), ao sinal do monitor deverão correr e procurar seus sapatos, quando achados deverão voltar ao seu lugar de origem. A equipe que estiver calçada primeiro ganha."
+            ]
+      },
+      {
+            "id": "pdf-65",
+            "title": "Alerta",
+            "description": "O jogador pega a bola e a joga para cima, grita o nome de uma pessoa. A pessoa que teve seu nome citado deve pegar a bola e gritar \"Alerta!\". Imediatamente, todos devem ficar parados. O jogador dá 3 passos e, parado, deverá tentar acertar com a bola na pessoa que tiver mais próxima. Se acertar, a pessoa atingida sai da brincadeira. Se errar, ele é quem sai.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "6+ anos",
+            "materials": [
+                  "uma bola"
+            ],
+            "steps": [
+                  "O jogador pega a bola e a joga para cima, grita o nome de uma pessoa. A pessoa que teve seu nome citado deve pegar a bola e gritar \"Alerta!\". Imediatamente, todos devem ficar parados. O jogador dá 3 passos e, parado, deverá tentar acertar com a bola na pessoa que tiver mais próxima. Se acertar, a pessoa atingida sai da brincadeira. Se errar, ele é quem sai."
+            ]
+      },
+      {
+            "id": "pdf-66",
+            "title": "Jóquei pó coletivo",
+            "description": "Forma-se duas equipes, coloca-se uma equipe de frente para a outra, ao primeiro sinal do monitor, as equipes se reúnem e decidem se vão jogar pedra, papel ou tesoura, ao segundo sinal do monitor as equipes viram-se uma de frente para a outra e jogam o que escolheram. A cada rodada marcasse um ponto para a equipe que ganha a partida. Ganha a equipe que fizer 10 pontos primeiro.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "6+ anos",
+            "materials": [],
+            "steps": [
+                  "Forma-se duas equipes, coloca-se uma equipe de frente para a outra, ao primeiro sinal do monitor, as equipes se reúnem e decidem se vão jogar pedra, papel ou tesoura, ao segundo sinal do monitor as equipes viram-se uma de frente para a outra e jogam o que escolheram. A cada rodada marcasse um ponto para a equipe que ganha a partida. Ganha a equipe que fizer 10 pontos primeiro."
+            ]
+      },
+      {
+            "id": "pdf-67",
+            "title": "Corrida Pô",
+            "description": "Divide-se duas equipes, cada equipe fica em uma ponta dos bambolês. Ao sinal do monitor as primeiras crianças de cada fila pulam os bambolês até se encontrarem, tiram pedra, papel ou tesoura, a vencedora continua pulando as casas até que venha outra criança e assim sucessivamente, quando uma criança chegar ao lado oposto marca-se um ponto. Ganha a equipe que passar todas as crianças par o outro lado.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "6+ anos",
+            "materials": [
+                  "bambolês ou círculos desenhados no chão"
+            ],
+            "steps": [
+                  "Divide-se duas equipes, cada equipe fica em uma ponta dos bambolês. Ao sinal do monitor as primeiras crianças de cada fila pulam os bambolês até se encontrarem, tiram pedra, papel ou tesoura, a vencedora continua pulando as casas até que venha outra criança e assim sucessivamente, quando uma criança chegar ao lado oposto marca-se um ponto. Ganha a equipe que passar todas as crianças par o outro lado."
+            ]
+      },
+      {
+            "id": "pdf-68",
+            "title": "Arremesso de bambolê",
+            "description": "Tipo arremesso de argolas, mas com bambolê. Uma pessoa será a vítima e ficará a 5 metros dos jogadores. Faz 1 ponto quem conseguir encaixar o bambolê na pessoa primeiro. Ganha quem tiver mais pontos.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "6+ anos",
+            "materials": [
+                  "bambolês"
+            ],
+            "steps": [
+                  "Tipo arremesso de argolas, mas com bambolê. Uma pessoa será a vítima e ficará a 5 metros dos jogadores. Faz 1 ponto quem conseguir encaixar o bambolê na pessoa primeiro. Ganha quem tiver mais pontos."
+            ]
+      },
+      {
+            "id": "pdf-69",
+            "title": "Bambolê de guerra",
+            "description": "Jogam uma dupla de cada equipe. As duplas entrarão em um bambolê e ficarão de costas para a outra, pois correrão de frente. Serão feitos dois riscos, cada um a exatos 2 metros de cada lado do bambolê. O Objetivo é correr e fazer força para ultrapassar a linha, mas será difícil, pois a outra dupla irá fazer o mesmo. A dupla que conseguir ultrapassar o risco, vence.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "6+ anos",
+            "materials": [
+                  "Bambolê"
+            ],
+            "steps": [
+                  "Jogam uma dupla de cada equipe. As duplas entrarão em um bambolê e ficarão de costas para a outra, pois correrão de frente. Serão feitos dois riscos, cada um a exatos 2 metros de cada lado do bambolê. O Objetivo é correr e fazer força para ultrapassar a linha, mas será difícil, pois a outra dupla irá fazer o mesmo. A dupla que conseguir ultrapassar o risco, vence."
+            ]
+      },
+      {
+            "id": "pdf-70",
+            "title": "Sardinha",
+            "description": "Uma pessoa se esconde, e todas as outras a procuram. Sempre que alguém achar a criança que está escondida, deverá se esconder junto dela. A brincadeira acaba quando todos encontram o escondido. Quem encontrou primeiro pode se esconder na próxima rodada.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "6+ anos",
+            "materials": [],
+            "steps": [
+                  "Uma pessoa se esconde, e todas as outras a procuram. Sempre que alguém achar a criança que está escondida, deverá se esconder junto dela. A brincadeira acaba quando todos encontram o escondido. Quem encontrou primeiro pode se esconder na próxima rodada."
+            ]
+      },
+      {
+            "id": "pdf-71",
+            "title": "Queimada do Rei",
+            "description": "Formam-se dois times com número igual de participantes e uma pessoa de cada time é escolhida para ser o Rei. No jogo pode-se usar mais de uma bola. Sempre que alguém da equipe é queimado, a pessoa tem que se ajoelhar no chão e esperar até conseguir pegar uma bola. Se alguém do próprio time quiser dar a bola para ela jogar, tem que se ajoelhar em seu lugar. Ganha a equipe que queimar o rei adversário primeiro.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "6+ anos",
+            "materials": [
+                  "Uma bola"
+            ],
+            "steps": [
+                  "Formam-se dois times com número igual de participantes e uma pessoa de cada time é escolhida para ser o Rei. No jogo pode-se usar mais de uma bola. Sempre que alguém da equipe é queimado, a pessoa tem que se ajoelhar no chão e esperar até conseguir pegar uma bola. Se alguém do próprio time quiser dar a bola para ela jogar, tem que se ajoelhar em seu lugar. Ganha a equipe que queimar o rei adversário primeiro."
+            ]
+      },
+      {
+            "id": "pdf-72",
+            "title": "Pegador com Aro",
+            "description": "As crianças deverão se movimentar livremente pelo local e ao sinal do professor, um aluno determinado deverá começar a correr, estando de posse de um bambolê. Assim que conseguir se aproximar de um colega, deverá \"pegá-lo\" para isso deverá lançar o bambolê, a seguir, este deverá pegar outro bambolê, e juntos, deverão sair em buscar de outro colega, que deverá ser \"pego\" da mesma forma, a cada aluno \"pego\", a coluna de pegadores deverá ir aumentando, e deverão correr tendo em cada extremidade, um aluno de posse de um bambolê, com o qual deverá tentar \"pegar\" um outro colega.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "6+ anos",
+            "materials": [
+                  "Bambolês"
+            ],
+            "steps": [
+                  "As crianças deverão se movimentar livremente pelo local e ao sinal do professor, um aluno determinado deverá começar a correr, estando de posse de um bambolê. Assim que conseguir se aproximar de um colega, deverá \"pegá-lo\" para isso deverá lançar o bambolê, a seguir, este deverá pegar outro bambolê, e juntos, deverão sair em buscar de outro colega, que deverá ser \"pego\" da mesma forma, a cada aluno \"pego\", a coluna de pegadores deverá ir aumentando, e deverão correr tendo em cada extremidade, um aluno de posse de um bambolê, com o qual deverá tentar \"pegar\" um outro colega."
+            ]
+      },
+      {
+            "id": "pdf-73",
+            "title": "Quem é o Líder",
+            "description": "Forma-se um círculo, uma criança irá sair do círculo e ficara de costas, o restante das crianças escolherá um líder, sem que a criança que está fora do círculo saiba quem é. Depois de escolhido, essa criança começará a fazer movimentos, ou barulhos, todos deverão imita-lo, e a criança que está fora tentará descobrir quem está fazendo os movimentos.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "6+ anos",
+            "materials": [],
+            "steps": [
+                  "Forma-se um círculo, uma criança irá sair do círculo e ficara de costas, o restante das crianças escolherá um líder, sem que a criança que está fora do círculo saiba quem é. Depois de escolhido, essa criança começará a fazer movimentos, ou barulhos, todos deverão imita-lo, e a criança que está fora tentará descobrir quem está fazendo os movimentos."
+            ]
+      },
+      {
+            "id": "pdf-76",
+            "title": "Cara-a-Cara temático",
+            "description": "Uma foto de cada participante deve ser tirada e impressa duas vezes, em duas folhas distintas. As folhas devem ser coladas em um suporte, metade delas voltada para um lado e a outra metade, de maneira espelhada, voltada para o sentido contrário. Dois integrantes devem jogar o jogo, ambos devem escolher apenas uma das fotos de pessoa e manter a escolha em segredo. Vence o jogo quem conseguir adivinhar primeiro a figura escolhida. Apenas perguntas sobre as características físicas podem ser feitas e as respostas só podem ser SIM ou N├âO.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [
+                  "Impressora",
+                  "folha de papel ou cartolina."
+            ],
+            "steps": [
+                  "Uma foto de cada participante deve ser tirada e impressa duas vezes, em duas folhas distintas. As folhas devem ser coladas em um suporte, metade delas voltada para um lado e a outra metade, de maneira espelhada, voltada para o sentido contrário. Dois integrantes devem jogar o jogo, ambos devem escolher apenas uma das fotos de pessoa e manter a escolha em segredo. Vence o jogo quem conseguir adivinhar primeiro a figura escolhida. Apenas perguntas sobre as características físicas podem ser feitas e as respostas só podem ser SIM ou N├âO."
+            ]
+      },
+      {
+            "id": "pdf-77",
+            "title": "Jogo dos Comandos",
+            "description": "Vários bambolês devem ser colocados em círculo com um participante dentro de cada um. Os integrantes devem obedecer aos comandos (para frente, para trás, para a esquerda e para a direita). Vence quem conseguir ficar no círculo por último.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [
+                  "Bambolês ou Giz."
+            ],
+            "steps": [
+                  "Vários bambolês devem ser colocados em círculo com um participante dentro de cada um. Os integrantes devem obedecer aos comandos (para frente, para trás, para a esquerda e para a direita). Vence quem conseguir ficar no círculo por último."
+            ]
+      },
+      {
+            "id": "pdf-78",
+            "title": "Caminho Sensorial",
+            "description": "Vendados, os participantes devem fazer todo o caminho da corda, sem olhar e sentindo-a apenas com os pés.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [
+                  "Corda."
+            ],
+            "steps": [
+                  "Vendados, os participantes devem fazer todo o caminho da corda, sem olhar e sentindo-a apenas com os pés."
+            ]
+      },
+      {
+            "id": "pdf-79",
+            "title": "Acerte a cor",
+            "description": "Várias folhas coloridas devem ser espalhadas em um local. Os participantes recebem vários lápis com as mesmas cores das folhas que estão espalhadas. Vence o participante que conseguir colocar todos os lápis nas folhas de cores correspondentes primeiros.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [
+                  "Folhas coloridas",
+                  "lápis colorido",
+                  "giz ou outro material colorido"
+            ],
+            "steps": [
+                  "Várias folhas coloridas devem ser espalhadas em um local. Os participantes recebem vários lápis com as mesmas cores das folhas que estão espalhadas. Vence o participante que conseguir colocar todos os lápis nas folhas de cores correspondentes primeiros."
+            ]
+      },
+      {
+            "id": "pdf-81",
+            "title": "Caça Palitos de time",
+            "description": "As crianças são divididas em dois grupos, cada participante recebe 3 palitos e a batalha será na pedra, papel ou tesoura. Os jogadores só poderão participar se tiver dois ou mais palitos, caso tenha um só a pessoa se senta e torce para que alguém do seu time te dê um palito para que você possa voltar a batalhar. Ganha o time q conseguir conquistar a maioria dos palitos e deixar o time adversário todo no chão.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [
+                  "Palitos"
+            ],
+            "steps": [
+                  "As crianças são divididas em dois grupos, cada participante recebe 3 palitos e a batalha será na pedra, papel ou tesoura. Os jogadores só poderão participar se tiver dois ou mais palitos, caso tenha um só a pessoa se senta e torce para que alguém do seu time te dê um palito para que você possa voltar a batalhar. Ganha o time q conseguir conquistar a maioria dos palitos e deixar o time adversário todo no chão."
+            ]
+      },
+      {
+            "id": "pdf-82",
+            "title": "Três cones em um dos cantos",
+            "description": "Nesta atividade é disponibilizado ao centro da quadra um círculo (bambolê) onde dentro estão 8 (oito) cones, com quatro participantes ao seu redor, a uma dist├óncia aproximada de 10 metros do centro e no canto em diagonal da quadra, se encontra outro círculo os quais cada um pertence a um participante. O objetivo é levar três cones para o seu bambolê, aquele que primeiro o fizer será o primeiro a concluir a atividade. Você pode pegar os cones dos demais participantes, mas em hipótese alguma pode atrapalhar se outro participante vem pegar seu cone.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [
+                  "Bambolês",
+                  "cones."
+            ],
+            "steps": [
+                  "Nesta atividade é disponibilizado ao centro da quadra um círculo (bambolê) onde dentro estão 8 (oito) cones, com quatro participantes ao seu redor, a uma dist├óncia aproximada de 10 metros do centro e no canto em diagonal da quadra, se encontra outro círculo os quais cada um pertence a um participante. O objetivo é levar três cones para o seu bambolê, aquele que primeiro o fizer será o primeiro a concluir a atividade. Você pode pegar os cones dos demais participantes, mas em hipótese alguma pode atrapalhar se outro participante vem pegar seu cone."
+            ]
+      },
+      {
+            "id": "pdf-83",
+            "title": "Pega-Pega Alerta",
+            "description": "├ë definido um jogador e este deverá escolher um tema (ex.:comida), os outros jogadores deverão se reunir e escolher algo relacionado a este tema (ex: macarrão, hambúrguer, batata frita etc.). Após todos escolherem as opç├Áes são passadas para o jogador que decidiu tema aos outros, sem saber quem escolheu o que ele grita bem alto uma das opç├Áes. O que tiver sua opção escolhida se tornará o pegador, mas diferente do pega-pega comum, ele deverá puxar o tnt pendurado na roupa do amigo, aquele que tiver seu tnt puxado se tornará pegador também, e assim por diante, até sobrar apenas um jogar com tnt, este deverá escolher o próximo tema e a brincadeira reiniciará",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "7+ anos",
+            "materials": [
+                  "TNT ou Barbante (puxa rabo)"
+            ],
+            "steps": [
+                  "├ë definido um jogador e este deverá escolher um tema (ex.:comida), os outros jogadores deverão se reunir e escolher algo relacionado a este tema (ex: macarrão, hambúrguer, batata frita etc.). Após todos escolherem as opç├Áes são passadas para o jogador que decidiu tema aos outros, sem saber quem escolheu o que ele grita bem alto uma das opç├Áes. O que tiver sua opção escolhida se tornará o pegador, mas diferente do pega-pega comum, ele deverá puxar o tnt pendurado na roupa do amigo, aquele que tiver seu tnt puxado se tornará pegador também, e assim por diante, até sobrar apenas um jogar com tnt, este deverá escolher o próximo tema e a brincadeira reiniciará"
+            ]
+      },
+      {
+            "id": "pdf-84",
+            "title": "Genius Humano",
+            "description": "- Montar um quadrado 3x3 com 6 bambolês no chão. - Separar em 2 times, defensor e atacante, sempre em filas - Em cada round, um time pula dentro de um bambolê, enquanto o outro time decora a ordem que o time Genius (atacante) montou, e assim que escolherem a ordem o time defensor (memorizadores/defensor) tem que pular nos mesmos bambolês - A cada etapa, acrescenta-se 1 pulo, exemplo: primeira etapa - 1 bambolê; segunda etapa - 2 bambolês, sendo o primeiro o mesmo que o colega anterior pulou e assim por diante, um por vez na fila, alternando entre ataque e defesa",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [
+                  "bambolês",
+                  "ou círculos desenhados no chão"
+            ],
+            "steps": [
+                  "- Montar um quadrado 3x3 com 6 bambolês no chão. - Separar em 2 times, defensor e atacante, sempre em filas - Em cada round, um time pula dentro de um bambolê, enquanto o outro time decora a ordem que o time Genius (atacante) montou, e assim que escolherem a ordem o time defensor (memorizadores/defensor) tem que pular nos mesmos bambolês - A cada etapa, acrescenta-se 1 pulo, exemplo: primeira etapa - 1 bambolê; segunda etapa - 2 bambolês, sendo o primeiro o mesmo que o colega anterior pulou e assim por diante, um por vez na fila, alternando entre ataque e defesa"
+            ]
+      },
+      {
+            "id": "pdf-85",
+            "title": "Pega-Pega Ney",
+            "description": "Um pegador. Quem for pego tem que se jogar no chão (Neymar só cai). Para salvar, duas pessoas devem encostar em você ou te levar para o banco (caso não tenha um banco, delimitar um lugar) pelos braços e pernas, em seguida deve voltar ao jogo. Enquanto estiver salvando alguém não pode ser pego.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [],
+            "steps": [
+                  "Um pegador. Quem for pego tem que se jogar no chão (Neymar só cai). Para salvar, duas pessoas devem encostar em você ou te levar para o banco (caso não tenha um banco, delimitar um lugar) pelos braços e pernas, em seguida deve voltar ao jogo. Enquanto estiver salvando alguém não pode ser pego."
+            ]
+      },
+      {
+            "id": "pdf-86",
+            "title": "Queimada abelha rainha",
+            "description": "Serão divididos dois times, cada time irá escolher a sua \"abelha rainha\" sem que a outra equipe saiba. O objetivo é proteger a abelha rainha para que ela não seja queimada, mas ao mesmo tempo disfarçando para que não descubram quem é a abelha. Ganha o time que fiar com a abelha rainha até o fim, ou o que queimar a abelha do time adversário.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "7+ anos",
+            "materials": [
+                  "bola"
+            ],
+            "steps": [
+                  "Serão divididos dois times, cada time irá escolher a sua \"abelha rainha\" sem que a outra equipe saiba. O objetivo é proteger a abelha rainha para que ela não seja queimada, mas ao mesmo tempo disfarçando para que não descubram quem é a abelha. Ganha o time que fiar com a abelha rainha até o fim, ou o que queimar a abelha do time adversário."
+            ]
+      },
+      {
+            "id": "pdf-87",
+            "title": "Mistério",
+            "description": "Os monitores criaram uma história, e nas cenas desse mistério iram colocar dicas, para que as crianças leiam essas dicas e descubram os lugares onde estão as outras dicas, até chegar ao último local, onde estará a última dica, levará para o monitor e ele contará o final do mistério.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "7+ anos",
+            "materials": [
+                  "caneta",
+                  "pedaços de papeis"
+            ],
+            "steps": [
+                  "Os monitores criaram uma história, e nas cenas desse mistério iram colocar dicas, para que as crianças leiam essas dicas e descubram os lugares onde estão as outras dicas, até chegar ao último local, onde estará a última dica, levará para o monitor e ele contará o final do mistério."
+            ]
+      },
+      {
+            "id": "pdf-88",
+            "title": "Pega-pega pregador",
+            "description": "Cada criança vai ter entre 5 a 10 pregadores para a brincadeira ser demorada, os pregadores são as vidas, as crianças vão prender os pregadores em qualquer região da roupa onde seja visível. Elas vão se espalhar, ao sinal do monitor vai começar uma pega – pega, a criança que pegar a outra vai jogar pedra papel e tesoura, Melhor de 3. Quem ganhar pega um pregador de quem perdeu, os dois continuam a brincadeira. Ganha aquele tiver mais pregadores no final ou conseguir pegar todos os pregadores, se a pessoa perder todos os seus pregadores ela fica sentada, e quem tem muitos tem a opção de doar quantos pregadores quiser para o amiguinho voltar a brincadeira.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [
+                  "Pregadores"
+            ],
+            "steps": [
+                  "Cada criança vai ter entre 5 a 10 pregadores para a brincadeira ser demorada, os pregadores são as vidas, as crianças vão prender os pregadores em qualquer região da roupa onde seja visível. Elas vão se espalhar, ao sinal do monitor vai começar uma pega – pega, a criança que pegar a outra vai jogar pedra papel e tesoura, Melhor de 3. Quem ganhar pega um pregador de quem perdeu, os dois continuam a brincadeira. Ganha aquele tiver mais pregadores no final ou conseguir pegar todos os pregadores, se a pessoa perder todos os seus pregadores ela fica sentada, e quem tem muitos tem a opção de doar quantos pregadores quiser para o amiguinho voltar a brincadeira."
+            ]
+      },
+      {
+            "id": "pdf-89",
+            "title": "Canibal",
+            "description": "Uma pessoa será o canibal que ficará com a cor preta, os restantes das cores serão escondidos pelo monitor em lugares diferentes. Ao sinal as crianças sairão a procura das cores, quando encontrar uma cor deverá passá-la no braço, caso o \"canibal\" a pegue, deverá passar a tinta preta por cima de todas as cores que a pessoa já encontrou. Ganha a brincadeira quem achar todas as cores primeiro.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "7+ anos",
+            "materials": [
+                  "de 5 a 10 cores diferentes",
+                  "de canetinhas ou de tinta guache."
+            ],
+            "steps": [
+                  "Uma pessoa será o canibal que ficará com a cor preta, os restantes das cores serão escondidos pelo monitor em lugares diferentes. Ao sinal as crianças sairão a procura das cores, quando encontrar uma cor deverá passá-la no braço, caso o \"canibal\" a pegue, deverá passar a tinta preta por cima de todas as cores que a pessoa já encontrou. Ganha a brincadeira quem achar todas as cores primeiro."
+            ]
+      },
+      {
+            "id": "pdf-90",
+            "title": "A caça e o caçador",
+            "description": "O monitor irá determinar o jogador que será a caça (o fugitivo) e os outros serão os caçadores. Os caçadores tentaram queimar a caça, trocando passes tentando acuar o fugitivo, e o mesmo terá que se deslocar fugindo do jogador com a bola.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "7+ anos",
+            "materials": [
+                  "Bola"
+            ],
+            "steps": [
+                  "O monitor irá determinar o jogador que será a caça (o fugitivo) e os outros serão os caçadores. Os caçadores tentaram queimar a caça, trocando passes tentando acuar o fugitivo, e o mesmo terá que se deslocar fugindo do jogador com a bola."
+            ]
+      },
+      {
+            "id": "pdf-91",
+            "title": "Jogo dos números",
+            "description": "Serão divididas duas equipes, cada integrante de cada equipe receberá um número (as duas equipes deverão estar numeras com números iguais), o monitor chamará um número e jogará uma bola (basquete, futebol ou handebol), as crianças irão disputar entre si e quem acertar a bola na cesta ou no gol marcará um ponto para sua equipe. O monitor pode usar como variação, chamar mais de um número e com o passar do jogo, jogar mais de uma bola para a disputa.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "7+ anos",
+            "materials": [
+                  "Bolas (basquete",
+                  "futebol ou handebol)"
+            ],
+            "steps": [
+                  "Serão divididas duas equipes, cada integrante de cada equipe receberá um número (as duas equipes deverão estar numeras com números iguais), o monitor chamará um número e jogará uma bola (basquete, futebol ou handebol), as crianças irão disputar entre si e quem acertar a bola na cesta ou no gol marcará um ponto para sua equipe. O monitor pode usar como variação, chamar mais de um número e com o passar do jogo, jogar mais de uma bola para a disputa."
+            ]
+      },
+      {
+            "id": "pdf-92",
+            "title": "Pique trave",
+            "description": "Uma pessoa será o pegador, quem ele pegar virará o pegador. A trave é o pique, mas com um detalhe, a criança que tirar a mão dela, só poderá segurar na trave que está do outro lado da quadra. Ou seja, ele vai ter que correr até o outro lado.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "7+ anos",
+            "materials": [],
+            "steps": [
+                  "Uma pessoa será o pegador, quem ele pegar virará o pegador. A trave é o pique, mas com um detalhe, a criança que tirar a mão dela, só poderá segurar na trave que está do outro lado da quadra. Ou seja, ele vai ter que correr até o outro lado."
+            ]
+      },
+      {
+            "id": "pdf-93",
+            "title": "Barra Manteiga",
+            "description": "Divididos em dois times, cada time de um lado da quadra, colocados em fileira um ao lado do outro, será escolhido um integrante de um time para ir até o outo time, que estarão com as mãos estendidas, esse integrante irá bater nas mãos de seus rivais cantando \"barra manteiga, na saia da nega, 1,2,3\", no \"3\" deverá bater com mais força na mão de alguém e sair correndo de volta a sua equipe, se for pego pela pessoa antes de cruzar a linha de seu time, passara a ser integrante de outro time.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "7+ anos",
+            "materials": [],
+            "steps": [
+                  "Divididos em dois times, cada time de um lado da quadra, colocados em fileira um ao lado do outro, será escolhido um integrante de um time para ir até o outo time, que estarão com as mãos estendidas, esse integrante irá bater nas mãos de seus rivais cantando \"barra manteiga, na saia da nega, 1,2,3\", no \"3\" deverá bater com mais força na mão de alguém e sair correndo de volta a sua equipe, se for pego pela pessoa antes de cruzar a linha de seu time, passara a ser integrante de outro time."
+            ]
+      },
+      {
+            "id": "pdf-94",
+            "title": "Arrastão ou pega-pega corrente",
+            "description": "Uma pessoa será escolhida para ser o pegador, enquanto os outros serão os fugitivos. Quem o pegador pegar, virará pegador junto a ele, terão que ficar de mãos dadas, e assim sucessivamente até restar apenas um fugitivo.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "7+ anos",
+            "materials": [],
+            "steps": [
+                  "Uma pessoa será escolhida para ser o pegador, enquanto os outros serão os fugitivos. Quem o pegador pegar, virará pegador junto a ele, terão que ficar de mãos dadas, e assim sucessivamente até restar apenas um fugitivo."
+            ]
+      },
+      {
+            "id": "pdf-95",
+            "title": "Coração Valente",
+            "description": "Brincadeira lúdica baseada em pedra, papel ou tesoura. O monitor dividirá duas equipes iguais, e escolherá um \"rei\" para cada equipe. Cada time com uma base em diferentes lados do espaço. As crianças irão guerrear com batalhas, \"melhor de 3\" de pedra, papel ou tesoura. Cada guerra tira uma vida do perdedor, cada guerreiro tem 3 vidas e o rei 2, porém o rei a cada batalha ganha tirará duas vidas do perdedor.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "7+ anos",
+            "materials": [
+                  "Espaço amplo",
+                  "um colete para demarcar o \"rei\""
+            ],
+            "steps": [
+                  "Brincadeira lúdica baseada em pedra, papel ou tesoura. O monitor dividirá duas equipes iguais, e escolherá um \"rei\" para cada equipe. Cada time com uma base em diferentes lados do espaço. As crianças irão guerrear com batalhas, \"melhor de 3\" de pedra, papel ou tesoura. Cada guerra tira uma vida do perdedor, cada guerreiro tem 3 vidas e o rei 2, porém o rei a cada batalha ganha tirará duas vidas do perdedor."
+            ]
+      },
+      {
+            "id": "pdf-96",
+            "title": "7 caquinhos",
+            "description": "Dois times, cada um no seu campo. Os campos são separados por 7 cacos. Uma pessoa de cada equipe tenta jogar a bola e derrubar os cacos. A equipe que derrubar os cacos deve erguê-los novamente, mas se protegendo da outra, que poderá queimar. Quem for queimado não pode ajudar a equipe nos cacos. Se a equipe conseguir recolocar os cacos antes de todos serem queimados, ela ganha. Mas se todos forem queimados e os cacos continuarem no chão, a outra equipe ganha.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "7+ anos",
+            "materials": [
+                  "7 pedrinhas",
+                  "ou pedaços de evea ou qualquer outra coisa que"
+            ],
+            "steps": [
+                  "Dois times, cada um no seu campo. Os campos são separados por 7 cacos. Uma pessoa de cada equipe tenta jogar a bola e derrubar os cacos. A equipe que derrubar os cacos deve erguê-los novamente, mas se protegendo da outra, que poderá queimar. Quem for queimado não pode ajudar a equipe nos cacos. Se a equipe conseguir recolocar os cacos antes de todos serem queimados, ela ganha. Mas se todos forem queimados e os cacos continuarem no chão, a outra equipe ganha."
+            ]
+      },
+      {
+            "id": "pdf-97",
+            "title": "Crime",
+            "description": "Jogam-se 3 grupos, mas antes 3 pessoas são escolhidas para serem os personagens do crime. O Monitor montará uma história juntamente com os personagens. Cada um dos três serão os suspeitos do crime, mas apenas um será o assassino, apenas os três e o monitor iram saber. Montada a história os personagens se esconderam, para que os grupos possam começar a jogar. O objetivo dos grupos é descobrir quem é o assassino, fazendo perguntas aos personagens, exemplo: \"o que você estava fazendo na hora do crime\". Ganha o grupo que descobrir o assassino. (Obs.: As crianças escolhidas como personagens deverão ter uma mine história para contar sobre o que estava fazendo quando o crime aconteceu e deverão contar sua versão para os grupos, quando forem perguntar.)",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "7+ anos",
+            "materials": [],
+            "steps": [
+                  "Jogam-se 3 grupos, mas antes 3 pessoas são escolhidas para serem os personagens do crime. O Monitor montará uma história juntamente com os personagens. Cada um dos três serão os suspeitos do crime, mas apenas um será o assassino, apenas os três e o monitor iram saber. Montada a história os personagens se esconderam, para que os grupos possam começar a jogar. O objetivo dos grupos é descobrir quem é o assassino, fazendo perguntas aos personagens, exemplo: \"o que você estava fazendo na hora do crime\". Ganha o grupo que descobrir o assassino. (Obs.: As crianças escolhidas como personagens deverão ter uma mine história para contar sobre o que estava fazendo quando o crime aconteceu e deverão contar sua versão para os grupos, quando forem perguntar.)"
+            ]
+      },
+      {
+            "id": "pdf-98",
+            "title": "Sorriso milionário",
+            "description": "Cada um fica com três palitos, todos devem que ficar andando, se misturando. Quando o monitor gritar \"para\", cada participante deve correr para frente de outro e fazer palhaçadas. O outro tem que ficar parado, sem rir. Quem rir perde um palito. O desafio vai se repetindo e quem ficar sem palitos sai da brincadeira. Quem tiver mais ganha. Não vale fazer cócegas para o outro rir.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "7+ anos",
+            "materials": [
+                  "palitos ou algo que substitua"
+            ],
+            "steps": [
+                  "Cada um fica com três palitos, todos devem que ficar andando, se misturando. Quando o monitor gritar \"para\", cada participante deve correr para frente de outro e fazer palhaçadas. O outro tem que ficar parado, sem rir. Quem rir perde um palito. O desafio vai se repetindo e quem ficar sem palitos sai da brincadeira. Quem tiver mais ganha. Não vale fazer cócegas para o outro rir."
+            ]
+      },
+      {
+            "id": "pdf-99",
+            "title": "Chinelinho",
+            "description": "Traça-se no chão duas linhas paralelas e distantes entre si aproximadamente 15 metros. Dois grupos de crianças são formados. Cada um dos grupos é disposto em fileira, um de frente para o outro, atrás de uma linha. Num ponto equidistante das linhas (aproximadamente a 7,5 m de cada uma), risca-se um círculo onde deverá ser colocado um chinelinho ou outro objeto semelhante. As crianças dos dois grupos são numeradas de 1 até o número total de crianças que existir em cada grupo. Quando um dos grupos tiver uma criança a mais, um componente do grupo contrário pode receber dois números. Uma criança ou um adulto deve comandar o jogo, gritando um número que corresponda a uma criança de cada um dos grupos. As duas devem correr, pegar o chinelinho e retornar ao seu grupo, cruzando sua linha sem ser tocada. Cada vez que isso ocorrer, seu grupo conquista um ponto. Se ao fugir com o ocorrer, seu grupo conquista um ponto. Se ao fugir com o chinelo o jogador for tocado pelo adversário, ninguém marca ponto. Após cada disputa dos dois jogadores, o chinelo volta para o círculo. Vencerá quem atingir primeiro o total de pontos estipulados pelos grupos, em comum acordo.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "7+ anos",
+            "materials": [
+                  "Um chinelo",
+                  "uma bola",
+                  "ou qualquer coisa que substitua"
+            ],
+            "steps": [
+                  "Traça-se no chão duas linhas paralelas e distantes entre si aproximadamente 15 metros. Dois grupos de crianças são formados. Cada um dos grupos é disposto em fileira, um de frente para o outro, atrás de uma linha. Num ponto equidistante das linhas (aproximadamente a 7,5 m de cada uma), risca-se um círculo onde deverá ser colocado um chinelinho ou outro objeto semelhante. As crianças dos dois grupos são numeradas de 1 até o número total de crianças que existir em cada grupo. Quando um dos grupos tiver uma criança a mais, um componente do grupo contrário pode receber dois números. Uma criança ou um adulto deve comandar o jogo, gritando um número que corresponda a uma criança de cada um dos grupos. As duas devem correr, pegar o chinelinho e retornar ao seu grupo, cruzando sua linha sem ser tocada. Cada vez que isso ocorrer, seu grupo conquista um ponto. Se ao fugir com o ocorrer, seu grupo conquista um ponto. Se ao fugir com o chinelo o jogador for tocado pelo adversário, ninguém marca ponto. Após cada disputa dos dois jogadores, o chinelo volta para o círculo. Vencerá quem atingir primeiro o total de pontos estipulados pelos grupos, em comum acordo."
+            ]
+      },
+      {
+            "id": "pdf-100",
+            "title": "Artilharia",
+            "description": "Separa-se dois times. No final de cada campo, é colocada uma garrafa pet. Uma pessoa de cada equipe tenta jogar a bola e derrubar a garrafa do adversário. A equipe que derrubar a garrafa deverá erguê-la novamente, mas se protegendo da outra equipe, que poderá queimar. Quem for queimado não pode erguer a garrafa. Se a equipe conseguir reerguer a garrafa antes de todos serem queimados, ganha. Mas se todos forem queimados e a garrafa continuar no chão, a outra equipe ganha.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "7+ anos",
+            "materials": [
+                  "Duas garrafas pet",
+                  "duas bolas"
+            ],
+            "steps": [
+                  "Separa-se dois times. No final de cada campo, é colocada uma garrafa pet. Uma pessoa de cada equipe tenta jogar a bola e derrubar a garrafa do adversário. A equipe que derrubar a garrafa deverá erguê-la novamente, mas se protegendo da outra equipe, que poderá queimar. Quem for queimado não pode erguer a garrafa. Se a equipe conseguir reerguer a garrafa antes de todos serem queimados, ganha. Mas se todos forem queimados e a garrafa continuar no chão, a outra equipe ganha."
+            ]
+      },
+      {
+            "id": "pdf-101",
+            "title": "Nó Maluco",
+            "description": "Faz-se a roda e todos estendem os braços para frente e ao sinal do monitor, a roda se fecha e cada pessoa deve segurar duas outras mãos (seja de quem for). Cada mão segura (uma) outra, ou seja, uma mão não pode estar segurando outras duas por exemplo. O Objetivo é desatar o nó que se forma, sem soltar em momento algum as mãos.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [],
+            "steps": [
+                  "Faz-se a roda e todos estendem os braços para frente e ao sinal do monitor, a roda se fecha e cada pessoa deve segurar duas outras mãos (seja de quem for). Cada mão segura (uma) outra, ou seja, uma mão não pode estar segurando outras duas por exemplo. O Objetivo é desatar o nó que se forma, sem soltar em momento algum as mãos."
+            ]
+      },
+      {
+            "id": "pdf-102",
+            "title": "Voleiçol",
+            "description": "Como um jogo de vôlei, as crianças deverão passar a bola para o outro lado da rede, e a outra equipe deverá apanhar a bola com o lençol, marca ponto a equipe que conseguir fazer a bola cair no chão da outra turma.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [
+                  "uma bola",
+                  "dois lençóis"
+            ],
+            "steps": [
+                  "Como um jogo de vôlei, as crianças deverão passar a bola para o outro lado da rede, e a outra equipe deverá apanhar a bola com o lençol, marca ponto a equipe que conseguir fazer a bola cair no chão da outra turma."
+            ]
+      },
+      {
+            "id": "pdf-103",
+            "title": "Rede Humana",
+            "description": "é a rede humana (um aluno ao lado do outro sobre a linha central da quadra) Grupos 2 e 3: equipes que estão jogando. As equipes que estão na quadra devem passar a bola para o outro lado sem que a \"rede humana\" encoste na bola. Acontecendo o toque pela rede humana, é feito o rodízio das equipes: a equipe que deixou a rede humana encostar entra como no lugar; quem está na rede entra no lugar da equipe que errou e assim sucessivamente.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [
+                  "bola"
+            ],
+            "steps": [
+                  "é a rede humana (um aluno ao lado do outro sobre a linha central da quadra) Grupos 2 e 3: equipes que estão jogando. As equipes que estão na quadra devem passar a bola para o outro lado sem que a \"rede humana\" encoste na bola. Acontecendo o toque pela rede humana, é feito o rodízio das equipes: a equipe que deixou a rede humana encostar entra como no lugar; quem está na rede entra no lugar da equipe que errou e assim sucessivamente."
+            ]
+      },
+      {
+            "id": "pdf-104",
+            "title": "Handfut",
+            "description": "Divide-se duas equipes, um goleiro para cada time. Os participantes passam a bola com as mãos entre si, mas o gol só poderá ser realizado com o pé ou com a cabeça.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [
+                  "Bola"
+            ],
+            "steps": [
+                  "Divide-se duas equipes, um goleiro para cada time. Os participantes passam a bola com as mãos entre si, mas o gol só poderá ser realizado com o pé ou com a cabeça."
+            ]
+      },
+      {
+            "id": "pdf-105",
+            "title": "Raul Gil",
+            "description": "Forma-se duplas. Joga-se um adedanha para saber \"O que é que tem em tal lugar com a letra tal?\". Cada dupla tem 30 segundos para dar a sua resposta. Quem não responder em 30 segundos, é eliminado, cantando \"O Raul perguntou, você não acertou, pegue seu banquinho e saia de mansinho\". Ganha a dupla que ficar por último",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [],
+            "steps": [
+                  "Forma-se duplas. Joga-se um adedanha para saber \"O que é que tem em tal lugar com a letra tal?\". Cada dupla tem 30 segundos para dar a sua resposta. Quem não responder em 30 segundos, é eliminado, cantando \"O Raul perguntou, você não acertou, pegue seu banquinho e saia de mansinho\". Ganha a dupla que ficar por último"
+            ]
+      },
+      {
+            "id": "pdf-106",
+            "title": "Polícia e ladrão",
+            "description": "Separam-se dois grupos de crianças, um será polícia e outro ladrão. Os policiais iniciam contado até 20, enquanto os ladr├Áes se escondem, ao término da contagem a polícia passa a procurar os ladr├Áes e os encontrando passa a prossegui-los. O ladrão deve ser pego pela polícia e quem for preso vai para um local denominado como prisão. Quem não for pego pode soltar os ladr├Áes (tocando-os) que voltam a fugir da polícia. O jogo terminará com a captura de todos os ladr├Áes.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [],
+            "steps": [
+                  "Separam-se dois grupos de crianças, um será polícia e outro ladrão. Os policiais iniciam contado até 20, enquanto os ladr├Áes se escondem, ao término da contagem a polícia passa a procurar os ladr├Áes e os encontrando passa a prossegui-los. O ladrão deve ser pego pela polícia e quem for preso vai para um local denominado como prisão. Quem não for pego pode soltar os ladr├Áes (tocando-os) que voltam a fugir da polícia. O jogo terminará com a captura de todos os ladr├Áes."
+            ]
+      },
+      {
+            "id": "pdf-107",
+            "title": "Bruxa / Caçador",
+            "description": "Traçam-se três linhas no chão, de modo a formar dois campos (A e B). O número de jogadores de um campo deve ser igual ao do outro. No jogo Bruxa, a formação é livre: uma criança assume o papel de bruxa ou bruxo que procura tomar a bola. O jogo Bruxa consiste em atirar a bola sobre os participantes, a fim de acertá-los. Os alvos correm de um lado para o outro, procurando não serem atingidos. O que for batido pela bola será o novo bruxo ou bruxa. No jogo Caçador, escolhido o lado que iniciará a caçada, um participante joga a bola sobre um jogador do lado oposto. Aquele que for batido e não aparar a bola estará morto e passará à reserva do campo, sem direito de matar. Vencerá o campo que conseguir eliminar todos os elementos do lado oposto.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [
+                  "Bola"
+            ],
+            "steps": [
+                  "Traçam-se três linhas no chão, de modo a formar dois campos (A e B). O número de jogadores de um campo deve ser igual ao do outro. No jogo Bruxa, a formação é livre: uma criança assume o papel de bruxa ou bruxo que procura tomar a bola. O jogo Bruxa consiste em atirar a bola sobre os participantes, a fim de acertá-los. Os alvos correm de um lado para o outro, procurando não serem atingidos. O que for batido pela bola será o novo bruxo ou bruxa. No jogo Caçador, escolhido o lado que iniciará a caçada, um participante joga a bola sobre um jogador do lado oposto. Aquele que for batido e não aparar a bola estará morto e passará à reserva do campo, sem direito de matar. Vencerá o campo que conseguir eliminar todos os elementos do lado oposto."
+            ]
+      },
+      {
+            "id": "pdf-108",
+            "title": "Stop em estafeta",
+            "description": "Divididos em equipes, cada equipe escolhera uma pessoa para escrever, é como um jogo de stop normal (Nome, cor, fruta, animal, objeto etc.) O restante da equipe estará em colunas, o monitor escolherá uma letra e ao seu sinal, um de cada vez, saíra correndo e dirá para quem estiver escrevendo um nome com a inicial da letra escolhida. Marca-se um ponto para a equipe que acabar tudo e gritar stop primeiro.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [
+                  "Papel",
+                  "caneta para cada equipe"
+            ],
+            "steps": [
+                  "Divididos em equipes, cada equipe escolhera uma pessoa para escrever, é como um jogo de stop normal (Nome, cor, fruta, animal, objeto etc.) O restante da equipe estará em colunas, o monitor escolherá uma letra e ao seu sinal, um de cada vez, saíra correndo e dirá para quem estiver escrevendo um nome com a inicial da letra escolhida. Marca-se um ponto para a equipe que acabar tudo e gritar stop primeiro."
+            ]
+      },
+      {
+            "id": "pdf-109",
+            "title": "Rua e Avenida",
+            "description": "Os participantes serão divididos em várias fileiras uma atrás da outra. Duas pessoas serão escolhidas, uma para ser o pegador e o outro o fugitivo. ├ë como se fosse um labirinto, os participantes deverão estar de mãos dadas, quando o professor falar \"rua\" eles deverão soltar as mãos e virar para a direita, dando as mãos aos outros colegas, e quando o professor falar \"avenida\" deverão voltar a posição inicial.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [],
+            "steps": [
+                  "Os participantes serão divididos em várias fileiras uma atrás da outra. Duas pessoas serão escolhidas, uma para ser o pegador e o outro o fugitivo. ├ë como se fosse um labirinto, os participantes deverão estar de mãos dadas, quando o professor falar \"rua\" eles deverão soltar as mãos e virar para a direita, dando as mãos aos outros colegas, e quando o professor falar \"avenida\" deverão voltar a posição inicial."
+            ]
+      },
+      {
+            "id": "pdf-110",
+            "title": "Salada de Fruta",
+            "description": "O monitor falará uma fruta, em seguida ele escolherá alguém para que fale a fruta que o monitor falou e uma de sua escolha (exemplo: monitor: maça, criança: maça banana) e assim sucessivamente, objetivo falar todas as frutas que já foram ditas mais a sua. Trabalhar a memória das crianças",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [],
+            "steps": [
+                  "O monitor falará uma fruta, em seguida ele escolherá alguém para que fale a fruta que o monitor falou e uma de sua escolha (exemplo: monitor: maça, criança: maça banana) e assim sucessivamente, objetivo falar todas as frutas que já foram ditas mais a sua. Trabalhar a memória das crianças"
+            ]
+      },
+      {
+            "id": "pdf-111",
+            "title": "Mãe da Rua",
+            "description": "Será escolhida uma criança para ficar ao centro da quadra, enquanto os outros participantes ficaram em um lado da quadra. Ao sinal do monitor, todos os alunos saíram correndo para o outro lado da quadra, tentando escapar da \"mãe da rua\" que esta ao centro. Quem for pego irá ajudar a \"mãe da rua\" a pegar o restante. A \"mãe da rua\" não poderá sair do meio da quadra, nem os participantes que forem pegos.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [],
+            "steps": [
+                  "Será escolhida uma criança para ficar ao centro da quadra, enquanto os outros participantes ficaram em um lado da quadra. Ao sinal do monitor, todos os alunos saíram correndo para o outro lado da quadra, tentando escapar da \"mãe da rua\" que esta ao centro. Quem for pego irá ajudar a \"mãe da rua\" a pegar o restante. A \"mãe da rua\" não poderá sair do meio da quadra, nem os participantes que forem pegos."
+            ]
+      },
+      {
+            "id": "pdf-112",
+            "title": "Rouba Bandeira",
+            "description": "As crianças serão divididas em dois times, cada time em um lado da quadra. Ao fundo de cada quadra, será colocado a \"bandeira\". O objetivo de cada time é tentar pegar a bandeira do seu rival, sem ser pego e ao mesmo tempo não deixar pegar a sua bandeira. Vence quem conseguir pegar a bandeira do inimigo e voltar para o seu campo sem ser pego.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [
+                  "dois objetos (usados como a bandeira)"
+            ],
+            "steps": [
+                  "As crianças serão divididas em dois times, cada time em um lado da quadra. Ao fundo de cada quadra, será colocado a \"bandeira\". O objetivo de cada time é tentar pegar a bandeira do seu rival, sem ser pego e ao mesmo tempo não deixar pegar a sua bandeira. Vence quem conseguir pegar a bandeira do inimigo e voltar para o seu campo sem ser pego."
+            ]
+      },
+      {
+            "id": "pdf-113",
+            "title": "Pegador trocado",
+            "description": "Os participantes deverão formar duplas e se sentar afastados das outras duplas, espalhados pelo espaço. Ao sinal do monitor os dois alunos que serão um \"fugitivo\" e o outro \"pegador\" deverão iniciar a brincadeira, que deverá assim funcionar: quando o fugitivo quiser ficar a salvo do \"pegador\" deverá sentar ao lado de uma das duplas que estão sentadas no chão, assim que ele sentar no lado de um colega da dupla o outro aluno, deverá levantar-se rapidamente e passará a ser o novo \"pegador\" ou seja, sempre que algum aluno que estiver sendo perseguido sentar-se ao lado de uma dupla, o outro colega da dupla deverá levantar e passará a ser o novo \"pegador.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [],
+            "steps": [
+                  "Os participantes deverão formar duplas e se sentar afastados das outras duplas, espalhados pelo espaço. Ao sinal do monitor os dois alunos que serão um \"fugitivo\" e o outro \"pegador\" deverão iniciar a brincadeira, que deverá assim funcionar: quando o fugitivo quiser ficar a salvo do \"pegador\" deverá sentar ao lado de uma das duplas que estão sentadas no chão, assim que ele sentar no lado de um colega da dupla o outro aluno, deverá levantar-se rapidamente e passará a ser o novo \"pegador\" ou seja, sempre que algum aluno que estiver sendo perseguido sentar-se ao lado de uma dupla, o outro colega da dupla deverá levantar e passará a ser o novo \"pegador."
+            ]
+      },
+      {
+            "id": "pdf-114",
+            "title": "Jogo dos 7 passes",
+            "description": "Dividir em duas equipes, cada equipe deverá fazer 7 passes antes de acertar o gol (com a mão), a outra equipe deverá tentar interferir os passes, o gol só valerá se os 7 passes forem realizados.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [
+                  "bola"
+            ],
+            "steps": [
+                  "Dividir em duas equipes, cada equipe deverá fazer 7 passes antes de acertar o gol (com a mão), a outra equipe deverá tentar interferir os passes, o gol só valerá se os 7 passes forem realizados."
+            ]
+      },
+      {
+            "id": "pdf-115",
+            "title": "Corrida do pé colado",
+            "description": "Divididos em equipes, dois jogadores de cada equipe correão com os pés amarrados até o lugar determinado pelo monitor, ganha a equipe que chegar primeiro.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [
+                  "algo para amarrar os pés dos jogadores"
+            ],
+            "steps": [
+                  "Divididos em equipes, dois jogadores de cada equipe correão com os pés amarrados até o lugar determinado pelo monitor, ganha a equipe que chegar primeiro."
+            ]
+      },
+      {
+            "id": "pdf-116",
+            "title": "Din├ómica da mão colada no pé",
+            "description": "Divididos em equipes, os participantes se colocaram em uma coluna, deverão ficar na posição de \"caranguejo\" (sentados com a mão apoiada no chão e o quadril levantado, fora do chão), nessa posição, os participantes deverão colocar suas mãos nos pés do colega de trás, e assim sucessivamente, ao sinal do professor tentaram caminhar até o lugar determinado, ganha a equipe que chegar primeiro.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "10+ anos",
+            "materials": [],
+            "steps": [
+                  "Divididos em equipes, os participantes se colocaram em uma coluna, deverão ficar na posição de \"caranguejo\" (sentados com a mão apoiada no chão e o quadril levantado, fora do chão), nessa posição, os participantes deverão colocar suas mãos nos pés do colega de trás, e assim sucessivamente, ao sinal do professor tentaram caminhar até o lugar determinado, ganha a equipe que chegar primeiro."
+            ]
+      },
+      {
+            "id": "pdf-117",
+            "title": "Vinte e um",
+            "description": "Os participantes ficaram próximos a cesta do basquete, determinados em uma sequência, o primeiro fará um arremesso da linha do lance livre, se acertar será marado um ponto, e voltará a fazer o arremesso, se errar, o próximo participante tentara o arremesso de onde a bola caiu, se acertar, volta ao lance livre e arremessa novamente. Ganha quem fizer 21 pontos primeiro.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "9+ anos",
+            "materials": [
+                  "Bola"
+            ],
+            "steps": [
+                  "Os participantes ficaram próximos a cesta do basquete, determinados em uma sequência, o primeiro fará um arremesso da linha do lance livre, se acertar será marado um ponto, e voltará a fazer o arremesso, se errar, o próximo participante tentara o arremesso de onde a bola caiu, se acertar, volta ao lance livre e arremessa novamente. Ganha quem fizer 21 pontos primeiro."
+            ]
+      },
+      {
+            "id": "pdf-118",
+            "title": "Pegador Inteligente",
+            "description": "O monitor deverá dividir duas equipes com o mesmo número de participantes. Em seguida, deverá marcar uma dist├óncia e colocar uma equipe de frente para a outra e sentados no chão, e às costas de cada equipe e a uma dist├óncia com uma linha marada a qual os participantes estarão à salvo de ser \"pegos\" pela outra equipe. O monitor deverá determinar, que uma equipe seja \"par\" e a outra será \"ímpar\". O monitor falará um número, se o número for \"par\", a equipe \"par\" deverá se levantar rapidamente e correr para pegar os da equipe \"ímpar\". Se disser um número \"ímpar\" serão os ímpares que deverão se levantar e correr para pegar os da equipe \"par\". E assim sucessivamente. (O monitor poderá fazer contas para confundir os participantes).",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "10+ anos",
+            "materials": [],
+            "steps": [
+                  "O monitor deverá dividir duas equipes com o mesmo número de participantes. Em seguida, deverá marcar uma dist├óncia e colocar uma equipe de frente para a outra e sentados no chão, e às costas de cada equipe e a uma dist├óncia com uma linha marada a qual os participantes estarão à salvo de ser \"pegos\" pela outra equipe. O monitor deverá determinar, que uma equipe seja \"par\" e a outra será \"ímpar\". O monitor falará um número, se o número for \"par\", a equipe \"par\" deverá se levantar rapidamente e correr para pegar os da equipe \"ímpar\". Se disser um número \"ímpar\" serão os ímpares que deverão se levantar e correr para pegar os da equipe \"par\". E assim sucessivamente. (O monitor poderá fazer contas para confundir os participantes)."
+            ]
+      },
+      {
+            "id": "pdf-119",
+            "title": "Jogo da velha",
+            "description": "O professor deverá dividir duas equipes e colocar os participantes em colunas, uma equipe ao lado da outra. Organizar os 9 bambolês em três colunas (formato do jogo da velha). Deixar 5 bolas para cada equipe, colocá-las a frente dos bambolês. Ao sinal do professor, os primeiros de cada coluna sairão correndo e pegaram uma bola e colocarão dentro do bambolê, voltaram correndo, bateram na mão do seu colega e o mesmo sairá correndo para fazer o mesmo, e assim sucessivamente até \"fechar\" o jogo da velha (completar três colunas ou diagonal com a cor da sua equipe). Como variação, o monitor poderá colocar obstáculos a frente do jogo para atrapalhar o participante, como cones, cordas entre outros.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [
+                  "9 Bambolês",
+                  "10 bolas ou objeto que a substitua (5 de cada cor)"
+            ],
+            "steps": [
+                  "O professor deverá dividir duas equipes e colocar os participantes em colunas, uma equipe ao lado da outra. Organizar os 9 bambolês em três colunas (formato do jogo da velha). Deixar 5 bolas para cada equipe, colocá-las a frente dos bambolês. Ao sinal do professor, os primeiros de cada coluna sairão correndo e pegaram uma bola e colocarão dentro do bambolê, voltaram correndo, bateram na mão do seu colega e o mesmo sairá correndo para fazer o mesmo, e assim sucessivamente até \"fechar\" o jogo da velha (completar três colunas ou diagonal com a cor da sua equipe). Como variação, o monitor poderá colocar obstáculos a frente do jogo para atrapalhar o participante, como cones, cordas entre outros."
+            ]
+      },
+      {
+            "id": "pdf-120",
+            "title": "Cidade dorme",
+            "description": "O monitor escreverá nos papeis \"assassino, psicopata, anjo, detetive e vítima\" (dependendo de quantas pessoas tiver mais de uma vítima). Sentados em círculo, o monitor distribuirá os papeis dobrados sem que os participantes vejam, cada um tirará o seu e verá qual personagem é e devolverá o papel para o professor. O monitor falará \"cidade dorme\" e todos fecharam o olho. Em seguida o monitor chamara o personagem assassino, que abrirá o olho, e o restante continuará de olho fechado, e perguntará \"quem você quer matar\" e o participante apontara para quem, ou fará um movimento sem que os outros percebam. Após o assassino chamara o psicopata e fará a mesma pergunta, após o assassino, chamará o anjo e perguntará \"quem você quer proteger\" e o anjo mostrará quem sem fazer barulho ou movimentos bruscos. Após o anjo, chamará o detetive e perguntará quem ele acha que são o assassino e o psicopata. Após todos serem chamados o monitor falará \"cidade pode acordar\" e falará as pessoas que \"morreram\", ou seja, estão fora do jogo. Em seguida será feito uma votação entre todos para eliminar mais um participante. O jogo acabará quando a maioria do lado do bem morrer (anjo, detetive e vítima) ou o lado do mal (assassino e psicopata) Obs.: O psicopata não morre quando a cidade estiver dormindo, só na votação, e só pode falar o seu personagem ao fim do jogo. E quem morrer com a cidade dormindo, poderá votar ao final da rodada em que morreu.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "10+ anos",
+            "materials": [
+                  "papel",
+                  "caneta"
+            ],
+            "steps": [
+                  "O monitor escreverá nos papeis \"assassino, psicopata, anjo, detetive e vítima\" (dependendo de quantas pessoas tiver mais de uma vítima). Sentados em círculo, o monitor distribuirá os papeis dobrados sem que os participantes vejam, cada um tirará o seu e verá qual personagem é e devolverá o papel para o professor. O monitor falará \"cidade dorme\" e todos fecharam o olho. Em seguida o monitor chamara o personagem assassino, que abrirá o olho, e o restante continuará de olho fechado, e perguntará \"quem você quer matar\" e o participante apontara para quem, ou fará um movimento sem que os outros percebam. Após o assassino chamara o psicopata e fará a mesma pergunta, após o assassino, chamará o anjo e perguntará \"quem você quer proteger\" e o anjo mostrará quem sem fazer barulho ou movimentos bruscos. Após o anjo, chamará o detetive e perguntará quem ele acha que são o assassino e o psicopata. Após todos serem chamados o monitor falará \"cidade pode acordar\" e falará as pessoas que \"morreram\", ou seja, estão fora do jogo. Em seguida será feito uma votação entre todos para eliminar mais um participante. O jogo acabará quando a maioria do lado do bem morrer (anjo, detetive e vítima) ou o lado do mal (assassino e psicopata) Obs.: O psicopata não morre quando a cidade estiver dormindo, só na votação, e só pode falar o seu personagem ao fim do jogo. E quem morrer com a cidade dormindo, poderá votar ao final da rodada em que morreu."
+            ]
+      },
+      {
+            "id": "pdf-121",
+            "title": "Caranguejobol",
+            "description": "divididos em dois times, os participantes ficarão na posição de \"caranguejo\" (sentados no chão com o quadril levantado, apoio apenas das mãos e dos pés.), como um jogo de futebol, disputaram a bola e a cada gol marcado é um ponto para cada time. Os gols só poderão ser feitos na posição, não valerá se tiver sentado no chão.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [
+                  "bola"
+            ],
+            "steps": [
+                  "divididos em dois times, os participantes ficarão na posição de \"caranguejo\" (sentados no chão com o quadril levantado, apoio apenas das mãos e dos pés.), como um jogo de futebol, disputaram a bola e a cada gol marcado é um ponto para cada time. Os gols só poderão ser feitos na posição, não valerá se tiver sentado no chão."
+            ]
+      },
+      {
+            "id": "pdf-122",
+            "title": "Cachorro e gato cego",
+            "description": "Alunos em círculos, dois irão para o centro; um será o cachorro e outro o gato. Veda-se os olhos de ambos, toda vez que o cachorro latir, o gato miará, o cachorro deverá tentar pegá-lo, se conseguir, troca-se as crianças.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "7+ anos",
+            "materials": [
+                  "Lenços ou vendas"
+            ],
+            "steps": [
+                  "Alunos em círculos, dois irão para o centro; um será o cachorro e outro o gato. Veda-se os olhos de ambos, toda vez que o cachorro latir, o gato miará, o cachorro deverá tentar pegá-lo, se conseguir, troca-se as crianças."
+            ]
+      },
+      {
+            "id": "pdf-123",
+            "title": "Mango",
+            "description": "O monitor dividirá duas equipes. Em sua mão terá uma folha com várias palavras, os times tentarão adivinhar as palavras, exemplo: o monitor dará uma dica \"bebida\" e cada time irá chutar um tipo de bebida, até acertar, ganha um ponto o time que acertar. No meio de todas essas palavras terá a palavra MANGO, quando chegar nessa palavra o time que estiver com mais pontos irá escolher um mico para o outro time pagar. Ganha o jogo quem estiver mais pontos, quando a lista de palavras acabar. Obs.: a palavra MANGO poderá se repetir durante o jogo.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [
+                  "Papel",
+                  "Caneta"
+            ],
+            "steps": [
+                  "O monitor dividirá duas equipes. Em sua mão terá uma folha com várias palavras, os times tentarão adivinhar as palavras, exemplo: o monitor dará uma dica \"bebida\" e cada time irá chutar um tipo de bebida, até acertar, ganha um ponto o time que acertar. No meio de todas essas palavras terá a palavra MANGO, quando chegar nessa palavra o time que estiver com mais pontos irá escolher um mico para o outro time pagar. Ganha o jogo quem estiver mais pontos, quando a lista de palavras acabar. Obs.: a palavra MANGO poderá se repetir durante o jogo."
+            ]
+      },
+      {
+            "id": "pdf-124",
+            "title": "Jogo da Memória Humano",
+            "description": "Do grupo, dois são escolhidos para adivinhar quem serão os pares. Para isso, são levados para fora/outro ambiente, enquanto os colegas restantes se dividem em duplas e combinam um gesto/movimento/sinal comum para ambos. Organizam-se em colunas e embaralham-se para dificultar a localização dos pares. A dupla retorna e deverá adivinhar os pares, escolhendo dois por vez, os quais executarão seu gesto/movimento/sinal (como quando as peças do jogo tradicional são viradas). A dupla pode jogar de modo cooperativo ou competitivo. Após um certo número de acertos/jogadas, pode-se trocar os papéis, os pares e os movimentos combinados, enriquecendo a atividade. (Para dias de chuva)",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [],
+            "steps": [
+                  "Do grupo, dois são escolhidos para adivinhar quem serão os pares. Para isso, são levados para fora/outro ambiente, enquanto os colegas restantes se dividem em duplas e combinam um gesto/movimento/sinal comum para ambos. Organizam-se em colunas e embaralham-se para dificultar a localização dos pares. A dupla retorna e deverá adivinhar os pares, escolhendo dois por vez, os quais executarão seu gesto/movimento/sinal (como quando as peças do jogo tradicional são viradas). A dupla pode jogar de modo cooperativo ou competitivo. Após um certo número de acertos/jogadas, pode-se trocar os papéis, os pares e os movimentos combinados, enriquecendo a atividade. (Para dias de chuva)"
+            ]
+      },
+      {
+            "id": "pdf-125",
+            "title": "Nunca 3",
+            "description": "Os alunos estarão espalhados em duplas (um atrás do outro) pelo espaço disponível. Os alunos poderão estar sentados. O professor escolhe dois alunos, um será o aluno pegador e o outro aluno terá que fugir do pegador ÔÇª O aluno que está fugindo do pegador deverá escolher uma dupla e se posicionar atrás do segundo elemento. O aluno que está na frente da dupla, por sua vez, será o novo pegador (nunca poderá existir 3elementos juntos, sempre mantendo uma dupla) e deverá sair correndo atrás do aluno que era o pegador anteriormente... Esse aluno que está fugindo do novo pegador, se posicionará atrás de outra dupla e assim sucessivamente.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "7+ anos",
+            "materials": [],
+            "steps": [
+                  "Os alunos estarão espalhados em duplas (um atrás do outro) pelo espaço disponível. Os alunos poderão estar sentados. O professor escolhe dois alunos, um será o aluno pegador e o outro aluno terá que fugir do pegador ÔÇª O aluno que está fugindo do pegador deverá escolher uma dupla e se posicionar atrás do segundo elemento. O aluno que está na frente da dupla, por sua vez, será o novo pegador (nunca poderá existir 3elementos juntos, sempre mantendo uma dupla) e deverá sair correndo atrás do aluno que era o pegador anteriormente... Esse aluno que está fugindo do novo pegador, se posicionará atrás de outra dupla e assim sucessivamente."
+            ]
+      },
+      {
+            "id": "pdf-126",
+            "title": "Base 7",
+            "description": "Será dividido dois times, um time que atacará e um time que irá defender. Ficara uma pessoa do time que irá defender no meio, e o restante espalhado pela quadra. O time de ataque deverá ficar posicionado em uma coluna, atrás da linha de fundo, a pessoa do meio jogará a bola para o primeiro da coluna, do time de ataque, essa pessoa deverá arremessar a bola o mais longe possível e correr passando por todos os bambolês que ficaram espalhados. O time de defesa deverá pegar a bola e devolver para a pessoa do meio antes que a pessoa do ataque consiga correr nos 7 bambolês. Todos os do time de ataque faram o mesmo. Cada bambolê terá pontos, o primeiro bambolê 1 ponto o segundo será 2 pontos e assim sucessivamente. Deverá ser trocado, quem era ataque vira defesa e quem era defesa vira ataque, ganha o time que conseguir mais pontos, todas as crianças deverão correr pelos bambolês. Se a pessoa da defesa, que está no meio receber a bola, e a pessoa do ataque não estiver dentro de um bambolê, volta para o final da fila.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [
+                  "7 bambolês",
+                  "uma bola"
+            ],
+            "steps": [
+                  "Será dividido dois times, um time que atacará e um time que irá defender. Ficara uma pessoa do time que irá defender no meio, e o restante espalhado pela quadra. O time de ataque deverá ficar posicionado em uma coluna, atrás da linha de fundo, a pessoa do meio jogará a bola para o primeiro da coluna, do time de ataque, essa pessoa deverá arremessar a bola o mais longe possível e correr passando por todos os bambolês que ficaram espalhados. O time de defesa deverá pegar a bola e devolver para a pessoa do meio antes que a pessoa do ataque consiga correr nos 7 bambolês. Todos os do time de ataque faram o mesmo. Cada bambolê terá pontos, o primeiro bambolê 1 ponto o segundo será 2 pontos e assim sucessivamente. Deverá ser trocado, quem era ataque vira defesa e quem era defesa vira ataque, ganha o time que conseguir mais pontos, todas as crianças deverão correr pelos bambolês. Se a pessoa da defesa, que está no meio receber a bola, e a pessoa do ataque não estiver dentro de um bambolê, volta para o final da fila."
+            ]
+      },
+      {
+            "id": "pdf-127",
+            "title": "Dodgeball",
+            "description": "Serão divididos dois times. Cada time ficara em um lado da quadra posicionados atrás da linha de fundo. No meio da quadra, estrão as bolas, ao sinal do monitor as crianças saíram correndo para pegar a bola. Começara uma queimada com várias bolas, cada pessoa queimada sairá do jogo, quando alguém do time da pessoa queima agarrar a bola, poderá voltar uma pessoa que foi queima, se alguém do time acertar o aro da tabela de basquete voltam duas pessoas, se acertar a cesta voltam todos que foram queimos do seu time. Ganha o time que conseguir queimar todos os adversários.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [
+                  "de 2 a 5 bolas"
+            ],
+            "steps": [
+                  "Serão divididos dois times. Cada time ficara em um lado da quadra posicionados atrás da linha de fundo. No meio da quadra, estrão as bolas, ao sinal do monitor as crianças saíram correndo para pegar a bola. Começara uma queimada com várias bolas, cada pessoa queimada sairá do jogo, quando alguém do time da pessoa queima agarrar a bola, poderá voltar uma pessoa que foi queima, se alguém do time acertar o aro da tabela de basquete voltam duas pessoas, se acertar a cesta voltam todos que foram queimos do seu time. Ganha o time que conseguir queimar todos os adversários."
+            ]
+      },
+      {
+            "id": "pdf-128",
+            "title": "Vamos Acordar?",
+            "description": "Os alunos dispostos em círculo sentados ao chão, ou em cadeiras ou até mesmo em pé, as mãos cruzadas dispostas sobre o peito. Um aluno ficará no meio do círculo com uma bola que deverá ameaçar lançá-la a qualquer aluno que estiver no círculo, este não poderá mover as mãos a não ser que realmente ele lance, portanto, o aluno deverá pegá-la. O aluno que mover as mãos ou se laçada a bola e deixá-la cair, sairá fora da brincadeira e assim por diante, até que restar somente um aluno dentre todos os do círculo. (Para dia de Chuva).",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "7+ anos",
+            "materials": [
+                  "Uma Bola"
+            ],
+            "steps": [
+                  "Os alunos dispostos em círculo sentados ao chão, ou em cadeiras ou até mesmo em pé, as mãos cruzadas dispostas sobre o peito. Um aluno ficará no meio do círculo com uma bola que deverá ameaçar lançá-la a qualquer aluno que estiver no círculo, este não poderá mover as mãos a não ser que realmente ele lance, portanto, o aluno deverá pegá-la. O aluno que mover as mãos ou se laçada a bola e deixá-la cair, sairá fora da brincadeira e assim por diante, até que restar somente um aluno dentre todos os do círculo. (Para dia de Chuva)."
+            ]
+      },
+      {
+            "id": "pdf-129",
+            "title": "Pega-Pega Vôlei",
+            "description": "Duas equipes começam a jogar um jogo de Voleibol. Quando a boa cair no chão, a equipe que fez o ponto corre atrás da equipe que tomou o ponto. Essa equipe tem que passar da linha da área de saque (linha de fundo da quadra) para não ser pego. Além do ponto por ter caído a bola no chão, se dois alunos forem pegos, a equipe marca dois pontos e assim sucessivamente.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "8+ anos",
+            "materials": [
+                  "Uma bola",
+                  "algo que dívida a quadra",
+                  "uma rede ou uma corda."
+            ],
+            "steps": [
+                  "Duas equipes começam a jogar um jogo de Voleibol. Quando a boa cair no chão, a equipe que fez o ponto corre atrás da equipe que tomou o ponto. Essa equipe tem que passar da linha da área de saque (linha de fundo da quadra) para não ser pego. Além do ponto por ter caído a bola no chão, se dois alunos forem pegos, a equipe marca dois pontos e assim sucessivamente."
+            ]
+      },
+      {
+            "id": "pdf-130",
+            "title": "Escape 60",
+            "description": "Primeiramente deve-se elaborar uma temática específica para o desafio. O jogo consiste em desenvolver uma série de dicas e pistas que levem os participantes a resolver enigmas e desafios que nos levem à um caminho. Uma característica da atividade é limitar o espaço à uma sala fechada ou alguma variação semelhante. O objetivo, normalmente, é fugir deste local em um determinado período previamente estipulado.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [
+                  "Papel",
+                  "caneta",
+                  "lápis",
+                  "entre outros..."
+            ],
+            "steps": [
+                  "Primeiramente deve-se elaborar uma temática específica para o desafio. O jogo consiste em desenvolver uma série de dicas e pistas que levem os participantes a resolver enigmas e desafios que nos levem à um caminho. Uma característica da atividade é limitar o espaço à uma sala fechada ou alguma variação semelhante. O objetivo, normalmente, é fugir deste local em um determinado período previamente estipulado."
+            ]
+      },
+      {
+            "id": "pdf-131",
+            "title": "Tribunal.",
+            "description": "Os participantes devem ser divididos em três grupos (Ataque, defesa e juízes). Um caso aleatório deve ser inventado pelo narrador da história. Cada grupo terá uma função específica. Ataque: Acusar a defesa e provar que estão certos. Defesa: Defender-se das acusaç├Áes e tentar inocentar-se Juízes: Escolher qual dos lados tem razão e atribui-lo a vitória.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [],
+            "steps": [
+                  "Os participantes devem ser divididos em três grupos (Ataque, defesa e juízes). Um caso aleatório deve ser inventado pelo narrador da história. Cada grupo terá uma função específica. Ataque: Acusar a defesa e provar que estão certos. Defesa: Defender-se das acusaç├Áes e tentar inocentar-se Juízes: Escolher qual dos lados tem razão e atribui-lo a vitória."
+            ]
+      },
+      {
+            "id": "pdf-132",
+            "title": "Trunfo",
+            "description": "Uma foto de cada participante deve ser tirada e impressa em uma folha com uma descrição e atributos de valores variados (FOR├çA, INTELIG├èNCIA, AGILIDADE, DESTREZA, CARISMA...). Pode-se incluir ainda cartas de personagens conhecidos, super-heróis e vil├Áes. Os participantes iniciam o jogo com a carta correspondente à sua própria pessoa. Para \"duelar\" com os outros membros do jogo basta pegá-los, quem pegar primeiro tem o direito de escolher qual atributo quer usar. Quem ganhar obtém como recompensa a carta do adversário. Variaç├Áes: Uma \"LOJA\" pode ser montada, onde os integrantes podem comprar outras cartas ou trocá-las. Uma espécie de \"moeda\" pode ser criada e escondida pelo local onde a brincadeira está sendo realizada. Com isso, os participantes devem achar esse dinheiro e trocá-lo na loja por itens e cartas. Escudo, cartas que deixam outras cartas mais fortes, cartas de categorias diferentes podem ser incluídas nas variedades da loja. O local onde o jogo está acontecendo pode ir reduzindo até os participantes não conseguirem mais escapar uns dos outros.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [
+                  "Papel cartão",
+                  "caneta",
+                  "impressora."
+            ],
+            "steps": [
+                  "Uma foto de cada participante deve ser tirada e impressa em uma folha com uma descrição e atributos de valores variados (FOR├çA, INTELIG├èNCIA, AGILIDADE, DESTREZA, CARISMA...). Pode-se incluir ainda cartas de personagens conhecidos, super-heróis e vil├Áes. Os participantes iniciam o jogo com a carta correspondente à sua própria pessoa. Para \"duelar\" com os outros membros do jogo basta pegá-los, quem pegar primeiro tem o direito de escolher qual atributo quer usar. Quem ganhar obtém como recompensa a carta do adversário. Variaç├Áes: Uma \"LOJA\" pode ser montada, onde os integrantes podem comprar outras cartas ou trocá-las. Uma espécie de \"moeda\" pode ser criada e escondida pelo local onde a brincadeira está sendo realizada. Com isso, os participantes devem achar esse dinheiro e trocá-lo na loja por itens e cartas. Escudo, cartas que deixam outras cartas mais fortes, cartas de categorias diferentes podem ser incluídas nas variedades da loja. O local onde o jogo está acontecendo pode ir reduzindo até os participantes não conseguirem mais escapar uns dos outros."
+            ]
+      },
+      {
+            "id": "pdf-133",
+            "title": "Caçador",
+            "description": "Um participante será o caçador. Ele deve esconder 5 bambolês em um determinado local. Cada bambolê terá 4 cones da mesma cor. Os demais participantes devem encontrar todos os cones e colocá-los dentro dos bambolês nas cores correspondentes. O caçador, por sua vez, deve pegar os integrantes e levá-los para cadeiras ou bancos pré-determinados. O jogador capturado deve retirar o tênis e ficar sentado até que alguém venha salvá-lo. Variaç├Áes: Cada jogador possuir apenas 2 vidas e perder uma delas à cada vez que for pego pelo caçador. O caçador e os participantes podem ter uma habilidade específica pré- determinada: Participantes: Ganhar mais uma vida, começar com um cone, ter o direito de fugir do banco uma vez, conhecer a localização de um bambolê etc. Caçador: Queimar com uma bola, \"grudar\" dois participantes, mudar os cones de lugar ao longo do jogo etc.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [
+                  "Bambolês",
+                  "cones",
+                  "caneta."
+            ],
+            "steps": [
+                  "Um participante será o caçador. Ele deve esconder 5 bambolês em um determinado local. Cada bambolê terá 4 cones da mesma cor. Os demais participantes devem encontrar todos os cones e colocá-los dentro dos bambolês nas cores correspondentes. O caçador, por sua vez, deve pegar os integrantes e levá-los para cadeiras ou bancos pré-determinados. O jogador capturado deve retirar o tênis e ficar sentado até que alguém venha salvá-lo. Variaç├Áes: Cada jogador possuir apenas 2 vidas e perder uma delas à cada vez que for pego pelo caçador. O caçador e os participantes podem ter uma habilidade específica pré- determinada: Participantes: Ganhar mais uma vida, começar com um cone, ter o direito de fugir do banco uma vez, conhecer a localização de um bambolê etc. Caçador: Queimar com uma bola, \"grudar\" dois participantes, mudar os cones de lugar ao longo do jogo etc."
+            ]
+      },
+      {
+            "id": "pdf-134",
+            "title": "Defendendo a Torre",
+            "description": "Duas equipes, cada uma com uma \"base\" circular onde um cone deve estar posicionado no centro. Os jogadores devem ficar ao redor da base do time adversário e dentro da área da base de seu time. O objetivo é derrubar o cone da outra equipe utilizando uma bola. A equipe que estiver defendendo não pode sair da base e só pode atacar quando recuperar a bola. A equipe que está atacando, por sua vez, deve correr rapidamente para a sua base ao perder a posse da bola.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [
+                  "Cones",
+                  "bola."
+            ],
+            "steps": [
+                  "Duas equipes, cada uma com uma \"base\" circular onde um cone deve estar posicionado no centro. Os jogadores devem ficar ao redor da base do time adversário e dentro da área da base de seu time. O objetivo é derrubar o cone da outra equipe utilizando uma bola. A equipe que estiver defendendo não pode sair da base e só pode atacar quando recuperar a bola. A equipe que está atacando, por sua vez, deve correr rapidamente para a sua base ao perder a posse da bola."
+            ]
+      },
+      {
+            "id": "pdf-135",
+            "title": "Protegendo o Rei",
+            "description": "Um participante será o rei ou a rainha, o mesmo deve ser protegido pelos \"Protetores do Rei\" e será atacado pelos \"Inimigos da Coroa\". Cada participante começa o jogo com três vidas, esses devem pegar os adversários. Cada vez que um integrante for pego ele perde uma vida, caso perca as três está eliminado do jogo. O objetivo dos inimigos da coroa é derrotar o rei, que tem apenas uma vida, os protetores do rei, por sua vez, devem eliminar todos os inimigos da coroa para alcançarem a vitória. Pode-se montar uma \"torre\" em volta do rei com caixas, cadeiras, bambolês ou qualquer outro material disponível.",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [
+                  "Nenhum."
+            ],
+            "steps": [
+                  "Um participante será o rei ou a rainha, o mesmo deve ser protegido pelos \"Protetores do Rei\" e será atacado pelos \"Inimigos da Coroa\". Cada participante começa o jogo com três vidas, esses devem pegar os adversários. Cada vez que um integrante for pego ele perde uma vida, caso perca as três está eliminado do jogo. O objetivo dos inimigos da coroa é derrotar o rei, que tem apenas uma vida, os protetores do rei, por sua vez, devem eliminar todos os inimigos da coroa para alcançarem a vitória. Pode-se montar uma \"torre\" em volta do rei com caixas, cadeiras, bambolês ou qualquer outro material disponível."
+            ]
+      },
+      {
+            "id": "pdf-136",
+            "title": "Mistério Explosivo",
+            "description": "O narrador deve escrever uma história de suspense e mistério tendo obrigatoriamente uma vítima e diversos suspeitos. Após isso várias pistas que levam à resolução do mistério devem ser colocadas dentro de bexigas e escondidas em um local pré-determinado. Os participantes devem encontrar essas bexigas e levá-las para a \"Delegacia\", montada pelo narrador, e entregar as pistas para o \"Xerife\". Os integrantes devem descobrir: Quem cometeu o crime? Como ele cometeu o crime? Por que ele cometeu o crime?",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [
+                  "Bexiga",
+                  "papel",
+                  "lápis",
+                  "caneta."
+            ],
+            "steps": [
+                  "O narrador deve escrever uma história de suspense e mistério tendo obrigatoriamente uma vítima e diversos suspeitos. Após isso várias pistas que levam à resolução do mistério devem ser colocadas dentro de bexigas e escondidas em um local pré-determinado. Os participantes devem encontrar essas bexigas e levá-las para a \"Delegacia\", montada pelo narrador, e entregar as pistas para o \"Xerife\". Os integrantes devem descobrir: Quem cometeu o crime? Como ele cometeu o crime? Por que ele cometeu o crime?"
+            ]
+      },
+      {
+            "id": "pdf-137",
+            "title": "Passaporte",
+            "description": "Os recreadores prepararam alguns cart├Áes (quantidade de crianças que estiverem presentes), com nomes de no mínimo 5 países, cada país recebera uma cor. Cada criança deve receber 5 cart├Áes, um de cada país. O objetivo do jogo é completar o passaporte, com todas as cores, de todos os países. Um dos recreadores será o \"tira visto\" ele ficará com um giz preto tentando \"pegar\" as crianças e riscando as cores que as mesmas já estiverem marcadas. Antes de começar o jogo esse recreador deverá esconder as 5 cores escolhidas. Ganha o jogo a criança que conseguir um quadradinho pintado de cada país, sem ter o risco preto do \"tira visto\" Exemplo: BRASIL (VERDE) ARGENTINA (AZUL)",
+            "duration": "15-20 min",
+            "participants": "4+",
+            "age": "Livre",
+            "materials": [
+                  "Papel",
+                  "lápis de cor ou giz de ceira"
+            ],
+            "steps": [
+                  "Os recreadores prepararam alguns cart├Áes (quantidade de crianças que estiverem presentes), com nomes de no mínimo 5 países, cada país recebera uma cor. Cada criança deve receber 5 cart├Áes, um de cada país. O objetivo do jogo é completar o passaporte, com todas as cores, de todos os países. Um dos recreadores será o \"tira visto\" ele ficará com um giz preto tentando \"pegar\" as crianças e riscando as cores que as mesmas já estiverem marcadas. Antes de começar o jogo esse recreador deverá esconder as 5 cores escolhidas. Ganha o jogo a criança que conseguir um quadradinho pintado de cada país, sem ter o risco preto do \"tira visto\" Exemplo: BRASIL (VERDE) ARGENTINA (AZUL)"
+            ]
+      }
+]
   },
-  {
-    id: "noturnas",
-    label: "Noturnas",
-    icon: RiFlashlightLine,
-    color: "#34C759",
-    bg: "#E8F9EB",
-    description: "Caças com lanterna e mistério no escuro.",
-    games: [
-      { id: "n1", title: "O Fantasma da Lanterna", description: "Um monitor escondido emite pulsos de luz e as crianças devem localizá-lo em silêncio.", duration: "30 min", participants: "10+", age: "8+", materials: ["Lanternas"], steps: ["Região de mata ou pátio escuro.", "O 'fantasma' pisca luz a cada 30 segundos.", "Crianças devem cercar o fantasma sem usar suas luzes.", "Pegou o fantasma, ganha a rodada."] },
-      { id: "n2", title: "Caça ao Vaga-lume", description: "Pequenos bastões de luz (glow sticks) são escondidos e as equipes devem recolher sua cor.", duration: "25 min", participants: "15+", age: "6+", materials: ["Bastões de luz (Glow sticks)"], steps: ["O recreador esconde centenas de bastões acesos.", "Equipes com cores específicas.", "Vence quem trouxer mais itens da sua cor para a base.", "Tome cuidado com buracos no terreno."] },
-      { id: "n3", title: "Mensagem em Código Morse", description: "Uso de lanternas para sinalizar letras simples e o grupo decifrar do outro lado do campo.", duration: "20 min", participants: "6+", age: "10+", materials: ["Lanternas forte"], steps: ["Defina um alfabeto de luz (curto/longo).", "Envie uma palavra.", "O grupo receptor deve anotar os pulsos.", "Vence quem decifrar primeiro."] },
-      { id: "n4", title: "Infiltrados no Acampamento", description: "Um grupo tenta entrar na base sem ser iluminado pelo 'vigia' central que tem uma lanterna.", duration: "30 min", participants: "10+", age: "11+", materials: ["Lanterna potente"], steps: ["O vigia fica no centro em um círculo.", "Os infiltrados começam a 50 metros.", "Devem chegar ao centro sem que a lanterna os foque.", "Se iluminado e nomeado, volta ao início."] },
-      { id: "n5", title: "Trilha dos Mistérios", description: "Percurso noturno com paradas onde se escutam pedaços de um conto de suspense.", duration: "40 min", participants: "10+", age: "9+", materials: ["Lanternas", "Velas fake"], steps: ["Crie estações com monitores parados.", "O grupo caminha em fila única.", "Em cada parada, ouve 1 minuto da história.", "Grande revelação na última estação."] },
-      { id: "n6", title: "Desenho com Luz (Light Painting)", description: "Usar a câmera do celular em longa exposição para 'desenhar' no ar com lanternas.", duration: "20 min", participants: "4+", age: "8+", materials: ["Lanterna", "Celular com app de câmera"], steps: ["Ambiente breu total.", "Cadeiras fixas para o celular.", "Participante faz movimentos com a luz.", "Resultado visual impressionante na foto final."] },
-      { id: "n7", title: "Esconde-Esconde Noturno de Equipes", description: "Clássico jogo mas com as equipes trocando de lugar e usando as sombras.", duration: "30 min", participants: "12+", age: "10+", materials: [], steps: ["Equipe A se esconde.", "Equipe B procura.", "Use apito se demorar muito para achar.", "Foco em estratégia de mimetismo."] },
-      { id: "n8", title: "Contação de Histórias na Fogueira", description: "Momento de união e imaginação ao redor do fogo (ou luz que simule fogo).", duration: "30 min", participants: "Livre", age: "Livre", materials: ["Fogueira ou luz laranja"], steps: ["Todos sentados próximos.", "Passe um bastão da fala.", "Histórias podem ser reais ou criadas na hora.", "Finalize com músicas calmas."] },
-      { id: "n9", title: "Vultos no Escuro", description: "Tentar identificar objetos apenas pelo contorno (silhueta) contra uma luz ao fundo.", duration: "15 min", participants: "6+", age: "7+", materials: ["Lanterna", "Objetos variados"], steps: ["Coloque a luz contra um lençol.", "Passe objetos por trás.", "A equipe chuta o nome do objeto.", "Itens bizarros tornam a brincadeira mais difícil."] },
-      { id: "n10", title: "Desafio do Ponto Cego", description: "Seguir um som constante (apito ou palmas) no escuro total para achar a saída.", duration: "15 min", participants: "6+", age: "8+", materials: ["Apito"], steps: ["Grupo de mãos dadas ou no ombro.", "Caminham guiados pelo som do monitor.", "Monitor silencia se houver bagunça.", "Chegada em um local seguro e iluminado."] }
-    ]
-  },
-  {
-    id: "cooperativas",
-    label: "Cooperativas",
-    icon: RiHandHeartLine,
-    color: "#00C7BE",
-    bg: "#E5F9F8",
-    description: "Todos vencem! O objetivo é unir o grupo para superar desafios.",
-    games: [
-      { id: "cp1", title: "O Tapete Mágico", description: "O grupo deve virar um cobertor/lona sem que ninguém pise para fora dele.", duration: "20 min", participants: "8+", age: "10+", materials: ["Lona ou cobertor"], steps: ["Todos ficam em cima da lona.", "O objetivo é virar o lado avesso para cima.", "Nenhum pé pode tocar o chão durante o processo.", "Requer muita conversa e equilíbrio coletivo."] },
-      { id: "cp2", title: "Transporte de Água Furado", description: "Levar água de um balde a outro usando copos com furos que devem ser tampados pelos dedos dos colegas.", duration: "20 min", participants: "10+", age: "8+", materials: ["Copos furados", "Baldes"], steps: ["Fila entre os baldes.", "O copo passa de mão em mão.", "Todos devem ajudar a manter a água dentro.", "Vence o grupo quando o balde final atingir a marca."] },
-      { id: "cp3", title: "Círculo de Equilíbrio (Sentar no Colo)", description: "Todos no círculo giram e, ao sinal, todos sentam no joelho da pessoa de trás simultaneamente.", duration: "10 min", participants: "15+", age: "12+", materials: [], steps: ["Círculo bem fechado.", "Todos viram para a direita.", "Mãos no ombro da frente.", "Sinal: 'Senta!'. Se todos confiarem, ninguém cai."] },
-      { id: "cp4", title: "Aranha de Barbante", description: "Criar uma teia de barbante que sustenta um objeto no centro enquanto o grupo se move.", duration: "25 min", participants: "6+", age: "9+", materials: ["Barbante", "Argola ou bola"], steps: ["Cada um segura um fio amarrado a um anel central.", "Uma bola é colocada sobre o anel.", "O grupo deve levar a bola de um ponto a outro sem deixar cair.", "Controle da tensão dos fios é a chave."] },
-      { id: "cp5", title: "Ponte de Jornais", description: "Atravessar um espaço 'de lava' usando apenas algumas folhas de jornal que devem ser movidas coletivamente.", duration: "20 min", participants: "6+", age: "7+", materials: ["Jornal"], steps: ["O grupo recebe 3 folhas a menos que o número de pessoas.", "Devem revezar as folhas no chão para avançar.", "Se alguém pisar na 'lava', o grupo volta 2 metros.", "Cooperar para não deixar ninguém para trás."] },
-      { id: "cp6", title: "Máquina Humana", description: "Cada um vira uma peça de uma máquina complexa com sons e movimentos coordenados.", duration: "15 min", participants: "8+", age: "5+", materials: [], steps: ["O primeiro faz um movimento e som repetitivo.", "O segundo se acopla a ele.", "Continue até todos estarem engatados.", "O monitor pode acelerar ou desacelerar a máquina."] },
-      { id: "cp7", title: "Alfabeto Humano", description: "O grupo deve formar letras e palavras deitados ou em pé usando seus corpos.", duration: "15 min", participants: "10+", age: "7+", materials: [], steps: ["O monitor grita uma palavra curta.", "As equipes têm 1 minuto para formar no chão.", "Vista de cima, a palavra deve ser legível.", "Desafio aumenta com frases curtas."] },
-      { id: "cp8", title: "Corrente de Bambolê (Sem Mãos)", description: "Passar o bambolê pelo corpo de todos na roda sem nunca soltar as mãos dadas.", duration: "10 min", participants: "10+", age: "6+", materials: ["Bambolê"], steps: ["Roda de mãos dadas.", "Insira o bambolê no braço de um.", "Deve atravessar o círculo todo.", "Acelere a cada tentativa e tente bater o recorde."] },
-      { id: "cp9", title: "Apoio do Amigo", description: "Duplas de costas uma para outra devem tentar levantar do chão sem usar as mãos.", duration: "10 min", participants: "4+", age: "8+", materials: [], steps: ["Senta de costas, braços entrelaçados.", "Pressione as costas uma contra a outra.", "Faça força com as pernas juntas.", "Tente fazer em trios para maior dificuldade."] },
-      { id: "cp10", title: "Confiança Cega", description: "Um guia deve conduzir um colega de olhos vendados por um percurso de obstáculos apenas com a voz.", duration: "15 min", participants: "4+", age: "8+", materials: ["Vendas"], steps: ["Crie o percurso.", "O guia não pode tocar no vendado.", "Instruções claras ('Dois passos à esquerda').", "Troque os papéis na metade do caminho."] }
-    ]
-  }
 ]
