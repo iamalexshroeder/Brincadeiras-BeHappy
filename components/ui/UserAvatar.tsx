@@ -33,18 +33,21 @@ export function UserAvatar({
     }
   }
 
+  const isSystem = name === "BeHappyinha"
+  
   return (
     <div className="relative inline-block shrink-0 h-fit w-fit">
       <Avatar
         className={cn(
           "transition-all duration-300",
           getBadgeStyles(),
+          isSystem && "bg-[#FEF9C3] border-[#EAB308]",
           className
         )}
         {...props}
       >
-        <AvatarImage src={src ?? undefined} alt={name} className="object-cover" />
-        <AvatarFallback className={cn("font-bold", fallbackClassName)}>
+        <AvatarImage src={isSystem ? undefined : (src ?? undefined)} alt={name} className="object-cover" />
+        <AvatarFallback className={cn("font-bold", isSystem ? "bg-[#FEF9C3] text-[#EAB308]" : fallbackClassName)}>
           {name ? name[0].toUpperCase() : "?"}
         </AvatarFallback>
       </Avatar>

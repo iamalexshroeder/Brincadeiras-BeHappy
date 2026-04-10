@@ -187,12 +187,12 @@ export default function EditarPerfil() {
         </div>
       </main>
 
-      {/* Standardized Bottom Action Bar - Lifted above BottomNav */}
-      <div className="fixed bottom-[calc(64px+env(safe-area-inset-bottom))] left-0 right-0 px-6 pt-5 pb-5 bg-white border-t border-border z-40 no-print shadow-[0_-12px_30px_rgba(0,0,0,0.08)]">
+      {/* Standardized Bottom Action Bar - Exact Home style */}
+      <div className="fixed bottom-[calc(64px+env(safe-area-inset-bottom))] left-0 right-0 px-4 sm:px-5 py-4 bg-white/80 backdrop-blur-md border-t border-border z-40 no-print shadow-[0_-8px_20px_rgba(0,0,0,0.05)]">
         <button
           onClick={handleSave}
           disabled={isPending || loading}
-          className="btn-primary w-full"
+          className="btn-primary w-full shadow-[0_8px_20px_rgba(255,149,0,0.2)] active:scale-[0.98] transition-all"
         >
           {isPending ? (
             <>

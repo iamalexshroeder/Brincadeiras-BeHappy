@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 async function main() {
-  console.log('Final standardization of library data...');
+  console.log('Refining library standardization (v2)...');
   
   let rawText = '';
   try {
@@ -19,37 +19,48 @@ async function main() {
     'ÔÇ£': '"', 'ÔÇØ': '"', 'ÔÇô': '–', 'ÔÇª': '…', '┬á': ' ', 'ÔÇÖ': "'"
   };
 
-  const deepClean = (str) => {
+  const deepClean = (str, extra = true) => {
     if (!str) return '';
     let result = str;
     for (const [corrupted, fixed] of Object.entries(cleanMapping)) {
       result = result.split(corrupted).join(fixed);
     }
-    return result
+    result = result
       .replace(/Ã¡/g, 'á').replace(/Ã©/g, 'é').replace(/Ã/g, 'í').replace(/Ã³/g, 'ó')
       .replace(/Ãº/g, 'ú').replace(/Ã£/g, 'ã').replace(/Ãµ/g, 'õ').replace(/Ã§/g, 'ç')
       .replace(/Ãª/g, 'ê').replace(/Ã´/g, 'ô').replace(/Ã¢/g, 'â').replace(/Ã/g, 'à')
-      .replace(/-- \d+ of \d+ --/g, '') // Strip PDF page indicators
+      .replace(/-- \d+ of \d+ --/g, '')
+      .replace(/\[IMAGEM\]/gi, '').replace(/\[FOTO\]/gi, '')
       .replace(/\s+/g, ' ')
       .trim();
+    return result;
   };
 
   const splitSteps = (text) => {
-    // Try to split by numbers like "1.", "2." or "1)" 
-    let parts = text.split(/(?=\d[\.\)]\s)/);
-    if (parts.length <= 1) {
-      // If no numbers, split by sentences if long
-      parts = text.split(/\. (?=[A-Z])/);
-      if (parts.length > 5) {
-        // Group small sentences
-        const combined = [];
-        for (let i = 0; i < parts.length; i += 2) {
-          combined.push(parts[i] + (parts[i+1] ? '. ' + parts[i+1] : '.'));
-        }
-        parts = combined;
+    // Split by sentences ending in a period followed by space and capital letter
+    // This is much safer than numbers which might be inside sentences
+    let parts = text.split(/\. (?=[A-Z])/);
+    
+    if (parts.length > 3) {
+      // Group sentences to avoid them being too small
+      const grouped = [];
+      for (let i = 0; i < parts.length; i += 2) {
+        let p = parts[i] + (parts[i+1] ? '. ' + parts[i+1] : '.');
+        grouped.push(p);
+      }
+      return grouped.map(p => deepClean(p)).filter(p => p.length > 5);
+    }
+    
+    // Fallback: just divide in two if it's one big block
+    if (text.length > 200) {
+      const mid = Math.floor(text.length / 2);
+      const splitPoint = text.indexOf('. ', mid);
+      if (splitPoint !== -1) {
+        return [deepClean(text.substring(0, splitPoint + 1)), deepClean(text.substring(splitPoint + 1))];
       }
     }
-    return parts.map(p => p.trim()).filter(p => p.length > 5);
+
+    return [deepClean(text)];
   };
 
   const blocks = rawText.split(/Nome:/g).filter(b => b.trim().length > 10);
@@ -83,18 +94,18 @@ async function main() {
       }
     });
 
-    const fullDesc = deepClean(descriptionLines.join(' '));
+    const fullDesc = descriptionLines.join(' ');
     const cleanedTitle = deepClean(title);
     
     if (cleanedTitle && fullDesc.length > 10) {
       games.push({
         id: `pdf-${i + 1}`,
         title: cleanedTitle,
-        description: fullDesc.substring(0, 150) + (fullDesc.length > 150 ? '...' : ''),
+        description: deepClean(fullDesc).substring(0, 150) + (fullDesc.length > 150 ? '...' : ''),
         duration: "15-20 min",
         participants: "4+",
         age: deepClean(age),
-        materials: materials.map(deepClean).filter(m => m.length > 2),
+        materials: materials.map(m => deepClean(m)).filter(m => m.length > 2),
         steps: splitSteps(fullDesc)
       });
     }
@@ -112,23 +123,13 @@ async function main() {
 
   games.forEach(game => {
     const text = (game.title + ' ' + game.steps.join(' ')).toLowerCase();
-    const ageNum = parseInt(game.age);
-
-    if (ageNum <= 4 && !text.includes('bola') && !text.includes('equipe')) {
-      collections[0].games.push(game);
-    } else if (text.includes('bola') || text.includes('gol') || text.includes('vôlei')) {
-      collections[4].games.push(game);
-    } else if (text.includes('roda') || text.includes('música') || text.includes('ritmo') || text.includes('ciranda') || text.includes('cantiga') || text.includes('estátua')) {
-      collections[2].games.push(game);
-    } else if (text.includes('pega') || text.includes('fugir') || text.includes('pegador') || text.includes('perseguição') || text.includes('caça')) {
-      collections[3].games.push(game);
-    } else if (text.includes('circuito') || text.includes('equilíbrio') || text.includes('lateralidade') || text.includes('direita') || text.includes('esquerda') || text.includes('obstáculo')) {
-      collections[1].games.push(game);
-    } else if (text.includes('equipe') || text.includes('time') || text.includes('coluna') || text.includes('gincana')) {
-      collections[5].games.push(game);
-    } else {
-      collections[6].games.push(game);
-    }
+    if (text.includes('bola') || text.includes('gol')) collections[4].games.push(game);
+    else if (text.includes('roda') || text.includes('música') || text.includes('ritmo')) collections[2].games.push(game);
+    else if (text.includes('pega') || text.includes('fugir')) collections[3].games.push(game);
+    else if (text.includes('circuito') || text.includes('equilíbrio')) collections[1].games.push(game);
+    else if (text.includes('equipe') || text.includes('time')) collections[5].games.push(game);
+    else if (game.age.includes('3') || game.age.includes('4')) collections[0].games.push(game);
+    else collections[6].games.push(game);
   });
 
   let tsContent = `import { 
@@ -165,7 +166,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
   tsContent += `];\n`;
 
   fs.writeFileSync('lib/data/biblioteca.ts', tsContent);
-  console.log('Task complete: Cleaned and standardized 137 games.');
+  console.log('Final standardization (v2) complete.');
 }
 
 main().catch(console.error);

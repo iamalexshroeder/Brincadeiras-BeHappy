@@ -31,11 +31,9 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "4+ anos",
         "materials": [],
         "steps": [
-          "Escolhe-se um participante para ser o lobo, e os outros contam até determinado número em um lugar designado como \"casa\"",
-          "Enquanto todos contam o lobo se esconde, quando os outros participantes terminarem a contagem, saem a procura do lobo",
-          "Quando um participante o descobre, aproxima-se dizendo em voz alta \"vejo um cordeiro cheio de lã\"",
-          "Os outros participantes aproximam-se",
-          "O lobo permanece quieto até que quem o viu grita \"vejo um lobo cheio de lã\", então o lobo saíra atrás dos participantes, quem for pego virará o lobo."
+          "Escolhe-se um participante para ser o lobo, e os outros contam até determinado número em um lugar designado como \"casa\". Enquanto todos contam o lobo se esconde, quando os outros participantes terminarem a contagem, saem a procura do lobo",
+          "Quando um participante o descobre, aproxima-se dizendo em voz alta \"vejo um cordeiro cheio de lã\". Os outros participantes aproximam-se",
+          "O lobo permanece quieto até que quem o viu grita \"vejo um lobo cheio de lã\", então o lobo saíra atrás dos participantes, quem for pego virará o lobo.."
         ]
       },
       {
@@ -49,9 +47,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "bambolês"
         ],
         "steps": [
-          "atividade para trabalhar a lateralidade com as crianças, usando marcações no chão ou bambolês, o professor falará \"direita\" ou \"esquerda\" e as crianças seguirão os comandos do professor",
-          "Como variação, o professor pode usar o som do apito exemplo: dois silvos direita, um silvo esquerda",
-          "Poderá também usar frente e trás."
+          "atividade para trabalhar a lateralidade com as crianças, usando marcações no chão ou bambolês, o professor falará \"direita\" ou \"esquerda\" e as crianças seguirão os comandos do professor.",
+          "Como variação, o professor pode usar o som do apito exemplo: dois silvos direita, um silvo esquerda. Poderá também usar frente e trás."
         ]
       },
       {
@@ -69,23 +66,6 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         ]
       },
       {
-        "id": "pdf-7",
-        "title": "Circuitos",
-        "description": "Circuitos psicomotores para trabalhar velocidade, lateralidade, coordenação das crianças, pode ser montado a escolha do monitor.",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "3+ anos",
-        "materials": [
-          "bambolês",
-          "cones",
-          "cordas",
-          "bolas"
-        ],
-        "steps": [
-          "Circuitos psicomotores para trabalhar velocidade, lateralidade, coordenação das crianças, pode ser montado a escolha do monitor."
-        ]
-      },
-      {
         "id": "pdf-8",
         "title": "A sombra",
         "description": "As crianças deverão ser divididas em duplas, e ao sinal do instrutor as duplas irão caminhar pelo local, um da dupla fará movimentos diversos que deve...",
@@ -94,7 +74,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "4+ anos",
         "materials": [],
         "steps": [
-          "As crianças deverão ser divididas em duplas, e ao sinal do instrutor as duplas irão caminhar pelo local, um da dupla fará movimentos diversos que deverá ser imitado pelo seu companheiro, ao próximo sinal, os participantes deverão trocar os papeis, o que era sombra passará a comandar e o outro será a \"sombra\"",
+          "As crianças deverão ser divididas em duplas, e ao sinal do instrutor as duplas irão caminhar pelo local, um da dupla fará movimentos diversos que deverá ser imitado pelo seu companheiro, ao próximo sinal, os participantes deverão trocar os papeis, o que era sombra passará a comandar e o outro será a \"sombra\".",
           "Como variação, o professor poderá ir mandando juntar, trios, quartetos etc."
         ]
       },
@@ -107,37 +87,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "4+ anos",
         "materials": [],
         "steps": [
-          "Uma criança será escolhida para ser a \"medusa\", ela fiará posicionada em um determinado lugar virada de costas para os outros participantes que estarão afastados da \"medusa\"",
-          "Eles deverão se aproximar da \"medusa\" sem que ela veja nenhum movimento, e tentaram encostá-la",
-          "A \"medusa\" poderá virar para olhar os participantes quantas vezes quiser e se ela vir algum movimento poderá falar para o colega voltar ao lugar de início",
-          "O participante que encostar na medusa, tomara o seu lugar."
-        ]
-      },
-      {
-        "id": "pdf-10",
-        "title": "Estatua Musical",
-        "description": "Colocar uma música, e deixar as crianças dançarem do seu jeito no ritmo da música. Ao pausar a música as crianças deverão parar em uma pose e voltar a...",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "3+ anos",
-        "materials": [
-          "música"
-        ],
-        "steps": [
-          "Colocar uma música, e deixar as crianças dançarem do seu jeito no ritmo da música",
-          "Ao pausar a música as crianças deverão parar em uma pose e voltar a se mexer quando a música voltar."
-        ]
-      },
-      {
-        "id": "pdf-12",
-        "title": "Pega-pega dos números",
-        "description": "Será formado um círculo, o monitor numerará cada participante de 1-5 (dependendo do número de participantes), ao sinal do monitor, o número chamado de...",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "4+ anos",
-        "materials": [],
-        "steps": [
-          "Será formado um círculo, o monitor numerará cada participante de 1-5 (dependendo do número de participantes), ao sinal do monitor, o número chamado deverá levantar-se e correr para o lado direito, assim todos tentaram pegar o colega da sua frente e fugir do colega que está atrás, poderá apenas dar uma ou duas voltas, até chegar ao seu lugar de origem."
+          "Uma criança será escolhida para ser a \"medusa\", ela fiará posicionada em um determinado lugar virada de costas para os outros participantes que estarão afastados da \"medusa\". Eles deverão se aproximar da \"medusa\" sem que ela veja nenhum movimento, e tentaram encostá-la",
+          "A \"medusa\" poderá virar para olhar os participantes quantas vezes quiser e se ela vir algum movimento poderá falar para o colega voltar ao lugar de início. O participante que encostar na medusa, tomara o seu lugar."
         ]
       },
       {
@@ -149,9 +100,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "4+ anos",
         "materials": [],
         "steps": [
-          "Formar vários grupos de três pessoas, sendo que dois participantes vão dar as mãos simulando uma toca e o outro participante é o coelho que ficará dentro da toca, ao sinal do monitor, todos os coelhos devem trocar de toca, ao segundo sinal as tocas troaram de lugar",
-          "Quando o monitor falar em voz alta \"ventania\" todos saíram do seu lugar e caminharam livres como se estivesse ventando",
-          "Quando o monitor falar \"toca do coelho\", formam novamente grupos de três."
+          "Formar vários grupos de três pessoas, sendo que dois participantes vão dar as mãos simulando uma toca e o outro participante é o coelho que ficará dentro da toca, ao sinal do monitor, todos os coelhos devem trocar de toca, ao segundo sinal as tocas troaram de lugar.",
+          "Quando o monitor falar em voz alta \"ventania\" todos saíram do seu lugar e caminharam livres como se estivesse ventando. Quando o monitor falar \"toca do coelho\", formam novamente grupos de três."
         ]
       },
       {
@@ -163,10 +113,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "4+ anos",
         "materials": [],
         "steps": [
-          "Escolhe-se um para ser o condutor da brincadeira",
-          "Forma-se um círculo com todos os participantes (pedir para tirar os tênis)",
-          "O condutor dará uma ordem como \"mão direita no vermelho\", e os participantes tocarão com a mão direita na cor vermelha de um companheiro sem sair do círculo",
-          "Ao passar do jogo e monitor troca o condutor da brincadeira."
+          "Escolhe-se um para ser o condutor da brincadeira. Forma-se um círculo com todos os participantes (pedir para tirar os tênis)",
+          "O condutor dará uma ordem como \"mão direita no vermelho\", e os participantes tocarão com a mão direita na cor vermelha de um companheiro sem sair do círculo. Ao passar do jogo e monitor troca o condutor da brincadeira."
         ]
       },
       {
@@ -180,24 +128,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "objetos pequenos para serem o tesouro"
         ],
         "steps": [
-          "O monitor irá esconder os objetos sem que as crianças o vejam, ao seu sinal todos os participantes deverão sair a procura dos objetos, os que forem encontrados deverão ser entregues ao monitor",
+          "O monitor irá esconder os objetos sem que as crianças o vejam, ao seu sinal todos os participantes deverão sair a procura dos objetos, os que forem encontrados deverão ser entregues ao monitor.",
           "Ir mudando quem irá esconder."
-        ]
-      },
-      {
-        "id": "pdf-16",
-        "title": "Dança das cadeiras",
-        "description": "Organizar as cadeiras uma ao lado da outra, ao tocar a música as crianças deverão andar em volta das cadeiras, no ritmo da música, quando a música par...",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "3+ anos",
-        "materials": [
-          "cadeiras ou bancos",
-          "música"
-        ],
-        "steps": [
-          "Organizar as cadeiras uma ao lado da outra, ao tocar a música as crianças deverão andar em volta das cadeiras, no ritmo da música, quando a música parar deverão sentar-se na cadeira",
-          "Com o passar da brincadeira ir tirando as cadeiras de uma em uma, a criança que ficar em pé sairá da brincadeira."
         ]
       },
       {
@@ -209,7 +141,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "4+ anos",
         "materials": [],
         "steps": [
-          "Será demarcado uma linha de partida e uma outra de chegada, ao sinal do monitor todas as crianças deverão sair pulando em um pé só",
+          "Será demarcado uma linha de partida e uma outra de chegada, ao sinal do monitor todas as crianças deverão sair pulando em um pé só.",
           "A criança que colocar o pé no chão será eliminada e ganhará quem chegar primeiro com um pé só."
         ]
       },
@@ -222,7 +154,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "3+ anos",
         "materials": [],
         "steps": [
-          "Uma criança será escolhida para ser o camaleão, ao sinal do monitor, os restantes das crianças perguntaram para o \"camaleão\" qual é a cor, assim que a cor for dita as crianças correram e encostaram em algo com a cor dita, quem for pego vira o camaleão."
+          "Uma criança será escolhida para ser o camaleão, ao sinal do monitor, os restantes das crianças perguntaram para o \"camaleão\" qual é a cor, assim que a cor for dita as crianças correram e encostaram em algo com a cor dita, quem for pego vira o camaleão.",
+          ""
         ]
       },
       {
@@ -234,26 +167,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "3+ anos",
         "materials": [],
         "steps": [
-          "Formarão uma corrente dando as mãos, um participante será escolhido para ser o condutor",
-          "O condutor dirá algumas ordens como \"a corrente se encolhe\" e todos irão se apertar para frente\" ou \"a corrente se alarga\" e todos se separam sem soltar as mãos",
-          "Poderá dar várias outras ordens como por exemplo \"a corrente se agacha, salta\" etc",
-          "Sempre mudar o condutor da brincadeira."
-        ]
-      },
-      {
-        "id": "pdf-25",
-        "title": "Travessia da Floresta",
-        "description": "Traçar no chão um retângulo bem grande (sendo a floresta). Dentro ficam três participantes que são os pegadores, fora ficam os demais, à vontade. Dado...",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "4+ anos",
-        "materials": [],
-        "steps": [
-          "Traçar no chão um retângulo bem grande (sendo a floresta)",
-          "Dentro ficam três participantes que são os pegadores, fora ficam os demais, à vontade",
-          "Dado o sinal de início, os jogadores que estão fora tentam cruzar o retângulo, isto é, a \"floresta\", sem serem pegos",
-          "Os três jogadores de dentro tentam pegar os outros \"forasteiros\" que cruzam a floresta de um lado para o outro",
-          "Quem for preso, passa a ajudar os pegadores."
+          "Formarão uma corrente dando as mãos, um participante será escolhido para ser o condutor. O condutor dirá algumas ordens como \"a corrente se encolhe\" e todos irão se apertar para frente\" ou \"a corrente se alarga\" e todos se separam sem soltar as mãos",
+          "Poderá dar várias outras ordens como por exemplo \"a corrente se agacha, salta\" etc. Sempre mudar o condutor da brincadeira."
         ]
       },
       {
@@ -265,63 +180,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "3+ anos",
         "materials": [],
         "steps": [
-          "Uma criança será escolhida para ser o \"reizinho\" que comandará a brincadeira",
-          "A criança determinada como reizinho dirá \"reizinho mandou\" e o restante dirá \"fazer o que\", e o reizinho determinará a tarefa, como pular de um pé só, imitar um animal entre outras",
+          "Uma criança será escolhida para ser o \"reizinho\" que comandará a brincadeira. A criança determinada como reizinho dirá \"reizinho mandou\" e o restante dirá \"fazer o que\", e o reizinho determinará a tarefa, como pular de um pé só, imitar um animal entre outras.",
           "O monitor deverá sempre trocar o comandante da brincadeira."
-        ]
-      },
-      {
-        "id": "pdf-27",
-        "title": "Elefante Colorido",
-        "description": "Uma criança ficara ao centro, sendo o \"elefante\", essa criança falará \"elefante colorido\" e o restante dirá \"que cor\", e o elefante escolherá uma cor....",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "3+ anos",
-        "materials": [],
-        "steps": [
-          "Uma criança ficara ao centro, sendo o \"elefante\", essa criança falará \"elefante colorido\" e o restante dirá \"que cor\", e o elefante escolherá uma cor",
-          "Se a criança possuir a cor dita poderá passar pelo \"elefante\" sem ser pego, caso não tenha terá que passar correndo, se a criança for pega ela vira o \"elefante\"."
-        ]
-      },
-      {
-        "id": "pdf-29",
-        "title": "Reino dos sacis",
-        "description": "Em um canto do espaço determinado para fazer a atividade, marcasse o \"palácio\", onde fica um jogador, o \"saci-rei\". Os demais \"sacis\" dispersam-se à v...",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "4+ anos",
-        "materials": [],
-        "steps": [
-          "Em um canto do espaço determinado para fazer a atividade, marcasse o \"palácio\", onde fica um jogador, o \"saci-rei\". Os demais \"sacis\" dispersam-se à vontade pelo campo",
-          "Ao sinal de início, os sacis dirigem-se, pulando num pé só, ao palácio real, para provocar o rei. De repente, este anuncia: \"O rei está zangado!\", saindo a persegui-los, também aos pulos",
-          "Ele mesmo conduz ao palácio o primeiro que pega e o nomeia seu \"ajudante\". A brincadeira recomeça, tal como antes, saindo agora os dois, após novo aviso, em perseguição aos demais e assim por diante",
-          "O último apanhado será o novo rei, na repetição do jogo. Ninguém pode apoiar os dois pés no chão, sob pena de ser aprisionado, exceto nos seguintes casos: a) quando o jogador estiver dentro do palácio; b) quando o jogador estiver cansado, devendo, porém, ficar parado num mesmo lugar, ocasião em que poderá ser apanhado",
-          "O jogador aprisionado ficará dentro do palácio, até outro ser preso, só então podendo voltar ao lugar onde estava antes.."
-        ]
-      },
-      {
-        "id": "pdf-30",
-        "title": "Congelado",
-        "description": "Um tipo de pega-pega. Quem for pego, deve ficar parado no lugar onde foi tocado, até que alguém que ainda não foi pego toque nele, o libertando.",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "3+ anos",
-        "materials": [],
-        "steps": [
-          "Um tipo de pega-pega",
-          "Quem for pego, deve ficar parado no lugar onde foi tocado, até que alguém que ainda não foi pego toque nele, o libertando."
-        ]
-      },
-      {
-        "id": "pdf-33",
-        "title": "Pega-pega espelho",
-        "description": "Pega-pega comum, quando a criança for pega deverá fazer uma pose, e para ser salva outra criança tem que parar na frente ela e fazer a pose igual.",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "3+ anos",
-        "materials": [],
-        "steps": [
-          "Pega-pega comum, quando a criança for pega deverá fazer uma pose, e para ser salva outra criança tem que parar na frente ela e fazer a pose igual."
         ]
       },
       {
@@ -335,8 +195,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "uma corda"
         ],
         "steps": [
-          "Coloca-se uma corda no chão, um lado é o céu e o outro é a terra",
-          "Quando o monitor falar céu as crianças pulam para o céu, quando o monitor falar terra as crianças pulam para terra",
+          "Coloca-se uma corda no chão, um lado é o céu e o outro é a terra. Quando o monitor falar céu as crianças pulam para o céu, quando o monitor falar terra as crianças pulam para terra.",
           "O monitor poderá falar mais rápido ou repetir a mesma palavra."
         ]
       },
@@ -351,8 +210,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "três folhas de sulfite por criança"
         ],
         "steps": [
-          "cada criança receberá 3 folhas de sulfite",
-          "Eles deverão colocar o primeiro papel no chão, pisam nele e colocam o segundo na sua frente, quando colocam o terceiro, deverão recolher o primeiro para repetir o processo",
+          "cada criança receberá 3 folhas de sulfite. Eles deverão colocar o primeiro papel no chão, pisam nele e colocam o segundo na sua frente, quando colocam o terceiro, deverão recolher o primeiro para repetir o processo.",
           "Para que os pequenos entrem na brincadeira, fale que o chão é uma correnteza de água e para que eles consigam passar deverão que passar por cima dos papeis."
         ]
       },
@@ -365,11 +223,9 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "3+ anos",
         "materials": [],
         "steps": [
-          "Os participantes ficam de pé, dispersos em uma área delimitada para a brincadeira",
-          "Um voluntário será o \"feiticeiro\" que perseguirá os demais",
-          "Ao sinal do monitor, inicia-se a perseguição, e aquele que for tocado ficará \"enfeitiçado\": imóvel com as pernas afastadas, representando uma \"estátua\"",
-          "Os outros companheiros poderão passar por baixo das pernas das \"estátuas\", salvando-as do \"feitiço\"",
-          "Depois de algum tempo, o \"feiticeiro\" deverá ser substituído."
+          "Os participantes ficam de pé, dispersos em uma área delimitada para a brincadeira. Um voluntário será o \"feiticeiro\" que perseguirá os demais",
+          "Ao sinal do monitor, inicia-se a perseguição, e aquele que for tocado ficará \"enfeitiçado\": imóvel com as pernas afastadas, representando uma \"estátua\". Os outros companheiros poderão passar por baixo das pernas das \"estátuas\", salvando-as do \"feitiço\"",
+          "Depois de algum tempo, o \"feiticeiro\" deverá ser substituído.."
         ]
       },
       {
@@ -385,68 +241,6 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         ]
       },
       {
-        "id": "pdf-42",
-        "title": "Cauda do dragão",
-        "description": "Todas as crianças ficam em pé, em coluna com as mãos na cintura um do outro, formando um dragão. O primeiro integrante da fila, representando a cabeça...",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "4+ anos",
-        "materials": [],
-        "steps": [
-          "Todas as crianças ficam em pé, em coluna com as mãos na cintura um do outro, formando um dragão",
-          "O primeiro integrante da fila, representando a cabeça do dragão, terá como objetivo pegar o último da fila, a cauda",
-          "Ao sinal do monitor, o \"dragão\" passará a se movimentar, correndo, sob o comando da cabeça que tentará pegar a cauda",
-          "Esta, por sua vez, fará movimentos no sentido de evitar que isso aconteça",
-          "Caso consiga pegar a cauda, a criança que a representava passa para frente da fila, se tornado a cabeça do dragão."
-        ]
-      },
-      {
-        "id": "pdf-43",
-        "title": "O gafanhoto e a rã",
-        "description": "Faça um círculo no chão para que caiba todos os participantes e sobre espaço. Um será a \"rã\" e os outros serão os \"gafanhotos\" que terão que fugir da ...",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "4+ anos",
-        "materials": [
-          "1 giz"
-        ],
-        "steps": [
-          "Faça um círculo no chão para que caiba todos os participantes e sobre espaço",
-          "Um será a \"rã\" e os outros serão os \"gafanhotos\" que terão que fugir da \"rã\"",
-          "A \"rã\" deverá ficar agachada e os gafanhotos deverão fugir pulando de um pé só, quem for pego deverá virar \"rã\" ajudando a pegar os outros."
-        ]
-      },
-      {
-        "id": "pdf-44",
-        "title": "Cuidado que o gato pega",
-        "description": "Um será o \"rato\", que segurará o tênis na mão, o os outros participantes deverão sentar-se no chão em um círculo. O rato deverá correr e deixar o têni...",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "4+ anos",
-        "materials": [
-          "um tênis ou um objeto do mesmo tamanho"
-        ],
-        "steps": [
-          "Um será o \"rato\", que segurará o tênis na mão, o os outros participantes deverão sentar-se no chão em um círculo",
-          "O rato deverá correr e deixar o tênis atrás de alguém, este será o gato, que correrá atrás do rato, o rato deverá sentar-se no lugar do gato, que virará automaticamente o rato e assim sucessivamente."
-        ]
-      },
-      {
-        "id": "pdf-45",
-        "title": "Reino Perdido",
-        "description": "No reino há várias princesas perdidas (escondidas), um bruxo(a) e uma dama ou cavalheiro. A dama ou cavalheiro tem que encontrar as princesas e levar ...",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "3+ anos",
-        "materials": [],
-        "steps": [
-          "No reino há várias princesas perdidas (escondidas), um bruxo(a) e uma dama ou cavalheiro",
-          "A dama ou cavalheiro tem que encontrar as princesas e levar para o reino antes do bruxo, que levará para o seu esconderijo",
-          "Vence quem tiver mais princesas capturadas",
-          "Resumindo são 2 pegadores e o restante se esconde."
-        ]
-      },
-      {
         "id": "pdf-46",
         "title": "O monstro faminto",
         "description": "Desenha-se no chão um monstro com a oca aberta, os participantes deverão ficar no corpo do monstro, ao sinal do monitor os participantes deverão se em...",
@@ -458,18 +252,6 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         ],
         "steps": [
           "Desenha-se no chão um monstro com a oca aberta, os participantes deverão ficar no corpo do monstro, ao sinal do monitor os participantes deverão se empurrar para que alguém pare na boca do monstro, quem entrar na boca do monstro deverá tentar puxar os outros amigos até que todos caiam nela."
-        ]
-      },
-      {
-        "id": "pdf-48",
-        "title": "As cores",
-        "description": "Um será o Pegador, que dirá em voz alta alguma cor, o restante devera correr e encostar na cor dita, quem conseguir estará salvo, se o pegador pegar a...",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "4+ anos",
-        "materials": [],
-        "steps": [
-          "Um será o Pegador, que dirá em voz alta alguma cor, o restante devera correr e encostar na cor dita, quem conseguir estará salvo, se o pegador pegar alguém, o mesmo vira o pegador."
         ]
       },
       {
@@ -500,26 +282,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "giz"
         ],
         "steps": [
-          "Cortar a cartolina em vários pedaços e em cores diferentes, estipular pontos para cada cor e esconder em um ambiente",
-          "Depois falar para as crianças procurarem em certo tempo, ganha quem fizer mais pontos",
+          "Cortar a cartolina em vários pedaços e em cores diferentes, estipular pontos para cada cor e esconder em um ambiente. Depois falar para as crianças procurarem em certo tempo, ganha quem fizer mais pontos.",
           "Espelho (a partir dos 3 anos)"
-        ]
-      },
-      {
-        "id": "pdf-51",
-        "title": "Combinação de poção",
-        "description": "Espalhar os bambolês e cones pelo chão, trazer o lúdico em dizer que os bambolês são as \"casas/tocas\" dos magos e os cones as poções. A brincadeira co...",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "4+ anos",
-        "materials": [
-          "bambolês",
-          "cones coloridos"
-        ],
-        "steps": [
-          "Espalhar os bambolês e cones pelo chão, trazer o lúdico em dizer que os bambolês são as \"casas/tocas\" dos magos e os cones as poções",
-          "A brincadeira consiste em os magos saírem de suas casas e resgatarem as poções sem ser pego pelo monstro (dento da casa não é pego), caso seja pego deverá devolver todas as poções que tiver para serem resgatadas novamente",
-          "Após resgatar todas as poções deve fazer a combinação entre elas, promovendo a cooperação entre todos, as poções precisam estar todas juntas com apenas um mago e serem da mesma cor, se caso forem pegas com todas as poções o monstro ganha."
         ]
       },
       {
@@ -535,7 +299,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Crianças: Forno. Chefe: Tirar um bolo",
           "Crianças: Bolo. Chefe: Fareis tudo o que o mestre mandar? Crianças: Faremos todos",
           "Seguem-se as ordens do mestre. Geralmente, elas consistem em coisas simples como: andar x passos, bater palmas, dar pulos, etc",
-          "A escolha do mestre ou chefe é feita através de sorteio.."
+          "A escolha do mestre ou chefe é feita através de sorteio. ."
         ]
       },
       {
@@ -550,9 +314,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "um papelão"
         ],
         "steps": [
-          "Definir um lugar de largada e outro de chegada",
-          "Cada criança terá uma bexiga e um pedaço de papelão",
-          "As crianças colocarão o balão no chão e irão abaná-lo até a linha de chegada."
+          "Definir um lugar de largada e outro de chegada. Cada criança terá uma bexiga e um pedaço de papelão. As crianças colocarão o balão no chão e irão abaná-lo até a linha de chegada."
         ]
       },
       {
@@ -567,24 +329,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "objetos variados."
         ],
         "steps": [
-          "A caixa deverá ter um furo no meio para que as crianças coloquem a mão",
-          "Dentro da caixa deverá ter algum objeto",
+          "A caixa deverá ter um furo no meio para que as crianças coloquem a mão. Dentro da caixa deverá ter algum objeto.",
           "A criança deverá estar vendada, colocara a mão na caixa e tentará descobrir qual é o objeto."
-        ]
-      },
-      {
-        "id": "pdf-76",
-        "title": "Quem tem medo do mico preto?",
-        "description": "O mico preto fica no meio da quadra, e os outros alunos ficam na linha de fundo da quadra. O mico preto chama duas vezes os caçadores: \"Quem tem medo ...",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "4+ anos",
-        "materials": [],
-        "steps": [
-          "O mico preto fica no meio da quadra, e os outros alunos ficam na linha de fundo da quadra",
-          "O mico preto chama duas vezes os caçadores: \"Quem tem medo do mico preto\" Caçadores respondem: Eu que não..",
-          "E neste momento o mico preto tem de pegar os caçadores de mico preto",
-          "Quem for pego vira mico e ajuda na captura dos caçadores."
         ]
       }
     ]
@@ -598,19 +344,20 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
     description: "Circuitos, equilíbrio e coordenação.",
     games: [
       {
-        "id": "pdf-78",
-        "title": "Jogo dos Comandos",
-        "description": "Vários bambolês devem ser colocados em círculo com um participante dentro de cada um. Os integrantes devem obedecer aos comandos (para frente, para tr...",
+        "id": "pdf-7",
+        "title": "Circuitos",
+        "description": "Circuitos psicomotores para trabalhar velocidade, lateralidade, coordenação das crianças, pode ser montado a escolha do monitor.",
         "duration": "15-20 min",
         "participants": "4+",
-        "age": "Livre",
+        "age": "3+ anos",
         "materials": [
-          "Bambolês ou Giz."
+          "bambolês",
+          "cones",
+          "cordas",
+          "bolas"
         ],
         "steps": [
-          "Vários bambolês devem ser colocados em círculo com um participante dentro de cada um",
-          "Os integrantes devem obedecer aos comandos (para frente, para trás, para a esquerda e para a direita)",
-          "Vence quem conseguir ficar no círculo por último."
+          "Circuitos psicomotores para trabalhar velocidade, lateralidade, coordenação das crianças, pode ser montado a escolha do monitor."
         ]
       }
     ]
@@ -623,6 +370,36 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
     bg: "#E5F1FF",
     description: "Ritmos, cantigas e rodas.",
     games: [
+      {
+        "id": "pdf-10",
+        "title": "Estatua Musical",
+        "description": "Colocar uma música, e deixar as crianças dançarem do seu jeito no ritmo da música. Ao pausar a música as crianças deverão parar em uma pose e voltar a...",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "3+ anos",
+        "materials": [
+          "música"
+        ],
+        "steps": [
+          "Colocar uma música, e deixar as crianças dançarem do seu jeito no ritmo da música. Ao pausar a música as crianças deverão parar em uma pose e voltar a se mexer quando a música voltar."
+        ]
+      },
+      {
+        "id": "pdf-16",
+        "title": "Dança das cadeiras",
+        "description": "Organizar as cadeiras uma ao lado da outra, ao tocar a música as crianças deverão andar em volta das cadeiras, no ritmo da música, quando a música par...",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "3+ anos",
+        "materials": [
+          "cadeiras ou bancos",
+          "música"
+        ],
+        "steps": [
+          "Organizar as cadeiras uma ao lado da outra, ao tocar a música as crianças deverão andar em volta das cadeiras, no ritmo da música, quando a música parar deverão sentar-se na cadeira.",
+          "Com o passar da brincadeira ir tirando as cadeiras de uma em uma, a criança que ficar em pé sairá da brincadeira."
+        ]
+      },
       {
         "id": "pdf-32",
         "title": "Telefone sem fio",
@@ -644,9 +421,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "6+ anos",
         "materials": [],
         "steps": [
-          "Forma-se duas equipes, coloca-se uma equipe de frente para a outra, ao primeiro sinal do monitor, as equipes se reúnem e decidem se vão jogar pedra, papel ou tesoura, ao segundo sinal do monitor as equipes viram-se uma de frente para a outra e jogam o que escolheram",
-          "A cada rodada marcasse um ponto para a equipe que ganha a partida",
-          "Ganha a equipe que fizer 10 pontos primeiro."
+          "Forma-se duas equipes, coloca-se uma equipe de frente para a outra, ao primeiro sinal do monitor, as equipes se reúnem e decidem se vão jogar pedra, papel ou tesoura, ao segundo sinal do monitor as equipes viram-se uma de frente para a outra e jogam o que escolheram.",
+          "A cada rodada marcasse um ponto para a equipe que ganha a partida. Ganha a equipe que fizer 10 pontos primeiro."
         ]
       },
       {
@@ -658,10 +434,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "6+ anos",
         "materials": [],
         "steps": [
-          "Uma pessoa se esconde, e todas as outras a procuram",
-          "Sempre que alguém achar a criança que está escondida, deverá se esconder junto dela",
-          "A brincadeira acaba quando todos encontram o escondido",
-          "Quem encontrou primeiro pode se esconder na próxima rodada."
+          "Uma pessoa se esconde, e todas as outras a procuram. Sempre que alguém achar a criança que está escondida, deverá se esconder junto dela",
+          "A brincadeira acaba quando todos encontram o escondido. Quem encontrou primeiro pode se esconder na próxima rodada."
         ]
       },
       {
@@ -673,8 +447,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "8+ anos",
         "materials": [],
         "steps": [
-          "Faz-se a roda e todos estendem os braços para frente e ao sinal do monitor, a roda se fecha e cada pessoa deve segurar duas outras mãos (seja de quem for)",
-          "Cada mão segura (uma) outra, ou seja, uma mão não pode estar segurando outras duas por exemplo",
+          "Faz-se a roda e todos estendem os braços para frente e ao sinal do monitor, a roda se fecha e cada pessoa deve segurar duas outras mãos (seja de quem for). Cada mão segura (uma) outra, ou seja, uma mão não pode estar segurando outras duas por exemplo.",
           "O Objetivo é desatar o nó que se forma, sem soltar em momento algum as mãos."
         ]
       },
@@ -708,6 +481,72 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
     description: "Perseguição e velocidade.",
     games: [
       {
+        "id": "pdf-12",
+        "title": "Pega-pega dos números",
+        "description": "Será formado um círculo, o monitor numerará cada participante de 1-5 (dependendo do número de participantes), ao sinal do monitor, o número chamado de...",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "4+ anos",
+        "materials": [],
+        "steps": [
+          "Será formado um círculo, o monitor numerará cada participante de 1-5 (dependendo do número de participantes), ao sinal do monitor, o número chamado deverá levantar-se e correr para o lado direito, assim todos tentaram pegar o colega da sua frente e fugir do colega que está atrás, poderá apenas dar uma ou duas voltas, até chegar ao seu lugar de origem."
+        ]
+      },
+      {
+        "id": "pdf-25",
+        "title": "Travessia da Floresta",
+        "description": "Traçar no chão um retângulo bem grande (sendo a floresta). Dentro ficam três participantes que são os pegadores, fora ficam os demais, à vontade. Dado...",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "4+ anos",
+        "materials": [],
+        "steps": [
+          "Traçar no chão um retângulo bem grande (sendo a floresta). Dentro ficam três participantes que são os pegadores, fora ficam os demais, à vontade",
+          "Dado o sinal de início, os jogadores que estão fora tentam cruzar o retângulo, isto é, a \"floresta\", sem serem pegos. Os três jogadores de dentro tentam pegar os outros \"forasteiros\" que cruzam a floresta de um lado para o outro",
+          "Quem for preso, passa a ajudar os pegadores.."
+        ]
+      },
+      {
+        "id": "pdf-27",
+        "title": "Elefante Colorido",
+        "description": "Uma criança ficara ao centro, sendo o \"elefante\", essa criança falará \"elefante colorido\" e o restante dirá \"que cor\", e o elefante escolherá uma cor....",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "3+ anos",
+        "materials": [],
+        "steps": [
+          "Uma criança ficara ao centro, sendo o \"elefante\", essa criança falará \"elefante colorido\" e o restante dirá \"que cor\", e o elefante escolherá uma cor. Se a criança possuir a cor dita poderá passar pelo \"elefante\" sem ser pego, caso não tenha terá que passar correndo, se a criança for pega ela vira o \"elefante\"."
+        ]
+      },
+      {
+        "id": "pdf-29",
+        "title": "Reino dos sacis",
+        "description": "Em um canto do espaço determinado para fazer a atividade, marcasse o \"palácio\", onde fica um jogador, o \"saci-rei\". Os demais \"sacis\" dispersam-se à v...",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "4+ anos",
+        "materials": [],
+        "steps": [
+          "Em um canto do espaço determinado para fazer a atividade, marcasse o \"palácio\", onde fica um jogador, o \"saci-rei\". Os demais \"sacis\" dispersam-se à vontade pelo campo",
+          "Ao sinal de início, os sacis dirigem-se, pulando num pé só, ao palácio real, para provocar o rei. De repente, este anuncia: \"O rei está zangado!\", saindo a persegui-los, também aos pulos",
+          "Ele mesmo conduz ao palácio o primeiro que pega e o nomeia seu \"ajudante\". A brincadeira recomeça, tal como antes, saindo agora os dois, após novo aviso, em perseguição aos demais e assim por diante",
+          "O último apanhado será o novo rei, na repetição do jogo. Ninguém pode apoiar os dois pés no chão, sob pena de ser aprisionado, exceto nos seguintes casos: a) quando o jogador estiver dentro do palácio; b) quando o jogador estiver cansado, devendo, porém, ficar parado num mesmo lugar, ocasião em que poderá ser apanhado",
+          "O jogador aprisionado ficará dentro do palácio, até outro ser preso, só então podendo voltar ao lugar onde estava antes.."
+        ]
+      },
+      {
+        "id": "pdf-30",
+        "title": "Congelado",
+        "description": "Um tipo de pega-pega. Quem for pego, deve ficar parado no lugar onde foi tocado, até que alguém que ainda não foi pego toque nele, o libertando.",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "3+ anos",
+        "materials": [],
+        "steps": [
+          "Um tipo de pega-pega. Quem for pego, deve ficar parado no lugar onde foi tocado, até que alguém que ainda não foi pego toque nele, o libertando."
+        ]
+      },
+      {
         "id": "pdf-31",
         "title": "Arranca Rabo",
         "description": "O grupo é dividido em dois, os integrantes de um dos times penduram um pedaço de fita na parte de trás da calça ou bermuda, eles serão fugitivos. Ao s...",
@@ -716,8 +555,20 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "4+ anos",
         "materials": [],
         "steps": [
-          "O grupo é dividido em dois, os integrantes de um dos times penduram um pedaço de fita na parte de trás da calça ou bermuda, eles serão fugitivos",
-          "Ao sinal do mestre, os fugitivos correm tentando impedir que as crianças do time adversário peguem suas fitas, quando todos os rabos forem arrancados, as equipes trocam os papéis, quem era pegador vira fugitivo."
+          "O grupo é dividido em dois, os integrantes de um dos times penduram um pedaço de fita na parte de trás da calça ou bermuda, eles serão fugitivos. Ao sinal do mestre, os fugitivos correm tentando impedir que as crianças do time adversário peguem suas fitas, quando todos os rabos forem arrancados, as equipes trocam os papéis, quem era pegador vira fugitivo.",
+          ""
+        ]
+      },
+      {
+        "id": "pdf-33",
+        "title": "Pega-pega espelho",
+        "description": "Pega-pega comum, quando a criança for pega deverá fazer uma pose, e para ser salva outra criança tem que parar na frente ela e fazer a pose igual.",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "3+ anos",
+        "materials": [],
+        "steps": [
+          "Pega-pega comum, quando a criança for pega deverá fazer uma pose, e para ser salva outra criança tem que parar na frente ela e fazer a pose igual."
         ]
       },
       {
@@ -731,8 +582,92 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Palitos"
         ],
         "steps": [
-          "Cada criança receberá três palitos, ao sinal do monitor as crianças começam um pega-pega entre elas, todas são o pegador, quem for pego deverá disputar pedra papel ou tesoura, quem ganhar pega um palito de quem perdeu e assim por diante",
+          "Cada criança receberá três palitos, ao sinal do monitor as crianças começam um pega-pega entre elas, todas são o pegador, quem for pego deverá disputar pedra papel ou tesoura, quem ganhar pega um palito de quem perdeu e assim por diante.",
           "Ganha quem ficar com mais palito no final."
+        ]
+      },
+      {
+        "id": "pdf-42",
+        "title": "Cauda do dragão",
+        "description": "Todas as crianças ficam em pé, em coluna com as mãos na cintura um do outro, formando um dragão. O primeiro integrante da fila, representando a cabeça...",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "4+ anos",
+        "materials": [],
+        "steps": [
+          "Todas as crianças ficam em pé, em coluna com as mãos na cintura um do outro, formando um dragão. O primeiro integrante da fila, representando a cabeça do dragão, terá como objetivo pegar o último da fila, a cauda",
+          "Ao sinal do monitor, o \"dragão\" passará a se movimentar, correndo, sob o comando da cabeça que tentará pegar a cauda. Esta, por sua vez, fará movimentos no sentido de evitar que isso aconteça",
+          "Caso consiga pegar a cauda, a criança que a representava passa para frente da fila, se tornado a cabeça do dragão.."
+        ]
+      },
+      {
+        "id": "pdf-43",
+        "title": "O gafanhoto e a rã",
+        "description": "Faça um círculo no chão para que caiba todos os participantes e sobre espaço. Um será a \"rã\" e os outros serão os \"gafanhotos\" que terão que fugir da ...",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "4+ anos",
+        "materials": [
+          "1 giz"
+        ],
+        "steps": [
+          "Faça um círculo no chão para que caiba todos os participantes e sobre espaço. Um será a \"rã\" e os outros serão os \"gafanhotos\" que terão que fugir da \"rã\".",
+          "A \"rã\" deverá ficar agachada e os gafanhotos deverão fugir pulando de um pé só, quem for pego deverá virar \"rã\" ajudando a pegar os outros."
+        ]
+      },
+      {
+        "id": "pdf-44",
+        "title": "Cuidado que o gato pega",
+        "description": "Um será o \"rato\", que segurará o tênis na mão, o os outros participantes deverão sentar-se no chão em um círculo. O rato deverá correr e deixar o têni...",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "4+ anos",
+        "materials": [
+          "um tênis ou um objeto do mesmo tamanho"
+        ],
+        "steps": [
+          "Um será o \"rato\", que segurará o tênis na mão, o os outros participantes deverão sentar-se no chão em um círculo. O rato deverá correr e deixar o tênis atrás de alguém, este será o gato, que correrá atrás do rato, o rato deverá sentar-se no lugar do gato, que virará automaticamente o rato e assim sucessivamente."
+        ]
+      },
+      {
+        "id": "pdf-45",
+        "title": "Reino Perdido",
+        "description": "No reino há várias princesas perdidas (escondidas), um bruxo(a) e uma dama ou cavalheiro. A dama ou cavalheiro tem que encontrar as princesas e levar ...",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "3+ anos",
+        "materials": [],
+        "steps": [
+          "No reino há várias princesas perdidas (escondidas), um bruxo(a) e uma dama ou cavalheiro. A dama ou cavalheiro tem que encontrar as princesas e levar para o reino antes do bruxo, que levará para o seu esconderijo",
+          "Vence quem tiver mais princesas capturadas. Resumindo são 2 pegadores e o restante se esconde."
+        ]
+      },
+      {
+        "id": "pdf-48",
+        "title": "As cores",
+        "description": "Um será o Pegador, que dirá em voz alta alguma cor, o restante devera correr e encostar na cor dita, quem conseguir estará salvo, se o pegador pegar a...",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "4+ anos",
+        "materials": [],
+        "steps": [
+          "Um será o Pegador, que dirá em voz alta alguma cor, o restante devera correr e encostar na cor dita, quem conseguir estará salvo, se o pegador pegar alguém, o mesmo vira o pegador."
+        ]
+      },
+      {
+        "id": "pdf-51",
+        "title": "Combinação de poção",
+        "description": "Espalhar os bambolês e cones pelo chão, trazer o lúdico em dizer que os bambolês são as \"casas/tocas\" dos magos e os cones as poções. A brincadeira co...",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "4+ anos",
+        "materials": [
+          "bambolês",
+          "cones coloridos"
+        ],
+        "steps": [
+          "Espalhar os bambolês e cones pelo chão, trazer o lúdico em dizer que os bambolês são as \"casas/tocas\" dos magos e os cones as poções. A brincadeira consiste em os magos saírem de suas casas e resgatarem as poções sem ser pego pelo monstro (dento da casa não é pego), caso seja pego deverá devolver todas as poções que tiver para serem resgatadas novamente.",
+          "Após resgatar todas as poções deve fazer a combinação entre elas, promovendo a cooperação entre todos, as poções precisam estar todas juntas com apenas um mago e serem da mesma cor, se caso forem pegas com todas as poções o monstro ganha."
         ]
       },
       {
@@ -744,7 +679,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "6+ anos",
         "materials": [],
         "steps": [
-          "Os participantes estarão espalhados pela quadra caminhado, quando o monitor falar uma letra, os participantes que tiver o nome que comece com a letra falada serão o pegador, quem for pego deverá ficar abaixado, podendo ser salvo se algum colega o encostar",
+          "Os participantes estarão espalhados pela quadra caminhado, quando o monitor falar uma letra, os participantes que tiver o nome que comece com a letra falada serão o pegador, quem for pego deverá ficar abaixado, podendo ser salvo se algum colega o encostar.",
           "O monitor sempre falará letras diferentes para que troque o pegador."
         ]
       },
@@ -760,11 +695,9 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "caneta. (Ter no máximo 5 crianças)"
         ],
         "steps": [
-          "escrever num papel a inicial K (de killer), em outro D (de detetive) e os outros com o V (de vítima) – some todos os participantes e subtraia dois para saber quantas vítimas o jogo terá",
-          "Misture e deixe cada criança pegar um papel sem saber o que é",
-          "O \"killer\" precisa \"matar\" o maior número de vítimas e, para isso, ele deve piscar discretamente para as pessoas",
-          "Quando as vítimas forem atingidas, elas devem dizer \"morri\" e abaixar a cabeça",
-          "Caso o detetive perceba as piscadas, ele deve dizer ao killer: \"Preso em nome da lei\"."
+          "escrever num papel a inicial K (de killer), em outro D (de detetive) e os outros com o V (de vítima) – some todos os participantes e subtraia dois para saber quantas vítimas o jogo terá. Misture e deixe cada criança pegar um papel sem saber o que é",
+          "O \"killer\" precisa \"matar\" o maior número de vítimas e, para isso, ele deve piscar discretamente para as pessoas. Quando as vítimas forem atingidas, elas devem dizer \"morri\" e abaixar a cabeça",
+          "Caso o detetive perceba as piscadas, ele deve dizer ao killer: \"Preso em nome da lei\".."
         ]
       },
       {
@@ -776,10 +709,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "6+ anos",
         "materials": [],
         "steps": [
-          "Pega-pega na quadra, porém só é permitido andar por cima das linhas da quadra",
-          "O \"pacman\" (pegador) também deverá andar apenas pelas linhas",
-          "Quem for pego, deverá sentar no local exato onde foi pego e servirá de obstáculo para quem está fugindo, mas N├âO para o \"pacman\", ou seja, o pegador pode pular as pessoas que foram pegas por ele e estão sentadas no chão, mas os fugitivos não podem pular esses obstáculos",
-          "Quem for o último a ser pego será o vencedor."
+          "Pega-pega na quadra, porém só é permitido andar por cima das linhas da quadra. O \"pacman\" (pegador) também deverá andar apenas pelas linhas",
+          "Quem for pego, deverá sentar no local exato onde foi pego e servirá de obstáculo para quem está fugindo, mas N├âO para o \"pacman\", ou seja, o pegador pode pular as pessoas que foram pegas por ele e estão sentadas no chão, mas os fugitivos não podem pular esses obstáculos. Quem for o último a ser pego será o vencedor."
         ]
       },
       {
@@ -791,10 +722,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "6+ anos",
         "materials": [],
         "steps": [
-          "Todos estarão espalhados pelo espaço sentados com as pernas estendidas",
-          "O pegador será o \"Gato\" e o fugitivo é o \"Rato\"",
-          "Ao sinal do monitor começa a brincadeira, o \"Rato\" deve fugir e o \"Gato\" deve pegá-lo",
-          "Quando o Rato estiver fugindo e encostar na cabeça de alguém que estiver sentado, essa pessoa vai levantar e virar o \"Gato\" ou seja o pegador."
+          "Todos estarão espalhados pelo espaço sentados com as pernas estendidas. O pegador será o \"Gato\" e o fugitivo é o \"Rato\"",
+          "Ao sinal do monitor começa a brincadeira, o \"Rato\" deve fugir e o \"Gato\" deve pegá-lo. Quando o Rato estiver fugindo e encostar na cabeça de alguém que estiver sentado, essa pessoa vai levantar e virar o \"Gato\" ou seja o pegador."
         ]
       },
       {
@@ -808,8 +737,20 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Bambolês"
         ],
         "steps": [
-          "As crianças deverão se movimentar livremente pelo local e ao sinal do professor, um aluno determinado deverá começar a correr, estando de posse de um bambolê",
-          "Assim que conseguir se aproximar de um colega, deverá \"pegá-lo\" para isso deverá lançar o bambolê, a seguir, este deverá pegar outro bambolê, e juntos, deverão sair em buscar de outro colega, que deverá ser \"pego\" da mesma forma, a cada aluno \"pego\", a coluna de pegadores deverá ir aumentando, e deverão correr tendo em cada extremidade, um aluno de posse de um bambolê, com o qual deverá tentar \"pegar\" um outro colega."
+          "As crianças deverão se movimentar livremente pelo local e ao sinal do professor, um aluno determinado deverá começar a correr, estando de posse de um bambolê. Assim que conseguir se aproximar de um colega, deverá \"pegá-lo\" para isso deverá lançar o bambolê, a seguir, este deverá pegar outro bambolê, e juntos, deverão sair em buscar de outro colega, que deverá ser \"pego\" da mesma forma, a cada aluno \"pego\", a coluna de pegadores deverá ir aumentando, e deverão correr tendo em cada extremidade, um aluno de posse de um bambolê, com o qual deverá tentar \"pegar\" um outro colega."
+        ]
+      },
+      {
+        "id": "pdf-76",
+        "title": "Quem tem medo do mico preto?",
+        "description": "O mico preto fica no meio da quadra, e os outros alunos ficam na linha de fundo da quadra. O mico preto chama duas vezes os caçadores: \"Quem tem medo ...",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "4+ anos",
+        "materials": [],
+        "steps": [
+          "O mico preto fica no meio da quadra, e os outros alunos ficam na linha de fundo da quadra. O mico preto chama duas vezes os caçadores: \"Quem tem medo do mico preto\" Caçadores respondem: Eu que não..",
+          "E neste momento o mico preto tem de pegar os caçadores de mico preto. Quem for pego vira mico e ajuda na captura dos caçadores."
         ]
       },
       {
@@ -824,25 +765,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "cone (ou bolinha de papel)"
         ],
         "steps": [
-          "Cada crianças terá seu bambolê a e mesma quantidade de cones que as outras, posicionadas em seu bambolê, elas terão um tempo determinado para pegar os cones dos outros bambolês e colocar nos próprios, quem tiver mais cones no seu bambolê ganha",
-          "Obs: os bambolês devem estar espalhados, e não podem ser defendidos",
+          "Cada crianças terá seu bambolê a e mesma quantidade de cones que as outras, posicionadas em seu bambolê, elas terão um tempo determinado para pegar os cones dos outros bambolês e colocar nos próprios, quem tiver mais cones no seu bambolê ganha. Obs: os bambolês devem estar espalhados, e não podem ser defendidos.",
           "Variação: pode ser totalmente ao contrário, \"quanto menos melhor\" então quem tiver menos ganha (colocando nos bambolês dos outros) Lúdico: Pode falar que os bambolês são a casa deles e os cones são comidas (quanto mais melhor) ou que são bombas (quanto menos melhor) ATIVIDADES (DE 7 A 10 ANOS)"
-        ]
-      },
-      {
-        "id": "pdf-82",
-        "title": "Caça Palitos de time",
-        "description": "As crianças são divididas em dois grupos, cada participante recebe 3 palitos e a batalha será na pedra, papel ou tesoura. Os jogadores só poderão part...",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "Livre",
-        "materials": [
-          "Palitos"
-        ],
-        "steps": [
-          "As crianças são divididas em dois grupos, cada participante recebe 3 palitos e a batalha será na pedra, papel ou tesoura",
-          "Os jogadores só poderão participar se tiver dois ou mais palitos, caso tenha um só a pessoa se senta e torce para que alguém do seu time te dê um palito para que você possa voltar a batalhar",
-          "Ganha o time q conseguir conquistar a maioria dos palitos e deixar o time adversário todo no chão."
         ]
       },
       {
@@ -857,9 +781,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "cones."
         ],
         "steps": [
-          "Nesta atividade é disponibilizado ao centro da quadra um círculo (bambolê) onde dentro estão 8 (oito) cones, com quatro participantes ao seu redor, a uma distância aproximada de 10 metros do centro e no canto em diagonal da quadra, se encontra outro círculo os quais cada um pertence a um participante",
-          "O objetivo é levar três cones para o seu bambolê, aquele que primeiro o fizer será o primeiro a concluir a atividade",
-          "Você pode pegar os cones dos demais participantes, mas em hipótese alguma pode atrapalhar se outro participante vem pegar seu cone."
+          "Nesta atividade é disponibilizado ao centro da quadra um círculo (bambolê) onde dentro estão 8 (oito) cones, com quatro participantes ao seu redor, a uma distância aproximada de 10 metros do centro e no canto em diagonal da quadra, se encontra outro círculo os quais cada um pertence a um participante.",
+          "O objetivo é levar três cones para o seu bambolê, aquele que primeiro o fizer será o primeiro a concluir a atividade. Você pode pegar os cones dos demais participantes, mas em hipótese alguma pode atrapalhar se outro participante vem pegar seu cone."
         ]
       },
       {
@@ -873,8 +796,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "TNT ou Barbante (puxa rabo)"
         ],
         "steps": [
-          "├ë definido um jogador e este deverá escolher um tema (ex.:comida), os outros jogadores deverão se reunir e escolher algo relacionado a este tema (ex: macarrão, hambúrguer, batata frita etc.)",
-          "Após todos escolherem as opções são passadas para o jogador que decidiu tema aos outros, sem saber quem escolheu o que ele grita bem alto uma das opções",
+          "├ë definido um jogador e este deverá escolher um tema (ex.:comida), os outros jogadores deverão se reunir e escolher algo relacionado a este tema (ex: macarrão, hambúrguer, batata frita etc.). Após todos escolherem as opções são passadas para o jogador que decidiu tema aos outros, sem saber quem escolheu o que ele grita bem alto uma das opções.",
           "O que tiver sua opção escolhida se tornará o pegador, mas diferente do pega-pega comum, ele deverá puxar o tnt pendurado na roupa do amigo, aquele que tiver seu tnt puxado se tornará pegador também, e assim por diante, até sobrar apenas um jogar com tnt, este deverá escolher o próximo tema e a brincadeira reiniciará"
         ]
       },
@@ -887,10 +809,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "Livre",
         "materials": [],
         "steps": [
-          "Um pegador",
-          "Quem for pego tem que se jogar no chão (Neymar só cai)",
-          "Para salvar, duas pessoas devem encostar em você ou te levar para o banco (caso não tenha um banco, delimitar um lugar) pelos braços e pernas, em seguida deve voltar ao jogo",
-          "Enquanto estiver salvando alguém não pode ser pego."
+          "Um pegador. Quem for pego tem que se jogar no chão (Neymar só cai)",
+          "Para salvar, duas pessoas devem encostar em você ou te levar para o banco (caso não tenha um banco, delimitar um lugar) pelos braços e pernas, em seguida deve voltar ao jogo. Enquanto estiver salvando alguém não pode ser pego."
         ]
       },
       {
@@ -904,8 +824,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Pregadores"
         ],
         "steps": [
-          "Cada criança vai ter entre 5 a 10 pregadores para a brincadeira ser demorada, os pregadores são as vidas, as crianças vão prender os pregadores em qualquer região da roupa onde seja visível. Elas vão se espalhar, ao sinal do monitor vai começar uma pega – pega, a criança que pegar a outra vai jogar pedra papel e tesoura, Melhor de",
-          "3. Quem ganhar pega um pregador de quem perdeu, os dois continuam a brincadeira. Ganha aquele tiver mais pregadores no final ou conseguir pegar todos os pregadores, se a pessoa perder todos os seus pregadores ela fica sentada, e quem tem muitos tem a opção de doar quantos pregadores quiser para o amiguinho voltar a brincadeira."
+          "Cada criança vai ter entre 5 a 10 pregadores para a brincadeira ser demorada, os pregadores são as vidas, as crianças vão prender os pregadores em qualquer região da roupa onde seja visível. Elas vão se espalhar, ao sinal do monitor vai começar uma pega – pega, a criança que pegar a outra vai jogar pedra papel e tesoura, Melhor de 3",
+          "Quem ganhar pega um pregador de quem perdeu, os dois continuam a brincadeira. Ganha aquele tiver mais pregadores no final ou conseguir pegar todos os pregadores, se a pessoa perder todos os seus pregadores ela fica sentada, e quem tem muitos tem a opção de doar quantos pregadores quiser para o amiguinho voltar a brincadeira."
         ]
       },
       {
@@ -917,8 +837,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "7+ anos",
         "materials": [],
         "steps": [
-          "Uma pessoa será o pegador, quem ele pegar virará o pegador",
-          "A trave é o pique, mas com um detalhe, a criança que tirar a mão dela, só poderá segurar na trave que está do outro lado da quadra",
+          "Uma pessoa será o pegador, quem ele pegar virará o pegador. A trave é o pique, mas com um detalhe, a criança que tirar a mão dela, só poderá segurar na trave que está do outro lado da quadra.",
           "Ou seja, ele vai ter que correr até o outro lado."
         ]
       },
@@ -931,8 +850,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "7+ anos",
         "materials": [],
         "steps": [
-          "Uma pessoa será escolhida para ser o pegador, enquanto os outros serão os fugitivos",
-          "Quem o pegador pegar, virará pegador junto a ele, terão que ficar de mãos dadas, e assim sucessivamente até restar apenas um fugitivo."
+          "Uma pessoa será escolhida para ser o pegador, enquanto os outros serão os fugitivos. Quem o pegador pegar, virará pegador junto a ele, terão que ficar de mãos dadas, e assim sucessivamente até restar apenas um fugitivo."
         ]
       },
       {
@@ -966,11 +884,9 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "8+ anos",
         "materials": [],
         "steps": [
-          "Separam-se dois grupos de crianças, um será polícia e outro ladrão",
-          "Os policiais iniciam contado até 20, enquanto os ladrões se escondem, ao término da contagem a polícia passa a procurar os ladrões e os encontrando passa a prossegui-los",
-          "O ladrão deve ser pego pela polícia e quem for preso vai para um local denominado como prisão",
-          "Quem não for pego pode soltar os ladrões (tocando-os) que voltam a fugir da polícia",
-          "O jogo terminará com a captura de todos os ladrões."
+          "Separam-se dois grupos de crianças, um será polícia e outro ladrão. Os policiais iniciam contado até 20, enquanto os ladrões se escondem, ao término da contagem a polícia passa a procurar os ladrões e os encontrando passa a prossegui-los",
+          "O ladrão deve ser pego pela polícia e quem for preso vai para um local denominado como prisão. Quem não for pego pode soltar os ladrões (tocando-os) que voltam a fugir da polícia",
+          "O jogo terminará com a captura de todos os ladrões. ."
         ]
       },
       {
@@ -982,8 +898,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "8+ anos",
         "materials": [],
         "steps": [
-          "Os participantes serão divididos em várias fileiras uma atrás da outra",
-          "Duas pessoas serão escolhidas, uma para ser o pegador e o outro o fugitivo. ├ë como se fosse um labirinto, os participantes deverão estar de mãos dadas, quando o professor falar \"rua\" eles deverão soltar as mãos e virar para a direita, dando as mãos aos outros colegas, e quando o professor falar \"avenida\" deverão voltar a posição inicial."
+          "Os participantes serão divididos em várias fileiras uma atrás da outra. Duas pessoas serão escolhidas, uma para ser o pegador e o outro o fugitivo. ├ë como se fosse um labirinto, os participantes deverão estar de mãos dadas, quando o professor falar \"rua\" eles deverão soltar as mãos e virar para a direita, dando as mãos aos outros colegas, e quando o professor falar \"avenida\" deverão voltar a posição inicial."
         ]
       },
       {
@@ -995,10 +910,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "8+ anos",
         "materials": [],
         "steps": [
-          "Será escolhida uma criança para ficar ao centro da quadra, enquanto os outros participantes ficaram em um lado da quadra",
-          "Ao sinal do monitor, todos os alunos saíram correndo para o outro lado da quadra, tentando escapar da \"mãe da rua\" que esta ao centro",
-          "Quem for pego irá ajudar a \"mãe da rua\" a pegar o restante",
-          "A \"mãe da rua\" não poderá sair do meio da quadra, nem os participantes que forem pegos."
+          "Será escolhida uma criança para ficar ao centro da quadra, enquanto os outros participantes ficaram em um lado da quadra. Ao sinal do monitor, todos os alunos saíram correndo para o outro lado da quadra, tentando escapar da \"mãe da rua\" que esta ao centro",
+          "Quem for pego irá ajudar a \"mãe da rua\" a pegar o restante. A \"mãe da rua\" não poderá sair do meio da quadra, nem os participantes que forem pegos."
         ]
       },
       {
@@ -1012,10 +925,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "dois objetos (usados como a bandeira)"
         ],
         "steps": [
-          "As crianças serão divididas em dois times, cada time em um lado da quadra",
-          "Ao fundo de cada quadra, será colocado a \"bandeira\"",
-          "O objetivo de cada time é tentar pegar a bandeira do seu rival, sem ser pego e ao mesmo tempo não deixar pegar a sua bandeira",
-          "Vence quem conseguir pegar a bandeira do inimigo e voltar para o seu campo sem ser pego."
+          "As crianças serão divididas em dois times, cada time em um lado da quadra. Ao fundo de cada quadra, será colocado a \"bandeira\"",
+          "O objetivo de cada time é tentar pegar a bandeira do seu rival, sem ser pego e ao mesmo tempo não deixar pegar a sua bandeira. Vence quem conseguir pegar a bandeira do inimigo e voltar para o seu campo sem ser pego."
         ]
       },
       {
@@ -1027,8 +938,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "8+ anos",
         "materials": [],
         "steps": [
-          "Os participantes deverão formar duplas e se sentar afastados das outras duplas, espalhados pelo espaço",
-          "Ao sinal do monitor os dois alunos que serão um \"fugitivo\" e o outro \"pegador\" deverão iniciar a brincadeira, que deverá assim funcionar: quando o fugitivo quiser ficar a salvo do \"pegador\" deverá sentar ao lado de uma das duplas que estão sentadas no chão, assim que ele sentar no lado de um colega da dupla o outro aluno, deverá levantar-se rapidamente e passará a ser o novo \"pegador\" ou seja, sempre que algum aluno que estiver sendo perseguido sentar-se ao lado de uma dupla, o outro colega da dupla deverá levantar e passará a ser o novo \"pegador."
+          "Os participantes deverão formar duplas e se sentar afastados das outras duplas, espalhados pelo espaço. Ao sinal do monitor os dois alunos que serão um \"fugitivo\" e o outro \"pegador\" deverão iniciar a brincadeira, que deverá assim funcionar: quando o fugitivo quiser ficar a salvo do \"pegador\" deverá sentar ao lado de uma das duplas que estão sentadas no chão, assim que ele sentar no lado de um colega da dupla o outro aluno, deverá levantar-se rapidamente e passará a ser o novo \"pegador\" ou seja, sempre que algum aluno que estiver sendo perseguido sentar-se ao lado de uma dupla, o outro colega da dupla deverá levantar e passará a ser o novo \"pegador."
         ]
       },
       {
@@ -1054,11 +964,9 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "7+ anos",
         "materials": [],
         "steps": [
-          "Os alunos estarão espalhados em duplas (um atrás do outro) pelo espaço disponível",
-          "Os alunos poderão estar sentados",
-          "O professor escolhe dois alunos, um será o aluno pegador e o outro aluno terá que fugir do pegador … O aluno que está fugindo do pegador deverá escolher uma dupla e se posicionar atrás do segundo elemento",
-          "O aluno que está na frente da dupla, por sua vez, será o novo pegador (nunca poderá existir 3elementos juntos, sempre mantendo uma dupla) e deverá sair correndo atrás do aluno que era o pegador anteriormente..",
-          "Esse aluno que está fugindo do novo pegador, se posicionará atrás de outra dupla e assim sucessivamente."
+          "Os alunos estarão espalhados em duplas (um atrás do outro) pelo espaço disponível. Os alunos poderão estar sentados",
+          "O professor escolhe dois alunos, um será o aluno pegador e o outro aluno terá que fugir do pegador … O aluno que está fugindo do pegador deverá escolher uma dupla e se posicionar atrás do segundo elemento. O aluno que está na frente da dupla, por sua vez, será o novo pegador (nunca poderá existir 3elementos juntos, sempre mantendo uma dupla) e deverá sair correndo atrás do aluno que era o pegador anteriormente..",
+          "Esse aluno que está fugindo do novo pegador, se posicionará atrás de outra dupla e assim sucessivamente.."
         ]
       },
       {
@@ -1075,10 +983,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "entre outros..."
         ],
         "steps": [
-          "Primeiramente deve-se elaborar uma temática específica para o desafio",
-          "O jogo consiste em desenvolver uma série de dicas e pistas que levem os participantes a resolver enigmas e desafios que nos levem à um caminho",
-          "Uma característica da atividade é limitar o espaço à uma sala fechada ou alguma variação semelhante",
-          "O objetivo, normalmente, é fugir deste local em um determinado período previamente estipulado."
+          "Primeiramente deve-se elaborar uma temática específica para o desafio. O jogo consiste em desenvolver uma série de dicas e pistas que levem os participantes a resolver enigmas e desafios que nos levem à um caminho",
+          "Uma característica da atividade é limitar o espaço à uma sala fechada ou alguma variação semelhante. O objetivo, normalmente, é fugir deste local em um determinado período previamente estipulado."
         ]
       },
       {
@@ -1112,11 +1018,9 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Nenhum."
         ],
         "steps": [
-          "Um participante será o rei ou a rainha, o mesmo deve ser protegido pelos \"Protetores do Rei\" e será atacado pelos \"Inimigos da Coroa\"",
-          "Cada participante começa o jogo com três vidas, esses devem pegar os adversários",
-          "Cada vez que um integrante for pego ele perde uma vida, caso perca as três está eliminado do jogo",
-          "O objetivo dos inimigos da coroa é derrotar o rei, que tem apenas uma vida, os protetores do rei, por sua vez, devem eliminar todos os inimigos da coroa para alcançarem a vitória",
-          "Pode-se montar uma \"torre\" em volta do rei com caixas, cadeiras, bambolês ou qualquer outro material disponível."
+          "Um participante será o rei ou a rainha, o mesmo deve ser protegido pelos \"Protetores do Rei\" e será atacado pelos \"Inimigos da Coroa\". Cada participante começa o jogo com três vidas, esses devem pegar os adversários",
+          "Cada vez que um integrante for pego ele perde uma vida, caso perca as três está eliminado do jogo. O objetivo dos inimigos da coroa é derrotar o rei, que tem apenas uma vida, os protetores do rei, por sua vez, devem eliminar todos os inimigos da coroa para alcançarem a vitória",
+          "Pode-se montar uma \"torre\" em volta do rei com caixas, cadeiras, bambolês ou qualquer outro material disponível.."
         ]
       },
       {
@@ -1158,9 +1062,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "uma bola"
         ],
         "steps": [
-          "Serão formadas equipes que se sentarão em colunas, ao sinal do professor o primeiro aluno de cada coluna sairá correndo em volta das outras equipes até chegar novamente a sua equipe, passara por cima de todos os seus colegas e pegará a bola que estará ao centro",
-          "Quem executar a tarefa primeiro marcará um ponto e assim seguirá até chegar a primeira criança novamente",
-          "ATIVIDADES (DE 3 A 6 ANOS)"
+          "Serão formadas equipes que se sentarão em colunas, ao sinal do professor o primeiro aluno de cada coluna sairá correndo em volta das outras equipes até chegar novamente a sua equipe, passara por cima de todos os seus colegas e pegará a bola que estará ao centro.",
+          "Quem executar a tarefa primeiro marcará um ponto e assim seguirá até chegar a primeira criança novamente. ATIVIDADES (DE 3 A 6 ANOS)"
         ]
       },
       {
@@ -1174,8 +1077,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "4/6 bolas"
         ],
         "steps": [
-          "Serão divididos em duas equipes, uma bola será colocada ao centro, e cada equipe estará em um lugar demarcado",
-          "O objetivo de cada equipe, é ultrapassar a bola que está no centro para o campo da equipe adversária, acertando a bola que está no centro com as bolas que as equipes terão",
+          "Serão divididos em duas equipes, uma bola será colocada ao centro, e cada equipe estará em um lugar demarcado. O objetivo de cada equipe, é ultrapassar a bola que está no centro para o campo da equipe adversária, acertando a bola que está no centro com as bolas que as equipes terão.",
           "Ganha quem acertar a bola no campo inimigo."
         ]
       },
@@ -1190,8 +1092,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Bola"
         ],
         "steps": [
-          "Dividi-los em dois grupos, e deixá-los em coluna, um atrás do outro",
-          "Ao sinal do monitor, o primeiro de ada coluna irá passar a bola por cima até chegar ao último participante, esse último deverá correr até a frente e repetir a mesma coisa, e assim sucessivamente até chegar o primeiro de novo",
+          "Dividi-los em dois grupos, e deixá-los em coluna, um atrás do outro. Ao sinal do monitor, o primeiro de ada coluna irá passar a bola por cima até chegar ao último participante, esse último deverá correr até a frente e repetir a mesma coisa, e assim sucessivamente até chegar o primeiro de novo.",
           "Usar como variação, passar a bola por baixo da perna."
         ]
       },
@@ -1204,7 +1105,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "4+ anos",
         "materials": [],
         "steps": [
-          "As crianças serão dispostas em duas colunas uma de frente para a outra, o monitor irá falando as partes do corpo e a criança irá colocar a mão, quando o monitor falar \"bola\" as crianças tentaram pegar as bolas, que estarão separadas por dupla, uma bola para cada dupla."
+          "As crianças serão dispostas em duas colunas uma de frente para a outra, o monitor irá falando as partes do corpo e a criança irá colocar a mão, quando o monitor falar \"bola\" as crianças tentaram pegar as bolas, que estarão separadas por dupla, uma bola para cada dupla.",
+          ""
         ]
       },
       {
@@ -1218,8 +1120,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Bolinhas de papel ou qualquer coisa que substitua"
         ],
         "steps": [
-          "Enquanto o grupo se afasta, o monitor esconde bolinhas de papel por todo o lugar",
-          "Ao sinal de início, as crianças voltam no campo onde procuram encontrar as bolas de papel",
+          "Enquanto o grupo se afasta, o monitor esconde bolinhas de papel por todo o lugar. Ao sinal de início, as crianças voltam no campo onde procuram encontrar as bolas de papel.",
           "Vence quem achar mais bolinhas de papel, e o vencedor passa a escondê-las na próxima rodada."
         ]
       },
@@ -1234,8 +1135,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "uma bola"
         ],
         "steps": [
-          "Um aluno deverá ser escolhido como \"pegador\", para que ele pegue os outros participantes, deverá encostar a bola em sua barriga",
-          "Para que os \"fugitivos\" se salvem, deverão abraçar o outro colega, assim escondendo a sua barriga",
+          "Um aluno deverá ser escolhido como \"pegador\", para que ele pegue os outros participantes, deverá encostar a bola em sua barriga. Para que os \"fugitivos\" se salvem, deverão abraçar o outro colega, assim escondendo a sua barriga.",
           "Com o passar da brincadeira o professor deverá ir trocando o pegador."
         ]
       },
@@ -1250,8 +1150,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Duas bolas (a partir de 4 anos)"
         ],
         "steps": [
-          "Divididos em duas equipes, os participantes formarão uma coluna",
-          "Deitados no chão de barriga para baixo, o último participante da fila deverá passar por cima de seus amigos, chegando na frente ele deverá rolar a bola por baixo de sua equipe, todos deverão levantar o quadril (como se estivessem fazendo flexão de braços) o último da coluna pegará a bola e fará o mesmo, até chegar o primeiro novamente",
+          "Divididos em duas equipes, os participantes formarão uma coluna. Deitados no chão de barriga para baixo, o último participante da fila deverá passar por cima de seus amigos, chegando na frente ele deverá rolar a bola por baixo de sua equipe, todos deverão levantar o quadril (como se estivessem fazendo flexão de braços) o último da coluna pegará a bola e fará o mesmo, até chegar o primeiro novamente.",
           "Ganha a equipe que realizar a atividade mais rápido."
         ]
       },
@@ -1282,10 +1181,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "bambolês"
         ],
         "steps": [
-          "Tipo arremesso de argolas, mas com bambolê",
-          "Uma pessoa será a vítima e ficará a 5 metros dos jogadores",
-          "Faz 1 ponto quem conseguir encaixar o bambolê na pessoa primeiro",
-          "Ganha quem tiver mais pontos."
+          "Tipo arremesso de argolas, mas com bambolê. Uma pessoa será a vítima e ficará a 5 metros dos jogadores",
+          "Faz 1 ponto quem conseguir encaixar o bambolê na pessoa primeiro. Ganha quem tiver mais pontos."
         ]
       },
       {
@@ -1299,11 +1196,9 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Uma bola"
         ],
         "steps": [
-          "Formam-se dois times com número igual de participantes e uma pessoa de cada time é escolhida para ser o Rei",
-          "No jogo pode-se usar mais de uma bola",
-          "Sempre que alguém da equipe é queimado, a pessoa tem que se ajoelhar no chão e esperar até conseguir pegar uma bola",
-          "Se alguém do próprio time quiser dar a bola para ela jogar, tem que se ajoelhar em seu lugar",
-          "Ganha a equipe que queimar o rei adversário primeiro."
+          "Formam-se dois times com número igual de participantes e uma pessoa de cada time é escolhida para ser o Rei. No jogo pode-se usar mais de uma bola",
+          "Sempre que alguém da equipe é queimado, a pessoa tem que se ajoelhar no chão e esperar até conseguir pegar uma bola. Se alguém do próprio time quiser dar a bola para ela jogar, tem que se ajoelhar em seu lugar",
+          "Ganha a equipe que queimar o rei adversário primeiro.."
         ]
       },
       {
@@ -1317,8 +1212,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Bola"
         ],
         "steps": [
-          "O monitor irá determinar o jogador que será a caça (o fugitivo) e os outros serão os caçadores",
-          "Os caçadores tentaram queimar a caça, trocando passes tentando acuar o fugitivo, e o mesmo terá que se deslocar fugindo do jogador com a bola."
+          "O monitor irá determinar o jogador que será a caça (o fugitivo) e os outros serão os caçadores. Os caçadores tentaram queimar a caça, trocando passes tentando acuar o fugitivo, e o mesmo terá que se deslocar fugindo do jogador com a bola."
         ]
       },
       {
@@ -1333,7 +1227,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "futebol ou handebol)"
         ],
         "steps": [
-          "Serão divididas duas equipes, cada integrante de cada equipe receberá um número (as duas equipes deverão estar numeras com números iguais), o monitor chamará um número e jogará uma bola (basquete, futebol ou handebol), as crianças irão disputar entre si e quem acertar a bola na cesta ou no gol marcará um ponto para sua equipe",
+          "Serão divididas duas equipes, cada integrante de cada equipe receberá um número (as duas equipes deverão estar numeras com números iguais), o monitor chamará um número e jogará uma bola (basquete, futebol ou handebol), as crianças irão disputar entre si e quem acertar a bola na cesta ou no gol marcará um ponto para sua equipe.",
           "O monitor pode usar como variação, chamar mais de um número e com o passar do jogo, jogar mais de uma bola para a disputa."
         ]
       },
@@ -1400,8 +1294,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "bola"
         ],
         "steps": [
-          "é a rede humana (um aluno ao lado do outro sobre a linha central da quadra) Grupos 2 e 3: equipes que estão jogando",
-          "As equipes que estão na quadra devem passar a bola para o outro lado sem que a \"rede humana\" encoste na bola",
+          "é a rede humana (um aluno ao lado do outro sobre a linha central da quadra) Grupos 2 e 3: equipes que estão jogando. As equipes que estão na quadra devem passar a bola para o outro lado sem que a \"rede humana\" encoste na bola.",
           "Acontecendo o toque pela rede humana, é feito o rodízio das equipes: a equipe que deixou a rede humana encostar entra como no lugar; quem está na rede entra no lugar da equipe que errou e assim sucessivamente."
         ]
       },
@@ -1416,8 +1309,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Bola"
         ],
         "steps": [
-          "Divide-se duas equipes, um goleiro para cada time",
-          "Os participantes passam a bola com as mãos entre si, mas o gol só poderá ser realizado com o pé ou com a cabeça."
+          "Divide-se duas equipes, um goleiro para cada time. Os participantes passam a bola com as mãos entre si, mas o gol só poderá ser realizado com o pé ou com a cabeça."
         ]
       },
       {
@@ -1449,7 +1341,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "bola"
         ],
         "steps": [
-          "Dividir em duas equipes, cada equipe deverá fazer 7 passes antes de acertar o gol (com a mão), a outra equipe deverá tentar interferir os passes, o gol só valerá se os 7 passes forem realizados."
+          "Dividir em duas equipes, cada equipe deverá fazer 7 passes antes de acertar o gol (com a mão), a outra equipe deverá tentar interferir os passes, o gol só valerá se os 7 passes forem realizados.",
+          ""
         ]
       },
       {
@@ -1463,7 +1356,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Bola"
         ],
         "steps": [
-          "Os participantes ficaram próximos a cesta do basquete, determinados em uma sequência, o primeiro fará um arremesso da linha do lance livre, se acertar será marado um ponto, e voltará a fazer o arremesso, se errar, o próximo participante tentara o arremesso de onde a bola caiu, se acertar, volta ao lance livre e arremessa novamente",
+          "Os participantes ficaram próximos a cesta do basquete, determinados em uma sequência, o primeiro fará um arremesso da linha do lance livre, se acertar será marado um ponto, e voltará a fazer o arremesso, se errar, o próximo participante tentara o arremesso de onde a bola caiu, se acertar, volta ao lance livre e arremessa novamente.",
           "Ganha quem fizer 21 pontos primeiro."
         ]
       },
@@ -1479,11 +1372,9 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "10 bolas ou objeto que a substitua (5 de cada cor)"
         ],
         "steps": [
-          "O professor deverá dividir duas equipes e colocar os participantes em colunas, uma equipe ao lado da outra",
-          "Organizar os 9 bambolês em três colunas (formato do jogo da velha)",
-          "Deixar 5 bolas para cada equipe, colocá-las a frente dos bambolês",
-          "Ao sinal do professor, os primeiros de cada coluna sairão correndo e pegaram uma bola e colocarão dentro do bambolê, voltaram correndo, bateram na mão do seu colega e o mesmo sairá correndo para fazer o mesmo, e assim sucessivamente até \"fechar\" o jogo da velha (completar três colunas ou diagonal com a cor da sua equipe)",
-          "Como variação, o monitor poderá colocar obstáculos a frente do jogo para atrapalhar o participante, como cones, cordas entre outros."
+          "O professor deverá dividir duas equipes e colocar os participantes em colunas, uma equipe ao lado da outra. Organizar os 9 bambolês em três colunas (formato do jogo da velha)",
+          "Deixar 5 bolas para cada equipe, colocá-las a frente dos bambolês. Ao sinal do professor, os primeiros de cada coluna sairão correndo e pegaram uma bola e colocarão dentro do bambolê, voltaram correndo, bateram na mão do seu colega e o mesmo sairá correndo para fazer o mesmo, e assim sucessivamente até \"fechar\" o jogo da velha (completar três colunas ou diagonal com a cor da sua equipe)",
+          "Como variação, o monitor poderá colocar obstáculos a frente do jogo para atrapalhar o participante, como cones, cordas entre outros.."
         ]
       },
       {
@@ -1497,7 +1388,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "bola"
         ],
         "steps": [
-          "divididos em dois times, os participantes ficarão na posição de \"caranguejo\" (sentados no chão com o quadril levantado, apoio apenas das mãos e dos pés.), como um jogo de futebol, disputaram a bola e a cada gol marcado é um ponto para cada time",
+          "divididos em dois times, os participantes ficarão na posição de \"caranguejo\" (sentados no chão com o quadril levantado, apoio apenas das mãos e dos pés.), como um jogo de futebol, disputaram a bola e a cada gol marcado é um ponto para cada time.",
           "Os gols só poderão ser feitos na posição, não valerá se tiver sentado no chão."
         ]
       },
@@ -1530,11 +1421,9 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "de 2 a 5 bolas"
         ],
         "steps": [
-          "Serão divididos dois times",
-          "Cada time ficara em um lado da quadra posicionados atrás da linha de fundo",
-          "No meio da quadra, estrão as bolas, ao sinal do monitor as crianças saíram correndo para pegar a bola",
-          "Começara uma queimada com várias bolas, cada pessoa queimada sairá do jogo, quando alguém do time da pessoa queima agarrar a bola, poderá voltar uma pessoa que foi queima, se alguém do time acertar o aro da tabela de basquete voltam duas pessoas, se acertar a cesta voltam todos que foram queimos do seu time",
-          "Ganha o time que conseguir queimar todos os adversários."
+          "Serão divididos dois times. Cada time ficara em um lado da quadra posicionados atrás da linha de fundo",
+          "No meio da quadra, estrão as bolas, ao sinal do monitor as crianças saíram correndo para pegar a bola. Começara uma queimada com várias bolas, cada pessoa queimada sairá do jogo, quando alguém do time da pessoa queima agarrar a bola, poderá voltar uma pessoa que foi queima, se alguém do time acertar o aro da tabela de basquete voltam duas pessoas, se acertar a cesta voltam todos que foram queimos do seu time",
+          "Ganha o time que conseguir queimar todos os adversários. ."
         ]
       },
       {
@@ -1548,8 +1437,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Uma Bola"
         ],
         "steps": [
-          "Os alunos dispostos em círculo sentados ao chão, ou em cadeiras ou até mesmo em pé, as mãos cruzadas dispostas sobre o peito",
-          "Um aluno ficará no meio do círculo com uma bola que deverá ameaçar lançá-la a qualquer aluno que estiver no círculo, este não poderá mover as mãos a não ser que realmente ele lance, portanto, o aluno deverá pegá-la",
+          "Os alunos dispostos em círculo sentados ao chão, ou em cadeiras ou até mesmo em pé, as mãos cruzadas dispostas sobre o peito. Um aluno ficará no meio do círculo com uma bola que deverá ameaçar lançá-la a qualquer aluno que estiver no círculo, este não poderá mover as mãos a não ser que realmente ele lance, portanto, o aluno deverá pegá-la.",
           "O aluno que mover as mãos ou se laçada a bola e deixá-la cair, sairá fora da brincadeira e assim por diante, até que restar somente um aluno dentre todos os do círculo. (Para dia de Chuva)."
         ]
       },
@@ -1566,10 +1454,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "uma rede ou uma corda."
         ],
         "steps": [
-          "Duas equipes começam a jogar um jogo de Voleibol",
-          "Quando a boa cair no chão, a equipe que fez o ponto corre atrás da equipe que tomou o ponto",
-          "Essa equipe tem que passar da linha da área de saque (linha de fundo da quadra) para não ser pego",
-          "Além do ponto por ter caído a bola no chão, se dois alunos forem pegos, a equipe marca dois pontos e assim sucessivamente."
+          "Duas equipes começam a jogar um jogo de Voleibol. Quando a boa cair no chão, a equipe que fez o ponto corre atrás da equipe que tomou o ponto",
+          "Essa equipe tem que passar da linha da área de saque (linha de fundo da quadra) para não ser pego. Além do ponto por ter caído a bola no chão, se dois alunos forem pegos, a equipe marca dois pontos e assim sucessivamente."
         ]
       },
       {
@@ -1589,7 +1475,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Cada bambolê terá 4 cones da mesma cor. Os demais participantes devem encontrar todos os cones e colocá-los dentro dos bambolês nas cores correspondentes",
           "O caçador, por sua vez, deve pegar os integrantes e levá-los para cadeiras ou bancos pré-determinados. O jogador capturado deve retirar o tênis e ficar sentado até que alguém venha salvá-lo",
           "Variações: Cada jogador possuir apenas 2 vidas e perder uma delas à cada vez que for pego pelo caçador. O caçador e os participantes podem ter uma habilidade específica pré- determinada: Participantes: Ganhar mais uma vida, começar com um cone, ter o direito de fugir do banco uma vez, conhecer a localização de um bambolê etc",
-          "Caçador: Queimar com uma bola, \"grudar\" dois participantes, mudar os cones de lugar ao longo do jogo etc.."
+          "Caçador: Queimar com uma bola, \"grudar\" dois participantes, mudar os cones de lugar ao longo do jogo etc. ."
         ]
       },
       {
@@ -1604,11 +1490,9 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "bola."
         ],
         "steps": [
-          "Duas equipes, cada uma com uma \"base\" circular onde um cone deve estar posicionado no centro",
-          "Os jogadores devem ficar ao redor da base do time adversário e dentro da área da base de seu time",
-          "O objetivo é derrubar o cone da outra equipe utilizando uma bola",
-          "A equipe que estiver defendendo não pode sair da base e só pode atacar quando recuperar a bola",
-          "A equipe que está atacando, por sua vez, deve correr rapidamente para a sua base ao perder a posse da bola."
+          "Duas equipes, cada uma com uma \"base\" circular onde um cone deve estar posicionado no centro. Os jogadores devem ficar ao redor da base do time adversário e dentro da área da base de seu time",
+          "O objetivo é derrubar o cone da outra equipe utilizando uma bola. A equipe que estiver defendendo não pode sair da base e só pode atacar quando recuperar a bola",
+          "A equipe que está atacando, por sua vez, deve correr rapidamente para a sua base ao perder a posse da bola.."
         ]
       }
     ]
@@ -1632,8 +1516,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "bambolê"
         ],
         "steps": [
-          "Todos os alunos ficarão dentro de um bambolê, exceto um que ficará fora do bambolê",
-          "Ao sinal do professor, todos troaram de \"casa\" e sempre um sobrará fora do bambolê",
+          "Todos os alunos ficarão dentro de um bambolê, exceto um que ficará fora do bambolê. Ao sinal do professor, todos troaram de \"casa\" e sempre um sobrará fora do bambolê.",
           "Usar como variação: Eliminar os bambolês para que as crianças trabalhem em equipe sem ninguém ficar fora da \"casa\"."
         ]
       },
@@ -1649,10 +1532,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "bexigas"
         ],
         "steps": [
-          "A turma será dividida em duas equipes, sendo que cada uma delas terá uma cor representativa",
-          "Cada integrante receberá um balão (cor da equipe) que, depois de estar cheio de ar, será amarrado com barbante em um dos seus tornozelos",
-          "O objetivo da brincadeira é que cada integrante proteja o seu balão e, ao mesmo tempo, tente estourar os balões da equipe adversária",
-          "Nesse sentido, a equipe vencedora será aquela que conseguir estourar todos os balões adversários e permanecer com apenas um balão cheio."
+          "A turma será dividida em duas equipes, sendo que cada uma delas terá uma cor representativa. Cada integrante receberá um balão (cor da equipe) que, depois de estar cheio de ar, será amarrado com barbante em um dos seus tornozelos",
+          "O objetivo da brincadeira é que cada integrante proteja o seu balão e, ao mesmo tempo, tente estourar os balões da equipe adversária. Nesse sentido, a equipe vencedora será aquela que conseguir estourar todos os balões adversários e permanecer com apenas um balão cheio."
         ]
       },
       {
@@ -1666,26 +1547,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Bolinhas de papel"
         ],
         "steps": [
-          "Divida o local do jogo em duas partes de forma que um lado não possa enxergar o outro (amarre uma corda e coloque um lençol por cima)",
-          "A seguir, as pessoas de cada time escolhem um local para si e não podem se mover daí",
+          "Divida o local do jogo em duas partes de forma que um lado não possa enxergar o outro (amarre uma corda e coloque um lençol por cima). A seguir, as pessoas de cada time escolhem um local para si e não podem se mover daí.",
           "Quando o jogo começa, cada time ganha algumas bolinhas de papel e devem tentar atingir o outro time com essas \"bombas\", o time que estiver com menos \"bombas\" em campo vence."
-        ]
-      },
-      {
-        "id": "pdf-62",
-        "title": "Campo Minado com mapa",
-        "description": "O monitor irá organizar os bambolês dispostos ao chão, em 3 ou mais fileiras e em 5 ou mais colunas (de acordo com o monitor) o monitor deverá formula...",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "6+ anos",
-        "materials": [
-          "10 ou mais bambolês",
-          "caso não tenha",
-          "usar marcação no chão"
-        ],
-        "steps": [
-          "O monitor irá organizar os bambolês dispostos ao chão, em 3 ou mais fileiras e em 5 ou mais colunas (de acordo com o monitor) o monitor deverá formular o mapa onde se localizam todas as \"minas terrestres\", apenas o monitor poderá ver, através do mapa o monitor dirá se as crianças estão indo pelo lugar certo, caso pise em um lugar que tenha a \"bomba\" deverá voltar a fila",
-          "Ganha quem chegar sem pisar nenhuma vez nas \"bombas\", objetivo é trabalhar a memória das crianças."
         ]
       },
       {
@@ -1697,7 +1560,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "6+ anos",
         "materials": [],
         "steps": [
-          "Será dividida duas equipes, todos os participantes deverão tirar o sapato e colocar num local determinado pelo monitor (que misturará todos os sapatos), ao sinal do monitor deverão correr e procurar seus sapatos, quando achados deverão voltar ao seu lugar de origem",
+          "Será dividida duas equipes, todos os participantes deverão tirar o sapato e colocar num local determinado pelo monitor (que misturará todos os sapatos), ao sinal do monitor deverão correr e procurar seus sapatos, quando achados deverão voltar ao seu lugar de origem.",
           "A equipe que estiver calçada primeiro ganha."
         ]
       },
@@ -1712,8 +1575,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "bambolês ou círculos desenhados no chão"
         ],
         "steps": [
-          "Divide-se duas equipes, cada equipe fica em uma ponta dos bambolês",
-          "Ao sinal do monitor as primeiras crianças de cada fila pulam os bambolês até se encontrarem, tiram pedra, papel ou tesoura, a vencedora continua pulando as casas até que venha outra criança e assim sucessivamente, quando uma criança chegar ao lado oposto marca-se um ponto",
+          "Divide-se duas equipes, cada equipe fica em uma ponta dos bambolês. Ao sinal do monitor as primeiras crianças de cada fila pulam os bambolês até se encontrarem, tiram pedra, papel ou tesoura, a vencedora continua pulando as casas até que venha outra criança e assim sucessivamente, quando uma criança chegar ao lado oposto marca-se um ponto.",
           "Ganha a equipe que passar todas as crianças par o outro lado."
         ]
       },
@@ -1728,11 +1590,24 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Bambolê"
         ],
         "steps": [
-          "Jogam uma dupla de cada equipe",
-          "As duplas entrarão em um bambolê e ficarão de costas para a outra, pois correrão de frente",
-          "Serão feitos dois riscos, cada um a exatos 2 metros de cada lado do bambolê",
-          "O Objetivo é correr e fazer força para ultrapassar a linha, mas será difícil, pois a outra dupla irá fazer o mesmo",
-          "A dupla que conseguir ultrapassar o risco, vence."
+          "Jogam uma dupla de cada equipe. As duplas entrarão em um bambolê e ficarão de costas para a outra, pois correrão de frente",
+          "Serão feitos dois riscos, cada um a exatos 2 metros de cada lado do bambolê. O Objetivo é correr e fazer força para ultrapassar a linha, mas será difícil, pois a outra dupla irá fazer o mesmo",
+          "A dupla que conseguir ultrapassar o risco, vence. ."
+        ]
+      },
+      {
+        "id": "pdf-82",
+        "title": "Caça Palitos de time",
+        "description": "As crianças são divididas em dois grupos, cada participante recebe 3 palitos e a batalha será na pedra, papel ou tesoura. Os jogadores só poderão part...",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "Livre",
+        "materials": [
+          "Palitos"
+        ],
+        "steps": [
+          "As crianças são divididas em dois grupos, cada participante recebe 3 palitos e a batalha será na pedra, papel ou tesoura. Os jogadores só poderão participar se tiver dois ou mais palitos, caso tenha um só a pessoa se senta e torce para que alguém do seu time te dê um palito para que você possa voltar a batalhar.",
+          "Ganha o time q conseguir conquistar a maioria dos palitos e deixar o time adversário todo no chão."
         ]
       },
       {
@@ -1761,8 +1636,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "bola"
         ],
         "steps": [
-          "Serão divididos dois times, cada time irá escolher a sua \"abelha rainha\" sem que a outra equipe saiba",
-          "O objetivo é proteger a abelha rainha para que ela não seja queimada, mas ao mesmo tempo disfarçando para que não descubram quem é a abelha",
+          "Serão divididos dois times, cada time irá escolher a sua \"abelha rainha\" sem que a outra equipe saiba. O objetivo é proteger a abelha rainha para que ela não seja queimada, mas ao mesmo tempo disfarçando para que não descubram quem é a abelha.",
           "Ganha o time que fiar com a abelha rainha até o fim, ou o que queimar a abelha do time adversário."
         ]
       },
@@ -1790,11 +1664,9 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "um colete para demarcar o \"rei\""
         ],
         "steps": [
-          "Brincadeira lúdica baseada em pedra, papel ou tesoura",
-          "O monitor dividirá duas equipes iguais, e escolherá um \"rei\" para cada equipe",
-          "Cada time com uma base em diferentes lados do espaço",
-          "As crianças irão guerrear com batalhas, \"melhor de 3\" de pedra, papel ou tesoura",
-          "Cada guerra tira uma vida do perdedor, cada guerreiro tem 3 vidas e o rei 2, porém o rei a cada batalha ganha tirará duas vidas do perdedor."
+          "Brincadeira lúdica baseada em pedra, papel ou tesoura. O monitor dividirá duas equipes iguais, e escolherá um \"rei\" para cada equipe",
+          "Cada time com uma base em diferentes lados do espaço. As crianças irão guerrear com batalhas, \"melhor de 3\" de pedra, papel ou tesoura",
+          "Cada guerra tira uma vida do perdedor, cada guerreiro tem 3 vidas e o rei 2, porém o rei a cada batalha ganha tirará duas vidas do perdedor. ."
         ]
       },
       {
@@ -1809,7 +1681,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "caneta para cada equipe"
         ],
         "steps": [
-          "Divididos em equipes, cada equipe escolhera uma pessoa para escrever, é como um jogo de stop normal (Nome, cor, fruta, animal, objeto etc.) O restante da equipe estará em colunas, o monitor escolherá uma letra e ao seu sinal, um de cada vez, saíra correndo e dirá para quem estiver escrevendo um nome com a inicial da letra escolhida",
+          "Divididos em equipes, cada equipe escolhera uma pessoa para escrever, é como um jogo de stop normal (Nome, cor, fruta, animal, objeto etc.) O restante da equipe estará em colunas, o monitor escolherá uma letra e ao seu sinal, um de cada vez, saíra correndo e dirá para quem estiver escrevendo um nome com a inicial da letra escolhida.",
           "Marca-se um ponto para a equipe que acabar tudo e gritar stop primeiro."
         ]
       },
@@ -1851,25 +1723,9 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Caneta"
         ],
         "steps": [
-          "O monitor dividirá duas equipes",
-          "Em sua mão terá uma folha com várias palavras, os times tentarão adivinhar as palavras, exemplo: o monitor dará uma dica \"bebida\" e cada time irá chutar um tipo de bebida, até acertar, ganha um ponto o time que acertar",
-          "No meio de todas essas palavras terá a palavra MANGO, quando chegar nessa palavra o time que estiver com mais pontos irá escolher um mico para o outro time pagar",
-          "Ganha o jogo quem estiver mais pontos, quando a lista de palavras acabar",
-          "Obs.: a palavra MANGO poderá se repetir durante o jogo."
-        ]
-      },
-      {
-        "id": "pdf-125",
-        "title": "Jogo da Memória Humano",
-        "description": "Do grupo, dois são escolhidos para adivinhar quem serão os pares. Para isso, são levados para fora/outro ambiente, enquanto os colegas restantes se di...",
-        "duration": "15-20 min",
-        "participants": "4+",
-        "age": "Livre",
-        "materials": [],
-        "steps": [
-          "Do grupo, dois são escolhidos para adivinhar quem serão os pares. Para isso, são levados para fora/outro ambiente, enquanto os colegas restantes se dividem em duplas e combinam um gesto/movimento/sinal comum para ambos",
-          "Organizam-se em colunas e embaralham-se para dificultar a localização dos pares. A dupla retorna e deverá adivinhar os pares, escolhendo dois por vez, os quais executarão seu gesto/movimento/sinal (como quando as peças do jogo tradicional são viradas)",
-          "A dupla pode jogar de modo cooperativo ou competitivo. Após um certo número de acertos/jogadas, pode-se trocar os papéis, os pares e os movimentos combinados, enriquecendo a atividade. (Para dias de chuva)"
+          "O monitor dividirá duas equipes. Em sua mão terá uma folha com várias palavras, os times tentarão adivinhar as palavras, exemplo: o monitor dará uma dica \"bebida\" e cada time irá chutar um tipo de bebida, até acertar, ganha um ponto o time que acertar",
+          "No meio de todas essas palavras terá a palavra MANGO, quando chegar nessa palavra o time que estiver com mais pontos irá escolher um mico para o outro time pagar. Ganha o jogo quem estiver mais pontos, quando a lista de palavras acabar",
+          "Obs.: a palavra MANGO poderá se repetir durante o jogo.."
         ]
       }
     ]
@@ -1906,11 +1762,9 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "5+ anos",
         "materials": [],
         "steps": [
-          "Todas as crianças se juntarão ao meio, com um dos pés à frente, quando o monitor falar \"kung fu panda\" todas as crianças se afastaram para trás com um salto",
-          "O objetivo é eliminar os colegas, tocando nos braços ou pernas, mas só poderá utilizar um movimento por vez para atingir um colega próximo",
-          "O colega que estiver prestes a ser atingido poderá desviar, mas usando apenas um movimento também",
-          "Ao acertar algum membro de algum companheiro, este \"perderá\" o membro atingido, não podendo usar para \"atacar\"",
-          "Ganha quem ao final estiver com mais membros não atingidos."
+          "Todas as crianças se juntarão ao meio, com um dos pés à frente, quando o monitor falar \"kung fu panda\" todas as crianças se afastaram para trás com um salto. O objetivo é eliminar os colegas, tocando nos braços ou pernas, mas só poderá utilizar um movimento por vez para atingir um colega próximo",
+          "O colega que estiver prestes a ser atingido poderá desviar, mas usando apenas um movimento também. Ao acertar algum membro de algum companheiro, este \"perderá\" o membro atingido, não podendo usar para \"atacar\"",
+          "Ganha quem ao final estiver com mais membros não atingidos.."
         ]
       },
       {
@@ -1925,8 +1779,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "cones"
         ],
         "steps": [
-          "Arremessar os bambolês nos cones e tentar acertá-lo dentro do cone",
-          "Pode ser utilizado garrafas pets."
+          "Arremessar os bambolês nos cones e tentar acertá-lo dentro do cone. Pode ser utilizado garrafas pets."
         ]
       },
       {
@@ -1938,7 +1791,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "Livre",
         "materials": [],
         "steps": [
-          "Consiste num alinhamento de crianças, em rápido deslocamento, uma a uma, pulando sobre as costas dos companheiros parados, curvados, apoiando as mãos nas coxas",
+          "Consiste num alinhamento de crianças, em rápido deslocamento, uma a uma, pulando sobre as costas dos companheiros parados, curvados, apoiando as mãos nas coxas.",
           "Pulada a última carniça, o jogador corre e para adiante, esperando que os demais saltem sobre ele. ├ë sempre revezado."
         ]
       },
@@ -1955,10 +1808,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "cola ou fita adesiva."
         ],
         "steps": [
-          "Os participantes devem, inicialmente, colorir um desenho em uma folha de papel",
-          "Após isso o desenho será recortado em algumas partes",
-          "As \"peças\" dos desenhos serão escondidas em um determinado local",
-          "Vence o participante que conseguir achar suas peças e montar o seu desenho primeiro."
+          "Os participantes devem, inicialmente, colorir um desenho em uma folha de papel. Após isso o desenho será recortado em algumas partes",
+          "As \"peças\" dos desenhos serão escondidas em um determinado local. Vence o participante que conseguir achar suas peças e montar o seu desenho primeiro."
         ]
       },
       {
@@ -1970,8 +1821,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "Livre",
         "materials": [],
         "steps": [
-          "O monitor mostrará um som para a criança, exemplo o barulho da chuva e a criança dirá qual é aquele som",
-          "Pode também mostrar uma foto e pedir para a criança imitar o som."
+          "O monitor mostrará um som para a criança, exemplo o barulho da chuva e a criança dirá qual é aquele som. Pode também mostrar uma foto e pedir para a criança imitar o som."
         ]
       },
       {
@@ -2003,6 +1853,23 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         ]
       },
       {
+        "id": "pdf-62",
+        "title": "Campo Minado com mapa",
+        "description": "O monitor irá organizar os bambolês dispostos ao chão, em 3 ou mais fileiras e em 5 ou mais colunas (de acordo com o monitor) o monitor deverá formula...",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "6+ anos",
+        "materials": [
+          "10 ou mais bambolês",
+          "caso não tenha",
+          "usar marcação no chão"
+        ],
+        "steps": [
+          "O monitor irá organizar os bambolês dispostos ao chão, em 3 ou mais fileiras e em 5 ou mais colunas (de acordo com o monitor) o monitor deverá formular o mapa onde se localizam todas as \"minas terrestres\", apenas o monitor poderá ver, através do mapa o monitor dirá se as crianças estão indo pelo lugar certo, caso pise em um lugar que tenha a \"bomba\" deverá voltar a fila.",
+          "Ganha quem chegar sem pisar nenhuma vez nas \"bombas\", objetivo é trabalhar a memória das crianças."
+        ]
+      },
+      {
         "id": "pdf-74",
         "title": "Quem é o Líder",
         "description": "Forma-se um círculo, uma criança irá sair do círculo e ficara de costas, o restante das crianças escolherá um líder, sem que a criança que está fora d...",
@@ -2011,8 +1878,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "6+ anos",
         "materials": [],
         "steps": [
-          "Forma-se um círculo, uma criança irá sair do círculo e ficara de costas, o restante das crianças escolherá um líder, sem que a criança que está fora do círculo saiba quem é",
-          "Depois de escolhido, essa criança começará a fazer movimentos, ou barulhos, todos deverão imita-lo, e a criança que está fora tentará descobrir quem está fazendo os movimentos."
+          "Forma-se um círculo, uma criança irá sair do círculo e ficara de costas, o restante das crianças escolherá um líder, sem que a criança que está fora do círculo saiba quem é. Depois de escolhido, essa criança começará a fazer movimentos, ou barulhos, todos deverão imita-lo, e a criança que está fora tentará descobrir quem está fazendo os movimentos.",
+          ""
         ]
       },
       {
@@ -2026,9 +1893,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Nenhum."
         ],
         "steps": [
-          "Divide-se a turma em círculos com o mesmo número de participantes, todos numerados",
-          "Um aluno é escolhido para ficar fora do círculo",
-          "O jogo inicia quando o professor gritar um número e o aluno que está do lado de fora deverá pegá-lo. seus colegas para impedir q o número citado seja pego deverão girar de um lado para outro protegendo-o sem soltaras mãos. (Para Chuva)."
+          "Divide-se a turma em círculos com o mesmo número de participantes, todos numerados. Um aluno é escolhido para ficar fora do círculo. O jogo inicia quando o professor gritar um número e o aluno que está do lado de fora deverá pegá-lo.",
+          "seus colegas para impedir q o número citado seja pego deverão girar de um lado para outro protegendo-o sem soltaras mãos. (Para Chuva)."
         ]
       },
       {
@@ -2043,11 +1909,24 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "folha de papel ou cartolina."
         ],
         "steps": [
-          "Uma foto de cada participante deve ser tirada e impressa duas vezes, em duas folhas distintas",
-          "As folhas devem ser coladas em um suporte, metade delas voltada para um lado e a outra metade, de maneira espelhada, voltada para o sentido contrário",
-          "Dois integrantes devem jogar o jogo, ambos devem escolher apenas uma das fotos de pessoa e manter a escolha em segredo",
-          "Vence o jogo quem conseguir adivinhar primeiro a figura escolhida",
-          "Apenas perguntas sobre as características físicas podem ser feitas e as respostas só podem ser SIM ou N├âO."
+          "Uma foto de cada participante deve ser tirada e impressa duas vezes, em duas folhas distintas. As folhas devem ser coladas em um suporte, metade delas voltada para um lado e a outra metade, de maneira espelhada, voltada para o sentido contrário",
+          "Dois integrantes devem jogar o jogo, ambos devem escolher apenas uma das fotos de pessoa e manter a escolha em segredo. Vence o jogo quem conseguir adivinhar primeiro a figura escolhida",
+          "Apenas perguntas sobre as características físicas podem ser feitas e as respostas só podem ser SIM ou N├âO.."
+        ]
+      },
+      {
+        "id": "pdf-78",
+        "title": "Jogo dos Comandos",
+        "description": "Vários bambolês devem ser colocados em círculo com um participante dentro de cada um. Os integrantes devem obedecer aos comandos (para frente, para tr...",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "Livre",
+        "materials": [
+          "Bambolês ou Giz."
+        ],
+        "steps": [
+          "Vários bambolês devem ser colocados em círculo com um participante dentro de cada um. Os integrantes devem obedecer aos comandos (para frente, para trás, para a esquerda e para a direita).",
+          "Vence quem conseguir ficar no círculo por último."
         ]
       },
       {
@@ -2078,8 +1957,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "qualquer."
         ],
         "steps": [
-          "Várias folhas coloridas devem ser espalhadas em um local",
-          "Os participantes recebem vários lápis com as mesmas cores das folhas que estão espalhadas",
+          "Várias folhas coloridas devem ser espalhadas em um local. Os participantes recebem vários lápis com as mesmas cores das folhas que estão espalhadas.",
           "Vence o participante que conseguir colocar todos os lápis nas folhas de cores correspondentes primeiros."
         ]
       },
@@ -2095,7 +1973,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "pedaços de papeis"
         ],
         "steps": [
-          "Os monitores criaram uma história, e nas cenas desse mistério iram colocar dicas, para que as crianças leiam essas dicas e descubram os lugares onde estão as outras dicas, até chegar ao último local, onde estará a última dica, levará para o monitor e ele contará o final do mistério."
+          "Os monitores criaram uma história, e nas cenas desse mistério iram colocar dicas, para que as crianças leiam essas dicas e descubram os lugares onde estão as outras dicas, até chegar ao último local, onde estará a última dica, levará para o monitor e ele contará o final do mistério.",
+          ""
         ]
       },
       {
@@ -2110,8 +1989,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "de canetinhas ou de tinta guache."
         ],
         "steps": [
-          "Uma pessoa será o canibal que ficará com a cor preta, os restantes das cores serão escondidos pelo monitor em lugares diferentes",
-          "Ao sinal as crianças sairão a procura das cores, quando encontrar uma cor deverá passá-la no braço, caso o \"canibal\" a pegue, deverá passar a tinta preta por cima de todas as cores que a pessoa já encontrou",
+          "Uma pessoa será o canibal que ficará com a cor preta, os restantes das cores serão escondidos pelo monitor em lugares diferentes. Ao sinal as crianças sairão a procura das cores, quando encontrar uma cor deverá passá-la no braço, caso o \"canibal\" a pegue, deverá passar a tinta preta por cima de todas as cores que a pessoa já encontrou.",
           "Ganha a brincadeira quem achar todas as cores primeiro."
         ]
       },
@@ -2143,7 +2021,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Cada um fica com três palitos, todos devem que ficar andando, se misturando. Quando o monitor gritar \"para\", cada participante deve correr para frente de outro e fazer palhaçadas",
           "O outro tem que ficar parado, sem rir. Quem rir perde um palito",
           "O desafio vai se repetindo e quem ficar sem palitos sai da brincadeira. Quem tiver mais ganha",
-          "Não vale fazer cócegas para o outro rir.."
+          "Não vale fazer cócegas para o outro rir. ."
         ]
       },
       {
@@ -2155,11 +2033,9 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "8+ anos",
         "materials": [],
         "steps": [
-          "Forma-se duplas",
-          "Joga-se um adedanha para saber \"O que é que tem em tal lugar com a letra tal?\"",
-          "Cada dupla tem 30 segundos para dar a sua resposta",
-          "Quem não responder em 30 segundos, é eliminado, cantando \"O Raul perguntou, você não acertou, pegue seu banquinho e saia de mansinho\"",
-          "Ganha a dupla que ficar por último"
+          "Forma-se duplas. Joga-se um adedanha para saber \"O que é que tem em tal lugar com a letra tal?\"",
+          "Cada dupla tem 30 segundos para dar a sua resposta. Quem não responder em 30 segundos, é eliminado, cantando \"O Raul perguntou, você não acertou, pegue seu banquinho e saia de mansinho\"",
+          "Ganha a dupla que ficar por último."
         ]
       },
       {
@@ -2171,7 +2047,7 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "8+ anos",
         "materials": [],
         "steps": [
-          "O monitor falará uma fruta, em seguida ele escolherá alguém para que fale a fruta que o monitor falou e uma de sua escolha (exemplo: monitor: maça, criança: maça banana) e assim sucessivamente, objetivo falar todas as frutas que já foram ditas mais a sua",
+          "O monitor falará uma fruta, em seguida ele escolherá alguém para que fale a fruta que o monitor falou e uma de sua escolha (exemplo: monitor: maça, criança: maça banana) e assim sucessivamente, objetivo falar todas as frutas que já foram ditas mais a sua.",
           "Trabalhar a memória das crianças"
         ]
       },
@@ -2186,8 +2062,21 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "Lenços ou vendas"
         ],
         "steps": [
-          "Alunos em círculos, dois irão para o centro; um será o cachorro e outro o gato",
-          "Veda-se os olhos de ambos, toda vez que o cachorro latir, o gato miará, o cachorro deverá tentar pegá-lo, se conseguir, troca-se as crianças."
+          "Alunos em círculos, dois irão para o centro; um será o cachorro e outro o gato. Veda-se os olhos de ambos, toda vez que o cachorro latir, o gato miará, o cachorro deverá tentar pegá-lo, se conseguir, troca-se as crianças."
+        ]
+      },
+      {
+        "id": "pdf-125",
+        "title": "Jogo da Memória Humano",
+        "description": "Do grupo, dois são escolhidos para adivinhar quem serão os pares. Para isso, são levados para fora/outro ambiente, enquanto os colegas restantes se di...",
+        "duration": "15-20 min",
+        "participants": "4+",
+        "age": "Livre",
+        "materials": [],
+        "steps": [
+          "Do grupo, dois são escolhidos para adivinhar quem serão os pares. Para isso, são levados para fora/outro ambiente, enquanto os colegas restantes se dividem em duplas e combinam um gesto/movimento/sinal comum para ambos",
+          "Organizam-se em colunas e embaralham-se para dificultar a localização dos pares. A dupla retorna e deverá adivinhar os pares, escolhendo dois por vez, os quais executarão seu gesto/movimento/sinal (como quando as peças do jogo tradicional são viradas)",
+          "A dupla pode jogar de modo cooperativo ou competitivo. Após um certo número de acertos/jogadas, pode-se trocar os papéis, os pares e os movimentos combinados, enriquecendo a atividade. (Para dias de chuva)"
         ]
       },
       {
@@ -2199,11 +2088,9 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
         "age": "Livre",
         "materials": [],
         "steps": [
-          "Os participantes devem ser divididos em três grupos (Ataque, defesa e juízes)",
-          "Um caso aleatório deve ser inventado pelo narrador da história",
-          "Cada grupo terá uma função específica",
-          "Ataque: Acusar a defesa e provar que estão certos",
-          "Defesa: Defender-se das acusações e tentar inocentar-se Juízes: Escolher qual dos lados tem razão e atribui-lo a vitória."
+          "Os participantes devem ser divididos em três grupos (Ataque, defesa e juízes). Um caso aleatório deve ser inventado pelo narrador da história",
+          "Cada grupo terá uma função específica. Ataque: Acusar a defesa e provar que estão certos",
+          "Defesa: Defender-se das acusações e tentar inocentar-se Juízes: Escolher qual dos lados tem razão e atribui-lo a vitória. ."
         ]
       },
       {
@@ -2220,10 +2107,8 @@ export const SYSTEM_COLLECTIONS: Collection[] = [
           "caneta."
         ],
         "steps": [
-          "O narrador deve escrever uma história de suspense e mistério tendo obrigatoriamente uma vítima e diversos suspeitos",
-          "Após isso várias pistas que levam à resolução do mistério devem ser colocadas dentro de bexigas e escondidas em um local pré-determinado",
-          "Os participantes devem encontrar essas bexigas e levá-las para a \"Delegacia\", montada pelo narrador, e entregar as pistas para o \"Xerife\"",
-          "Os integrantes devem descobrir: Quem cometeu o crime? Como ele cometeu o crime? Por que ele cometeu o crime?"
+          "O narrador deve escrever uma história de suspense e mistério tendo obrigatoriamente uma vítima e diversos suspeitos. Após isso várias pistas que levam à resolução do mistério devem ser colocadas dentro de bexigas e escondidas em um local pré-determinado",
+          "Os participantes devem encontrar essas bexigas e levá-las para a \"Delegacia\", montada pelo narrador, e entregar as pistas para o \"Xerife\". Os integrantes devem descobrir: Quem cometeu o crime? Como ele cometeu o crime? Por que ele cometeu o crime?"
         ]
       }
     ]

@@ -404,7 +404,7 @@ export async function getBrincadeiraById(id: string) {
           creator: {
             id: "system",
             name: "BeHappyinha",
-            avatar: "/behappyinha.png",
+            avatar: undefined,
             level: 10,
             title: "Curadoria Oficial"
           },
