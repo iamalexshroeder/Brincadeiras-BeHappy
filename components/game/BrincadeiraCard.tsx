@@ -174,12 +174,13 @@ export function BrincadeiraCard({
             name={creator.name} 
             src={creator.avatar} 
             rankBadge={creator.rankBadge}
-            className="h-10 w-10"
+            className={cn("h-10 w-10", creator.name === "Equipe BeHappy" && "bg-white p-1 shadow-sm border border-border")}
           />
           <div className="flex flex-col">
             <span className="text-h3 leading-tight">
               {creator.name}
             </span>
+            {creator.name !== "Equipe BeHappy" && (
             <div className="flex items-center gap-2 mt-0.5">
               <span className="text-caption">
                 {creator.title || getTitleForLevel(creator.level)}
@@ -188,6 +189,7 @@ export function BrincadeiraCard({
                 · Nível {creator.level}
               </span>
             </div>
+            )}
           </div>
         </Link>
         <span className="text-mini">

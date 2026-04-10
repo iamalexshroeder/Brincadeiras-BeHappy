@@ -17,9 +17,14 @@ export default async function Explorar({
   const session = await auth()
   
   let searchResults: any[] = []
+  let defaultFeed: any[] = []
+  
   if (q || kit) {
     const feed = await getFeed(20, undefined, undefined, kit, q)
     searchResults = feed.items
+  } else {
+    const feed = await getFeed(20)
+    defaultFeed = feed.items
   }
 
   const activeKit = kit ? SYSTEM_COLLECTIONS.find(c => c.id === kit) : null;
@@ -39,6 +44,35 @@ export default async function Explorar({
               <span className="text-[13px] font-bold text-[#8E8E93]">{SYSTEM_COLLECTIONS.length} coleções</span>
             </div>
             <BibliotecaList />
+
+            {/* Galeria Padrão */}
+            <div className="mt-8 flex items-baseline justify-between mb-4 pl-1">
+              <h2 className="section-label">
+                Galeria
+              </h2>
+            </div>
+            <div className="space-y-4 px-1 pb-4">
+              {defaultFeed.map((game) => (
+                <BrincadeiraCard
+                  key={game.id}
+                  id={game.id}
+                  title={game.title}
+                  description={game.description}
+                  creator={game.creator}
+                  metadata={game.metadata}
+                  tags={game.tags}
+                  likesCount={game.likesCount}
+                  usedCount={game.usedCount}
+                  comments={game.comments}
+                  initialLiked={game.userHasLiked}
+                  initialUsed={game.userHasUsed}
+                  currentUserId={session?.user?.id}
+                  steps={game.steps}
+                  materials={game.materials}
+                  publishedAt={game.publishedAt}
+                />
+              ))}
+            </div>
           </>
         ) : (
           <div className="mt-4">
