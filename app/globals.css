@@ -121,7 +121,7 @@
   }
   .btn-chip-active {
     @apply h-9 px-4 rounded-full text-[13px] font-bold border-2
-           bg-primary text-white border-primary shadow-lg shadow-primary/20 scale-105;
+           bg-primary text-white border-primary;
   }
 
   /* ===== Design System: Inputs ===== */

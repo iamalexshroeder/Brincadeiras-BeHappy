@@ -163,16 +163,36 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
         <div>
           <label className="section-label mb-3 block">Categoria Principal</label>
           <div className="flex flex-wrap gap-2">
-            {CATEGORIES.map(cat => (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => mode !== "VIEW" && setSelectedCategories([cat])}
-                className={cn(selectedCategories.includes(cat) ? "btn-chip-active" : "btn-chip", mode === "VIEW" && !selectedCategories.includes(cat) && "hidden", mode === "VIEW" && "pointer-events-none")}
-              >
-                {cat}
-              </button>
-            ))}
+            {CATEGORIES.map(cat => {
+              const idx = selectedCategories.indexOf(cat)
+              const isFirst = idx === 0
+              const isExtra = idx > 0
+              const isSelected = idx !== -1
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => {
+                    if (mode === "VIEW") return
+                    if (isSelected) {
+                      setSelectedCategories(selectedCategories.filter(c => c !== cat))
+                    } else {
+                      setSelectedCategories([...selectedCategories, cat])
+                    }
+                  }}
+                  className={cn(
+                    "h-9 px-4 rounded-full text-[13px] font-bold border-2 transition-all active:scale-95",
+                    isFirst && "bg-[#FF9500] text-white border-[#FF9500]",
+                    isExtra && "bg-[#007AFF] text-white border-[#007AFF]",
+                    !isSelected && "bg-[#F2F2F7] text-[#8E8E93] border-transparent",
+                    mode === "VIEW" && !isSelected && "hidden",
+                    mode === "VIEW" && "pointer-events-none"
+                  )}
+                >
+                  {cat}
+                </button>
+              )
+            })}
           </div>
         </div>
 
@@ -184,11 +204,18 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
               <button
                 key={ageId}
                 type="button"
-                onClick={() => mode !== "VIEW" && setAgeGroups([ageId])}
+                onClick={() => {
+                  if (mode === "VIEW") return
+                  if (ageGroups.includes(ageId)) {
+                    setAgeGroups(ageGroups.filter(a => a !== ageId))
+                  } else {
+                    setAgeGroups([...ageGroups, ageId])
+                  }
+                }}
                 className={cn(
-                  "h-9 px-4 rounded-full text-[13px] font-bold border-2 transition-all",
+                  "h-9 px-4 rounded-full text-[13px] font-bold border-2 transition-all active:scale-95",
                   ageGroups.includes(ageId)
-                    ? "bg-[#6366F1] text-white border-[#6366F1] shadow-none"
+                    ? "bg-[#6366F1] text-white border-[#6366F1]"
                     : "bg-[#F2F2F7] text-[#8E8E93] border-transparent",
                   mode === "VIEW" && !ageGroups.includes(ageId) && "hidden",
                   mode === "VIEW" && "pointer-events-none"
