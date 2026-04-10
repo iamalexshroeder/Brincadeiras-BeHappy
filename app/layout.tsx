@@ -15,14 +15,13 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 export const metadata = {
   title: "BeHappy - Brincadeiras para Recreadores",
   description: "Descubra, compartilhe e crie brincadeiras incríveis. A plataforma dos melhores recreadores.",
-  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
     title: "BeHappy",
   },
   openGraph: {
-    title: "BeHappy - Brincadeiras para Recreadores",
+  title: "BeHappy - Brincadeiras para Recreadores",
     description: "Descubra, compartilhe e crie brincadeiras incríveis.",
     type: "website",
   },

@@ -18,6 +18,8 @@ type Mission = {
   claimed: boolean
 }
 
+import confetti from "canvas-confetti"
+
 function MissionCard({ mission }: { mission: Mission }) {
   const [claimed, setClaimed] = useState(mission.claimed)
   const [isPending, startTransition] = useTransition()
@@ -29,6 +31,12 @@ function MissionCard({ mission }: { mission: Mission }) {
       try {
         await claimMission(mission.id)
         setClaimed(true)
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#FF9500', '#FFCC00', '#FF3B30', mission.gradient[0], mission.gradient[1]]
+        })
       } catch {}
     })
   }
