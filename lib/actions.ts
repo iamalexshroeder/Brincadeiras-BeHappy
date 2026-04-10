@@ -338,10 +338,11 @@ export async function getFeed(
     } else {
       whereClause.tags = { has: kit }
     }
-  } else {
-    // Se NÃO estivermos visualizando um kit (ex: Feed Geral ou Galeria), escondemos as brincadeiras do sistema
+  } else if (!searchQuery) {
+    // Feed genérico sem busca: esconde brincadeiras do sistema
     whereClause.user = { email: { not: "equipe@behappy.com" } }
   }
+  // Com searchQuery: inclui todas, incluindo as da BeHappyinha
 
   if (searchQuery) {
     whereClause.OR = [
