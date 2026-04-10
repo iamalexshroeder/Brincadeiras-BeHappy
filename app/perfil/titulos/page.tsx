@@ -47,16 +47,16 @@ export default function TitulosPage() {
   const isJadhe = profile?.name?.toLowerCase().includes("jadhe")
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F2F2F7]">
-      {/* Header Fixo */}
-      <div className="sticky top-0 z-50 bg-white/90 backdrop-blur-md px-5 pt-14 pb-4 border-b border-border">
+    <div className="flex flex-col flex-1 bg-background">
+      {/* Header Fixo - Padronizado com Header.tsx */}
+      <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-md px-5 pt-10 pb-3 border-b border-border no-print">
         <div className="flex items-center gap-4">
           <Link href="/perfil">
-            <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-[#F2F2F7] text-muted-foreground">
+            <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-muted text-muted-foreground active:scale-95 transition-all">
               <RiArrowLeftSLine size={24} />
             </Button>
           </Link>
-          <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-foreground">
+          <h1 className="text-[22px] font-extrabold tracking-[-0.02em] text-foreground">
             Meus Títulos
           </h1>
         </div>

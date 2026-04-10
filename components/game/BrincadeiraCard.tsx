@@ -336,7 +336,7 @@ export function BrincadeiraCard({
                Ver Detalhes
              </Button>
            </SheetTrigger>
-           <SheetContent side="bottom" className="h-[95vh] rounded-t-[32px] p-0 flex flex-col border-none bg-card overflow-hidden outline-none">
+           <SheetContent side="bottom" className="h-[92dvh] rounded-t-[24px] p-0 flex flex-col border-none bg-background overflow-hidden outline-none">
               {/* Barra de Ações Fixa (Top Bar) */}
               <div className="absolute top-0 left-0 right-0 h-16 bg-card/90 backdrop-blur-md border-b border-border px-5 flex items-center justify-between z-[100]">
                 <div className="flex items-center gap-3">

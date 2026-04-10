@@ -163,7 +163,7 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame; isOpen: boolea
 
   return (
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <SheetContent side="bottom" className="h-[95vh] rounded-t-[32px] p-0 flex flex-col border-none bg-card overflow-hidden outline-none">
+      <SheetContent side="bottom" className="h-[92dvh] rounded-t-[24px] p-0 flex flex-col border-none bg-background overflow-hidden outline-none">
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-border bg-white h-16 shrink-0">
           <div className="flex items-center gap-3">
@@ -294,7 +294,7 @@ function CollectionModal({ collection, isOpen, onClose }: { collection: Collecti
 
   return (
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <SheetContent side="bottom" className="h-[95vh] rounded-t-[32px] p-0 flex flex-col border-none bg-card overflow-hidden outline-none">
+      <SheetContent side="bottom" className="h-[92dvh] rounded-t-[24px] p-0 flex flex-col border-none bg-background overflow-hidden outline-none">
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-border bg-white h-16 shrink-0">
           <div className="flex items-center gap-3">
