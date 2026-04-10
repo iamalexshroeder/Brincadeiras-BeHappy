@@ -43,8 +43,8 @@ export function ExplorarClient({ initialFeed, currentUserId }: Props) {
 
   return (
     <>
-      {/* Barra de busca */}
-      <div className="px-4 sm:px-6 py-3 bg-[#F9F9F7] border-b border-[#E5E5EA] sticky top-[var(--header-h,64px)] z-40">
+      {/* Barra de busca - Unificadda com o Header e Sticky */}
+      <div className="px-4 sm:px-6 py-3 bg-[#F9F9F7]/95 backdrop-blur-md sticky top-[80px] z-40 border-b border-[#E5E5EA]">
         <div className="bg-white p-[6px] rounded-[12px] border border-[#E5E5EA] shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
           <div className="relative">
             {isPending ? (

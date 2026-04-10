@@ -59,6 +59,7 @@ export default async function Explorar({
           showUserCard={false}
           showBackButton={true}
           showSearch={false}
+          hideBorder={true}
         />
         <main className="page-main pb-32 animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="flex items-baseline justify-between mb-4 pl-1">
@@ -112,6 +113,7 @@ export default async function Explorar({
         showUserCard={false}
         showBackButton={false}
         showSearch={false}
+        hideBorder={true}
       />
       <ExplorarClient
         initialFeed={initialFeed}

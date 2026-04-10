@@ -45,6 +45,7 @@ interface HeaderProps {
   showUserCard?: boolean
   showBackButton?: boolean
   rightAction?: React.ReactNode
+  hideBorder?: boolean
 }
 
 export function Header({
@@ -52,7 +53,8 @@ export function Header({
   showSearch = true,
   showUserCard = false,
   showBackButton = false,
-  rightAction
+  rightAction,
+  hideBorder = false
 }: HeaderProps) {
   const pathname = usePathname()
   const router = useRouter()
@@ -113,7 +115,8 @@ export function Header({
     <>
       {/* Sticky top bar — title + notification bell */}
       <div className={cn(
-        "sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-4 sm:px-6 border-b border-[#E5E5EA] no-print",
+        "sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-4 sm:px-6 no-print transition-all",
+        !hideBorder && "border-b border-[#E5E5EA]",
         showBackButton ? "pt-12 pb-4" : "pt-10 pb-4"
       )}>
         <div className="flex items-center justify-between gap-2">
