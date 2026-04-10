@@ -142,10 +142,13 @@ export async function getProfile() {
 
   const gamification = getLevelFromXp(user.xp, user.active_title)
 
-  // Get counts for favorites (likes given) and contributions
-  const [likesGivenCount, interactions] = await prisma.$transaction([
+  // Get counts for favorites, saved interactions, and contributions
+  const [likesGivenCount, savedCount, interactions] = await prisma.$transaction([
     prisma.interaction.count({
       where: { user_id: user.id, type: "LIKE" },
+    }),
+    prisma.interaction.count({
+      where: { user_id: user.id, type: "SAVED" },
     }),
     prisma.interaction.findMany({
       where: { brincadeira: { user_id: user.id } },
@@ -176,6 +179,7 @@ export async function getProfile() {
     rankBadge,
     stats: {
       favorites: likesGivenCount,
+      saved: savedCount,
       contributions: user._count.brincadeiras,
       achievements: Math.floor(user.xp / 500),
       likesReceived,
@@ -255,7 +259,7 @@ export async function getPublicProfile(userId: string) {
   }
 }
 
-export async function getFeed(limit = 20, cursor?: string, category?: string, kit?: string) {
+export async function getFeed(limit = 20, cursor?: string, category?: string, kit?: string, searchQuery?: string) {
   const session = await auth()
   const userId = session?.user?.id
   const topThreeIds = await getTopThreeIds()
@@ -272,6 +276,14 @@ export async function getFeed(limit = 20, cursor?: string, category?: string, ki
     if (kit === "ferias") whereClause.tags = { ...whereClause.tags, hasSome: ["Físico", "Cooperativo", "Gincana"] }
     if (kit === "pequenos") whereClause.tags = { ...whereClause.tags, hasSome: ["Musical", "Sensorial", "Roda"] }
     if (kit === "sem_material") whereClause.materials = { isEmpty: true }
+  }
+
+  if (searchQuery) {
+    whereClause.OR = [
+      { title: { contains: searchQuery, mode: 'insensitive' } },
+      { short_description: { contains: searchQuery, mode: 'insensitive' } },
+      { tags: { has: searchQuery } }
+    ]
   }
 
   const brincadeiras = await prisma.brincadeira.findMany({
@@ -371,6 +383,7 @@ export interface Brincadeira {
   usedCount: number
   userHasLiked: boolean
   userHasUsed: boolean
+  userHasSaved: boolean
   comments: any[]
   steps: string[]
   materials: string[]
@@ -421,6 +434,7 @@ function formatBrincadeira(b: any, currentUserId?: string, topThreeIds: string[]
     usedCount: b.used_count || 0,
     userHasLiked: b.interactions?.some((i: any) => i.type === "LIKE") || false,
     userHasUsed: b.interactions?.some((i: any) => i.type === "USED") || false,
+    userHasSaved: b.interactions?.some((i: any) => i.type === "SAVED") || false,
     comments: b.comments || [],
     steps: Array.isArray(b.steps) ? b.steps : [],
     materials: Array.isArray(b.materials) ? b.materials : [],
@@ -626,6 +640,127 @@ export async function toggleUsed(brincadeiraId: string) {
 
   revalidatePath("/")
   revalidatePath("/explorar")
+}
+
+/**
+ * Toggles a SAVED interaction.
+ * Acts as a generic "Bookmark" (All Saved Posts).
+ */
+export async function toggleSave(brincadeiraId: string) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Não autenticado")
+  const userId = session.user.id
+
+  const existing = await prisma.interaction.findUnique({
+    where: { user_id_brincadeira_id_type: { user_id: userId, brincadeira_id: brincadeiraId, type: "SAVED" } },
+  })
+
+  if (existing) {
+    await prisma.interaction.delete({ where: { id: existing.id } })
+  } else {
+    await prisma.interaction.create({
+      data: { user_id: userId, brincadeira_id: brincadeiraId, type: "SAVED" },
+    })
+  }
+
+  revalidatePath("/")
+  revalidatePath("/explorar")
+  revalidatePath("/perfil")
+}
+
+/**
+ * Fetches the user's saved brincadeiras (Interaction type SAVED).
+ */
+export async function getSavedBrincadeiras() {
+  const session = await auth()
+  if (!session?.user?.id) return []
+  const topThreeIds = await getTopThreeIds()
+
+  const saved = await prisma.interaction.findMany({
+    where: { 
+      user_id: session.user.id,
+      type: "SAVED"
+    },
+    include: {
+      brincadeira: {
+        include: {
+          user: {
+            select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true },
+          },
+          comments: {
+            include: { user: { select: { name: true, avatar_url: true, image: true } } },
+            orderBy: { created_at: "desc" },
+          },
+          interactions: {
+            where: { user_id: session.user.id },
+            select: { type: true },
+          },
+        }
+      }
+    },
+    orderBy: { created_at: "desc" }
+  })
+
+  const userId = session.user.id
+  return saved.map(s => formatBrincadeira(s.brincadeira, userId, topThreeIds)).filter(Boolean)
+}
+
+/**
+ * User Custom Collections
+ */
+export async function getCollections() {
+  const session = await auth()
+  if (!session?.user?.id) return []
+
+  return prisma.collection.findMany({
+    where: { user_id: session.user.id },
+    orderBy: { created_at: "desc" }
+  })
+}
+
+export async function createCollection(title: string, description?: string) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Não autenticado")
+
+  const col = await prisma.collection.create({
+    data: {
+      user_id: session.user.id,
+      title,
+      description: description || "",
+      brincadeiras: []
+    }
+  })
+  
+  revalidatePath("/perfil")
+  return col
+}
+
+export async function toggleBrincadeiraInCollection(collectionId: string, brincadeiraId: string) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Não autenticado")
+
+  const collection = await prisma.collection.findUnique({
+    where: { id: collectionId, user_id: session.user.id }
+  })
+
+  if (!collection) throw new Error("Coleção não encontrada")
+
+  let newBrincadeiras = [...collection.brincadeiras]
+  const exists = newBrincadeiras.includes(brincadeiraId)
+
+  if (exists) {
+    newBrincadeiras = newBrincadeiras.filter(id => id !== brincadeiraId)
+  } else {
+    newBrincadeiras.push(brincadeiraId)
+  }
+
+  await prisma.collection.update({
+    where: { id: collectionId },
+    data: { brincadeiras: newBrincadeiras }
+  })
+
+  revalidatePath("/perfil")
+  return !exists
 }
 
 /**

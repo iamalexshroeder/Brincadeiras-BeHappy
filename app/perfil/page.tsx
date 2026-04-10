@@ -13,7 +13,8 @@ import {
   RiQuestionLine, 
   RiInformationLine,
   RiArrowRightSLine,
-  RiLogoutBoxRLine
+  RiLogoutBoxRLine,
+  RiBookmarkFill
 } from "@remixicon/react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
@@ -48,7 +49,14 @@ export default function Perfil() {
       count: profileData?.stats?.favorites?.toString() || "0", 
       icon: RiHeartFill, 
       color: "text-red-500",
-      description: "Salvas por você"
+      description: "Curtidas por você"
+    },
+    { 
+      label: "Salvas", 
+      count: profileData?.stats?.saved?.toString() || "0", 
+      icon: RiBookmarkFill, 
+      color: "text-purple-500",
+      description: "Guardadas para depois"
     },
     { 
       label: "Minhas", 
@@ -108,6 +116,7 @@ export default function Perfil() {
           <div className="flex overflow-x-auto no-scrollbar gap-4 px-5 py-2 -my-2">
             {activities.map((activity) => {
               const href = activity.label === "Favoritas" ? "/perfil/favoritas" : 
+                           activity.label === "Salvas" ? "/perfil/salvas" :
                            activity.label === "Minhas" ? "/perfil/minhas" : "/perfil/titulos"
               
               return (

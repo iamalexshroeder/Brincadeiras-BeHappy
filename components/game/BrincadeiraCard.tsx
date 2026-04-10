@@ -19,7 +19,9 @@ import {
   RiCheckboxCircleLine,
   RiCheckboxCircleFill,
   RiUserVoiceLine,
-  RiCloseLine
+  RiCloseLine,
+  RiBookmarkLine,
+  RiBookmarkFill
 } from "@remixicon/react"
 import {
   Card,
@@ -30,7 +32,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { UserAvatar } from "@/components/ui/UserAvatar"
 import { getTitleForLevel } from "@/utils/gamification"
-import { toggleLike, toggleUsed, deleteBrincadeira } from "@/lib/actions"
+import { toggleLike, toggleUsed, deleteBrincadeira, toggleSave } from "@/lib/actions"
 
 
 const AGE_GROUP_LABELS: Record<string, string> = {
@@ -68,6 +70,7 @@ interface BrincadeiraCardProps {
   comments?: any[]
   initialLiked?: boolean
   initialUsed?: boolean
+  initialSaved?: boolean
   steps?: string[]
   materials?: string[]
   publishedAt?: string
@@ -87,6 +90,7 @@ export function BrincadeiraCard({
   comments = [],
   initialLiked = false,
   initialUsed = false,
+  initialSaved = false,
   currentUserId,
   steps = [],
   materials = [],
@@ -96,6 +100,7 @@ export function BrincadeiraCard({
   const [isPending, startTransition] = useTransition()
   const [isLiked, setIsLiked] = useState(initialLiked)
   const [isUsed, setIsUsed] = useState(initialUsed)
+  const [isSaved, setIsSaved] = useState(initialSaved)
   const [localLikes, setLocalLikes] = useState(likesCount)
   const [localUsed, setLocalUsed] = useState(usedCount)
 
@@ -143,6 +148,20 @@ export function BrincadeiraCard({
       } catch (error) {
         setIsUsed(isUsed)
         setLocalUsed(localUsed)
+      }
+    })
+  }
+
+  const handleSave = async (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setIsSaved(!isSaved)
+
+    startTransition(async () => {
+      try {
+        await toggleSave(id)
+        router.refresh()
+      } catch (error) {
+        setIsSaved(isSaved)
       }
     })
   }
@@ -232,11 +251,16 @@ export function BrincadeiraCard({
           </div>
         </div>
 
-        <Link href={`/brincadeira/${id}`}>
-          <button type="button" className="text-[13px] font-bold text-muted-foreground hover:text-foreground active:opacity-50 transition-all px-2 py-1">
-            Ver Detalhes
-          </button>
-        </Link>
+        <button onClick={handleSave} className="flex items-center text-muted-foreground active:scale-90 transition-all font-bold p-1">
+          <motion.div
+            key={isSaved ? "saved" : "unsaved"}
+            initial={{ scale: 0.8 }}
+            animate={{ scale: isSaved ? [0.8, 1.2, 1] : 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            {isSaved ? <RiBookmarkFill size={24} className="text-purple-500" /> : <RiBookmarkLine size={24} />}
+          </motion.div>
+        </button>
       </CardFooter>
     </Card>
   )
