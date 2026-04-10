@@ -334,21 +334,23 @@ export function BrincadeiraCard({
              </Button>
            </SheetTrigger>
            <SheetContent side="bottom" className="h-[92dvh] rounded-t-[24px] p-0 flex flex-col border-none bg-background overflow-hidden outline-none">
-              {/* Barra de Ações Fixa (Top Bar) */}
-              <div className="absolute top-0 left-0 right-0 h-16 bg-card/90 backdrop-blur-md border-b border-border px-5 flex items-center justify-between z-[100]">
+              {/* Header Fixo (Top Bar) - Padronizado */}
+              <div className="flex items-center justify-between h-16 bg-background/95 backdrop-blur-md border-b border-border px-5 shrink-0 z-50">
                 <div className="flex items-center gap-3">
                   <SheetClose asChild>
                     <Button 
                       variant="ghost" 
                       size="icon" 
-                      className="h-10 w-10 rounded-full bg-card shadow-[0_2px_12px_rgba(0,0,0,0.08)] text-muted-foreground active:scale-90 transition-all"
+                      className="h-10 w-10 rounded-full bg-muted text-muted-foreground active:scale-90 transition-all"
                       onClick={() => setIsEditingBrincadeira(false)}
                     >
                       <RiArrowLeftSLine size={24} />
                     </Button>
                   </SheetClose>
-                  {isEditingBrincadeira && (
+                  {isEditingBrincadeira ? (
                     <span className="text-[17px] font-extrabold text-foreground">Editando</span>
+                  ) : (
+                    <span className="text-[17px] font-extrabold text-foreground max-w-[200px] truncate">{title}</span>
                   )}
                 </div>
 
@@ -359,7 +361,7 @@ export function BrincadeiraCard({
                         <Button 
                           variant="ghost" 
                           size="icon" 
-                          className="h-10 w-10 text-muted-foreground active:bg-[#F2F2F7] rounded-full transition-colors"
+                          className="h-10 w-10 text-muted-foreground active:bg-muted rounded-full transition-colors"
                           onClick={() => setIsEditingBrincadeira(true)}
                         >
                           <RiEditLine size={22} />
@@ -395,13 +397,10 @@ export function BrincadeiraCard({
                 )}
               </div>
 
-              {/* Espaçador para o Header Fixo */}
-              <div className="h-16 w-full shrink-0" />
-
               {/* Scrollable Content */}
               <div className={cn(
-                "flex-1 overflow-y-auto px-5 transition-all duration-300",
-                isEditingBrincadeira ? "pt-12 pb-20" : "py-6"
+                "flex-1 overflow-y-auto px-5 py-6 space-y-8",
+                isEditingBrincadeira ? "pb-24" : "pb-32"
               )}>
                 <div className="space-y-6">
                 <Link href={`/recreador/${creator.id}`} className="flex items-center gap-4 active:opacity-70 transition-opacity">
