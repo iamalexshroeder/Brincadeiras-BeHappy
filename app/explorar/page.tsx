@@ -29,7 +29,7 @@ export default async function Explorar({
           showBackButton={true}
           showSearch={false}
         />
-        <main className="page-main pb-32">
+        <main className="page-main pb-32 animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="flex items-baseline justify-between mb-4 pl-1">
             <h2 className="section-label">{activeKit?.label}</h2>
             <span className="text-[13px] font-bold text-[#8E8E93]">{kitItems.length} brincadeiras</span>

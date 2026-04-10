@@ -35,7 +35,7 @@ export default async function Home({
     <div className="flex flex-col min-h-screen bg-background">
       <Header showSearch={false} showUserCard={true} />
 
-      <main className="pb-48 pt-2 space-y-8 overflow-visible">
+      <main className="pb-48 pt-2 space-y-8 overflow-visible animate-in fade-in slide-in-from-bottom-4 duration-500">
         {/* Feed Tabs Selector */}
         <div className="px-4 sm:px-6">
            <div className="flex bg-[#F2F2F7] p-1 rounded-[12px] w-full">
