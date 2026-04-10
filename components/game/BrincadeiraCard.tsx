@@ -1,4 +1,4 @@
-"use client"
+"use client" // Trigger rebuild for Vercel deployment verification
 
 import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
