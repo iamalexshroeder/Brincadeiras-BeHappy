@@ -71,7 +71,7 @@ function DialogContent({
           <DialogPrimitive.Close data-slot="dialog-close" asChild>
             <Button
               variant="ghost"
-              className="absolute top-2 right-2"
+              className="absolute top-2 right-2 outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 ring-0 border-none"
               size="icon-sm"
             >
               <RiCloseLine

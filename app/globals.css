@@ -64,7 +64,7 @@
     --destructive-foreground: #FFFFFF;
     --border: #E5E5EA;
     --input: #F2F2F7;
-    --ring: #FFCC00;
+    --ring: #E5E5EA;
     --radius: 6px;
 
     /* Semantic Accents */
@@ -214,7 +214,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50 no-scrollbar;
+    @apply border-border no-scrollbar;
   }
   body {
     @apply bg-background text-foreground overflow-x-clip;
