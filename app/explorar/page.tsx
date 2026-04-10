@@ -11,23 +11,25 @@ export const dynamic = "force-dynamic"
 export default async function Explorar({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>
+  searchParams: Promise<{ q?: string; kit?: string }>
 }) {
-  const { q } = await searchParams
+  const { q, kit } = await searchParams
   const session = await auth()
   
   let searchResults: any[] = []
-  if (q) {
-    const feed = await getFeed(20, undefined, undefined, undefined, q)
+  if (q || kit) {
+    const feed = await getFeed(20, undefined, undefined, kit, q)
     searchResults = feed.items
   }
+
+  const activeKit = kit ? SYSTEM_COLLECTIONS.find(c => c.id === kit) : null;
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
       <Header title="Explorar" showUserCard={false} />
 
       <main className="page-main pb-32">
-        {!q ? (
+        {(!q && !kit) ? (
           <>
             {/* Biblioteca de Coleções */}
             <div className="flex items-baseline justify-between mb-4 pl-1">
@@ -42,7 +44,7 @@ export default async function Explorar({
           <div className="mt-4">
             <div className="flex items-baseline justify-between mb-4 pl-1">
               <h2 className="section-label">
-                Resultados para "{q}"
+                {kit ? `Coleção: ${activeKit?.label || 'Kit'}` : `Resultados para "${q}"`}
               </h2>
               <span className="text-[13px] font-bold text-[#8E8E93]">{searchResults.length} encontradas</span>
             </div>
