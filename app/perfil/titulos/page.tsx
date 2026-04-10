@@ -9,12 +9,17 @@ import { Button } from "@/components/ui/button"
 import { GAMIFICATION_TIERS, EXCLUSIVE_TITLES } from "@/utils/gamification"
 import { cn } from "@/lib/utils"
 import { useRouter } from "next/navigation"
+import {
+  Sheet,
+  SheetContent,
+} from "@/components/ui/sheet"
 
 export default function TitulosPage() {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
   const [profile, setProfile] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [selectedTitleInfo, setSelectedTitleInfo] = useState<any>(null)
 
   useEffect(() => {
     getProfile().then(data => {
@@ -75,7 +80,7 @@ export default function TitulosPage() {
               {EXCLUSIVE_TITLES.map((t) => (
                 <button
                   key={t.id}
-                  onClick={() => handleSelectTitle(t.title)}
+                  onClick={() => setSelectedTitleInfo({ ...t, isUnlocked: true, type: 'EXCLUSIVE' })}
                   disabled={isPending}
                   className={cn(
                     "w-full p-4 rounded-[20px] border-2 transition-all flex items-center justify-between text-left",
@@ -123,8 +128,7 @@ export default function TitulosPage() {
               return (
                 <button
                   key={tier.level}
-                  disabled={!isUnlocked || isPending}
-                  onClick={() => handleSelectTitle(tier.title)}
+                  onClick={() => setSelectedTitleInfo({ ...tier, isUnlocked, type: 'RANK' })}
                   className={cn(
                     "w-full p-4 rounded-[20px] border-2 transition-all flex items-center justify-between text-left",
                     isSelected ? "bg-white border-primary shadow-md" : "bg-white border-transparent",
@@ -158,6 +162,71 @@ export default function TitulosPage() {
           </div>
         </div>
       </main>
+
+      {/* Modal de Detalhes da Conquista */}
+      <Sheet open={!!selectedTitleInfo} onOpenChange={(open) => !open && setSelectedTitleInfo(null)}>
+        <SheetContent 
+          side="bottom" 
+          className="h-auto w-auto inset-x-4 bottom-4 rounded-t-[24px] rounded-b-none p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl"
+        >
+          <div className="flex flex-col p-8 items-center text-center space-y-6">
+            <div 
+              className="w-20 h-20 rounded-full flex items-center justify-center shadow-lg border-4 border-white"
+              style={{ backgroundColor: selectedTitleInfo?.color || '#FF9500' }}
+            >
+              <RiStarFill className="text-white" size={40} />
+            </div>
+
+            <div className="space-y-2">
+              <h2 className="text-[24px] font-black text-foreground tracking-tight">
+                {selectedTitleInfo?.title}
+              </h2>
+              <div className="flex items-center justify-center gap-2">
+                <span className="px-3 py-1 bg-muted rounded-full text-[12px] font-bold uppercase tracking-wider text-muted-foreground">
+                  {selectedTitleInfo?.type === 'RANK' ? `Nível ${selectedTitleInfo?.level}` : 'Título Exclusivo'}
+                </span>
+                {!selectedTitleInfo?.isUnlocked && (
+                  <span className="px-3 py-1 bg-red-50 text-red-500 rounded-full text-[12px] font-bold uppercase tracking-wider flex items-center gap-1">
+                    <RiLockLine size={12} /> Bloqueado
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <p className="text-[16px] font-medium text-muted-foreground leading-relaxed max-w-xs">
+              {selectedTitleInfo?.description}
+            </p>
+
+            <div className="w-full pt-4 space-y-3">
+              {selectedTitleInfo?.isUnlocked ? (
+                <Button 
+                  onClick={() => {
+                    handleSelectTitle(selectedTitleInfo.title);
+                    setSelectedTitleInfo(null);
+                  }}
+                  disabled={isPending || activeTitle === selectedTitleInfo.title}
+                  className="w-full h-12 bg-primary text-white font-bold rounded-[12px] shadow-md active:scale-95 transition-all"
+                >
+                  {isPending ? "Equipando..." : activeTitle === selectedTitleInfo.title ? "Já em uso" : "Equipar este Título"}
+                </Button>
+              ) : (
+                <Button 
+                  disabled 
+                  className="w-full h-12 bg-muted text-muted-foreground font-bold rounded-[12px] opacity-50"
+                >
+                  Alcance o Nível {selectedTitleInfo?.level} para liberar
+                </Button>
+              )}
+              <button 
+                onClick={() => setSelectedTitleInfo(null)}
+                className="w-full py-2 text-[14px] font-bold text-muted-foreground active:opacity-50"
+              >
+                Voltar
+              </button>
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   )
 }

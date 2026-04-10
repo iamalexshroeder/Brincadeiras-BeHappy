@@ -159,7 +159,12 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame | null; isOpen:
 
   const handleShare = async () => {
     if (navigator.share) {
-      await navigator.share({ title: game.title, url: window.location.href })
+      const shareUrl = `${window.location.origin}/brincadeira/${game.id}`
+      await navigator.share({ 
+        title: game.title, 
+        text: `Confira esta brincadeira no BeHappy Hub: ${game.title}`,
+        url: shareUrl 
+      })
     }
   }
 
