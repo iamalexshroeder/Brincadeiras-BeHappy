@@ -31,7 +31,12 @@ export default async function Explorar({
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
-      <Header title="Explorar" showUserCard={false} />
+      <Header 
+        title={kit ? activeKit?.label : "Explorar"} 
+        showUserCard={false} 
+        showBackButton={!!kit} 
+        showSearch={!kit}
+      />
 
       <main className="page-main pb-32">
         {(!q && !kit) ? (

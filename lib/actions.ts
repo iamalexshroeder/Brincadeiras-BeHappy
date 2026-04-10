@@ -332,11 +332,11 @@ export async function getFeed(
   }
 
   if (kit) {
-    if (kit === "chuva") whereClause.tags = { ...whereClause.tags, hasSome: ["Musical", "Sensorial", "Educativo", "Arte"] }
-    if (kit === "piscina") whereClause.tags = { ...whereClause.tags, hasSome: ["Água", "Piscina", "Físico"] }
-    if (kit === "ferias") whereClause.tags = { ...whereClause.tags, hasSome: ["Físico", "Cooperativo", "Gincana"] }
-    if (kit === "pequenos") whereClause.tags = { ...whereClause.tags, hasSome: ["Musical", "Sensorial", "Roda"] }
-    if (kit === "sem_material") whereClause.materials = { isEmpty: true }
+    if (kit === "sem_material") {
+      whereClause.materials = { isEmpty: true }
+    } else {
+      whereClause.tags = { has: kit }
+    }
   } else {
     // Se NÃO estivermos visualizando um kit (ex: Feed Geral ou Galeria), escondemos as brincadeiras do sistema
     whereClause.user = { email: { not: "equipe@behappy.com" } }
