@@ -122,39 +122,62 @@ export default function TitulosPage() {
 
             {[...GAMIFICATION_TIERS].reverse().map((tier) => {
               const isUnlocked = userLevel >= tier.level
-              const isSelected = (!activeTitle && isUnlocked && getTitleForLevel(userLevel) === tier.title)
-                                 || activeTitle === tier.title
+              const isActive = (!activeTitle && isUnlocked && getTitleForLevel(userLevel) === tier.title)
+                               || activeTitle === tier.title
+              const isUnlockedNotActive = isUnlocked && !isActive
 
               return (
                 <button
                   key={tier.level}
                   onClick={() => setSelectedTitleInfo({ ...tier, isUnlocked, type: 'RANK' })}
                   className={cn(
-                    "w-full p-4 rounded-[20px] border-2 transition-all flex items-center justify-between text-left",
-                    isSelected ? "bg-white border-primary shadow-md" : "bg-white border-transparent",
-                    !isUnlocked && "opacity-60 bg-gray-100"
+                    "w-full p-4 rounded-[20px] border-2 transition-all flex items-center gap-4 text-left",
+                    isActive       && "bg-white border-[#C7C7CC]",
+                    isUnlockedNotActive && "bg-white border-[#34C759]",
+                    !isUnlocked    && "bg-[#F9F9F7] border-transparent opacity-50"
                   )}
                 >
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                       <p className={cn("text-[17px] font-bold", isUnlocked ? "text-foreground" : "text-gray-400")}>
-                         {tier.title}
-                       </p>
-                       {!isUnlocked && <RiLockLine size={14} className="text-gray-400" />}
+                  {/* Círculo esquerdo */}
+                  {isActive ? (
+                    <div
+                      className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+                      style={{ backgroundColor: tier.color || '#FF9500' }}
+                    >
+                      <span className="text-[15px] font-black text-white">{tier.level}</span>
                     </div>
-                    <p className="text-[12px] text-muted-foreground font-bold uppercase tracking-tight">
-                      Liberado no Nível {tier.level}
-                    </p>
-                  </div>
-                  {isSelected && isUnlocked && (
-                    <div className="h-6 w-6 rounded-full bg-primary flex items-center justify-center">
-                      <RiCheckLine className="text-white" size={16} />
+                  ) : isUnlockedNotActive ? (
+                    <div className="w-10 h-10 rounded-full bg-[#34C759] flex items-center justify-center shrink-0">
+                      <RiCheckLine className="text-white" size={20} />
+                    </div>
+                  ) : (
+                    <div className="w-10 h-10 rounded-full bg-[#E5E5EA] flex items-center justify-center shrink-0">
+                      <RiLockLine size={16} className="text-[#C7C7CC]" />
                     </div>
                   )}
+
+                  {/* Texto */}
+                  <div className="flex-1 min-w-0">
+                    <p className={cn(
+                      "text-[16px] font-bold leading-tight",
+                      isActive ? "text-foreground" : isUnlockedNotActive ? "text-foreground" : "text-[#8E8E93]"
+                    )}>
+                      {tier.title}
+                    </p>
+                    <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-tight mt-0.5">
+                      {isActive ? "Título em uso" : isUnlockedNotActive ? "Conquista desbloqueada" : `Nível ${tier.level}`}
+                    </p>
+                  </div>
+
+                  {/* Badge direito */}
+                  {isActive && (
+                    <span className="text-[10px] font-extrabold bg-[#F2F2F7] text-[#8E8E93] rounded-full px-2.5 py-1 uppercase shrink-0">
+                      Ativo
+                    </span>
+                  )}
                   {!isUnlocked && (
-                     <div className="px-3 py-1 bg-gray-200 rounded-full">
-                       <span className="text-[11px] font-extrabold text-gray-500 uppercase">Bloqueado</span>
-                     </div>
+                    <span className="text-[10px] font-extrabold bg-[#E5E5EA] text-[#C7C7CC] rounded-full px-2.5 py-1 uppercase shrink-0">
+                      Bloqueado
+                    </span>
                   )}
                 </button>
               )
@@ -166,8 +189,9 @@ export default function TitulosPage() {
       {/* Modal de Detalhes da Conquista */}
       <Sheet open={!!selectedTitleInfo} onOpenChange={(open) => !open && setSelectedTitleInfo(null)}>
         <SheetContent 
-          side="bottom" 
-          className="h-[88dvh] w-auto inset-x-4 bottom-4 rounded-t-[24px] rounded-b-none p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
+          side="bottom"
+          showCloseButton={false}
+          className="!max-h-[90dvh] !w-full !inset-x-0 !bottom-0 !rounded-t-[24px] !rounded-b-none p-0 flex flex-col border-0 border-t border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
         >
           <div className="flex flex-col p-8 items-center text-center space-y-6">
             <div 
@@ -205,7 +229,7 @@ export default function TitulosPage() {
                     setSelectedTitleInfo(null);
                   }}
                   disabled={isPending || activeTitle === selectedTitleInfo.title}
-                  className="w-full h-12 bg-primary text-white font-bold rounded-[12px] shadow-md active:scale-95 transition-all"
+                  className="w-full h-12 bg-primary text-white font-bold rounded-[12px] active:scale-95 transition-all"
                 >
                   {isPending ? "Equipando..." : activeTitle === selectedTitleInfo.title ? "Já em uso" : "Equipar este Título"}
                 </Button>
