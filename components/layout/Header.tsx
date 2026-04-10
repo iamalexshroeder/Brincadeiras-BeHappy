@@ -65,6 +65,7 @@ export function Header({
     avatar?: string;
     unreadNotificationsCount: number;
     rankBadge?: "gold" | "silver" | "bronze" | null;
+    title: string;
   } | null>(null)
 
   useEffect(() => {
@@ -78,7 +79,8 @@ export function Header({
             nextLevelXp: data.nextLevelXp,
             avatar: data.avatar || undefined,
             unreadNotificationsCount: data.unreadNotificationsCount || 0,
-            rankBadge: data.rankBadge
+            rankBadge: data.rankBadge,
+            title: data.title
           })
         }
       })
@@ -94,7 +96,8 @@ export function Header({
     nextLevelXp: 100,
     avatar: session?.user?.image || undefined,
     unreadNotificationsCount: 0,
-    rankBadge: null
+    rankBadge: null,
+    title: "Observador Curioso"
   }
 
   const xpRemaining = user.nextLevelXp - user.xp
@@ -191,7 +194,7 @@ export function Header({
                   {user.name}
                 </span>
                 <span className="text-[11px] font-bold uppercase tracking-wide text-[#8E8E93]">
-                  {getTitleForLevel(user.level)} · Nível {user.level}
+                  {user.title} · Nível {user.level}
                 </span>
               </div>
             </Link>

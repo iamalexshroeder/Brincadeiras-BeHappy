@@ -109,7 +109,7 @@ export default function Ranking() {
                     </div>
                     <div className="text-center w-full">
                       <span className="block text-[13px] font-bold text-foreground truncate mx-auto max-w-[80px]">{topThree[1].name}</span>
-                      <span className="block text-[10px] font-bold text-muted-foreground uppercase tracking-tight leading-none mb-1">{getTitleForLevel(topThree[1].level)}</span>
+                      <span className="block text-[10px] font-bold text-muted-foreground uppercase tracking-tight leading-none mb-1">{topThree[1].title}</span>
                       <span className="block text-[10px] font-extrabold text-slate-500">{topThree[1].xp} XP</span>
                     </div>
                   </Link>
@@ -130,7 +130,7 @@ export default function Ranking() {
                     </div>
                     <div className="text-center w-full">
                       <span className="block text-[15px] font-extrabold text-foreground truncate mx-auto max-w-full">{topThree[0].name}</span>
-                      <span className="block text-[11px] font-bold text-yellow-700 uppercase tracking-tight leading-none mb-1">{getTitleForLevel(topThree[0].level)}</span>
+                      <span className="block text-[11px] font-bold text-yellow-700 uppercase tracking-tight leading-none mb-1">{topThree[0].title}</span>
                       <span className="block text-[11px] font-black text-yellow-600 uppercase tracking-tight">{topThree[0].xp} XP</span>
                     </div>
                   </Link>
@@ -151,7 +151,7 @@ export default function Ranking() {
                     </div>
                     <div className="text-center w-full">
                       <span className="block text-[13px] font-bold text-foreground truncate mx-auto max-w-[80px]">{topThree[2].name}</span>
-                      <span className="block text-[10px] font-bold text-amber-800/60 uppercase tracking-tight leading-none mb-1">{getTitleForLevel(topThree[2].level)}</span>
+                      <span className="block text-[10px] font-bold text-amber-800/60 uppercase tracking-tight leading-none mb-1">{topThree[2].title}</span>
                       <span className="block text-[10px] font-extrabold text-amber-700">{topThree[2].xp} XP</span>
                     </div>
                   </Link>
@@ -174,7 +174,7 @@ export default function Ranking() {
                           />
                           <div className="flex-1 min-w-0">
                             <span className="block text-[15px] font-bold text-foreground truncate">{user.name}</span>
-                            <span className="block text-[11px] font-bold uppercase tracking-tight text-muted-foreground">{user.title || getTitleForLevel(user.level)}</span>
+                            <span className="block text-[11px] font-bold uppercase tracking-tight text-muted-foreground">{user.title}</span>
                           </div>
 
                           <div className="flex flex-col items-end">
@@ -291,7 +291,7 @@ export default function Ranking() {
       <Sheet open={!!selectedTitleInfo} onOpenChange={(open) => !open && setSelectedTitleInfo(null)}>
         <SheetContent 
           side="bottom" 
-          className="h-auto w-auto inset-x-4 bottom-4 rounded-t-[24px] rounded-b-none p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl"
+          className="h-[88dvh] w-auto inset-x-4 bottom-4 rounded-t-[24px] rounded-b-none p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
         >
           <div className="flex flex-col p-8 items-center text-center space-y-6">
             <div 

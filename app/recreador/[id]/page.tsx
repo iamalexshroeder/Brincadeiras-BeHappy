@@ -71,7 +71,7 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
               
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-[12px] font-bold uppercase tracking-wider text-primary bg-primary/5 px-3 py-1 rounded-full">
-                  {getTitleForLevel(profileData.level)}
+                  {profileData.title}
                 </span>
                 <span className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest">
                   • Nível {profileData.level}

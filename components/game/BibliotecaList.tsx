@@ -241,7 +241,7 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame | null; isOpen:
         </div>
 
         {/* Action Buttons - Fixed Footer */}
-        <div className="absolute bottom-0 left-0 right-0 px-5 py-4 border-t border-border bg-white flex gap-3 safe-area-bottom">
+        <div className="absolute bottom-0 left-0 right-0 px-5 py-4 border-t border-border bg-white flex gap-3 pb-[env(safe-area-inset-bottom)]">
           <Button
             variant="ghost"
             onClick={handleDownload}

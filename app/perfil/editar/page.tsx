@@ -182,7 +182,7 @@ export default function EditarPerfil() {
       </main>
 
       {/* Standardized Bottom Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 px-4 sm:px-5 py-4 bg-white border-t border-border z-40 no-print shadow-[0_-8px_20px_rgba(0,0,0,0.05)] pb-safe">
+      <div className="fixed bottom-0 left-0 right-0 px-4 sm:px-5 py-4 bg-white border-t border-border z-40 no-print shadow-[0_-8px_20px_rgba(0,0,0,0.05)] pb-[env(safe-area-inset-bottom)]">
         <button
           onClick={handleSave}
           disabled={isPending || loading}

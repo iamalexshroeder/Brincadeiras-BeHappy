@@ -714,6 +714,7 @@ export async function getRanking(limit = 50) {
       avatar_url: true,
       image: true,
       xp: true,
+      active_title: true,
       _count: { select: { brincadeiras: true } },
     },
   })
@@ -725,7 +726,7 @@ export async function getRanking(limit = 50) {
     avatar: u.avatar_url ?? u.image,
     xp: u.xp,
     brincadeirasCount: u._count.brincadeiras,
-    ...getLevelFromXp(u.xp),
+    ...getLevelFromXp(u.xp, u.active_title),
     rankBadge: index === 0 ? "gold" : index === 1 ? "silver" : index === 2 ? "bronze" : null
   }))
 }

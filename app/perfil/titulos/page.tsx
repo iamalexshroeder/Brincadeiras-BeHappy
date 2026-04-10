@@ -167,7 +167,7 @@ export default function TitulosPage() {
       <Sheet open={!!selectedTitleInfo} onOpenChange={(open) => !open && setSelectedTitleInfo(null)}>
         <SheetContent 
           side="bottom" 
-          className="h-auto w-auto inset-x-4 bottom-4 rounded-t-[24px] rounded-b-none p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl"
+          className="h-[88dvh] w-auto inset-x-4 bottom-4 rounded-t-[24px] rounded-b-none p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
         >
           <div className="flex flex-col p-8 items-center text-center space-y-6">
             <div 
