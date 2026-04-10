@@ -24,6 +24,7 @@ async function getTopThreeIds() {
   const topUsers = await prisma.user.findMany({
     take: 3,
     orderBy: { xp: 'desc' },
+    where: { email: { not: 'equipe@behappy.com' } },
     select: { id: true }
   })
   return topUsers.map(u => u.id)
@@ -962,6 +963,7 @@ export async function getRanking(limit = 50) {
   const users = await prisma.user.findMany({
     take: limit,
     orderBy: { xp: "desc" },
+    where: { email: { not: "equipe@behappy.com" } },
     select: {
       id: true,
       name: true,
