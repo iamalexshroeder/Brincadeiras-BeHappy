@@ -32,7 +32,7 @@ export default async function Home({
 
       <main className="pb-48 pt-2 space-y-8 overflow-visible">
         {/* Feed Tabs Selector */}
-        <div className="px-5">
+        <div className="px-4 sm:px-6">
            <div className="flex bg-[#F2F2F7] p-1 rounded-[12px] w-full">
               <Link 
                 href="/?view=global"
@@ -57,9 +57,9 @@ export default async function Home({
 
         {/* Curated Kits Section (Only on Global) */}
         {!isFollowingView && (
-          <section className="px-4 sm:px-5 overflow-visible">
+          <section className="px-4 sm:px-6 overflow-visible">
             <div className="flex items-center justify-between mb-2 pl-1">
-              <h2 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest">
+              <h2 className="text-caption">
                 Kits Sugeridos
               </h2>
             </div>
@@ -69,8 +69,8 @@ export default async function Home({
 
         {/* Feed Section */}
         <section className="overflow-visible">
-          <div className="flex items-baseline justify-between mb-3 px-4 sm:px-5">
-            <h2 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest">
+          <div className="flex items-baseline justify-between mb-4 px-4 sm:px-6">
+            <h2 className="text-caption">
               {isFollowingView ? "Seu Feed" : "Para Você"}
             </h2>
             {feed.length > 0 && (
@@ -81,18 +81,18 @@ export default async function Home({
           </div>
 
           {feed.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 text-center px-4 sm:px-5">
-              <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-4">
+            <div className="flex flex-col items-center justify-center py-20 text-center px-4 sm:px-6">
+              <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-6">
                 <RiFileList3Line size={32} className="text-[#C7C7CC]" />
               </div>
-              <p className="text-[17px] font-bold text-muted-foreground mb-1">
+              <p className="text-h3 mb-2">
                 {isFollowingView 
                   ? "Seu feed está vazio"
                   : category && category !== "todos" 
                     ? `Nenhuma brincadeira em "${category}"`
                     : "Nenhuma brincadeira ainda"}
               </p>
-              <p className="text-[14px] text-muted-foreground max-w-[250px]">
+              <p className="text-body text-muted-foreground max-w-[280px]">
                 {isFollowingView 
                   ? "Siga outros recreadores para ver o que eles andam postando aqui!"
                   : category && category !== "todos" 
@@ -109,7 +109,7 @@ export default async function Home({
               )}
             </div>
           ) : (
-            <div className="space-y-6 px-4 sm:px-5 overflow-visible">
+            <div className="space-y-8 px-4 sm:px-6 overflow-visible">
               {feed.map((game) => game && (
                 <BrincadeiraCard
                   key={game.id}

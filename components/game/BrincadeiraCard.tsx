@@ -168,7 +168,7 @@ export function BrincadeiraCard({
 
   return (
     <Card className="overflow-hidden border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-card transition-transform active:scale-[0.98]">
-      <CardHeader className="px-4 py-3 flex flex-row items-center justify-between border-none bg-card">
+      <CardHeader className="p-4 flex flex-row items-center justify-between border-none bg-card">
         <Link href={`/recreador/${creator.id}`} className="flex items-center gap-2.5 active:scale-95 transition-all">
           <UserAvatar 
             name={creator.name} 
@@ -177,90 +177,97 @@ export function BrincadeiraCard({
             className="h-10 w-10"
           />
           <div className="flex flex-col">
-            <span className="text-[16px] font-bold text-foreground tracking-[-0.01em] leading-tight">
+            <span className="text-h3 leading-tight">
               {creator.name}
             </span>
-            <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide">
+            <div className="flex items-center gap-2 mt-0.5">
+              <span className="text-caption">
                 {creator.title || getTitleForLevel(creator.level)}
               </span>
-              <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide">
+              <span className="text-caption opacity-60">
                 · Nível {creator.level}
               </span>
             </div>
-            <span className="text-[10px] font-extrabold text-muted-foreground/50 uppercase tracking-widest mt-0.5">
-              {publishedAt}
-            </span>
           </div>
         </Link>
+        <span className="text-mini">
+          {publishedAt}
+        </span>
       </CardHeader>
 
-      <CardContent className="px-4 py-0.5 cursor-pointer" onClick={() => router.push(`/brincadeira/${id}`)}>
-        <h3 className="text-[16px] font-extrabold leading-snug text-foreground tracking-[-0.01em] mb-1">
+      <CardContent className="px-4 py-2 cursor-pointer" onClick={() => router.push(`/brincadeira/${id}`)}>
+        <h3 className="text-h3 mb-2">
           {title}
         </h3>
-        <p className="text-[13px] leading-snug text-muted-foreground line-clamp-2 mb-3 font-medium opacity-80 mt-1">
+        <p className="text-body text-muted-foreground line-clamp-2 mb-4 opacity-90">
           {description}
         </p>
 
-        <div className="flex flex-wrap gap-1.5 mb-3">
-          <div className="flex items-center gap-1 px-2 py-0.5 bg-[var(--blue-bg)] rounded-[6px] text-[11px] font-bold text-[var(--blue)] border border-[var(--blue)]/10">
-            <RiUserVoiceLine size={13} />
+        <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--blue-bg)] rounded-[6px] text-caption text-[var(--blue)] border border-[var(--blue)]/10 lowercase">
+            <RiUserVoiceLine size={14} />
             {formatAgeGroup(metadata.ageRange)}
           </div>
-          <div className="flex items-center gap-1 px-2 py-0.5 bg-[var(--purple-bg)] rounded-[6px] text-[11px] font-bold text-[var(--purple)] border border-[var(--purple)]/10">
-            <RiTimeLine size={13} />
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--purple-bg)] rounded-[6px] text-caption text-[var(--purple)] border border-[var(--purple)]/10 lowercase">
+            <RiTimeLine size={14} />
             {metadata.duration}
           </div>
-          <div className="flex items-center gap-1 px-2 py-0.5 bg-[var(--yellow-bg)] rounded-[6px] text-[11px] font-bold text-[var(--yellow)] border border-[var(--yellow)]/10">
-            <RiGroupLine size={13} />
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--yellow-bg)] rounded-[6px] text-caption text-[var(--yellow)] border border-[var(--yellow)]/10 lowercase">
+            <RiGroupLine size={14} />
             {metadata.participants}
           </div>
         </div>
       </CardContent>
 
-      <CardFooter className="px-4 py-2.5 flex justify-between items-center bg-card border-none">
-        <div className="flex gap-3.5">
-          <button onClick={handleLike} className="flex items-center gap-1.5 text-muted-foreground active:scale-90 transition-all font-bold">
+      <CardFooter className="p-4 flex justify-between items-center bg-card border-t border-border/40">
+        <div className="flex items-center gap-4">
+          <button onClick={handleLike} className="flex items-center gap-1.5 text-muted-foreground active:scale-90 transition-all">
             <motion.div
               key={isLiked ? "liked" : "unliked"}
               initial={{ scale: 0.8 }}
               animate={{ scale: isLiked ? [0.8, 1.2, 1] : 1 }}
               transition={{ duration: 0.3 }}
             >
-              {isLiked ? <RiHeartFill size={24} className="text-[#EF4444]" /> : <RiHeartLine size={24} />}
+              {isLiked ? <RiHeartFill size={22} className="text-[#EF4444]" /> : <RiHeartLine size={22} />}
             </motion.div>
-            <span className={isLiked ? "text-[#EF4444]" : "text-muted-foreground"}>{localLikes}</span>
+            <span className={cn("text-[14px] font-bold", isLiked ? "text-[#EF4444]" : "text-muted-foreground")}>{localLikes}</span>
           </button>
 
-          <button onClick={handleUse} className="flex items-center gap-2 text-muted-foreground active:scale-90 transition-all font-medium">
+          <button onClick={handleUse} className="flex items-center gap-1.5 text-muted-foreground active:scale-90 transition-all">
             <motion.div
               key={isUsed ? "used" : "unused"}
               initial={{ scale: 0.8 }}
               animate={{ scale: isUsed ? [0.8, 1.2, 1] : 1 }}
               transition={{ duration: 0.3 }}
             >
-              {isUsed ? <RiCheckboxCircleFill size={24} className="text-[#16A34A]" /> : <RiCheckboxCircleLine size={24} />}
+              {isUsed ? <RiCheckboxCircleFill size={22} className="text-[#16A34A]" /> : <RiCheckboxCircleLine size={22} />}
             </motion.div>
-            <span className={isUsed ? "text-[#16A34A]" : "text-muted-foreground"}>{localUsed}</span>
+            <span className={cn("text-[14px] font-bold", isUsed ? "text-[#16A34A]" : "text-muted-foreground")}>{localUsed}</span>
           </button>
 
-          <div className="flex items-center gap-2 text-muted-foreground font-medium">
-            <RiChat3Line size={24} />
-            <span className="text-[15px]">{comments.length || commentsCount}</span>
+          <button onClick={handleSave} className="flex items-center text-muted-foreground active:scale-90 transition-all p-1">
+            <motion.div
+              key={isSaved ? "saved" : "unsaved"}
+              initial={{ scale: 0.8 }}
+              animate={{ scale: isSaved ? [0.8, 1.2, 1] : 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              {isSaved ? <RiBookmarkFill size={22} className="text-[var(--purple)]" /> : <RiBookmarkLine size={22} />}
+            </motion.div>
+          </button>
+
+          <div className="flex items-center gap-1.5 text-muted-foreground opacity-60">
+            <RiChat3Line size={20} />
+            <span className="text-[14px] font-bold">{comments.length || commentsCount}</span>
           </div>
         </div>
 
-        <button onClick={handleSave} className="flex items-center text-muted-foreground active:scale-90 transition-all font-bold p-1">
-          <motion.div
-            key={isSaved ? "saved" : "unsaved"}
-            initial={{ scale: 0.8 }}
-            animate={{ scale: isSaved ? [0.8, 1.2, 1] : 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            {isSaved ? <RiBookmarkFill size={24} className="text-purple-500" /> : <RiBookmarkLine size={24} />}
-          </motion.div>
-        </button>
+        <Link 
+          href={`/brincadeira/${id}`}
+          className="text-muted-foreground font-bold text-[13px] active:scale-95 transition-all hover:text-foreground"
+        >
+          Ver detalhes
+        </Link>
       </CardFooter>
     </Card>
   )

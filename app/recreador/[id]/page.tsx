@@ -60,10 +60,10 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
     return (
       <div className="flex flex-col min-h-screen bg-background">
         <Header title="Inexistente" showSearch={false} showUserCard={false} />
-        <main className="flex flex-col items-center justify-center py-32 px-5 text-center">
-          <RiShieldUserLine size={48} className="text-[#C7C7CC] mb-4" />
-          <h2 className="text-[18px] font-extrabold text-foreground">Recreador não encontrado</h2>
-          <p className="text-[14px] text-muted-foreground mt-1">Este perfil pode ter sido removido ou o ID está incorreto.</p>
+        <main className="flex flex-col items-center justify-center py-32 px-6 text-center">
+          <RiShieldUserLine size={48} className="text-[#C7C7CC] mb-6" />
+          <h2 className="text-h2">Recreador não encontrado</h2>
+          <p className="text-body text-muted-foreground mt-2">Este perfil pode ter sido removido ou o ID está incorreto.</p>
         </main>
       </div>
     )
@@ -73,7 +73,7 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
     <div className="flex flex-col min-h-screen bg-background">
       <Header title={`Perfil de ${profileData.name}`} showBackButton={true} showSearch={false} showUserCard={false} />
       
-      <main className="px-5 pt-2 pb-32 space-y-6">
+      <main className="px-4 sm:px-6 pt-2 pb-32 space-y-8">
         {/* Profile Card */}
         <Card className="p-5 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-card overflow-hidden relative">
            <div className="absolute top-0 right-0 p-4 opacity-5">
@@ -89,15 +89,15 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
                 fallbackClassName="bg-primary/10 text-primary text-[32px]"
               />
               
-              <h1 className="text-[22px] font-black text-foreground tracking-tight">
+              <h1 className="text-h1">
                 {profileData.name}
               </h1>
               
-              <div className="flex items-center gap-2 mt-1">
-                <span className="text-[12px] font-bold uppercase tracking-wider text-primary bg-primary/5 px-3 py-1 rounded-full">
+              <div className="flex items-center gap-2 mt-2">
+                <span className="text-caption text-primary bg-primary/5 px-4 py-1.5 rounded-full">
                   {profileData.title}
                 </span>
-                <span className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest">
+                <span className="text-caption">
                   • Nível {profileData.level}
                 </span>
               </div>
@@ -131,24 +131,20 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
               )}
            </div>
 
-           <div className="grid grid-cols-4 gap-2 pt-4 border-t border-border">
-              <div className="flex flex-col items-center p-2 rounded-[8px] bg-background/50">
-                 <span className="text-[15px] font-black text-foreground">{profileData.xp}</span>
-                 <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-tight">XP</span>
+           <div className="flex items-center justify-center gap-8 mb-8">
+              <div className="text-center group">
+                <span className="block text-h2 leading-none mb-1">{profileData.totalContributions}</span>
+                <span className="text-caption lowercase">brincadeiras</span>
               </div>
-              <div className="flex flex-col items-center p-2 rounded-[8px] bg-background/50">
-                 <span className="text-[15px] font-black text-foreground">{profileData.totalContributions}</span>
-                 <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-tight">Posts</span>
+              <div className="text-center">
+                <span className="block text-h2 leading-none mb-1">{profileData.followersCount}</span>
+                <span className="text-caption lowercase">seguidores</span>
               </div>
-              <div className="flex flex-col items-center p-2 rounded-[8px] bg-background/50">
-                 <span className="text-[15px] font-black text-foreground">{profileData.followersCount}</span>
-                 <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-tight">Seguidores</span>
+              <div className="text-center">
+                <span className="block text-h2 leading-none mb-1">{profileData.followingCount}</span>
+                <span className="text-caption lowercase">seguindo</span>
               </div>
-              <div className="flex flex-col items-center p-2 rounded-[8px] bg-background/50">
-                 <span className="text-[15px] font-black text-foreground">{profileData.followingCount}</span>
-                 <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-tight">Seguindo</span>
-              </div>
-           </div>
+            </div>
         </Card>
 
         {/* Contributions Section */}

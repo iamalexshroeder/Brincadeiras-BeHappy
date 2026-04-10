@@ -142,10 +142,33 @@
 
   /* ===== Design System: Seções e Páginas ===== */
   .page-main {
-    @apply px-4 sm:px-5 pb-32 pt-2;
+    @apply px-4 sm:px-6 pb-32 pt-2;
   }
   .section-label {
     @apply text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest;
+  }
+
+  /* ===== Design System: Tipografia (Grid 8px) ===== */
+  .text-h1 {
+    @apply text-[24px] font-extrabold tracking-[-0.03em] leading-tight text-foreground;
+  }
+  .text-h2 {
+    @apply text-[20px] font-extrabold tracking-[-0.02em] leading-tight text-foreground;
+  }
+  .text-h3 {
+    @apply text-[16px] font-bold tracking-[-0.01em] leading-snug text-foreground;
+  }
+  .text-body {
+    @apply text-[14px] font-medium leading-relaxed text-foreground;
+  }
+  .text-body-bold {
+    @apply text-[14px] font-bold leading-relaxed text-foreground;
+  }
+  .text-caption {
+    @apply text-[11px] font-bold uppercase tracking-wider text-muted-foreground;
+  }
+  .text-mini {
+    @apply text-[10px] font-extrabold uppercase tracking-widest text-muted-foreground/60;
   }
 }
 

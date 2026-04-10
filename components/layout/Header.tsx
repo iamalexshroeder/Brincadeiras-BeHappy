@@ -113,8 +113,8 @@ export function Header({
     <>
       {/* Sticky top bar — title + notification bell */}
       <div className={cn(
-        "sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-5 border-b border-[#E5E5EA] no-print",
-        showBackButton ? "pt-12 pb-4" : "pt-10 pb-3"
+        "sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-4 sm:px-6 border-b border-[#E5E5EA] no-print",
+        showBackButton ? "pt-12 pb-4" : "pt-10 pb-4"
       )}>
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-1 overflow-hidden">
@@ -126,7 +126,7 @@ export function Header({
                 <RiArrowLeftSLine size={24} />
               </button>
             )}
-            <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-[#1A1A1A] truncate min-w-0">
+            <h1 className="text-h2 truncate min-w-0">
               {title || `Olá, ${user.name.split(" ")[0]}`}
             </h1>
           </div>
@@ -157,8 +157,8 @@ export function Header({
 
       {/* Scrollable content below the sticky bar */}
       <div className={cn(
-        "w-full bg-[#F9F9F7] flex flex-col px-5 space-y-3",
-        (showSearch || showUserCard) ? "pt-3 pb-2" : "pt-0 pb-0"
+        "w-full bg-[#F9F9F7] flex flex-col px-4 sm:px-6 space-y-4",
+        (showSearch || showUserCard) ? "pt-4 pb-2" : "pt-0 pb-0"
       )}>
 
         {/* Search */}
@@ -202,11 +202,11 @@ export function Header({
                 <span className="text-[11px] font-bold uppercase tracking-wide text-[#8E8E93]">
                   {user.title} · Nível {user.level}
                 </span>
-                <div className="flex gap-2.5 mt-0.5">
-                  <span className="text-[10px] font-bold text-foreground">
+                <div className="flex gap-4 mt-1">
+                  <span className="text-[12px] font-bold text-foreground">
                     {user.followersCount} <span className="text-muted-foreground font-medium">seguidores</span>
                   </span>
-                  <span className="text-[10px] font-bold text-foreground">
+                  <span className="text-[12px] font-bold text-foreground">
                     {user.followingCount} <span className="text-muted-foreground font-medium">seguindo</span>
                   </span>
                 </div>
