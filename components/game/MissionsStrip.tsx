@@ -22,6 +22,7 @@ function MissionCard({ mission }: { mission: Mission }) {
   const [claimed, setClaimed] = useState(mission.claimed)
   const [isPending, startTransition] = useTransition()
   const pct = Math.min((mission.progress / mission.goal) * 100, 100)
+  const isComplete = mission.completed
 
   const handleClaim = () => {
     startTransition(async () => {
@@ -34,65 +35,65 @@ function MissionCard({ mission }: { mission: Mission }) {
 
   return (
     <div
-      className="relative shrink-0 w-[200px] rounded-[20px] p-4 flex flex-col gap-3 overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.15)]"
-      style={{ background: `linear-gradient(135deg, ${mission.gradient[0]}, ${mission.gradient[1]})` }}
+      className="relative shrink-0 w-[160px] rounded-[16px] p-3.5 flex flex-col gap-2.5 overflow-hidden bg-white border"
+      style={{ borderColor: `${mission.gradient[0]}40`, boxShadow: `0 2px 12px ${mission.gradient[0]}18` }}
     >
-      {/* Decorative circle */}
+      {/* Top accent bar */}
       <div
-        className="absolute -right-6 -top-6 w-28 h-28 rounded-full opacity-20"
-        style={{ background: "white" }}
+        className="absolute top-0 left-0 right-0 h-[3px] rounded-t-[16px]"
+        style={{ background: `linear-gradient(90deg, ${mission.gradient[0]}, ${mission.gradient[1]})` }}
       />
 
-      {/* Header */}
-      <div className="flex items-start justify-between relative z-10">
-        <span className="text-[28px] leading-none">{mission.emoji}</span>
-        <span className="bg-white/25 text-white text-[11px] font-black px-2 py-0.5 rounded-full">
-          +{mission.xp} XP
-        </span>
-      </div>
+      {/* XP badge */}
+      <span
+        className="self-start text-[10px] font-black px-2 py-0.5 rounded-full mt-0.5"
+        style={{ backgroundColor: `${mission.gradient[0]}18`, color: mission.gradient[1] }}
+      >
+        +{mission.xp} XP
+      </span>
 
       {/* Title + desc */}
-      <div className="relative z-10">
-        <p className="text-white text-[14px] font-black leading-tight">{mission.title}</p>
-        <p className="text-white/80 text-[11px] font-medium leading-tight mt-0.5">{mission.description}</p>
+      <div>
+        <p className="text-[13px] font-black text-foreground leading-tight">{mission.title}</p>
+        <p className="text-[11px] text-muted-foreground font-medium leading-tight mt-0.5">{mission.description}</p>
       </div>
 
-      {/* Progress bar */}
-      <div className="relative z-10">
-        <div className="h-[6px] bg-white/30 rounded-full overflow-hidden">
+      {/* Progress */}
+      <div className="mt-auto">
+        <div className="h-[5px] bg-[#F2F2F7] rounded-full overflow-hidden">
           <div
-            className="h-full bg-white rounded-full transition-all duration-700"
-            style={{ width: `${pct}%` }}
+            className="h-full rounded-full transition-all duration-700"
+            style={{
+              width: `${pct}%`,
+              background: `linear-gradient(90deg, ${mission.gradient[0]}, ${mission.gradient[1]})`,
+            }}
           />
         </div>
-        <p className="text-white/80 text-[10px] font-bold mt-1">
-          {mission.progress}/{mission.goal} {claimed ? "✓ Resgatado" : ""}
+        <p className="text-[10px] font-bold text-muted-foreground mt-1">
+          {mission.progress}/{mission.goal}{claimed ? " · Resgatado ✓" : ""}
         </p>
       </div>
 
       {/* Claim button */}
-      {mission.completed && !claimed && (
+      {isComplete && !claimed && (
         <button
           onClick={handleClaim}
           disabled={isPending}
-          className="relative z-10 bg-white text-[12px] font-black py-2 rounded-[10px] transition-all active:scale-95 flex items-center justify-center gap-1"
-          style={{ color: mission.gradient[1] }}
+          className="w-full text-[11px] font-black py-1.5 rounded-[8px] transition-all active:scale-95 flex items-center justify-center gap-1 text-white"
+          style={{ background: `linear-gradient(90deg, ${mission.gradient[0]}, ${mission.gradient[1]})` }}
         >
-          {isPending ? (
-            <RiLoader4Line size={14} className="animate-spin" />
-          ) : (
-            <>
-              <RiCheckLine size={14} />
-              Resgatar XP!
-            </>
-          )}
+          {isPending ? <RiLoader4Line size={12} className="animate-spin" /> : <>
+            <RiCheckLine size={12} /> Resgatar
+          </>}
         </button>
       )}
 
       {claimed && (
-        <div className="relative z-10 bg-white/20 text-white text-[12px] font-black py-2 rounded-[10px] text-center flex items-center justify-center gap-1">
-          <RiCheckLine size={14} />
-          Concluída!
+        <div
+          className="w-full text-[11px] font-black py-1.5 rounded-[8px] text-center flex items-center justify-center gap-1"
+          style={{ backgroundColor: `${mission.gradient[0]}18`, color: mission.gradient[1] }}
+        >
+          <RiCheckLine size={12} /> Concluída
         </div>
       )}
     </div>
