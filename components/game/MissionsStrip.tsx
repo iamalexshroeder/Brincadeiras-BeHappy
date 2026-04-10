@@ -43,8 +43,11 @@ function MissionCard({ mission }: { mission: Mission }) {
 
   return (
     <div
-      className="relative shrink-0 w-[160px] rounded-[16px] p-3.5 flex flex-col gap-2.5 overflow-hidden bg-white border"
-      style={{ borderColor: `${mission.gradient[0]}40`, boxShadow: `0 2px 12px ${mission.gradient[0]}18` }}
+      className={cn(
+        "relative shrink-0 w-[176px] rounded-[16px] p-3.5 flex flex-col gap-2.5 overflow-hidden bg-white border transition-opacity duration-500",
+        claimed ? "opacity-50" : "opacity-100"
+      )}
+      style={{ borderColor: `${mission.gradient[0]}40`, boxShadow: claimed ? 'none' : `0 2px 12px ${mission.gradient[0]}18` }}
     >
       {/* Top accent bar */}
       <div
