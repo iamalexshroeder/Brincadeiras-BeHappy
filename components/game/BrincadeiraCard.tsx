@@ -231,7 +231,7 @@ export function BrincadeiraCard({
         </div>
 
         <Link href={`/brincadeira/${id}`}>
-          <button type="button" className="btn-chip text-muted-foreground font-bold">
+          <button type="button" className="text-[13px] font-bold text-muted-foreground hover:text-foreground active:opacity-50 transition-all px-2 py-1">
             Ver Detalhes
           </button>
         </Link>

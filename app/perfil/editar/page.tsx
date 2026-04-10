@@ -87,34 +87,10 @@ export default function EditarPerfil() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
-      {/* Custom Header with standardized back button */}
-      <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-md px-5 pt-14 pb-4 border-b border-border">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Button 
-                variant="ghost" 
-                size="icon" 
-                className="h-10 w-10 rounded-full bg-card shadow-sm text-muted-foreground"
-                onClick={() => router.back()}
-              >
-                <RiArrowLeftSLine size={24} />
-            </Button>
-            <h1 className="text-[20px] font-extrabold tracking-[-0.02em] text-foreground">
-              Editar Perfil
-            </h1>
-          </div>
-          <button 
-            onClick={handleSave} 
-            disabled={isPending || loading}
-            className="btn-primary h-9 px-4 w-auto rounded-[8px] text-[14px]"
-          >
-            {isPending ? <RiLoader4Line className="animate-spin" size={18} /> : "Salvar"}
-          </button>
-        </div>
-      </div>
-
-      <main className="page-main pt-8 space-y-8">
+    <div className="flex flex-col min-h-screen bg-background text-[#1A1A1A]">
+      <Header title="Editar Perfil" showSearch={false} showBackButton={true} />
+      
+      <main className="page-main pt-8 pb-32 space-y-8">
         {/* Profile Preview & Upload */}
         <div className="flex flex-col items-center justify-center space-y-6">
           <Avatar className="h-28 w-28 border-4 border-white shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
@@ -195,6 +171,24 @@ export default function EditarPerfil() {
           </section>
         </div>
       </main>
+
+      {/* Standardized Bottom Action Bar */}
+      <div className="fixed bottom-0 left-0 right-0 px-4 sm:px-5 py-4 bg-white border-t border-border z-40 no-print shadow-[0_-8px_20px_rgba(0,0,0,0.05)] pb-safe">
+        <button
+          onClick={handleSave}
+          disabled={isPending || loading}
+          className="btn-primary w-full"
+        >
+          {isPending ? (
+            <>
+              <RiLoader4Line className="animate-spin" size={20} />
+              <span>Salvando...</span>
+            </>
+          ) : (
+            <span>Salvar Alterações</span>
+          )}
+        </button>
+      </div>
     </div>
   )
 }
