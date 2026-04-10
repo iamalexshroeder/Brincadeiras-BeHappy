@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma"
 import { XPReason } from "@prisma/client"
 import { getLevelFromXp, getTitleForLevel, GAMIFICATION_TIERS, EXCLUSIVE_TITLES } from "@/utils/gamification"
 import { revalidatePath } from "next/cache"
+import { SYSTEM_COLLECTIONS } from "@/lib/data/biblioteca"
 
 // XP awarded per action
 const XP_VALUES = {
@@ -391,6 +392,50 @@ export async function getFeed(
  * Gets a single brincadeira by ID.
  */
 export async function getBrincadeiraById(id: string) {
+  // If it's a system game (from PDF)
+  if (id.startsWith('pdf-')) {
+    for (const col of SYSTEM_COLLECTIONS) {
+      const g = col.games.find(game => game.id === id);
+      if (g) {
+        return {
+          id: g.id,
+          title: g.title,
+          description: g.description,
+          creator: {
+            id: "system",
+            name: "BeHappyinha",
+            avatar: "/behappyinha.png",
+            level: 10,
+            title: "Curadoria Oficial"
+          },
+          metadata: {
+            ageRange: g.age,
+            duration: g.duration,
+            participants: g.participants
+          },
+          tags: [col.label],
+          likesCount: 0,
+          usedCount: 0,
+          userHasLiked: false,
+          userHasUsed: false,
+          userHasSaved: false,
+          initialLiked: false,
+          initialUsed: false,
+          initialSaved: false,
+          comments: [],
+          steps: g.steps,
+          materials: g.materials,
+          commentsCount: 0,
+          publishedAt: "Oficial",
+          rawType: "Sugerida",
+          rawAgeGroups: [g.age],
+          rawDuration: parseInt(g.duration) || 0,
+          rawParticipants: parseInt(g.participants) || 0
+        };
+      }
+    }
+  }
+
   const session = await auth()
   const currentUserId = session?.user?.id
   const topThreeIds = await getTopThreeIds()
