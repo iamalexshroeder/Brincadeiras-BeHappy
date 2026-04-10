@@ -115,9 +115,15 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
       }
 
       if (mode === "CREATE") {
-        await createBrincadeira(payload)
+        const newGame = await createBrincadeira(payload)
+        if (newGame?.id) {
+          router.push(`/brincadeira/${newGame.id}`)
+          return
+        }
       } else if (mode === "EDIT" && id) {
         await updateBrincadeira(id, payload)
+        router.push(`/brincadeira/${id}`)
+        return
       }
 
       router.push("/perfil")
