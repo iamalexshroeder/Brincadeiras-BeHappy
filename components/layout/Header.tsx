@@ -66,6 +66,8 @@ export function Header({
     unreadNotificationsCount: number;
     rankBadge?: "gold" | "silver" | "bronze" | null;
     title: string;
+    followersCount: number;
+    followingCount: number;
   } | null>(null)
 
   useEffect(() => {
@@ -80,7 +82,9 @@ export function Header({
             avatar: data.avatar || undefined,
             unreadNotificationsCount: data.unreadNotificationsCount || 0,
             rankBadge: data.rankBadge,
-            title: data.title
+            title: data.title,
+            followersCount: data.stats?.followers || 0,
+            followingCount: data.stats?.following || 0,
           })
         }
       })
@@ -97,7 +101,9 @@ export function Header({
     avatar: session?.user?.image || undefined,
     unreadNotificationsCount: 0,
     rankBadge: null,
-    title: "Observador Curioso"
+    title: "Observador Curioso",
+    followersCount: 0,
+    followingCount: 0
   }
 
   const xpRemaining = user.nextLevelXp - user.xp
@@ -196,6 +202,14 @@ export function Header({
                 <span className="text-[11px] font-bold uppercase tracking-wide text-[#8E8E93]">
                   {user.title} · Nível {user.level}
                 </span>
+                <div className="flex gap-2.5 mt-0.5">
+                  <span className="text-[10px] font-bold text-foreground">
+                    {user.followersCount} <span className="text-muted-foreground font-medium">seguidores</span>
+                  </span>
+                  <span className="text-[10px] font-bold text-foreground">
+                    {user.followingCount} <span className="text-muted-foreground font-medium">seguindo</span>
+                  </span>
+                </div>
               </div>
             </Link>
 

@@ -133,6 +133,8 @@ export async function getProfile() {
       _count: {
         select: {
           brincadeiras: true,
+          followers: true,
+          following: true,
         },
       },
     },
@@ -181,6 +183,8 @@ export async function getProfile() {
       favorites: likesGivenCount,
       saved: savedCount,
       contributions: user._count.brincadeiras,
+      followers: user._count.followers,
+      following: user._count.following,
       achievements: Math.floor(user.xp / 500),
       likesReceived,
       usesReceived
@@ -243,6 +247,20 @@ export async function getPublicProfile(userId: string) {
     orderBy: { published_at: "desc" }
   })
 
+  // Check if current user follows this profile
+  let userIsFollowing = false
+  if (currentUserId) {
+    const follow = await prisma.follow.findUnique({
+      where: {
+        followerId_followingId: {
+          followerId: currentUserId,
+          followingId: userId
+        }
+      }
+    })
+    userIsFollowing = !!follow
+  }
+
   const topThreeIds = await getTopThreeIds()
   let rankBadge: "gold" | "silver" | "bronze" | null = null
   if (topThreeIds[0] === user.id) rankBadge = "gold"
@@ -255,6 +273,9 @@ export async function getPublicProfile(userId: string) {
     avatar: user.avatar_url ?? user.image,
     brincadeiras: brincadeiras.map(b => formatBrincadeira(b, currentUserId, topThreeIds)).filter(Boolean),
     totalContributions: user._count.brincadeiras,
+    followersCount: user._count.followers,
+    followingCount: user._count.following,
+    userIsFollowing,
     rankBadge
   }
 }
@@ -834,6 +855,55 @@ export async function createBrincadeira(data: {
   revalidatePath("/")
   revalidatePath("/perfil")
   return brincadeira
+}
+
+/**
+ * Toggles a follow relationship between the current user and target user.
+ */
+export async function toggleFollow(followingId: string) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Não autenticado")
+  const followerId = session.user.id
+
+  if (followerId === followingId) throw new Error("Você não pode seguir a si mesmo")
+
+  const existing = await prisma.follow.findUnique({
+    where: {
+      followerId_followingId: {
+        followerId,
+        followingId
+      }
+    }
+  })
+
+  if (existing) {
+    await prisma.follow.delete({
+      where: {
+        followerId_followingId: {
+          followerId,
+          followingId
+        }
+      }
+    })
+  } else {
+    await prisma.follow.create({
+      data: {
+        followerId,
+        followingId
+      }
+    })
+
+    // Notify the user they have a new follower
+    try {
+      await notifyUser(followingId, "SOCIAL", "Novo Seguidor!", "Alguém começou a seguir você.")
+    } catch (e) {
+       console.error("Erro ao notificar seguidor:", e)
+    }
+  }
+
+  revalidatePath("/")
+  revalidatePath("/perfil")
+  revalidatePath(`/recreador/${followingId}`)
 }
 
 /**

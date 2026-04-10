@@ -8,12 +8,19 @@ import { BottomNav } from "@/components/layout/BottomNav"
 import { Toaster } from "@/components/ui/sonner"
 import { NotificationPoller } from "@/components/shared/NotificationPoller"
 import { SplashScreen } from "@/components/layout/SplashScreen"
+import { PWARegister } from "@/components/layout/PWARegister"
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
 export const metadata = {
   title: "BeHappy - Brincadeiras para Recreadores",
   description: "Descubra, compartilhe e crie brincadeiras incríveis. A plataforma dos melhores recreadores.",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "BeHappy",
+  },
   openGraph: {
     title: "BeHappy - Brincadeiras para Recreadores",
     description: "Descubra, compartilhe e crie brincadeiras incríveis.",
@@ -49,6 +56,7 @@ export default function RootLayout({
           <BottomNav />
           <Toaster position="top-center" richColors />
           <NotificationPoller />
+          <PWARegister />
         </SessionProvider>
       </body>
     </html>
