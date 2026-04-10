@@ -262,7 +262,7 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame | null; isOpen:
         <div className="absolute -left-[9999px] -top-[9999px] pointer-events-none" aria-hidden="true">
           <div ref={cardRef} style={{ width: 800, backgroundColor: "#F9F9F7", padding: "60px", fontFamily: "sans-serif" }}>
             {/* Header / Brand */}
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "between", marginBottom: 48, borderBottom: "1px solid #E5E5EA", paddingBottom: 24 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 48, borderBottom: "1px solid #E5E5EA", paddingBottom: 24 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <div style={{ width: 44, height: 44, borderRadius: 10, backgroundColor: "#FF9500", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 12px rgba(255,149,0,0.2)" }}>
                   <span style={{ color: "#fff", fontWeight: 900, fontSize: 24 }}>B</span>
@@ -316,7 +316,7 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame | null; isOpen:
                 <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                   {game.steps.map((s, i) => (
                     <div key={i} style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
-                      <div style={{ width: 36, height: 36, borderRadius: 12, background: "#FF9500", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 18, shrink: 0, boxShadow: "0 4px 8px rgba(255,149,0,0.15)" }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 12, background: "#FF9500", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 18, flexShrink: 0, boxShadow: "0 4px 8px rgba(255,149,0,0.15)" }}>
                         {i+1}
                       </div>
                       <p style={{ margin: 0, fontSize: 18, fontWeight: 600, color: "#1A1A1A", lineHeight: 1.5, paddingTop: 4 }}>{s}</p>
@@ -327,7 +327,7 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame | null; isOpen:
             </div>
 
             {/* Footer Footer */}
-            <div style={{ marginTop: 60, pt: 40, borderTop: "1px solid #E5E5EA", textAlign: "center", display: "flex", justifyContent: "center" }}>
+            <div style={{ marginTop: 60, paddingTop: 40, borderTop: "1px solid #E5E5EA", textAlign: "center", display: "flex", justifyContent: "center" }}>
                <p style={{ fontSize: 14, fontWeight: 700, color: "#C7C7CC" }}>Gerado via BeHappy Hub · brisbrincadeiras-behappy.vercel.app</p>
             </div>
           </div>
