@@ -34,7 +34,7 @@ export function CuratedKits() {
   }
 
   return (
-    <div className="w-full overflow-x-auto no-scrollbar py-1 px-0.5 mb-1">
+    <div className="w-full overflow-x-auto no-scrollbar py-2 -my-2 px-0.5 mb-1">
       <div className="flex items-center gap-2.5 w-max">
         {KITS.map((kit) => {
           const isActive = currentKit === kit.id

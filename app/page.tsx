@@ -28,9 +28,9 @@ export default async function Home({
     <div className="flex flex-col min-h-screen bg-background">
       <Header showSearch={false} showUserCard={true} />
 
-      <main className="px-4 sm:px-5 pb-48 pt-2 space-y-5">
+      <main className="pb-48 pt-2 space-y-8 overflow-visible">
         {/* Curated Kits Section */}
-        <section>
+        <section className="px-4 sm:px-5 overflow-visible">
           <div className="flex items-center justify-between mb-2 pl-1">
             <h2 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest">
               Kits Sugeridos
@@ -40,8 +40,8 @@ export default async function Home({
         </section>
 
         {/* Feed Section */}
-        <section>
-          <div className="flex items-baseline justify-between mb-3">
+        <section className="overflow-visible">
+          <div className="flex items-baseline justify-between mb-3 px-4 sm:px-5">
             <h2 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest">
               Novidades
             </h2>
@@ -52,7 +52,7 @@ export default async function Home({
             )}
           </div>
           {feed.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="flex flex-col items-center justify-center py-20 text-center px-4 sm:px-5">
               <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-4">
                 <RiFileList3Line size={32} className="text-[#C7C7CC]" />
               </div>
@@ -68,7 +68,7 @@ export default async function Home({
               </p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-4 px-4 sm:px-5 overflow-visible">
               {feed.map((game) => game && (
                 <BrincadeiraCard
                   key={game.id}

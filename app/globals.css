@@ -194,7 +194,7 @@
     @apply border-border outline-ring/50 no-scrollbar;
   }
   body {
-    @apply bg-background text-foreground overflow-x-hidden;
+    @apply bg-background text-foreground overflow-x-clip;
     width: 100%;
     position: relative;
   }

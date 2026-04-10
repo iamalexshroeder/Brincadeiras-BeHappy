@@ -105,7 +105,7 @@ export default function Perfil() {
             </h2>
           </div>
           
-          <div className="flex overflow-x-auto no-scrollbar gap-4 px-5">
+          <div className="flex overflow-x-auto no-scrollbar gap-4 px-5 py-2 -my-2">
             {activities.map((activity) => {
               const href = activity.label === "Favoritas" ? "/perfil/favoritas" : 
                            activity.label === "Minhas" ? "/perfil/minhas" : "/perfil/titulos"
