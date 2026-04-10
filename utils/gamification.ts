@@ -20,7 +20,7 @@ export const GAMIFICATION_TIERS: (LevelData & { color: string; description: stri
   { level: 35, title: "Mestre do Pega-Pega", minXp: 14000, color: "#EF4444", description: "Velocidade e estratégia. Suas brincadeiras de perseguição são as favoritas da galera." },
   { level: 40, title: "Capitão da Gincana", minXp: 18500, color: "#F97316", description: "Organização impecável. Você transforma competições em momentos de pura união." },
   { level: 45, title: "Especialista em Sorrisos", minXp: 24000, color: "#F59E0B", description: "Seu objetivo é a felicidade. Você sabe exatamente como animar qualquer criança." },
-  { level: 50, title: "Inventor de Brincadeiras", minXp: 30000, color: "#AF52DE", description: "O BeHappy Hub se orgulha de você! Suas criações são autênticas e inovadoras." },
+  { level: 50, title: "Inventor de Brincadeiras", minXp: 30000, color: "#AF52DE", description: "A Brincadeiras BeHappy se orgulha de você! Suas criações são autênticas e inovadoras." },
   { level: 55, title: "Líder Recreativo", minXp: 38000, color: "#22D3EE", description: "Você é uma referência. Outros recreadores se inspiram na sua forma de atuar." },
   { level: 60, title: "Maestro da Diversão", minXp: 47000, color: "#8B5CF6", description: "Tudo flui em harmonia quando você está no comando. A diversão é uma orquestra." },
   { level: 65, title: "Mago do Entretenimento", minXp: 55000, color: "#EC4899", description: "Parece mágica, mas é talento. Você tira sorrisos de onde ninguém imagina." },
@@ -35,7 +35,7 @@ export const GAMIFICATION_TIERS: (LevelData & { color: string; description: stri
 
 export const EXCLUSIVE_TITLES = [
   { id: "diva_recreacao", title: "Diva da Recreação", color: "#EC4899", description: "Título de prestígio exclusivo para a elite da recreação." },
-  { id: "estrela_behappy", title: "Estrela BeHappy", color: "#FBBF24", description: "Destaque total na comunidade BeHappy Hub." },
+  { id: "estrela_behappy", title: "Estrela BeHappy", color: "#FBBF24", description: "Destaque total na comunidade Brincadeiras BeHappy." },
 ];
 
 /**

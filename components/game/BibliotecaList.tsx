@@ -162,7 +162,7 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame | null; isOpen:
       const shareUrl = `${window.location.origin}/brincadeira/${game.id}`
       await navigator.share({ 
         title: game.title, 
-        text: `Confira esta brincadeira no BeHappy Hub: ${game.title}`,
+        text: `Confira esta brincadeira no Brincadeiras BeHappy: ${game.title}`,
         url: shareUrl 
       })
     }
@@ -241,7 +241,7 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame | null; isOpen:
         </div>
 
         {/* Action Buttons - Fixed Footer */}
-        <div className="absolute bottom-0 left-0 right-0 px-5 py-4 border-t border-border bg-white flex gap-3 pb-[env(safe-area-inset-bottom)]">
+        <div className="absolute bottom-0 left-0 right-0 px-5 pt-4 pb-[calc(24px+env(safe-area-inset-bottom))] border-t border-border bg-white flex gap-3 shadow-[0_-8px_24px_rgba(0,0,0,0.04)]">
           <Button
             variant="ghost"
             onClick={handleDownload}
@@ -268,7 +268,7 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame | null; isOpen:
                   <span style={{ color: "#fff", fontWeight: 900, fontSize: 24 }}>B</span>
                 </div>
                 <div>
-                  <h6 style={{ margin: 0, fontSize: 18, fontWeight: 900, color: "#1A1A1A", letterSpacing: "-0.02em" }}>BeHappy Hub</h6>
+                  <h6 style={{ margin: 0, fontSize: 18, fontWeight: 900, color: "#1A1A1A", letterSpacing: "-0.02em" }}>Brincadeiras BeHappy</h6>
                   <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: "#8E8E93", textTransform: "uppercase", letterSpacing: "0.05em" }}>Ficha de Brincadeira</p>
                 </div>
               </div>
@@ -328,7 +328,7 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame | null; isOpen:
 
             {/* Footer Footer */}
             <div style={{ marginTop: 60, paddingTop: 40, borderTop: "1px solid #E5E5EA", textAlign: "center", display: "flex", justifyContent: "center" }}>
-               <p style={{ fontSize: 14, fontWeight: 700, color: "#C7C7CC" }}>Gerado via BeHappy Hub · brisbrincadeiras-behappy.vercel.app</p>
+               <p style={{ fontSize: 14, fontWeight: 700, color: "#C7C7CC" }}>Gerado via Brincadeiras BeHappy · brisbrincadeiras-behappy.vercel.app</p>
             </div>
           </div>
         </div>
