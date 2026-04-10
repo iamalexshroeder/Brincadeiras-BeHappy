@@ -228,10 +228,9 @@ export function BrincadeiraCard({
         <Link href={`/recreador/${creator.id}`} className="flex items-center gap-2.5 active:scale-95 transition-all">
           <UserAvatar 
             name={creator.name} 
-            image={creator.avatar} 
-            rank={creator.rankBadge}
-            level={creator.level}
-            size="sm"
+            src={creator.avatar} 
+            rankBadge={creator.rankBadge}
+            className="h-10 w-10"
           />
           <div className="flex flex-col">
             <span className="text-[14px] font-black text-foreground leading-tight">{creator.name}</span>
