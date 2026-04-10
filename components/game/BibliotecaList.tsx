@@ -173,7 +173,7 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame | null; isOpen:
       <SheetContent 
         side="bottom"
         showCloseButton={false}
-        className="!max-h-[90dvh] !w-auto !inset-x-5 !bottom-4 rounded-[24px] p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
+        className="!max-h-[90dvh] !w-full !inset-x-0 !bottom-0 rounded-t-[24px] p-0 flex flex-col border-0 border-t border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-white h-16 shrink-0 z-50 shadow-sm">
@@ -360,7 +360,7 @@ function CollectionModal({ collection, isOpen, onClose }: { collection: Collecti
       <SheetContent 
         side="bottom"
         showCloseButton={false}
-        className="!max-h-[90dvh] !w-auto !inset-x-5 !bottom-4 rounded-[24px] p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
+        className="!max-h-[90dvh] !w-full !inset-x-0 !bottom-0 rounded-t-[24px] p-0 flex flex-col border-0 border-t border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-white h-16 shrink-0 z-50 shadow-sm">
