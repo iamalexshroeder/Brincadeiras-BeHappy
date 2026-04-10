@@ -5,12 +5,13 @@ import { auth } from "@/auth"
 import { Header } from "@/components/layout/Header"
 
 interface EditPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
-export default async function EditBrincadeiraPage({ params }: EditPageProps) {
+export default async function EditBrincadeiraPage(props: EditPageProps) {
+  const params = await props.params;
   const session = await auth()
   const brincadeira = await getBrincadeiraById(params.id)
 

@@ -6,12 +6,13 @@ import { Header } from "@/components/layout/Header"
 export const revalidate = 0 // Disable cache for this page so it's always up-to-date
 
 interface ViewPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
-export default async function ViewBrincadeiraPage({ params }: ViewPageProps) {
+export default async function ViewBrincadeiraPage(props: ViewPageProps) {
+  const params = await props.params;
   const brincadeira = await getBrincadeiraById(params.id)
 
   if (!brincadeira) {
