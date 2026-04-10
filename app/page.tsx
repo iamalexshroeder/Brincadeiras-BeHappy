@@ -95,9 +95,9 @@ export default async function Home({
       </main>
 
       {/* Floating Action Button */}
-      <div className="fixed bottom-[64px] left-0 right-0 px-4 sm:px-5 pb-4 bg-gradient-to-t from-[#F9F9F7] via-[#F9F9F7]/90 to-transparent pt-8 no-print">
-        <Link href="/criar" className="w-full">
-          <button className="btn-primary">
+      <div className="fixed bottom-[64px] left-0 right-0 px-4 sm:px-5 py-4 bg-white border-t border-border z-30 no-print">
+        <Link href="/criar" className="block w-full">
+          <button className="btn-primary w-full">
             Criar nova brincadeira
           </button>
         </Link>

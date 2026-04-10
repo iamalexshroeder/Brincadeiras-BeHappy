@@ -287,7 +287,7 @@ export default function BrincadeiraForm({ initialData, mode, id }: BrincadeiraFo
       </div>
 
       {/* Footer de Ação */}
-      <div className="fixed bottom-[64px] left-0 right-0 px-4 sm:px-5 py-4 border-t border-border bg-white/90 backdrop-blur-md z-30 flex gap-3 pb-safe no-print">
+      <div className="fixed bottom-[64px] left-0 right-0 px-4 sm:px-5 py-4 border-t border-border bg-white z-30 flex gap-3 pb-safe no-print">
         {mode === "EDIT" && (
           <button
             onClick={handleDelete}
