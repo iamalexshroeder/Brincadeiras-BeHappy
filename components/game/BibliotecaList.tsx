@@ -175,7 +175,7 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame; isOpen: boolea
              >
                <RiArrowLeftSLine size={24} />
              </Button>
-             <SheetTitle className="text-[17px] font-black text-foreground max-w-[200px] truncate">
+             <SheetTitle className="text-[17px] font-extrabold text-foreground max-w-[200px] truncate">
                {game.title}
              </SheetTitle>
           </div>
@@ -220,7 +220,7 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame; isOpen: boolea
             <div className="space-y-3">
               {game.steps.map((step, i) => (
                 <div key={i} className="flex items-start gap-4">
-                  <div className="w-6 h-6 rounded-full bg-[#EAB308] text-white text-[12px] font-black flex items-center justify-center shrink-0 mt-1">
+                  <div className="w-6 h-6 rounded-full bg-[#EAB308] text-white text-[12px] font-extrabold flex items-center justify-center shrink-0 mt-1">
                     {i + 1}
                   </div>
                   <p className="text-[15px] text-foreground leading-relaxed font-medium opacity-90 flex-1">{step}</p>
@@ -306,7 +306,7 @@ function CollectionModal({ collection, isOpen, onClose }: { collection: Collecti
              >
                <RiArrowLeftSLine size={24} />
              </Button>
-             <SheetTitle className="text-[17px] font-black text-foreground">
+             <SheetTitle className="text-[17px] font-extrabold text-foreground">
                {collection.label}
              </SheetTitle>
           </div>
@@ -328,13 +328,13 @@ function CollectionModal({ collection, isOpen, onClose }: { collection: Collecti
               >
                 <div className="space-y-3">
                   <div className="flex justify-between items-start gap-3">
-                    <h4 className="text-[16px] font-black text-foreground leading-tight">{game.title}</h4>
-                    <span className="text-[10px] font-black text-primary uppercase bg-primary/5 px-2 py-0.5 rounded-full">Explore</span>
+                    <h4 className="text-[16px] font-extrabold text-foreground leading-tight">{game.title}</h4>
+                    <span className="text-[10px] font-extrabold text-primary uppercase bg-primary/5 px-2 py-0.5 rounded-full">Explore</span>
                   </div>
                   <p className="text-[13px] text-muted-foreground line-clamp-2 font-medium">{game.description}</p>
                   <div className="flex gap-2 pt-1">
-                    <span className="text-[10px] font-black bg-[#F2F2F7] text-[#8E8E93] rounded-full px-2.5 py-1 uppercase">{game.duration}</span>
-                    <span className="text-[10px] font-black bg-[#F2F2F7] text-[#8E8E93] rounded-full px-2.5 py-1 uppercase">{game.participants}</span>
+                    <span className="text-[10px] font-extrabold bg-[#F2F2F7] text-[#8E8E93] rounded-full px-2.5 py-1 uppercase">{game.duration}</span>
+                    <span className="text-[10px] font-extrabold bg-[#F2F2F7] text-[#8E8E93] rounded-full px-2.5 py-1 uppercase">{game.participants}</span>
                   </div>
                 </div>
               </div>
@@ -385,17 +385,17 @@ export function BibliotecaList() {
               >
                 <div className="flex items-start gap-3">
                   <div className="flex-1 min-w-0">
-                    <span className="block text-[15px] font-black text-foreground truncate leading-tight">{game.title}</span>
+                    <span className="block text-[15px] font-extrabold text-foreground truncate leading-tight">{game.title}</span>
                     <span className="block text-[12px] text-muted-foreground mt-0.5 line-clamp-1 font-medium">{game.description}</span>
                     <div className="flex gap-2 mt-2 flex-wrap">
-                      <span className="text-[10px] font-black bg-[#F2F2F7] text-[#8E8E93] rounded-full px-2 py-0.5 uppercase">{game.duration}</span>
-                      <span className="text-[10px] font-black bg-[#F2F2F7] text-[#8E8E93] rounded-full px-2 py-0.5 uppercase">{game.participants}</span>
+                      <span className="text-[10px] font-extrabold bg-[#F2F2F7] text-[#8E8E93] rounded-full px-2 py-0.5 uppercase">{game.duration}</span>
+                      <span className="text-[10px] font-extrabold bg-[#F2F2F7] text-[#8E8E93] rounded-full px-2 py-0.5 uppercase">{game.participants}</span>
                     </div>
                   </div>
                 </div>
                 <button
                   onClick={() => setSelectedFlatGame(game)}
-                  className="mt-3 w-full h-9 rounded-[10px] border border-border bg-[#F9F9F7] text-[12px] font-black text-foreground flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
+                  className="mt-3 w-full h-9 rounded-[10px] border border-border bg-[#F9F9F7] text-[12px] font-extrabold text-foreground flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
                 >
                   Abrir brincadeira
                 </button>
@@ -434,7 +434,7 @@ export function BibliotecaList() {
               </div>
 
               <div className="flex-1 min-w-0">
-                <span className="block text-[16px] font-black text-foreground leading-tight">{col.label}</span>
+                <span className="block text-[16px] font-extrabold text-foreground leading-tight">{col.label}</span>
                 <span className="block text-[12px] text-muted-foreground font-medium mt-0.5">{col.games.length} brincadeiras</span>
               </div>
 

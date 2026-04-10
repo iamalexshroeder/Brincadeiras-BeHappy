@@ -141,6 +141,7 @@
     position: relative;
   }
   html {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     @apply font-sans overflow-x-hidden;
     width: 100%;
   }

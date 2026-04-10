@@ -56,7 +56,7 @@ export default function TitulosPage() {
               <RiArrowLeftSLine size={24} />
             </Button>
           </Link>
-          <h1 className="text-[22px] font-extrabold tracking-[-0.02em] text-foreground">
+          <h1 className="text-[22px] font-bold tracking-[-0.02em] text-foreground">
             Meus Títulos
           </h1>
         </div>
@@ -66,7 +66,7 @@ export default function TitulosPage() {
         {/* Banner Atual */}
         <div className="bg-white rounded-[24px] p-6 shadow-sm border border-border/50 text-center space-y-2">
           <p className="text-[12px] font-bold text-muted-foreground uppercase tracking-wider">Título Ativo</p>
-          <p className="text-[22px] font-black text-primary">
+          <p className="text-[22px] font-extrabold text-primary">
             {activeTitle || "Padrão do Nível"}
           </p>
           {!activeTitle && (
@@ -81,7 +81,7 @@ export default function TitulosPage() {
           <div className="space-y-4">
             <div className="flex items-center gap-2 px-1">
               <RiStarFill className="text-amber-500" size={18} />
-              <h2 className="text-[16px] font-black text-foreground uppercase tracking-tight">Exclusivos BeHappy</h2>
+              <h2 className="text-[16px] font-extrabold text-foreground uppercase tracking-tight">Exclusivos BeHappy</h2>
             </div>
             <div className="space-y-3">
               {EXCLUSIVE_TITLES.map((t) => (
@@ -97,7 +97,7 @@ export default function TitulosPage() {
                   )}
                 >
                   <div className="flex-1">
-                    <p className="text-[17px] font-extrabold" style={{ color: t.color }}>{t.title}</p>
+                    <p className="text-[17px] font-bold" style={{ color: t.color }}>{t.title}</p>
                     <p className="text-[13px] text-muted-foreground font-medium line-clamp-1">{t.description}</p>
                   </div>
                   {activeTitle === t.title && (
@@ -113,7 +113,7 @@ export default function TitulosPage() {
 
         {/* Lista de Títulos por Nível */}
         <div className="space-y-4">
-          <h2 className="text-[16px] font-black text-foreground uppercase tracking-tight px-1 text-muted-foreground/80">
+          <h2 className="text-[16px] font-extrabold text-foreground uppercase tracking-tight px-1 text-muted-foreground/80">
             Jornada do Recreador
           </h2>
           <div className="space-y-3">
@@ -145,7 +145,7 @@ export default function TitulosPage() {
                 >
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                       <p className={cn("text-[17px] font-extrabold", isUnlocked ? "text-foreground" : "text-gray-400")}>
+                       <p className={cn("text-[17px] font-bold", isUnlocked ? "text-foreground" : "text-gray-400")}>
                          {tier.title}
                        </p>
                        {!isUnlocked && <RiLockLine size={14} className="text-gray-400" />}
@@ -161,7 +161,7 @@ export default function TitulosPage() {
                   )}
                   {!isUnlocked && (
                      <div className="px-3 py-1 bg-gray-200 rounded-full">
-                       <span className="text-[11px] font-black text-gray-500 uppercase">Bloqueado</span>
+                       <span className="text-[11px] font-extrabold text-gray-500 uppercase">Bloqueado</span>
                      </div>
                   )}
                 </button>

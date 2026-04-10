@@ -101,7 +101,7 @@ export function Header({
       {/* Sticky top bar — title + notification bell */}
       <div className="sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-5 pt-10 pb-3 border-b border-[#E5E5EA] no-print">
         <div className="flex items-center justify-between">
-          <h1 className="text-[22px] font-extrabold tracking-[-0.02em] text-[#1A1A1A]">
+          <h1 className="text-[22px] font-bold tracking-[-0.02em] text-[#1A1A1A]">
             {title || `Olá, ${user.name.split(" ")[0]}`}
           </h1>
           <button
@@ -166,7 +166,7 @@ export function Header({
                 />
               </div>
               <div className="flex flex-col">
-                <span className="text-[16px] font-extrabold text-[#1A1A1A] tracking-[-0.01em]">
+                <span className="text-[16px] font-bold text-[#1A1A1A] tracking-[-0.01em]">
                   {user.name}
                 </span>
                 <span className="text-[11px] font-bold uppercase tracking-wide text-[#8E8E93]">

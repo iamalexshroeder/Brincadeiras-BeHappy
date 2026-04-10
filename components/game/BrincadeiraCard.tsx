@@ -233,7 +233,7 @@ export function BrincadeiraCard({
             className="h-10 w-10"
           />
           <div className="flex flex-col">
-            <span className="text-[14px] font-black text-foreground leading-tight">{creator.name}</span>
+            <span className="text-[14px] font-extrabold text-foreground leading-tight">{creator.name}</span>
             <div className="flex items-center gap-1 mt-0.5">
               <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">
                 • {creator.title || getTitleForLevel(creator.level)}
@@ -250,7 +250,7 @@ export function BrincadeiraCard({
       </CardHeader>
 
       <CardContent className="px-4 py-0.5">
-        <h3 className="text-[16px] font-black leading-snug text-foreground mb-1 tracking-[-0.01em]">
+        <h3 className="text-[16px] font-extrabold leading-snug text-foreground mb-1 tracking-[-0.01em]">
           {title}
         </h3>
         <p className="text-[13px] leading-snug text-muted-foreground line-clamp-2 mb-3 font-medium opacity-80">
@@ -348,7 +348,7 @@ export function BrincadeiraCard({
                     </Button>
                   </SheetClose>
                   {isEditingBrincadeira && (
-                    <span className="text-[17px] font-black text-foreground">Editando</span>
+                    <span className="text-[17px] font-extrabold text-foreground">Editando</span>
                   )}
                 </div>
 
@@ -555,7 +555,7 @@ export function BrincadeiraCard({
                          <div className="space-y-3">
                            {editedSteps.map((step, index) => (
                              <div key={`edit-step-${index}`} className="flex gap-2">
-                               <div className="shrink-0 h-6 w-6 rounded-full bg-primary/10 text-primary font-black text-[12px] flex items-center justify-center mt-2">
+                               <div className="shrink-0 h-6 w-6 rounded-full bg-primary/10 text-primary font-extrabold text-[12px] flex items-center justify-center mt-2">
                                  {index + 1}
                                </div>
                                <textarea 
@@ -613,7 +613,7 @@ export function BrincadeiraCard({
                         <div className="space-y-4">
                           {steps.map((step, i) => (
                             <div key={i} className="flex gap-4">
-                              <div className="shrink-0 h-6 w-6 rounded-full bg-primary/10 text-primary font-black text-[12px] flex items-center justify-center mt-1">
+                              <div className="shrink-0 h-6 w-6 rounded-full bg-primary/10 text-primary font-extrabold text-[12px] flex items-center justify-center mt-1">
                                 {i + 1}
                               </div>
                               <p className="text-[15px] text-foreground leading-relaxed font-medium opacity-90">
