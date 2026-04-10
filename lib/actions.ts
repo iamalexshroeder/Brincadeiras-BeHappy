@@ -300,13 +300,46 @@ export async function getFeed(limit = 20, cursor?: string, category?: string, ki
     },
   })
 
-  const hasMore = brincadeiras.length > limit
-  if (hasMore) brincadeiras.pop()
-
+  revalidatePath("/explorar")
   return {
     items: brincadeiras.map((b) => formatBrincadeira(b, userId, topThreeIds)).filter(Boolean),
     nextCursor: hasMore ? brincadeiras[brincadeiras.length - 1].id : null,
   }
+}
+
+/**
+ * Gets a single brincadeira by ID.
+ */
+export async function getBrincadeiraById(id: string) {
+  const session = await auth()
+  const currentUserId = session?.user?.id
+  const topThreeIds = await getTopThreeIds()
+
+  const brincadeira = await prisma.brincadeira.findUnique({
+    where: { id },
+    include: {
+      user: {
+        select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true },
+      },
+      comments: {
+        include: {
+          user: {
+            select: { name: true, avatar_url: true, image: true },
+          },
+        },
+        orderBy: { created_at: "desc" },
+      },
+      interactions: currentUserId
+        ? {
+            where: { user_id: currentUserId },
+            select: { type: true },
+          }
+        : false,
+    },
+  })
+
+  if (!brincadeira) return null
+  return formatBrincadeira(brincadeira, currentUserId, topThreeIds)
 }
 
 // ----------------------------------------------------------------------------
