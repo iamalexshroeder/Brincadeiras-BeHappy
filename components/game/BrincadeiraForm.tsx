@@ -16,7 +16,7 @@ const AGE_LABELS: Record<string, string> = {
 
 interface BrincadeiraFormProps {
   initialData?: any
-  mode: "CREATE" | "EDIT"
+  mode: "CREATE" | "EDIT" | "VIEW"
   id?: string
 }
 
@@ -133,7 +133,8 @@ export default function BrincadeiraForm({ initialData, mode, id }: BrincadeiraFo
               value={title}
               onChange={e => setTitle(e.target.value)}
               placeholder="Ex: Dança das Cadeiras Musical"
-              className="input-base font-bold"
+              className={cn("input-base font-bold", mode === "VIEW" && "bg-transparent border-none px-0 shadow-none pointer-events-none text-[20px]")}
+              readOnly={mode === "VIEW"}
             />
           </div>
 
@@ -143,7 +144,8 @@ export default function BrincadeiraForm({ initialData, mode, id }: BrincadeiraFo
               value={description}
               onChange={e => setDescription(e.target.value)}
               placeholder="Qual o objetivo principal desta brincadeira?"
-              className="textarea-base"
+              className={cn("textarea-base", mode === "VIEW" && "bg-transparent border-none p-0 shadow-none pointer-events-none text-[16px] min-h-[auto] resize-none")}
+              readOnly={mode === "VIEW"}
             />
           </div>
         </div>
@@ -155,8 +157,9 @@ export default function BrincadeiraForm({ initialData, mode, id }: BrincadeiraFo
             {CATEGORIES.map(cat => (
               <button
                 key={cat}
-                onClick={() => setSelectedCategories([cat])}
-                className={cn(selectedCategories.includes(cat) ? "btn-chip-active" : "btn-chip")}
+                type="button"
+                onClick={() => mode !== "VIEW" && setSelectedCategories([cat])}
+                className={cn(selectedCategories.includes(cat) ? "btn-chip-active" : "btn-chip", mode === "VIEW" && !selectedCategories.includes(cat) && "hidden", mode === "VIEW" && "pointer-events-none")}
               >
                 {cat}
               </button>
@@ -171,12 +174,15 @@ export default function BrincadeiraForm({ initialData, mode, id }: BrincadeiraFo
             {Object.entries(AGE_LABELS).map(([ageId, label]) => (
               <button
                 key={ageId}
-                onClick={() => setAgeGroups([ageId])}
+                type="button"
+                onClick={() => mode !== "VIEW" && setAgeGroups([ageId])}
                 className={cn(
                   "h-9 px-4 rounded-full text-[13px] font-bold border-2 transition-all",
                   ageGroups.includes(ageId)
-                    ? "bg-[#6366F1] text-white border-[#6366F1] shadow-lg shadow-[#6366F1]/20 scale-105"
-                    : "bg-[#F2F2F7] text-[#8E8E93] border-transparent"
+                    ? "bg-[#6366F1] text-white border-[#6366F1] shadow-none"
+                    : "bg-[#F2F2F7] text-[#8E8E93] border-transparent",
+                  mode === "VIEW" && !ageGroups.includes(ageId) && "hidden",
+                  mode === "VIEW" && "pointer-events-none"
                 )}
               >
                 {label}
@@ -194,7 +200,8 @@ export default function BrincadeiraForm({ initialData, mode, id }: BrincadeiraFo
               value={duration}
               onChange={e => setDuration(e.target.value)}
               placeholder="Ex: 30"
-              className="input-base"
+              className={cn("input-base", mode === "VIEW" && "bg-transparent border-none px-0 shadow-none pointer-events-none text-[18px]")}
+              readOnly={mode === "VIEW"}
             />
           </div>
           <div>
@@ -204,7 +211,8 @@ export default function BrincadeiraForm({ initialData, mode, id }: BrincadeiraFo
               value={participants}
               onChange={e => setParticipants(e.target.value)}
               placeholder="Ex: 5"
-              className="input-base"
+              className={cn("input-base", mode === "VIEW" && "bg-transparent border-none px-0 shadow-none pointer-events-none text-[18px]")}
+              readOnly={mode === "VIEW"}
             />
           </div>
         </div>
@@ -215,37 +223,42 @@ export default function BrincadeiraForm({ initialData, mode, id }: BrincadeiraFo
           <div className="flex flex-wrap gap-2 min-h-[36px]">
             {materials.map((m, i) => (
               <div key={i} className="flex items-center gap-1.5 bg-[#FEF9C3] text-[#A16207] text-[13px] font-bold rounded-full pl-4 pr-1.5 py-1.5 animate-in fade-in zoom-in duration-200">
-                {m}
-                <button onClick={() => handleRemoveMaterial(i)} className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-[#FDE68A] transition-colors">
-                  <RiCloseLine size={14} />
-                </button>
+                <span className={mode === "VIEW" ? "pr-3" : ""}>{m}</span>
+                {mode !== "VIEW" && (
+                  <button type="button" onClick={() => handleRemoveMaterial(i)} className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-[#FDE68A] transition-colors">
+                    <RiCloseLine size={14} />
+                  </button>
+                )}
               </div>
             ))}
             {materials.length === 0 && (
               <span className="text-[14px] text-[#C7C7CC] font-medium pt-1 pl-1">Nenhum material adicionado</span>
             )}
           </div>
-          <div className="relative">
-            <input
-              type="text"
-              value={newMaterial}
-              onChange={e => setNewMaterial(e.target.value)}
-              onKeyDown={handleAddMaterial}
-              placeholder="Digite o material e pressione Enter"
-              className="input-base pr-12"
-            />
-            <button
-              onClick={() => {
-                if (newMaterial.trim()) {
-                  setMaterials([...materials, newMaterial.trim()])
-                  setNewMaterial("")
-                }
-              }}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center rounded-full bg-white text-primary shadow-sm hover:bg-[#F2F2F7] transition-all"
-            >
-              <RiAddLine size={20} />
-            </button>
-          </div>
+          {mode !== "VIEW" && (
+            <div className="relative">
+              <input
+                type="text"
+                value={newMaterial}
+                onChange={e => setNewMaterial(e.target.value)}
+                onKeyDown={handleAddMaterial}
+                placeholder="Digite o material e pressione Enter"
+                className="input-base pr-12"
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  if (newMaterial.trim()) {
+                    setMaterials([...materials, newMaterial.trim()])
+                    setNewMaterial("")
+                  }
+                }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center rounded-full bg-white text-primary shadow-sm hover:bg-[#F2F2F7] transition-all"
+              >
+                <RiAddLine size={20} />
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Passo a Passo */}
@@ -262,10 +275,15 @@ export default function BrincadeiraForm({ initialData, mode, id }: BrincadeiraFo
                     value={step}
                     onChange={e => handleStepChange(i, e.target.value)}
                     placeholder={`O que fazer na etapa ${i + 1}?`}
-                    className="w-full bg-[#F2F2F7] border-2 border-transparent rounded-[12px] p-4 pr-12 min-h-[80px] text-[15px] font-medium text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none resize-none focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/10 transition-all"
+                    className={cn(
+                      "w-full bg-[#F2F2F7] border-2 border-transparent rounded-[12px] p-4 pr-12 min-h-[80px] text-[15px] font-medium text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none resize-none focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/10 transition-all",
+                      mode === "VIEW" && "bg-transparent border-none px-0 pr-0 shadow-none pointer-events-none text-[16px] min-h-[auto]"
+                    )}
+                    readOnly={mode === "VIEW"}
                   />
-                  {steps.length > 1 && (
+                  {steps.length > 1 && mode !== "VIEW" && (
                     <button
+                      type="button"
                       onClick={() => handleRemoveStep(i)}
                       className="absolute right-2 top-2 text-[#C7C7CC] hover:text-[#FF3B30] p-1.5 hover:bg-red-50 rounded-full transition-all"
                     >
@@ -275,47 +293,54 @@ export default function BrincadeiraForm({ initialData, mode, id }: BrincadeiraFo
                 </div>
               </div>
             ))}
-            <button
-              onClick={handleAddStep}
-              className="h-13 px-4 rounded-[12px] bg-white border-2 border-dashed border-[#E5E5EA] text-[14px] font-bold text-[#8E8E93] flex items-center justify-center w-full gap-2 hover:border-primary/40 hover:text-primary transition-all active:scale-[0.98]"
-            >
-              <RiAddLine size={18} /> Adicionar Próximo Passo
-            </button>
+            {mode !== "VIEW" && (
+              <button
+                type="button"
+                onClick={handleAddStep}
+                className="h-13 px-4 rounded-[12px] bg-white border-2 border-dashed border-[#E5E5EA] text-[14px] font-bold text-[#8E8E93] flex items-center justify-center w-full gap-2 hover:border-primary/40 hover:text-primary transition-all active:scale-[0.98]"
+              >
+                <RiAddLine size={18} /> Adicionar Próximo Passo
+              </button>
+            )}
           </div>
         </div>
 
       </div>
 
       {/* Footer de Ação */}
-      <div className="fixed bottom-[64px] left-0 right-0 px-4 sm:px-5 py-4 border-t border-border bg-white z-30 flex gap-3 pb-safe no-print">
-        {mode === "EDIT" && (
+      {mode !== "VIEW" && (
+        <div className="fixed bottom-[64px] left-0 right-0 px-4 sm:px-5 py-4 border-t border-border bg-white z-30 flex gap-3 pb-safe no-print">
+          {mode === "EDIT" && (
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={isSubmitting}
+              className="flex-1 btn-danger"
+            >
+              <RiDeleteBinLine size={20} />
+              <span>Excluir</span>
+            </button>
+          )}
           <button
-            onClick={handleDelete}
-            disabled={isSubmitting}
-            className="flex-1 btn-danger"
+            type="button"
+            onClick={handleSubmit}
+            disabled={isSubmitting || !title || steps.every(s => s.trim() === "")}
+            className={cn(
+              "btn-primary disabled:opacity-50 disabled:shadow-none",
+              mode === "EDIT" ? "flex-[2]" : "w-full"
+            )}
           >
-            <RiDeleteBinLine size={20} />
-            <span>Excluir</span>
+            {isSubmitting ? (
+              <>
+                <RiLoader4Line className="animate-spin" size={20} />
+                <span>{mode === "CREATE" ? "Publicando..." : "Salvando..."}</span>
+              </>
+            ) : (
+              <span>{mode === "CREATE" ? "Publicar Brincadeira" : "Salvar Alterações"}</span>
+            )}
           </button>
-        )}
-        <button
-          onClick={handleSubmit}
-          disabled={isSubmitting || !title || steps.every(s => s.trim() === "")}
-          className={cn(
-            "btn-primary disabled:opacity-50 disabled:shadow-none",
-            mode === "EDIT" ? "flex-[2]" : "w-full"
-          )}
-        >
-          {isSubmitting ? (
-            <>
-              <RiLoader4Line className="animate-spin" size={20} />
-              <span>{mode === "CREATE" ? "Publicando..." : "Salvando..."}</span>
-            </>
-          ) : (
-            <span>{mode === "CREATE" ? "Publicar Brincadeira" : "Salvar Alterações"}</span>
-          )}
-        </button>
-      </div>
+        </div>
+      )}
     </div>
   )
 }
