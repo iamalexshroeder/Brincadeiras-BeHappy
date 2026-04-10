@@ -213,7 +213,7 @@ export default function Ranking() {
               return (
                 <Card
                   key={tier.level}
-                  onClick={() => setSelectedTitleInfo({ ...tier, isUnlocked, type: 'RANK' })}
+                  onClick={() => setSelectedTitleInfo({ ...tier, isUnlocked: !isLocked, type: 'RANK' })}
                   className={cn(
                     "p-3 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] transition-all bg-card relative overflow-hidden cursor-pointer active:scale-[0.98]",
                     isCompleted && "opacity-40",
