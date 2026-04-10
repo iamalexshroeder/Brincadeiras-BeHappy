@@ -118,9 +118,11 @@ interface Collection {
   games: SystemGame[]
 }
 
-function GameModal({ game, isOpen, onClose }: { game: SystemGame; isOpen: boolean; onClose: () => void }) {
+function GameModal({ game, isOpen, onClose }: { game: SystemGame | null; isOpen: boolean; onClose: () => void }) {
   const cardRef = useRef<HTMLDivElement>(null)
   const [downloading, setDownloading] = useState(false)
+
+  if (!game) return null;
 
   const handleDownload = async () => {
     if (!cardRef.current || downloading) return
@@ -349,11 +351,13 @@ function CollectionModal({ collection, isOpen, onClose }: { collection: Collecti
         </div>
 
         {/* Game Detail Modal overlay */}
-        <GameModal 
-          game={selectedGame as SystemGame} 
-          isOpen={!!selectedGame} 
-          onClose={() => setSelectedGame(null)} 
-        />
+        {selectedGame && (
+          <GameModal 
+            game={selectedGame} 
+            isOpen={!!selectedGame} 
+            onClose={() => setSelectedGame(null)} 
+          />
+        )}
       </SheetContent>
     </Sheet>
   )

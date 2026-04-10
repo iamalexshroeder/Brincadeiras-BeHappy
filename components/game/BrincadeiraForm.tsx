@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { RiCloseLine, RiAddLine, RiLoader4Line } from "@remixicon/react"
 import { cn } from "@/lib/utils"
 import { createBrincadeira, updateBrincadeira, deleteBrincadeira } from "@/lib/actions"
@@ -24,7 +24,14 @@ interface BrincadeiraFormProps {
 
 export default function BrincadeiraForm({ initialData, mode, id, isOwner = false }: BrincadeiraFormProps) {
   const router = useRouter()
+  const pathname = usePathname()
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // O BottomNav só aparece fora de /criar e /login
+  const hasBottomNav = pathname !== "/criar" && pathname !== "/login"
+  const footerBottomClass = hasBottomNav 
+    ? "bottom-[calc(64px+env(safe-area-inset-bottom))]" 
+    : "bottom-0"
 
   // Form State
   const [title, setTitle] = useState(initialData?.title || "")
@@ -311,7 +318,10 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
 
       {/* Footer de Ação */}
       {(mode !== "VIEW" || (mode === "VIEW" && isOwner)) && (
-        <div className="fixed bottom-[64px] left-0 right-0 px-4 sm:px-5 py-4 border-t border-border bg-white z-30 flex gap-3 pb-safe no-print">
+        <div className={cn(
+          "fixed left-0 right-0 px-4 sm:px-5 py-4 border-t border-border bg-white z-40 flex gap-3 pb-safe no-print shadow-[0_-8px_20px_rgba(0,0,0,0.05)]",
+          footerBottomClass
+        )}>
           {mode === "VIEW" && isOwner && (
             <>
               <button
