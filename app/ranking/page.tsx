@@ -226,42 +226,43 @@ export default function Ranking() {
                 <div 
                   key={tier.level}
                   className={cn(
-                    "flex flex-col p-5 rounded-[20px] transition-all border-2",
-                    isEquipped ? "bg-primary/5 border-primary shadow-[0_8px_20px_rgba(255,149,0,0.1)]" : 
-                    isCompleted ? "bg-white border-border" : "bg-[#F9F9F7] border-[#E5E5EA]"
+                    "flex flex-col p-4 rounded-[20px] transition-all border-2",
+                    isEquipped ? "bg-white border-[#C7C7CC]" : 
+                    isCompleted ? "bg-white border-[#34C759]" : "bg-[#F9F9F7] border-transparent opacity-50"
                   )}
                 >
                   <div className="flex items-center gap-4">
-                    <div 
-                      className={cn(
-                        "flex items-center justify-center h-12 w-12 rounded-full shrink-0 font-black text-[17px] relative",
-                        isLocked && "bg-[#E5E5EA]",
-                      )}
-                      style={{
-                        backgroundColor: (isCompleted) ? tier.color : undefined,
-                        boxShadow: isEquipped 
-                          ? `0 0 0 3px ${tier.color}33, 0 0 18px ${tier.color}55`
-                          : undefined,
-                      }}
-                    >
-                      {isCompleted ? (
-                        <RiCheckLine size={22} className="text-white" />
-                      ) : (
-                        <span className="text-[16px] font-black" style={{ color: `${tier.color}55` }}>{tier.level}</span>
-                      )}
-                    </div>
+                    {/* Círculo esquerdo */}
+                    {isEquipped ? (
+                      <div
+                        className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
+                        style={{ backgroundColor: tier.color || '#FF9500' }}
+                      >
+                        <span className="text-[17px] font-black text-white">{tier.level}</span>
+                      </div>
+                    ) : isCompleted ? (
+                      <div className="w-12 h-12 rounded-full bg-[#34C759] flex items-center justify-center shrink-0">
+                        <RiCheckLine className="text-white" size={24} />
+                      </div>
+                    ) : (
+                      <div className="w-12 h-12 rounded-full bg-[#E5E5EA] flex items-center justify-center shrink-0">
+                        <RiLockLine size={20} className="text-[#C7C7CC]" />
+                      </div>
+                    )}
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <h4 className="text-[15px] font-black text-foreground truncate">{tier.title}</h4>
+                        <h4 className={cn("text-[15px] font-black truncate", isEquipped || isCompleted ? "text-foreground" : "text-[#8E8E93]")}>
+                          {tier.title}
+                        </h4>
                         {isEquipped && (
-                          <span className="bg-primary text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-full tracking-wider">ATIVO</span>
+                          <span className="bg-[#F2F2F7] text-[#8E8E93] text-[9px] font-black uppercase px-2 py-0.5 rounded-full tracking-wider">ATIVO</span>
                         )}
                       </div>
-                      <span className={cn("text-[11px] font-extrabold uppercase tracking-tight mt-0.5",
-                        isEquipped ? "text-primary" : isCompleted ? "text-[#EAB308]" : isTarget ? "text-[#8E8E93]" : "text-[#AEAEB2]"
+                      <span className={cn("text-[11px] font-extrabold uppercase tracking-tight mt-0.5 block",
+                        isEquipped ? "text-muted-foreground" : isCompleted ? "text-foreground" : "text-muted-foreground"
                       )}>
-                        {isEquipped ? "Título em Uso 🎖️" : isCompleted ? "Conquista Desbloqueada ✅" : isTarget ? "Próximo Objetivo 🎯" : `Requer Nível ${tier.level} 🔒`}
+                        {isEquipped ? "Título em Uso" : isCompleted ? "Conquista Desbloqueada" : isTarget ? "Próximo Objetivo" : `Requer Nível ${tier.level}`}
                       </span>
                     </div>
 
@@ -294,8 +295,9 @@ export default function Ranking() {
       {/* Modal de Detalhes da Conquista */}
       <Sheet open={!!selectedTitleInfo} onOpenChange={(open) => !open && setSelectedTitleInfo(null)}>
         <SheetContent 
-          side="bottom" 
-          className="h-[88dvh] w-auto inset-x-4 bottom-4 rounded-t-[24px] rounded-b-none p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
+          side="bottom"
+          showCloseButton={false}
+          className="!max-h-[90dvh] !w-full !inset-x-0 !bottom-0 !rounded-t-[24px] !rounded-b-none p-0 flex flex-col border-0 border-t border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
         >
           <div className="flex flex-col p-8 items-center text-center space-y-6">
             <div 
@@ -336,7 +338,7 @@ export default function Ranking() {
                     })
                   }}
                   disabled={isPending || currentUser?.activeTitle === selectedTitleInfo.title}
-                  className="w-full h-12 bg-primary text-white font-bold rounded-[12px] shadow-md active:scale-95 transition-all"
+                  className="w-full h-12 bg-primary text-white font-bold rounded-[12px] active:scale-95 transition-all"
                 >
                   {isPending ? "Equipando..." : currentUser?.activeTitle === selectedTitleInfo.title ? "Já em uso" : "Equipar este Título"}
                 </Button>
