@@ -34,7 +34,7 @@ function SearchInput() {
       defaultValue={searchParams.get("q") ?? ""}
       onChange={handleSearchChange}
       placeholder="Encontre sua próxima brincadeira..."
-      className="pl-10 h-10 bg-[#F2F2F7] border-none rounded-[8px] text-[15px] placeholder:text-[#C7C7CC] focus-visible:ring-0 font-medium"
+      className="pl-10 h-10 bg-white border border-[#E5E5EA] rounded-[8px] text-[15px] placeholder:text-[#C7C7CC] focus-visible:ring-1 focus-visible:ring-primary/20 font-medium transition-all"
     />
   )
 }
@@ -143,7 +143,7 @@ export function Header({
                 <Input
                   type="search"
                   placeholder="Encontre sua próxima brincadeira..."
-                  className="pl-10 h-10 bg-[#F2F2F7] border-none rounded-[8px] text-[15px] placeholder:text-[#C7C7CC] focus-visible:ring-0 font-medium"
+                  className="pl-10 h-10 bg-white border border-[#E5E5EA] rounded-[8px] text-[15px] placeholder:text-[#C7C7CC] focus-visible:ring-1 focus-visible:ring-primary/20 font-medium transition-all"
                 />
               }>
                 <SearchInput />
