@@ -1,0 +1,55 @@
+// Definição das missões semanais do BeHappy
+export const WEEKLY_MISSIONS = [
+  {
+    id: "curtir_5",
+    title: "Explorador Curioso",
+    description: "Curta 5 brincadeiras esta semana",
+    goal: 5,
+    xp: 100,
+    emoji: "❤️",
+    gradient: ["#FF6B6B", "#FF3B30"],
+    type: "LIKE" as const,
+  },
+  {
+    id: "usar_3",
+    title: "Recreador Ativo",
+    description: "Aplique 3 brincadeiras com a turma",
+    goal: 3,
+    xp: 150,
+    emoji: "⚡",
+    gradient: ["#FFB347", "#FF9500"],
+    type: "USED" as const,
+  },
+  {
+    id: "comentar_2",
+    title: "Voz da Galera",
+    description: "Comente em 2 brincadeiras",
+    goal: 2,
+    xp: 120,
+    emoji: "💬",
+    gradient: ["#56E89A", "#34C759"],
+    type: "COMMENT" as const,
+  },
+  {
+    id: "salvar_3",
+    title: "Colecionador",
+    description: "Salve 3 brincadeiras no seu perfil",
+    goal: 3,
+    xp: 80,
+    emoji: "🔖",
+    gradient: ["#4DA6FF", "#007AFF"],
+    type: "SAVED" as const,
+  },
+  {
+    id: "criar_1",
+    title: "Criativo da Semana",
+    description: "Publique 1 nova brincadeira",
+    goal: 1,
+    xp: 200,
+    emoji: "✨",
+    gradient: ["#C77DFF", "#AF52DE"],
+    type: "PUBLISH" as const,
+  },
+]
+
+export type MissionDef = typeof WEEKLY_MISSIONS[number]

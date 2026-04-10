@@ -1290,3 +1290,9 @@ export async function updateActiveTitle(title: string | null) {
   revalidatePath("/ranking")
 }
 
+
+// ---------------------------------------------------------------------------
+// Weekly Missions
+// ---------------------------------------------------------------------------
+import { WEEKLY_MISSIONS } from "@/lib/missions"
+

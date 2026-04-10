@@ -2,10 +2,12 @@ import { Header } from "@/components/layout/Header"
 import { BrincadeiraCard } from "@/components/game/BrincadeiraCard"
 import { CategoryFilters } from "@/components/game/CategoryFilters"
 import { CuratedKits } from "@/components/game/CuratedKits"
+import { MissionsStrip } from "@/components/game/MissionsStrip"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { RiAddLine, RiFileList3Line } from "@remixicon/react"
 import { getFeed } from "@/lib/actions"
+import { getMissions } from "@/lib/mission-actions"
 import { auth } from "@/auth"
 import { cn } from "@/lib/utils"
 
@@ -23,8 +25,11 @@ export default async function Home({
 }) {
   const { category, kit, view = "global" } = await searchParams
   const isFollowingView = view === "seguindo"
-  const { items: feed } = await getFeed(20, undefined, category, kit, undefined, isFollowingView)
-  const session = await auth()
+  const [{ items: feed }, session, missions] = await Promise.all([
+    getFeed(20, undefined, category, kit, undefined, isFollowingView),
+    auth(),
+    getMissions(),
+  ])
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -54,6 +59,11 @@ export default async function Home({
               </Link>
            </div>
         </div>
+
+        {/* Missões da Semana */}
+        {!isFollowingView && missions.length > 0 && (
+          <MissionsStrip missions={missions as any} />
+        )}
 
         {/* Curated Kits Section (Only on Global) */}
         {!isFollowingView && (
