@@ -120,33 +120,11 @@ export default function BrincadeiraForm({ initialData, mode, id }: BrincadeiraFo
   }
 
   return (
-    <div className="min-h-screen bg-[#F2F2F7] flex flex-col md:pt-10 transition-colors duration-500">
-      {/* Container Principal - Estética de Card Premium */}
-      <div className="flex-1 bg-white md:rounded-[32px] shadow-xl flex flex-col md:max-w-3xl md:mx-auto md:w-full md:mb-10 w-full mt-14 md:mt-0 relative mb-0 overflow-hidden">
-        
-        {/* Header Fixo - Padronizado com o App */}
-        <div className="sticky top-0 left-0 right-0 z-20 flex items-center justify-between px-6 py-5 border-b border-[#E5E5EA] bg-white lg:bg-white/80 lg:backdrop-blur-md">
-          <div>
-            <h2 className="text-[20px] font-extrabold text-[#1A1A1A] leading-tight tracking-tight">
-              {mode === "CREATE" ? "Nova Brincadeira" : "Editar Brincadeira"}
-            </h2>
-            <p className="text-[14px] text-[#8E8E93] font-medium mt-0.5">
-              {mode === "CREATE" ? "Compartilhe sua diversão com o mundo" : "Ajuste os detalhes da sua criação"}
-            </p>
-          </div>
-          <button
-            onClick={() => router.back()}
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-[#F2F2F7] text-[#8E8E93] active:scale-90 transition-all shrink-0 hover:bg-[#E5E5EA]"
-          >
-            <RiCloseLine size={24} />
-          </button>
-        </div>
-
-        {/* Formulário - Corpo com Scroll Suave */}
-        <div className="flex-1 overflow-y-auto px-6 py-8 space-y-10 pb-32 bg-white">
-          
-          {/* Título e Descrição */}
-          <div className="space-y-6">
+    <div className="flex flex-col w-full max-w-3xl mx-auto bg-white md:rounded-[32px] md:shadow-xl overflow-x-hidden md:mb-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      {/* Formulário - Corpo */}
+      <div className="px-4 sm:px-6 py-8 space-y-10 pb-32">
+        {/* Título e Descrição */}
+        <div className="space-y-6">
             <div className="group">
               <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-widest mb-2.5 block px-1">Título da Brincadeira</label>
               <input 
@@ -313,7 +291,7 @@ export default function BrincadeiraForm({ initialData, mode, id }: BrincadeiraFo
         </div>
 
         {/* Footer Fixo de Ação */}
-        <div className="sticky bottom-0 left-0 right-0 px-6 py-5 border-t border-[#E5E5EA] bg-white lg:bg-white/80 lg:backdrop-blur-md z-20 flex flex-col sm:flex-row gap-3">
+        <div className="sticky bottom-0 left-0 right-0 px-4 sm:px-6 py-4 border-t border-[#E5E5EA] bg-white z-20 flex flex-row gap-3">
           {mode === "EDIT" && (
             <button
               onClick={handleDelete}
@@ -341,8 +319,6 @@ export default function BrincadeiraForm({ initialData, mode, id }: BrincadeiraFo
               <span>{mode === "CREATE" ? "Publicar Brincadeira" : "Salvar Alterações"}</span>
             )}
           </button>
-        </div>
-
       </div>
     </div>
   )

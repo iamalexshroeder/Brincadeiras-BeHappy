@@ -300,10 +300,13 @@ export async function getFeed(limit = 20, cursor?: string, category?: string, ki
     },
   })
 
+  const hasMore = brincadeiras.length > limit
+  const finalBrincadeiras = hasMore ? brincadeiras.slice(0, -1) : brincadeiras
+
   revalidatePath("/explorar")
   return {
-    items: brincadeiras.map((b) => formatBrincadeira(b, userId, topThreeIds)).filter(Boolean),
-    nextCursor: hasMore ? brincadeiras[brincadeiras.length - 1].id : null,
+    items: finalBrincadeiras.map((b) => formatBrincadeira(b, userId, topThreeIds)).filter(Boolean),
+    nextCursor: hasMore ? finalBrincadeiras[finalBrincadeiras.length - 1].id : null,
   }
 }
 

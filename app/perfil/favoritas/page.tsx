@@ -73,10 +73,6 @@ export default function FavoritasPage() {
                 initialUsed={game.userHasUsed}
                 currentUserId={session?.user?.id}
                 publishedAt={game.publishedAt}
-                rawType={game.rawType}
-                rawAgeGroups={game.rawAgeGroups}
-                rawDuration={game.rawDuration}
-                rawParticipants={game.rawParticipants}
               />
             ))}
           </div>

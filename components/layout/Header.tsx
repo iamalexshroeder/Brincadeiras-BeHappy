@@ -100,8 +100,8 @@ export function Header({
     <>
       {/* Sticky top bar — title + notification bell */}
       <div className="sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-5 pt-10 pb-3 border-b border-[#E5E5EA] no-print">
-        <div className="flex items-center justify-between">
-          <h1 className="text-[22px] font-bold tracking-[-0.02em] text-[#1A1A1A]">
+        <div className="flex items-center justify-between gap-2">
+          <h1 className="text-[22px] font-bold tracking-[-0.02em] text-[#1A1A1A] truncate min-w-0">
             {title || `Olá, ${user.name.split(" ")[0]}`}
           </h1>
           <button

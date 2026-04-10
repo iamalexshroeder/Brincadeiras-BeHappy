@@ -253,48 +253,54 @@ export function BrincadeiraCard({
           </SheetTrigger>
           <SheetContent 
             side="bottom" 
-            className="h-[92dvh] w-auto inset-x-4 bottom-4 rounded-[24px] p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
+            className="h-[92dvh] w-full inset-x-0 bottom-0 rounded-t-[24px] p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl"
           >
-            <div className="flex items-center justify-between h-16 bg-white border-b border-border px-6 shrink-0 z-[100] shadow-sm">
-              <div className="flex items-center gap-3">
-                <SheetClose asChild>
-                  <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-muted text-muted-foreground active:scale-95 transition-all">
-                    <RiArrowLeftSLine size={24} />
-                  </Button>
-                </SheetClose>
-                <span className="text-[17px] font-extrabold text-foreground truncate max-w-[180px]">
-                  {title}
-                </span>
-              </div>
-
-              {isOwner && (
-                <div className="flex items-center gap-2">
-                  <Link href={`/editar/${id}`}>
-                    <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground active:bg-muted rounded-full transition-colors">
-                      <RiEditLine size={22} />
-                    </Button>
-                  </Link>
-                  <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground active:text-red-500 active:bg-red-50 rounded-full transition-colors" onClick={handleDeleteBrincadeira}>
-                    <RiDeleteBinLine size={22} />
-                  </Button>
+            {/* Cabeçalho do Modal - idêntico ao Header global */}
+            <div className="sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-4 pt-5 pb-3 border-b border-[#E5E5EA] shrink-0">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <SheetClose asChild>
+                    <button className="shrink-0 h-10 w-10 flex items-center justify-center rounded-full text-[#8E8E93] active:bg-[#F2F2F7] transition-all">
+                      <RiArrowLeftSLine size={24} />
+                    </button>
+                  </SheetClose>
+                  <h1 className="text-[20px] font-bold tracking-[-0.02em] text-[#1A1A1A] truncate">
+                    {title}
+                  </h1>
                 </div>
-              )}
+
+                {isOwner && (
+                  <div className="flex items-center gap-1 shrink-0">
+                    <Link href={`/editar/${id}`}>
+                      <button className="h-10 w-10 flex items-center justify-center rounded-full text-[#8E8E93] active:bg-[#F2F2F7] transition-colors">
+                        <RiEditLine size={22} />
+                      </button>
+                    </Link>
+                    <button 
+                      className="h-10 w-10 flex items-center justify-center rounded-full text-[#8E8E93] active:text-red-500 active:bg-red-50 transition-colors"
+                      onClick={handleDeleteBrincadeira}
+                    >
+                      <RiDeleteBinLine size={22} />
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-6 py-6 space-y-7 pb-32">
+            {/* Conteúdo interno com scroll */}
+            <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-6 space-y-7 pb-32">
               <div className="space-y-6">
-                <Link href={`/recreador/${creator.id}`} className="flex items-center gap-4 border-b border-border/50 pb-6 active:opacity-70 transition-opacity">
-                  <UserAvatar src={creator.avatar} name={creator.name} rankBadge={creator.rankBadge} className="h-10 w-10" />
-                  <div className="flex flex-col">
-                    <span className="text-[17px] font-extrabold text-foreground leading-tight">{creator.name}</span>
-                    <div className="flex items-center gap-1.5 mt-0.5">
+                <Link href={`/recreador/${creator.id}`} className="flex items-center gap-3 border-b border-border/50 pb-6 active:opacity-70 transition-opacity">
+                  <UserAvatar src={creator.avatar} name={creator.name} rankBadge={creator.rankBadge} className="h-10 w-10 shrink-0" />
+                  <div className="flex flex-col min-w-0">
+                    <span className="text-[16px] font-extrabold text-foreground leading-tight truncate">{creator.name}</span>
+                    <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
                       <span className="text-[11px] font-bold uppercase tracking-tight text-muted-foreground">{creator.title || getTitleForLevel(creator.level)}</span>
-                      <span className="text-[12px] font-extrabold text-primary uppercase tracking-wider">\u2022 N\u00edvel {creator.level}</span>
+                      <span className="text-[12px] font-extrabold text-primary uppercase tracking-wider">• Nível {creator.level}</span>
                     </div>
                   </div>
                 </Link>
 
-                <h3 className="text-[24px] font-extrabold leading-tight text-foreground tracking-[-0.03em]">{title}</h3>
                 <p className="text-[16px] leading-relaxed text-foreground font-medium opacity-80">{description}</p>
 
                 {materials.length > 0 && (
@@ -302,7 +308,7 @@ export function BrincadeiraCard({
                     <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest">Materiais</label>
                     <div className="flex flex-wrap gap-2">
                       {materials.map((mat, i) => (
-                        <span key={i} className="px-3 py-1.5 bg-[#F2F2F7] rounded-full text-[13px] font-medium text-foreground">\u2022 {mat}</span>
+                        <span key={i} className="px-3 py-1.5 bg-[#F2F2F7] rounded-full text-[13px] font-medium text-foreground">• {mat}</span>
                       ))}
                     </div>
                   </div>
@@ -313,7 +319,7 @@ export function BrincadeiraCard({
                     <label className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest">Passo a Passo</label>
                     <div className="space-y-4 border-l-2 border-primary/10 pl-4 ml-1">
                       {steps.map((step, i) => (
-                        <div key={i} className="flex gap-4">
+                        <div key={i} className="flex gap-3">
                           <div className="shrink-0 h-6 w-6 rounded-full bg-primary/10 text-primary font-extrabold text-[12px] flex items-center justify-center mt-1">{i + 1}</div>
                           <p className="text-[15px] text-foreground leading-relaxed font-medium opacity-90">{step}</p>
                         </div>
@@ -322,7 +328,7 @@ export function BrincadeiraCard({
                   </div>
                 )}
 
-                <div className="flex flex-wrap gap-2 pt-4">
+                <div className="flex flex-wrap gap-2 pt-2">
                   <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--blue-bg)] rounded-[8px] text-[13px] font-bold text-[var(--blue)] border border-[var(--blue)]/10">
                     <RiUserVoiceLine size={16} />
                     {formatAgeGroup(metadata.ageRange)}
@@ -338,28 +344,26 @@ export function BrincadeiraCard({
                 </div>
 
                 <div className="pt-8 border-t border-border">
-                  <h4 className="text-[18px] font-extrabold text-foreground mb-6 tracking-[-0.02em]">Coment\u00e1rios ({comments.length})</h4>
+                  <h4 className="text-[18px] font-extrabold text-foreground mb-6 tracking-[-0.02em]">Comentários ({comments.length})</h4>
                   {comments.length === 0 ? (
                     <div className="text-center py-10 bg-[#F2F2F7] rounded-[20px] border border-dashed border-border/60">
                       <RiChat3Line size={32} className="text-muted-foreground mx-auto mb-2 opacity-20" />
-                      <p className="text-[14px] text-muted-foreground">Nenhum coment\u00e1rio ainda. Seja o primeiro!</p>
+                      <p className="text-[14px] text-muted-foreground">Nenhum comentário ainda. Seja o primeiro a comentar!</p>
                     </div>
                   ) : (
                     <div className="space-y-6">
                       {comments.map((comment: any) => (
-                        <div key={comment.id} className="flex gap-4 group">
-                          <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
+                        <div key={comment.id} className="flex gap-3 group">
+                          <Avatar className="h-9 w-9 shrink-0 border-2 border-white shadow-sm">
                             <AvatarImage src={comment.user.avatar_url || comment.user.image} />
                             <AvatarFallback className="font-bold bg-primary/10 text-primary">{comment.user.name[0]}</AvatarFallback>
                           </Avatar>
-                          <div className="flex-1">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-2">
-                                <span className="text-[14px] font-extrabold text-foreground">{comment.user.name}</span>
-                                <span className="text-[11px] font-bold text-muted-foreground uppercase opacity-60">\u2022 {new Date(comment.created_at).toLocaleDateString("pt-BR")}</span>
-                              </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="text-[14px] font-extrabold text-foreground">{comment.user.name}</span>
+                              <span className="text-[11px] font-bold text-muted-foreground uppercase opacity-60">• {new Date(comment.created_at).toLocaleDateString("pt-BR")}</span>
                             </div>
-                            <p className="text-[14px] text-foreground leading-relaxed font-medium opacity-80">{comment.text}</p>
+                            <p className="text-[14px] text-foreground leading-relaxed font-medium opacity-80 mt-0.5">{comment.text}</p>
                           </div>
                         </div>
                       ))}
@@ -369,13 +373,14 @@ export function BrincadeiraCard({
               </div>
             </div>
 
-            <div className="px-6 py-5 border-t border-border bg-white safe-area-bottom z-[101]">
+            {/* Rodapé com caixa de comentário */}
+            <div className="px-4 py-4 border-t border-border bg-white shrink-0">
               {isAddingComment ? (
-                <div className="space-y-4">
+                <div className="space-y-3">
                   <textarea
                     autoFocus
-                    placeholder="Sua experi\u00eancia com essa brincadeira..."
-                    className="w-full h-28 p-5 rounded-[20px] bg-[#F2F2F7] border-none text-[15px] text-foreground focus:bg-white focus:ring-4 focus:ring-primary/10 transition-all resize-none font-medium outline-none"
+                    placeholder="Sua experiência com essa brincadeira..."
+                    className="w-full h-24 p-4 rounded-[16px] bg-[#F2F2F7] border-none text-[15px] text-foreground focus:bg-white focus:ring-4 focus:ring-primary/10 transition-all resize-none font-medium outline-none"
                     value={commentText}
                     onChange={(e) => setCommentText(e.target.value)}
                   />
@@ -404,7 +409,7 @@ export function BrincadeiraCard({
                 </div>
               ) : (
                 <Button onClick={() => setIsAddingComment(true)} className="w-full h-14 bg-primary text-white font-extrabold rounded-[20px] shadow-lg shadow-primary/20 active:scale-[0.98] transition-all text-[16px]">
-                  Adicionar Coment\u00e1rio
+                  Adicionar Comentário
                 </Button>
               )}
             </div>

@@ -87,10 +87,6 @@ export default async function Home({
                   steps={game.steps}
                   materials={game.materials}
                   publishedAt={game.publishedAt}
-                  rawType={game.rawType}
-                  rawAgeGroups={game.rawAgeGroups}
-                  rawDuration={game.rawDuration}
-                  rawParticipants={game.rawParticipants}
                 />
               ))}
             </div>
