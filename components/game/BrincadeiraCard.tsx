@@ -168,7 +168,7 @@ export function BrincadeiraCard({
 
   return (
     <Card className="overflow-hidden p-0 gap-0 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-card transition-transform active:scale-[0.98]">
-      <CardHeader className="px-4 pt-4 pb-2 flex flex-row items-center justify-between border-none bg-card">
+      <CardHeader className="px-3 pt-3 pb-1.5 flex flex-row items-center justify-between border-none bg-card">
         <Link href={`/recreador/${creator.id}`} className="flex items-center gap-2.5 active:scale-95 transition-all">
           <UserAvatar 
             name={creator.name} 
@@ -177,53 +177,53 @@ export function BrincadeiraCard({
             className={cn("h-10 w-10 overflow-hidden", creator.name === "BeHappyinha" && "bg-[#F9F9F7] p-2 border border-border")}
           />
           <div className="flex flex-col">
-            <span className="text-h3 leading-tight">
+            <span className="text-[14px] font-bold leading-tight text-foreground">
               {creator.name}
             </span>
             {creator.name !== "BeHappyinha" && (
-              <div className="flex items-center gap-2 mt-0.5">
-                <span className="text-caption">
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <span className="text-[10px] font-bold text-muted-foreground">
                   {creator.title || getTitleForLevel(creator.level)}
                 </span>
-                <span className="text-caption opacity-60">
+                <span className="text-[10px] font-bold text-muted-foreground opacity-60">
                   · Nível {creator.level}
                 </span>
               </div>
             )}
             
-            <span className={cn("text-caption opacity-70", creator.name === "BeHappyinha" ? "mt-0.5" : "mt-0.5")}>
+            <span className={cn("text-[10px] font-medium text-muted-foreground opacity-70", creator.name === "BeHappyinha" ? "mt-0" : "mt-0.5")}>
               {publishedAt}
             </span>
           </div>
         </Link>
       </CardHeader>
 
-      <CardContent className="px-4 pb-4 pt-2 cursor-pointer" onClick={() => router.push(`/brincadeira/${id}`)}>
-        <h3 className="text-h3 mb-2">
+      <CardContent className="px-3 pb-3 pt-1.5 cursor-pointer" onClick={() => router.push(`/brincadeira/${id}`)}>
+        <h3 className="text-[15px] font-bold mb-1.5 text-foreground leading-snug">
           {title}
         </h3>
-        <p className="text-body text-muted-foreground line-clamp-2 mb-4 opacity-90">
+        <p className="text-[13px] font-medium text-muted-foreground line-clamp-2 mb-3 leading-relaxed opacity-90">
           {description}
         </p>
 
-        <div className="flex flex-wrap gap-2 mb-4">
-          <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--blue-bg)] rounded-[6px] text-caption text-[var(--blue)] border border-[var(--blue)]/10 lowercase">
-            <RiUserVoiceLine size={14} />
+        <div className="flex flex-wrap gap-1.5 mb-1">
+          <div className="flex items-center gap-1 px-2.5 py-1 bg-[var(--blue-bg)] rounded-[6px] text-[10px] font-bold text-[var(--blue)] border border-[var(--blue)]/10 lowercase">
+            <RiUserVoiceLine size={12} />
             {formatAgeGroup(metadata.ageRange)}
           </div>
-          <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--purple-bg)] rounded-[6px] text-caption text-[var(--purple)] border border-[var(--purple)]/10 lowercase">
-            <RiTimeLine size={14} />
+          <div className="flex items-center gap-1 px-2.5 py-1 bg-[var(--purple-bg)] rounded-[6px] text-[10px] font-bold text-[var(--purple)] border border-[var(--purple)]/10 lowercase">
+            <RiTimeLine size={12} />
             {metadata.duration}
           </div>
-          <div className="flex items-center gap-1.5 px-3 py-1 bg-[var(--yellow-bg)] rounded-[6px] text-caption text-[var(--yellow)] border border-[var(--yellow)]/10 lowercase">
-            <RiGroupLine size={14} />
+          <div className="flex items-center gap-1 px-2.5 py-1 bg-[var(--yellow-bg)] rounded-[6px] text-[10px] font-bold text-[var(--yellow)] border border-[var(--yellow)]/10 lowercase">
+            <RiGroupLine size={12} />
             {metadata.participants}
           </div>
         </div>
       </CardContent>
 
-      <CardFooter className="p-4 flex justify-between items-center bg-card border-t border-border/40">
-        <div className="flex items-center gap-4">
+      <CardFooter className="px-3 py-2.5 flex justify-between items-center bg-card border-t border-border/40">
+        <div className="flex items-center gap-3">
           <button onClick={handleLike} className="flex items-center gap-1.5 text-muted-foreground active:scale-90 transition-all">
             <motion.div
               key={isLiked ? "liked" : "unliked"}
@@ -231,9 +231,9 @@ export function BrincadeiraCard({
               animate={{ scale: isLiked ? [0.8, 1.2, 1] : 1 }}
               transition={{ duration: 0.3 }}
             >
-              {isLiked ? <RiHeartFill size={22} className="text-[#EF4444]" /> : <RiHeartLine size={22} />}
+              {isLiked ? <RiHeartFill size={20} className="text-[#EF4444]" /> : <RiHeartLine size={20} />}
             </motion.div>
-            <span className={cn("text-[14px] font-bold", isLiked ? "text-[#EF4444]" : "text-muted-foreground")}>{localLikes}</span>
+            <span className={cn("text-[13px] font-bold", isLiked ? "text-[#EF4444]" : "text-muted-foreground")}>{localLikes}</span>
           </button>
 
           <button onClick={handleUse} className="flex items-center gap-1.5 text-muted-foreground active:scale-90 transition-all">
@@ -243,9 +243,9 @@ export function BrincadeiraCard({
               animate={{ scale: isUsed ? [0.8, 1.2, 1] : 1 }}
               transition={{ duration: 0.3 }}
             >
-              {isUsed ? <RiCheckboxCircleFill size={22} className="text-[#16A34A]" /> : <RiCheckboxCircleLine size={22} />}
+              {isUsed ? <RiCheckboxCircleFill size={20} className="text-[#16A34A]" /> : <RiCheckboxCircleLine size={20} />}
             </motion.div>
-            <span className={cn("text-[14px] font-bold", isUsed ? "text-[#16A34A]" : "text-muted-foreground")}>{localUsed}</span>
+            <span className={cn("text-[13px] font-bold", isUsed ? "text-[#16A34A]" : "text-muted-foreground")}>{localUsed}</span>
           </button>
 
           <button onClick={handleSave} className="flex items-center text-muted-foreground active:scale-90 transition-all p-1">
