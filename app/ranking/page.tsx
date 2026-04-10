@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useTransition } from "react"
 import { Header } from "@/components/layout/Header"
 import Link from "next/link"
 
@@ -8,9 +8,10 @@ import { UserAvatar } from "@/components/ui/UserAvatar"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { RiTrophyLine, RiLoader4Line, RiCheckLine } from "@remixicon/react"
+import { RiTrophyLine, RiLoader4Line, RiCheckLine, RiStarFill, RiLockLine } from "@remixicon/react"
 import { getTitleForLevel, GAMIFICATION_TIERS } from "@/utils/gamification"
-import { getRanking, getProfile } from "@/lib/actions"
+import { getRanking, getProfile, updateActiveTitle } from "@/lib/actions"
+import { Sheet, SheetContent } from "@/components/ui/sheet"
 
 type RankingUser = {
   rank: number
@@ -33,7 +34,9 @@ export default function Ranking() {
   const [rankingData, setRankingData] = useState<RankingUser[]>([])
   const [loading, setLoading] = useState(true)
   const [showAllMissions, setShowAllMissions] = useState(false)
-  const [currentUser, setCurrentUser] = useState<{ id: string, xp: number } | null>(null)
+  const [currentUser, setCurrentUser] = useState<{ id: string, xp: number, activeTitle?: string | null } | null>(null)
+  const [selectedTitleInfo, setSelectedTitleInfo] = useState<any>(null)
+  const [isPending, startTransition] = useTransition() // Adicionado para a ação de equipar
 
   useEffect(() => {
     // Busca o ranking global
@@ -44,7 +47,7 @@ export default function Ranking() {
     
     // Busca o perfil do usuário atual para a trilha de títulos
     getProfile().then(profile => {
-      if (profile) setCurrentUser({ id: profile.id, xp: profile.xp })
+      if (profile) setCurrentUser({ id: profile.id, xp: profile.xp, activeTitle: profile.active_title })
     })
   }, [])
 
@@ -210,8 +213,9 @@ export default function Ranking() {
               return (
                 <Card
                   key={tier.level}
+                  onClick={() => setSelectedTitleInfo({ ...tier, isUnlocked, type: 'RANK' })}
                   className={cn(
-                    "p-3 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] transition-all bg-card relative overflow-hidden",
+                    "p-3 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] transition-all bg-card relative overflow-hidden cursor-pointer active:scale-[0.98]",
                     isCompleted && "opacity-40",
                     isCurrent && "ring-1 ring-primary/20 shadow-sm"
                   )}
@@ -282,6 +286,74 @@ export default function Ranking() {
           )}
         </section>
       </main>
+
+      {/* Modal de Detalhes da Conquista */}
+      <Sheet open={!!selectedTitleInfo} onOpenChange={(open) => !open && setSelectedTitleInfo(null)}>
+        <SheetContent 
+          side="bottom" 
+          className="h-auto w-auto inset-x-4 bottom-4 rounded-t-[24px] rounded-b-none p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl"
+        >
+          <div className="flex flex-col p-8 items-center text-center space-y-6">
+            <div 
+              className="w-20 h-20 rounded-full flex items-center justify-center shadow-lg border-4 border-white"
+              style={{ backgroundColor: selectedTitleInfo?.color || '#FF9500' }}
+            >
+              <RiStarFill className="text-white" size={40} />
+            </div>
+
+            <div className="space-y-2">
+              <h2 className="text-[24px] font-black text-foreground tracking-tight">
+                {selectedTitleInfo?.title}
+              </h2>
+              <div className="flex items-center justify-center gap-2">
+                <span className="px-3 py-1 bg-muted rounded-full text-[12px] font-bold uppercase tracking-wider text-muted-foreground">
+                  Nível {selectedTitleInfo?.level}
+                </span>
+                {!selectedTitleInfo?.isUnlocked && (
+                  <span className="px-3 py-1 bg-red-50 text-red-500 rounded-full text-[12px] font-bold uppercase tracking-wider flex items-center gap-1">
+                    <RiLockLine size={12} /> Bloqueado
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <p className="text-[16px] font-medium text-muted-foreground leading-relaxed max-w-xs">
+              {selectedTitleInfo?.description}
+            </p>
+
+            <div className="w-full pt-4 space-y-3">
+              {selectedTitleInfo?.isUnlocked ? (
+                <Button 
+                  onClick={() => {
+                    startTransition(async () => {
+                      await updateActiveTitle(selectedTitleInfo.title)
+                      setCurrentUser(prev => prev ? { ...prev, activeTitle: selectedTitleInfo.title } : null)
+                      setSelectedTitleInfo(null)
+                    })
+                  }}
+                  disabled={isPending || currentUser?.activeTitle === selectedTitleInfo.title}
+                  className="w-full h-12 bg-primary text-white font-bold rounded-[12px] shadow-md active:scale-95 transition-all"
+                >
+                  {isPending ? "Equipando..." : currentUser?.activeTitle === selectedTitleInfo.title ? "Já em uso" : "Equipar este Título"}
+                </Button>
+              ) : (
+                <Button 
+                  disabled 
+                  className="w-full h-12 bg-muted text-muted-foreground font-bold rounded-[12px] opacity-50"
+                >
+                  Alcance o Nível {selectedTitleInfo?.level} para liberar
+                </Button>
+              )}
+              <button 
+                onClick={() => setSelectedTitleInfo(null)}
+                className="w-full py-2 text-[14px] font-bold text-muted-foreground active:opacity-50"
+              >
+                Voltar
+              </button>
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   )
 }
