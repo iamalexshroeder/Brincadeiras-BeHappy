@@ -77,7 +77,7 @@ export default function Perfil() {
       title: "Suporte & Info",
       items: [
         { icon: RiQuestionLine, label: "Central de Ajuda", href: "/perfil/ajuda" },
-        { icon: RiInformationLine, label: "Sobre o App", href: "#" },
+        { icon: RiInformationLine, label: "Novidades do App", href: "/perfil/atualizacoes" },
       ]
     },
     {

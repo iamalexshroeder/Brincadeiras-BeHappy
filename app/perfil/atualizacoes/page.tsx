@@ -1,0 +1,96 @@
+"use client"
+
+import { Header } from "@/components/layout/Header"
+import { RiMagicLine, RiRocketLine, RiStarLine } from "@remixicon/react"
+import { cn } from "@/lib/utils"
+
+const UPDATES = [
+  {
+    date: "10 de Abril",
+    version: "v1.1.0",
+    icon: RiMagicLine,
+    color: "text-blue-500",
+    bgColor: "bg-blue-500/10",
+    features: [
+      "Layout dos novos modais aprimorado para formato edge-to-edge.",
+      "Multi-select adicionado para Categorias e Faixa Etária na criação de brincadeiras.",
+      "Novo visual dos cards de Títulos, com novos indicadores de ativo e desbloqueado.",
+      "Data de publicação das brincadeiras agora com mais destaque no cabeçalho dos cards."
+    ]
+  },
+  {
+    date: "09 de Abril",
+    version: "v1.0.5",
+    icon: RiStarLine,
+    color: "text-yellow-500",
+    bgColor: "bg-yellow-500/10",
+    features: [
+      "Reformulação completa do design das telas de Perfil, Ranking e Detalhes.",
+      "Sistema de Gamificação com XP totalmente integrado e rodando.",
+      "Nova Trilha de Títulos disponível para os recreadores subirem de nível."
+    ]
+  },
+  {
+    date: "Lançamento",
+    version: "v1.0.0",
+    icon: RiRocketLine,
+    color: "text-red-500",
+    bgColor: "bg-red-500/10",
+    features: [
+      "Nascimento da plataforma Brincadeiras BeHappy!",
+      "Feed global de brincadeiras.",
+      "Sistema de curtir, comentar e marcar como utilizada."
+    ]
+  }
+]
+
+export default function AtualizacoesPage() {
+  return (
+    <div className="flex flex-col min-h-screen bg-background">
+      <Header title="Novidades" showSearch={false} showBackButton={true} />
+
+      <main className="px-5 py-6 pb-32">
+        <div className="bg-white rounded-[24px] p-6 shadow-sm border border-border/50 text-center space-y-2 mb-8">
+          <p className="text-[12px] font-bold text-muted-foreground uppercase tracking-wider">Histórico de Versões</p>
+          <p className="text-[22px] font-extrabold text-primary leading-tight">
+            Acompanhe a Evolução do App
+          </p>
+        </div>
+
+        <div className="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-border before:to-transparent">
+          {UPDATES.map((update, idx) => (
+            <div key={idx} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+              {/* Icon / Bullet */}
+              <div className={cn(
+                "flex items-center justify-center w-10 h-10 rounded-full border-4 border-background shrink-0 z-10 shadow-sm",
+                update.bgColor, update.color
+              )}>
+                <update.icon size={18} />
+              </div>
+
+              {/* Card Content */}
+              <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-[20px] bg-white border border-border shadow-sm">
+                <div className="flex items-center justify-between mb-3 border-b border-border pb-3">
+                  <span className="text-[12px] font-extrabold text-foreground uppercase tracking-widest">{update.date}</span>
+                  <span className={cn("text-[10px] font-black uppercase px-2 py-0.5 rounded-full", update.bgColor, update.color)}>
+                    {update.version}
+                  </span>
+                </div>
+                
+                <ul className="space-y-2.5">
+                  {update.features.map((entry, fixIdx) => (
+                    <li key={fixIdx} className="text-[14px] font-medium text-muted-foreground leading-snug flex items-start gap-2">
+                       <span className="text-primary font-bold mt-0.5">•</span>
+                       <span className="flex-1 opacity-90">{entry}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+      </main>
+    </div>
+  )
+}
