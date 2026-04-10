@@ -235,9 +235,6 @@ export function BrincadeiraCard({
           <div className="flex flex-col">
             <span className="text-[14px] font-black text-foreground leading-tight">{creator.name}</span>
             <div className="flex items-center gap-1 mt-0.5">
-              <span className="text-[10px] font-black bg-primary/10 text-primary rounded-full px-1.5 py-0.5 uppercase tracking-tight">
-                PRO
-              </span>
               <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">
                 • {creator.title || getTitleForLevel(creator.level)}
               </span>
