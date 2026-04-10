@@ -172,7 +172,7 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame | null; isOpen:
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <SheetContent 
         side="bottom" 
-        className="h-[92dvh] w-auto inset-x-4 bottom-4 rounded-t-[24px] rounded-b-none p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
+        className="h-[88dvh] w-auto inset-x-4 bottom-4 rounded-t-[24px] rounded-b-none p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-white h-16 shrink-0 z-50 shadow-sm">
@@ -258,38 +258,77 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame | null; isOpen:
           </Button>
         </div>
 
-        {/* Hidden card for capture */}
+        {/* Hidden card for capture - Redesigned for mobile-print perfection */}
         <div className="absolute -left-[9999px] -top-[9999px] pointer-events-none" aria-hidden="true">
-          <div ref={cardRef} style={{ width: 800, backgroundColor: "#FFFFFF", padding: "48px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 32 }}>
-              <div style={{ width: 36, height: 36, borderRadius: 8, backgroundColor: "#EAB308", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <span style={{ color: "#fff", fontWeight: 900, fontSize: 18 }}>B</span>
+          <div ref={cardRef} style={{ width: 800, backgroundColor: "#F9F9F7", padding: "60px", fontFamily: "sans-serif" }}>
+            {/* Header / Brand */}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "between", marginBottom: 48, borderBottom: "1px solid #E5E5EA", paddingBottom: 24 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{ width: 44, height: 44, borderRadius: 10, backgroundColor: "#FF9500", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 12px rgba(255,149,0,0.2)" }}>
+                  <span style={{ color: "#fff", fontWeight: 900, fontSize: 24 }}>B</span>
+                </div>
+                <div>
+                  <h6 style={{ margin: 0, fontSize: 18, fontWeight: 900, color: "#1A1A1A", letterSpacing: "-0.02em" }}>BeHappy Hub</h6>
+                  <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: "#8E8E93", textTransform: "uppercase", letterSpacing: "0.05em" }}>Ficha de Brincadeira</p>
+                </div>
               </div>
-              <span style={{ fontSize: 15, fontWeight: 800, color: "#8E8E93", letterSpacing: "0.05em", textTransform: "uppercase" }}>BeHappy · Brincadeiras</span>
+              <div style={{ marginLeft: "auto", textAlign: "right" }}>
+                <span style={{ fontSize: 13, fontWeight: 800, color: "#FF9500", backgroundColor: "#FFF4E5", padding: "6px 14px", borderRadius: 99 }}>Premium Sheet</span>
+              </div>
             </div>
-            <h1 style={{ fontSize: 36, fontWeight: 900, color: "#1A1A1A", marginBottom: 24 }}>{game.title}</h1>
-            <div style={{ display: "flex", gap: 8, marginBottom: 32 }}>
-               {[`⏱ ${game.duration}`, `👥 ${game.participants} pessoas`, `🎯 ${game.age}`].map((b, i) => (
-                 <span key={i} style={{ fontSize: 13, fontWeight: 700, backgroundColor: "#F2F2F7", color: "#8E8E93", borderRadius: 99, padding: "6px 16px" }}>{b}</span>
+
+            {/* Title & Stats */}
+            <h1 style={{ fontSize: 48, fontWeight: 900, color: "#1A1A1A", marginBottom: 24, letterSpacing: "-0.03em", lineHeight: 1.1 }}>{game.title}</h1>
+            
+            <div style={{ display: "flex", gap: 12, marginBottom: 40, flexWrap: "wrap" }}>
+               {[
+                 { label: game.duration, icon: "⏱" },
+                 { label: `${game.participants} pessoas`, icon: "👥" },
+                 { label: game.age, icon: "🎯" }
+               ].map((item, i) => (
+                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 15, fontWeight: 700, backgroundColor: "#FFFFFF", color: "#1A1A1A", borderRadius: 12, padding: "10px 20px", border: "1px solid #E5E5EA", boxShadow: "0 2px 4px rgba(0,0,0,0.02)" }}>
+                   <span style={{ fontSize: 18 }}>{item.icon}</span>
+                   <span>{item.label}</span>
+                 </div>
                ))}
             </div>
-            <p style={{ fontSize: 18, color: "black", lineHeight: 1.6, marginBottom: 32 }}>{game.description}</p>
-            {game.materials.length > 0 && (
-              <div style={{ marginBottom: 32 }}>
-                <p style={{ fontWeight: 800, color: "#8E8E93", textTransform: "uppercase", fontSize: 12, marginBottom: 12 }}>Materiais</p>
-                <div style={{ display: "flex", gap: 10 }}>
-                  {game.materials.map((m, i) => <span key={i} style={{ padding: "8px 16px", background: "#F2F2F7", borderRadius: 8, fontWeight: 700 }}>{m}</span>)}
+
+            {/* Description */}
+            <div style={{ backgroundColor: "#FFFFFF", padding: "32px", borderRadius: 24, marginBottom: 40, border: "1px solid #E5E5EA" }}>
+              <p style={{ margin: 0, fontSize: 20, color: "#48484A", lineHeight: 1.6, fontWeight: 500 }}>{game.description}</p>
+            </div>
+
+            {/* Materials & Steps Layout */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 40 }}>
+              {game.materials.length > 0 && (
+                <div style={{ backgroundColor: "#F2F2F7", padding: "32px", borderRadius: 24 }}>
+                  <p style={{ fontWeight: 800, color: "#8E8E93", textTransform: "uppercase", fontSize: 13, marginBottom: 16, letterSpacing: "0.05em" }}>Materiais Necessários</p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+                    {game.materials.map((m, i) => (
+                      <span key={i} style={{ padding: "10px 20px", background: "#FFFFFF", border: "1px solid #E5E5EA", borderRadius: 12, fontWeight: 800, fontSize: 15, color: "#1A1A1A" }}>{m}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div style={{ padding: "8px" }}>
+                <p style={{ fontWeight: 800, color: "#8E8E93", textTransform: "uppercase", fontSize: 13, marginBottom: 24, letterSpacing: "0.05em" }}>Como Jogar (Passo a Passo)</p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                  {game.steps.map((s, i) => (
+                    <div key={i} style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 12, background: "#FF9500", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 18, shrink: 0, boxShadow: "0 4px 8px rgba(255,149,0,0.15)" }}>
+                        {i+1}
+                      </div>
+                      <p style={{ margin: 0, fontSize: 18, fontWeight: 600, color: "#1A1A1A", lineHeight: 1.5, paddingTop: 4 }}>{s}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
-            )}
-            <div>
-              <p style={{ fontWeight: 800, color: "#8E8E93", textTransform: "uppercase", fontSize: 12, marginBottom: 16 }}>Como Jogar</p>
-              {game.steps.map((s, i) => (
-                <div key={i} style={{ display: "flex", gap: 16, marginBottom: 12 }}>
-                  <div style={{ width: 28, height: 28, borderRadius: 99, background: "#EAB308", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900 }}>{i+1}</div>
-                  <p style={{ fontSize: 16, marginTop: 4 }}>{s}</p>
-                </div>
-              ))}
+            </div>
+
+            {/* Footer Footer */}
+            <div style={{ marginTop: 60, pt: 40, borderTop: "1px solid #E5E5EA", textAlign: "center", display: "flex", justifyContent: "center" }}>
+               <p style={{ fontSize: 14, fontWeight: 700, color: "#C7C7CC" }}>Gerado via BeHappy Hub · brisbrincadeiras-behappy.vercel.app</p>
             </div>
           </div>
         </div>
