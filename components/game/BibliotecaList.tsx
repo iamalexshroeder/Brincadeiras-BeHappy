@@ -172,7 +172,7 @@ function GameModal({ game, isOpen, onClose }: { game: SystemGame | null; isOpen:
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <SheetContent 
         side="bottom" 
-        className="h-[88dvh] w-auto inset-x-4 bottom-4 rounded-t-[24px] rounded-b-none p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
+        className="h-[84dvh] w-auto inset-x-5 bottom-4 rounded-[24px] p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-white h-16 shrink-0 z-50 shadow-sm">
@@ -358,7 +358,7 @@ function CollectionModal({ collection, isOpen, onClose }: { collection: Collecti
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <SheetContent 
         side="bottom" 
-        className="h-[88dvh] w-auto inset-x-4 bottom-4 rounded-t-[24px] rounded-b-none p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
+        className="h-[84dvh] w-auto inset-x-5 bottom-4 rounded-[24px] p-0 flex flex-col border border-border bg-background overflow-hidden outline-none shadow-2xl transition-all duration-300 ease-in-out"
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-white h-16 shrink-0 z-50 shadow-sm">
@@ -381,7 +381,7 @@ function CollectionModal({ collection, isOpen, onClose }: { collection: Collecti
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-7 pb-20">
+        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-7 pb-24">
           <p className="text-[13px] font-medium text-muted-foreground leading-relaxed pl-1">{collection.description}</p>
 
           <div className="space-y-3">

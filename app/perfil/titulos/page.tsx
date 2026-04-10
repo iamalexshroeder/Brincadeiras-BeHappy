@@ -6,7 +6,7 @@ import { getProfile, updateActiveTitle } from "@/lib/actions"
 import { useEffect, useState, useTransition } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { GAMIFICATION_TIERS, EXCLUSIVE_TITLES } from "@/utils/gamification"
+import { GAMIFICATION_TIERS, EXCLUSIVE_TITLES, getTitleForLevel } from "@/utils/gamification"
 import { cn } from "@/lib/utils"
 import { useRouter } from "next/navigation"
 import {
