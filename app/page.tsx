@@ -7,6 +7,7 @@ import Link from "next/link"
 import { RiAddLine, RiFileList3Line } from "@remixicon/react"
 import { getFeed } from "@/lib/actions"
 import { auth } from "@/auth"
+import { cn } from "@/lib/utils"
 
 // Example entries for code reference (not rendered in production)
 // const EXAMPLE_GAMES = [
