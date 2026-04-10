@@ -41,7 +41,7 @@ export default async function EditBrincadeiraPage({ params }: EditPageProps) {
     <div className="flex flex-col min-h-screen bg-background">
       <Header title="Editar Brincadeira" showSearch={false} />
       
-      <main className="flex-1 pb-32">
+      <main className="page-main">
         <BrincadeiraForm 
           id={params.id}
           initialData={brincadeira}

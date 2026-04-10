@@ -28,7 +28,7 @@ export default async function Home({
     <div className="flex flex-col min-h-screen bg-background">
       <Header showSearch={false} />
 
-      <main className="px-5 pb-40 pt-2 space-y-5">
+      <main className="px-4 sm:px-5 pb-40 pt-2 space-y-5">
         {/* Curated Kits Section */}
         <section>
           <div className="flex items-center justify-between mb-2 pl-1">
@@ -95,11 +95,11 @@ export default async function Home({
       </main>
 
       {/* Floating Action Button */}
-      <div className="fixed bottom-[64px] left-0 right-0 px-5 pb-4 bg-gradient-to-t from-[#F9F9F7] via-[#F9F9F7]/90 to-transparent pt-8 no-print">
+      <div className="fixed bottom-[64px] left-0 right-0 px-4 sm:px-5 pb-4 bg-gradient-to-t from-[#F9F9F7] via-[#F9F9F7]/90 to-transparent pt-8 no-print">
         <Link href="/criar" className="w-full">
-          <Button className="w-full h-12 bg-[#FF9500] text-white font-bold text-[14px] rounded-[12px] shadow-md border-none active:scale-[0.98] active:opacity-90">
+          <button className="btn-primary">
             Criar nova brincadeira
-          </Button>
+          </button>
         </Link>
       </div>
     </div>

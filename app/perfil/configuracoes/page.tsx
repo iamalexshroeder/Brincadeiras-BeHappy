@@ -76,7 +76,7 @@ export default function Configuracoes() {
     <div className="flex flex-col min-h-screen bg-background">
       <Header title="Configurações" showSearch={false} showUserCard={false} />
       
-      <main className="px-5 pb-32 pt-8 space-y-10">
+      <main className="page-main pt-8 space-y-10">
         {settingsGroups.map((group) => (
           <section key={group.title} className="space-y-4">
             <h3 className="text-[13px] font-bold text-muted-foreground uppercase tracking-widest pl-1">
@@ -138,7 +138,7 @@ export default function Configuracoes() {
         <section className="pt-4">
           <Button 
             variant="ghost" 
-            className="w-full h-12 text-[#EF4444] font-bold rounded-[6px] bg-red-50/50 active:bg-red-50 transition-all gap-2"
+            className="w-full h-12 text-[#EF4444] font-bold rounded-[12px] bg-red-50/50 active:bg-red-50 transition-all gap-2"
           >
             <RiLogoutBoxRLine size={20} />
             Sair da Conta Google

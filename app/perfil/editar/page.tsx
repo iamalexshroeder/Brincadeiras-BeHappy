@@ -104,17 +104,17 @@ export default function EditarPerfil() {
               Editar Perfil
             </h1>
           </div>
-          <Button 
+          <button 
             onClick={handleSave} 
             disabled={isPending || loading}
-            className="bg-primary text-white font-bold h-9 px-4 rounded-[6px] border-none shadow-sm active:scale-95 transition-all"
+            className="btn-primary h-9 px-4 w-auto rounded-[8px] text-[14px]"
           >
             {isPending ? <RiLoader4Line className="animate-spin" size={18} /> : "Salvar"}
-          </Button>
+          </button>
         </div>
       </div>
 
-      <main className="px-5 pt-8 space-y-8 pb-32">
+      <main className="page-main pt-8 space-y-8">
         {/* Profile Preview & Upload */}
         <div className="flex flex-col items-center justify-center space-y-6">
           <Avatar className="h-28 w-28 border-4 border-white shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
@@ -148,7 +148,7 @@ export default function EditarPerfil() {
         <div className="space-y-6">
           {/* Name Field */}
           <section className="space-y-2">
-            <label className="text-[13px] font-bold text-muted-foreground uppercase tracking-widest pl-1">
+            <label className="section-label pl-1">
               Nome de Exibição
             </label>
             <Card className="p-1 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] bg-card overflow-hidden">
@@ -166,7 +166,7 @@ export default function EditarPerfil() {
 
           {/* Photo Field (Hidden from user or kept as optional) */}
           <section className="space-y-2 opacity-50">
-            <label className="text-[13px] font-bold text-muted-foreground uppercase tracking-widest pl-1">
+            <label className="section-label pl-1">
               Link da Foto (Opcional)
             </label>
             <Card className="p-1 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] bg-card overflow-hidden">
@@ -184,7 +184,7 @@ export default function EditarPerfil() {
 
           {/* Read-only Email Field */}
           <section className="space-y-2 opacity-60">
-            <label className="text-[13px] font-bold text-muted-foreground uppercase tracking-widest pl-1">
+            <label className="section-label pl-1">
               E-mail da Conta
             </label>
             <Card className="p-4 border-none shadow-[0_2px_12px_rgba(0,0,0,0.02)] rounded-[12px] bg-card">

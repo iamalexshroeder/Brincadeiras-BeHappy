@@ -68,7 +68,7 @@ export default function Ranking() {
     <div className="flex flex-col min-h-screen bg-background">
       <Header title="Ranking" showSearch={false} showUserCard={false} />
 
-      <main className="px-5 pb-32 pt-2">
+      <main className="page-main">
 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-32">
@@ -87,7 +87,7 @@ export default function Ranking() {
           <>
             {/* Global Ranking Section */}
             <section className="mb-12">
-              <h2 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest pl-1 mb-6">Top Recreadores</h2>
+              <h2 className="section-label pl-1 mb-6">Top Recreadores</h2>
               
               {/* Flexible Podium */}
               <div className="flex items-end justify-center gap-0 relative max-w-sm mx-auto mb-10 px-2 h-44">
@@ -195,7 +195,7 @@ export default function Ranking() {
         {/* Trilha de Títulos */}
         <section className="space-y-4 pt-8 border-t border-border">
           <div className="pl-1 mb-2">
-            <h2 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest">Trilha de Títulos</h2>
+            <h2 className="section-label">Trilha de Títulos</h2>
             <span className="text-[12px] font-bold text-primary mt-1 block">Nível Máximo: 100</span>
           </div>
 

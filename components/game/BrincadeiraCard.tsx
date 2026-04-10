@@ -247,9 +247,9 @@ export function BrincadeiraCard({
 
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
           <SheetTrigger asChild>
-            <Button variant="ghost" className="text-muted-foreground active:bg-gray-100 text-[14px] h-9 px-4 font-bold rounded-[6px] transition-colors">
+            <button className="btn-chip text-muted-foreground font-bold">
               Ver Detalhes
-            </Button>
+            </button>
           </SheetTrigger>
           <SheetContent 
             side="bottom" 
@@ -380,14 +380,14 @@ export function BrincadeiraCard({
                   <textarea
                     autoFocus
                     placeholder="Sua experiência com essa brincadeira..."
-                    className="w-full h-24 p-4 rounded-[16px] bg-[#F2F2F7] border-none text-[15px] text-foreground focus:bg-white focus:ring-4 focus:ring-primary/10 transition-all resize-none font-medium outline-none"
+                    className="textarea-base min-h-[96px]"
                     value={commentText}
                     onChange={(e) => setCommentText(e.target.value)}
                   />
                   <div className="flex gap-3">
-                    <Button variant="ghost" onClick={() => setIsAddingComment(false)} className="flex-1 h-12 font-bold text-muted-foreground rounded-[16px]">Cancelar</Button>
-                    <Button 
-                      className="flex-[2] h-12 bg-primary text-white font-extrabold rounded-[16px] shadow-lg shadow-primary/20"
+                    <button onClick={() => setIsAddingComment(false)} className="flex-1 btn-ghost">Cancelar</button>
+                    <button
+                      className="flex-[2] btn-primary"
                       onClick={async () => {
                         if (!commentText.trim()) return
                         startTransition(async () => {
@@ -404,13 +404,13 @@ export function BrincadeiraCard({
                       disabled={isPending}
                     >
                       {isPending ? <RiLoader4Line className="animate-spin" size={20} /> : "Publicar"}
-                    </Button>
+                    </button>
                   </div>
                 </div>
               ) : (
-                <Button onClick={() => setIsAddingComment(true)} className="w-full h-14 bg-primary text-white font-extrabold rounded-[20px] shadow-lg shadow-primary/20 active:scale-[0.98] transition-all text-[16px]">
+                <button onClick={() => setIsAddingComment(true)} className="btn-primary">
                   Adicionar Comentário
-                </Button>
+                </button>
               )}
             </div>
           </SheetContent>

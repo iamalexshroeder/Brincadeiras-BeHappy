@@ -120,205 +120,201 @@ export default function BrincadeiraForm({ initialData, mode, id }: BrincadeiraFo
   }
 
   return (
-    <div className="flex flex-col w-full max-w-3xl mx-auto bg-white md:rounded-[32px] md:shadow-xl overflow-x-hidden md:mb-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="flex flex-col w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Formulário - Corpo */}
-      <div className="px-4 sm:px-6 py-8 space-y-10 pb-32">
+      <div className="space-y-8 pb-36">
+
         {/* Título e Descrição */}
-        <div className="space-y-6">
-            <div className="group">
-              <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-widest mb-2.5 block px-1">Título da Brincadeira</label>
-              <input 
-                type="text" 
-                value={title}
-                onChange={e => setTitle(e.target.value)}
-                placeholder="Ex: Dança das Cadeiras Musical"
-                className="w-full bg-[#F2F2F7] border-2 border-transparent rounded-[16px] h-14 px-5 text-[16px] font-bold text-[#1A1A1A] placeholder:text-[#C7C7CC] focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/10 outline-none transition-all"
-              />
-            </div>
-            
-            <div>
-              <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-widest mb-2.5 block px-1">Descrição Curta</label>
-              <textarea 
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-                placeholder="Qual o objetivo principal desta brincadeira?"
-                className="w-full bg-[#F2F2F7] border-2 border-transparent rounded-[16px] p-5 min-h-[120px] text-[16px] font-medium text-[#1A1A1A] placeholder:text-[#C7C7CC] focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/10 outline-none resize-none transition-all"
-              />
-            </div>
-          </div>
-
-          {/* Categorias - Seleção Estilizada */}
+        <div className="space-y-5">
           <div>
-            <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-widest mb-4 block px-1">Categoria Principal</label>
-            <div className="flex flex-wrap gap-2.5">
-              {CATEGORIES.map(cat => (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategories([cat])}
-                  className={cn(
-                    "text-[14px] font-bold rounded-full px-5 py-2.5 transition-all border-2",
-                    selectedCategories.includes(cat) 
-                      ? "bg-primary text-white border-primary shadow-lg shadow-primary/20 scale-105" 
-                      : "bg-[#F2F2F7] text-[#8E8E93] border-transparent hover:bg-[#E5E5EA]"
-                  )}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
+            <label className="section-label mb-2 block">Título da Brincadeira</label>
+            <input
+              type="text"
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              placeholder="Ex: Dança das Cadeiras Musical"
+              className="input-base font-bold"
+            />
           </div>
 
-          {/* Faixa Etária */}
           <div>
-            <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-widest mb-4 block px-1">Faixa Etária</label>
-            <div className="flex flex-wrap gap-2.5">
-              {Object.entries(AGE_LABELS).map(([id, label]) => (
-                <button
-                  key={id}
-                  onClick={() => setAgeGroups([id])}
-                  className={cn(
-                    "text-[14px] font-bold rounded-full px-5 py-2.5 transition-all border-2",
-                    ageGroups.includes(id) 
-                      ? "bg-[#6366F1] text-white border-[#6366F1] shadow-lg shadow-[#6366F1]/20 scale-105" 
-                      : "bg-[#F2F2F7] text-[#8E8E93] border-transparent hover:bg-[#E5E5EA]"
-                  )}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
+            <label className="section-label mb-2 block">Descrição Curta</label>
+            <textarea
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+              placeholder="Qual o objetivo principal desta brincadeira?"
+              className="textarea-base"
+            />
           </div>
-
-          {/* Stats Grid - Tempo e Pessoas */}
-          <div className="grid grid-cols-2 gap-5">
-            <div>
-              <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-widest mb-2.5 block px-1">Tempo (min)</label>
-              <input 
-                type="number"
-                value={duration}
-                onChange={e => setDuration(e.target.value)}
-                placeholder="Ex: 30"
-                className="w-full bg-[#F2F2F7] border-2 border-transparent rounded-[16px] h-14 px-5 text-[15px] font-bold text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/10 transition-all"
-              />
-            </div>
-            <div>
-              <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-widest mb-2.5 block px-1">Mín. Pessoas</label>
-              <input 
-                type="number"
-                value={participants}
-                onChange={e => setParticipants(e.target.value)}
-                placeholder="Ex: 5"
-                className="w-full bg-[#F2F2F7] border-2 border-transparent rounded-[16px] h-14 px-5 text-[15px] font-bold text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/10 transition-all"
-              />
-            </div>
-          </div>
-
-          {/* Materiais - Tags Estilizadas */}
-          <div className="space-y-4">
-            <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-widest block px-1">Materiais Necessários</label>
-            <div className="flex flex-wrap gap-2 min-h-[44px]">
-              {materials.map((m, i) => (
-                <div key={i} className="flex items-center gap-1.5 bg-[#FEF9C3] text-[#A16207] text-[13px] font-bold rounded-xl pl-4 pr-1.5 py-2 animate-in fade-in zoom-in duration-200">
-                  {m}
-                  <button onClick={() => handleRemoveMaterial(i)} className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-[#FDE68A] transition-colors">
-                    <RiCloseLine size={16} />
-                  </button>
-                </div>
-              ))}
-              {materials.length === 0 && (
-                <span className="text-[14px] text-[#C7C7CC] font-medium pt-2 pl-1">Nenhum material adicionado</span>
-              )}
-            </div>
-            <div className="relative">
-              <input 
-                type="text" 
-                value={newMaterial}
-                onChange={e => setNewMaterial(e.target.value)}
-                onKeyDown={handleAddMaterial}
-                placeholder="Digite o material e aperte Enter"
-                className="w-full bg-[#F2F2F7] border-2 border-transparent rounded-[16px] h-14 px-5 text-[15px] font-semibold text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/10 transition-all"
-              />
-              <button 
-                onClick={() => {
-                  if (newMaterial.trim()) {
-                    setMaterials([...materials, newMaterial.trim()])
-                    setNewMaterial("")
-                  }
-                }}
-                className="absolute right-3 top-2.5 w-9 h-9 flex items-center justify-center rounded-full bg-white text-primary shadow-sm hover:bg-[#F2F2F7] transition-all"
-              >
-                <RiAddLine size={20} />
-              </button>
-            </div>
-          </div>
-
-          {/* Passo a Passo - Lista Interativa */}
-          <div className="space-y-6">
-            <label className="text-[12px] font-bold text-[#8E8E93] uppercase tracking-widest block px-1">Como Jogar (Passo a Passo)</label>
-            <div className="space-y-4">
-              {steps.map((step, i) => (
-                <div key={i} className="flex items-start gap-4 group animate-in slide-in-from-left-2 duration-300" style={{ animationDelay: `${i * 50}ms` }}>
-                  <div className="w-8 h-8 rounded-xl bg-primary/10 text-primary text-[14px] font-black flex items-center justify-center shrink-0 mt-2.5">
-                    {i + 1}
-                  </div>
-                  <div className="flex-1 relative">
-                    <textarea
-                      value={step}
-                      onChange={e => handleStepChange(i, e.target.value)}
-                      placeholder={`O que fazer no etapa ${i + 1}?`}
-                      className="w-full bg-[#F2F2F7] border-2 border-transparent rounded-[20px] p-5 pt-4.5 pr-12 min-h-[80px] text-[15px] font-medium text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none resize-none focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/10 transition-all"
-                    />
-                    {steps.length > 1 && (
-                      <button 
-                        onClick={() => handleRemoveStep(i)}
-                        className="absolute right-3 top-3 text-[#C7C7CC] hover:text-[#FF3B30] p-2 hover:bg-red-50 rounded-full transition-all"
-                      >
-                        <RiCloseLine size={20} />
-                      </button>
-                    )}
-                  </div>
-                </div>
-              ))}
-              <button 
-                onClick={handleAddStep}
-                className="h-14 px-6 rounded-[20px] bg-white border-2 border-dashed border-[#E5E5EA] text-[15px] font-bold text-[#8E8E93] flex items-center justify-center w-full gap-2 hover:border-primary/40 hover:text-primary transition-all active:scale-[0.98]"
-              >
-                <RiAddLine size={20} /> Adicionar Próximo Passo
-              </button>
-            </div>
-          </div>
-
         </div>
 
-        {/* Footer Fixo de Ação */}
-        <div className="sticky bottom-0 left-0 right-0 px-4 sm:px-6 py-4 border-t border-[#E5E5EA] bg-white z-20 flex flex-row gap-3">
-          {mode === "EDIT" && (
+        {/* Categorias */}
+        <div>
+          <label className="section-label mb-3 block">Categoria Principal</label>
+          <div className="flex flex-wrap gap-2">
+            {CATEGORIES.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategories([cat])}
+                className={cn(selectedCategories.includes(cat) ? "btn-chip-active" : "btn-chip")}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Faixa Etária */}
+        <div>
+          <label className="section-label mb-3 block">Faixa Etária</label>
+          <div className="flex flex-wrap gap-2">
+            {Object.entries(AGE_LABELS).map(([ageId, label]) => (
+              <button
+                key={ageId}
+                onClick={() => setAgeGroups([ageId])}
+                className={cn(
+                  "h-9 px-4 rounded-full text-[13px] font-bold border-2 transition-all",
+                  ageGroups.includes(ageId)
+                    ? "bg-[#6366F1] text-white border-[#6366F1] shadow-lg shadow-[#6366F1]/20 scale-105"
+                    : "bg-[#F2F2F7] text-[#8E8E93] border-transparent"
+                )}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="section-label mb-2 block">Tempo (min)</label>
+            <input
+              type="number"
+              value={duration}
+              onChange={e => setDuration(e.target.value)}
+              placeholder="Ex: 30"
+              className="input-base"
+            />
+          </div>
+          <div>
+            <label className="section-label mb-2 block">Mín. Pessoas</label>
+            <input
+              type="number"
+              value={participants}
+              onChange={e => setParticipants(e.target.value)}
+              placeholder="Ex: 5"
+              className="input-base"
+            />
+          </div>
+        </div>
+
+        {/* Materiais */}
+        <div className="space-y-3">
+          <label className="section-label block">Materiais Necessários</label>
+          <div className="flex flex-wrap gap-2 min-h-[36px]">
+            {materials.map((m, i) => (
+              <div key={i} className="flex items-center gap-1.5 bg-[#FEF9C3] text-[#A16207] text-[13px] font-bold rounded-full pl-4 pr-1.5 py-1.5 animate-in fade-in zoom-in duration-200">
+                {m}
+                <button onClick={() => handleRemoveMaterial(i)} className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-[#FDE68A] transition-colors">
+                  <RiCloseLine size={14} />
+                </button>
+              </div>
+            ))}
+            {materials.length === 0 && (
+              <span className="text-[14px] text-[#C7C7CC] font-medium pt-1 pl-1">Nenhum material adicionado</span>
+            )}
+          </div>
+          <div className="relative">
+            <input
+              type="text"
+              value={newMaterial}
+              onChange={e => setNewMaterial(e.target.value)}
+              onKeyDown={handleAddMaterial}
+              placeholder="Digite o material e pressione Enter"
+              className="input-base pr-12"
+            />
             <button
-              onClick={handleDelete}
-              disabled={isSubmitting}
-              className="flex-1 h-14 bg-red-50 text-red-500 text-[16px] font-bold rounded-[20px] flex items-center justify-center gap-2 hover:bg-red-100 active:scale-[0.98] transition-all"
+              onClick={() => {
+                if (newMaterial.trim()) {
+                  setMaterials([...materials, newMaterial.trim()])
+                  setNewMaterial("")
+                }
+              }}
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center rounded-full bg-white text-primary shadow-sm hover:bg-[#F2F2F7] transition-all"
             >
-              <RiDeleteBinLine size={20} />
-              <span>Excluir</span>
+              <RiAddLine size={20} />
             </button>
-          )}
+          </div>
+        </div>
+
+        {/* Passo a Passo */}
+        <div className="space-y-4">
+          <label className="section-label block">Como Jogar (Passo a Passo)</label>
+          <div className="space-y-3">
+            {steps.map((step, i) => (
+              <div key={i} className="flex items-start gap-3 animate-in slide-in-from-left-2 duration-300" style={{ animationDelay: `${i * 50}ms` }}>
+                <div className="w-8 h-8 rounded-[10px] bg-primary/10 text-primary text-[13px] font-black flex items-center justify-center shrink-0 mt-3">
+                  {i + 1}
+                </div>
+                <div className="flex-1 relative">
+                  <textarea
+                    value={step}
+                    onChange={e => handleStepChange(i, e.target.value)}
+                    placeholder={`O que fazer na etapa ${i + 1}?`}
+                    className="w-full bg-[#F2F2F7] border-2 border-transparent rounded-[12px] p-4 pr-12 min-h-[80px] text-[15px] font-medium text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none resize-none focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/10 transition-all"
+                  />
+                  {steps.length > 1 && (
+                    <button
+                      onClick={() => handleRemoveStep(i)}
+                      className="absolute right-2 top-2 text-[#C7C7CC] hover:text-[#FF3B30] p-1.5 hover:bg-red-50 rounded-full transition-all"
+                    >
+                      <RiCloseLine size={18} />
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+            <button
+              onClick={handleAddStep}
+              className="h-13 px-4 rounded-[12px] bg-white border-2 border-dashed border-[#E5E5EA] text-[14px] font-bold text-[#8E8E93] flex items-center justify-center w-full gap-2 hover:border-primary/40 hover:text-primary transition-all active:scale-[0.98]"
+            >
+              <RiAddLine size={18} /> Adicionar Próximo Passo
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      {/* Footer de Ação */}
+      <div className="fixed bottom-[64px] left-0 right-0 px-4 sm:px-5 py-4 border-t border-border bg-white/90 backdrop-blur-md z-30 flex gap-3 pb-safe no-print">
+        {mode === "EDIT" && (
           <button
-            onClick={handleSubmit}
-            disabled={isSubmitting || !title || steps.every(s => s.trim() === "")}
-            className={cn(
-              "h-14 bg-primary disabled:bg-[#FFE0B2] text-white text-[16px] font-extrabold rounded-[20px] flex items-center justify-center gap-2 shadow-lg shadow-primary/20 active:scale-[0.98] transition-all",
-              mode === "EDIT" ? "flex-[2]" : "w-full"
-            )}
+            onClick={handleDelete}
+            disabled={isSubmitting}
+            className="flex-1 btn-danger"
           >
-            {isSubmitting ? (
-              <>
-                <RiLoader4Line className="animate-spin" size={20} />
-                <span>{mode === "CREATE" ? "Publicando..." : "Salvando..."}</span>
-              </>
-            ) : (
-              <span>{mode === "CREATE" ? "Publicar Brincadeira" : "Salvar Alterações"}</span>
-            )}
+            <RiDeleteBinLine size={20} />
+            <span>Excluir</span>
           </button>
+        )}
+        <button
+          onClick={handleSubmit}
+          disabled={isSubmitting || !title || steps.every(s => s.trim() === "")}
+          className={cn(
+            "btn-primary disabled:opacity-50 disabled:shadow-none",
+            mode === "EDIT" ? "flex-[2]" : "w-full"
+          )}
+        >
+          {isSubmitting ? (
+            <>
+              <RiLoader4Line className="animate-spin" size={20} />
+              <span>{mode === "CREATE" ? "Publicando..." : "Salvando..."}</span>
+            </>
+          ) : (
+            <span>{mode === "CREATE" ? "Publicar Brincadeira" : "Salvar Alterações"}</span>
+          )}
+        </button>
       </div>
     </div>
   )

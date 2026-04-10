@@ -6,7 +6,7 @@ export default function CreateBrincadeiraPage() {
     <div className="flex flex-col min-h-screen bg-background">
       <Header title="Nova Brincadeira" showSearch={false} />
       
-      <main className="flex-1 pb-32">
+      <main className="page-main">
         <BrincadeiraForm mode="CREATE" />
       </main>
     </div>
