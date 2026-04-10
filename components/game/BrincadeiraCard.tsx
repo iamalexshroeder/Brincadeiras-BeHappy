@@ -158,16 +158,18 @@ export function BrincadeiraCard({
             className="h-10 w-10"
           />
           <div className="flex flex-col">
-            <span className="text-[14px] font-extrabold text-foreground leading-tight">{creator.name}</span>
-            <div className="flex items-center gap-1 mt-0.5">
-              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">
-                • {creator.title || getTitleForLevel(creator.level)}
+            <span className="text-[16px] font-bold text-foreground tracking-[-0.01em] leading-tight">
+              {creator.name}
+            </span>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide">
+                {creator.title || getTitleForLevel(creator.level)}
               </span>
-              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">
-                • Nível {creator.level}
+              <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide">
+                · Nível {creator.level}
               </span>
-              <span className="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-tight">
-                • {publishedAt}
+              <span className="text-[11px] font-bold text-muted-foreground/60 uppercase tracking-wide">
+                · {publishedAt}
               </span>
             </div>
           </div>
