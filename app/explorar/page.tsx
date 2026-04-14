@@ -1,6 +1,7 @@
 import { Header } from "@/components/layout/Header"
 import { ExplorarClient } from "@/components/game/ExplorarClient"
-import { getFeed, getSystemStats, formatSystemBrincadeira } from "@/lib/actions"
+import { getFeed, getSystemStats } from "@/lib/actions"
+import { formatSystemBrincadeira } from "@/lib/formatters"
 import { BrincadeiraCard } from "@/components/game/BrincadeiraCard"
 import { RiSearchLine } from "@remixicon/react"
 import { auth } from "@/auth"
