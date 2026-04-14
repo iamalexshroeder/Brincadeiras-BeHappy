@@ -7,6 +7,8 @@ import { getSavedBrincadeiras } from "@/lib/actions"
 import { useEffect, useState } from "react"
 import { useSession } from "next-auth/react"
 
+export const dynamic = "force-dynamic"
+
 export default function SalvasPage() {
   const { data: session } = useSession()
   const [items, setItems] = useState<any[]>([])

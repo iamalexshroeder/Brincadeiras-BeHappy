@@ -430,40 +430,13 @@ export async function getBrincadeiraById(id: string) {
         const likesCount = await prisma.systemInteraction.count({
           where: { game_id: id, type: "LIKE" }
         })
-
-        return {
-          id: String(g.id),
-          title: String(g.title),
-          description: String(g.description),
-          creator: {
-            id: "system",
-            name: "BeHappyinha",
-            avatar: "/behappyinha.png",
-            level: 10,
-            title: "Curadoria Oficial",
-            activeTitle: "Curadoria Oficial"
-          },
-          metadata: {
-            ageRange: String(g.age),
-            duration: String(g.duration),
-            participants: String(g.participants)
-          },
-          tags: [String(col.label)],
+        const stats = {
           likesCount: Number(likesCount),
-          userHasLiked: Boolean(hasLiked),
-          userHasSaved: Boolean(hasSaved),
-          initialLiked: Boolean(hasLiked),
-          initialSaved: Boolean(hasSaved),
-          comments: [],
-          steps: Array.isArray(g.steps) ? g.steps.map(String) : [],
-          materials: Array.isArray(g.materials) ? g.materials.map(String) : [],
-          commentsCount: 0,
-          publishedAt: "Oficial",
-          rawType: "Sugerida",
-          rawAgeGroups: [String(g.age)],
-          rawDuration: parseInt(g.duration) || 0,
-          rawParticipants: parseInt(g.participants) || 0
-        };
+          hasLiked: Boolean(hasLiked),
+          hasSaved: Boolean(hasSaved)
+        }
+
+        return formatSystemBrincadeira(g, col.label, stats)
       }
     }
   }
@@ -597,6 +570,48 @@ function formatBrincadeira(b: any, currentUserId?: string, topThreeIds: string[]
   }
 }
 
+/**
+ * Shared utility to map a JSON library system game to the Brincadeira interface.
+ * Ensures consistent handling of metadata, creator info, and interaction stats.
+ */
+export function formatSystemBrincadeira(game: any, kitLabel: string, stats?: { likesCount: number; hasLiked: boolean; hasSaved: boolean }): Brincadeira {
+  const s = stats || { likesCount: 0, hasLiked: false, hasSaved: false }
+  
+  return {
+    id: String(game.id),
+    title: String(game.title),
+    description: String(game.description),
+    creator: { 
+      id: "system", 
+      name: "BeHappyinha", 
+      avatar: "/behappyinha.png", 
+      level: 10, 
+      title: "Curadoria Oficial", 
+      activeTitle: "Curadoria Oficial" 
+    },
+    metadata: { 
+      ageRange: String(game.age), 
+      duration: String(game.duration), 
+      participants: String(game.participants) 
+    },
+    tags: [String(kitLabel)],
+    likesCount: Number(s.likesCount),
+    userHasLiked: Boolean(s.hasLiked),
+    userHasSaved: Boolean(s.hasSaved),
+    initialLiked: Boolean(s.hasLiked),
+    initialSaved: Boolean(s.hasSaved),
+    comments: [],
+    steps: Array.isArray(game.steps) ? game.steps.map(String) : [],
+    materials: Array.isArray(game.materials) ? game.materials.map(String) : [],
+    commentsCount: 0,
+    publishedAt: "Oficial",
+    rawType: "CRIATIVA",
+    rawAgeGroups: [String(game.age)],
+    rawDuration: parseInt(game.duration) || 15,
+    rawParticipants: parseInt(game.participants) || 2
+  }
+}
+
 
 
 
@@ -639,64 +654,27 @@ export async function getFavorites() {
     orderBy: { created_at: "desc" }
   })
 
-  // Pre-fetch all like counts for these system games
+  // Pre-fetch all stats (Global Likes + User's own Liked/Saved state) for these system games
   const sysGameIds = systemFavors.map(sf => sf.game_id)
-  const systemLikeCounts = await prisma.systemInteraction.groupBy({
-    by: ['game_id'],
-    where: { game_id: { in: sysGameIds }, type: "LIKE" },
-    _count: { _all: true }
-  })
-  
-  const countsMap = new Map(systemLikeCounts.map(c => [c.game_id, c._count._all]))
+  const systemStats = sysGameIds.length > 0 ? await getSystemStats(sysGameIds) : {}
 
   const dbItems = favors.map(f => formatBrincadeira(f.brincadeira, userId, topThreeIds)).filter(Boolean)
   
-  const systemItems = systemFavors.map(sf => {
-    // Find the game in SYSTEM_COLLECTIONS
-    let game: any = null
+      const systemItems = systemFavors.map(sf => {
+    let game = null;
+    let kitLabel = "Oficial";
     for (const col of SYSTEM_COLLECTIONS) {
-      const g = col.games.find(g => g.id === sf.game_id)
+      const g = col.games.find(g => g.id === sf.game_id);
       if (g) {
-        game = { ...g, kitLabel: col.label }
-        break
+        game = g;
+        kitLabel = col.label;
+        break;
       }
     }
-    if (!game) return null
-
-    return {
-      id: String(game.id),
-      title: String(game.title),
-      description: String(game.description),
-      creator: { 
-        id: "system", 
-        name: "BeHappyinha", 
-        avatar: "/behappyinha.png", 
-        level: 10, 
-        title: "Curadoria Oficial", 
-        activeTitle: "Curadoria Oficial" 
-      },
-      metadata: { 
-        ageRange: String(game.age), 
-        duration: String(game.duration), 
-        participants: String(game.participants) 
-      },
-      tags: [String(game.kitLabel)],
-      likesCount: Number(countsMap.get(sf.game_id) || 0),
-      userHasLiked: sf.type === "LIKE",
-      userHasSaved: sf.type === "SAVED",
-      initialLiked: sf.type === "LIKE",
-      initialSaved: sf.type === "SAVED",
-      comments: [],
-      steps: Array.isArray(game.steps) ? game.steps.map(String) : [],
-      materials: Array.isArray(game.materials) ? game.materials.map(String) : [],
-      commentsCount: 0,
-      publishedAt: "Oficial",
-      rawType: "CRIATIVA",
-      rawAgeGroups: [String(game.age)],
-      rawDuration: parseInt(game.duration) || 15,
-      rawParticipants: parseInt(game.participants) || 2
-    }
-  }).filter(Boolean) as Brincadeira[]
+    if (!game) return null;
+    const stats = systemStats[sf.game_id];
+    return formatSystemBrincadeira(game, kitLabel, stats);
+  }).filter(Boolean) as Brincadeira[];
 
   return [...dbItems, ...systemItems]
 }
@@ -730,8 +708,9 @@ export async function getContributions() {
     orderBy: { created_at: "desc" }
   })
 
+  const topThreeIds = await getTopThreeIds()
   const userId = session.user.id
-  return brincadeiras.map(b => formatBrincadeira(b, userId)).filter(Boolean)
+  return brincadeiras.map(b => formatBrincadeira(b, userId, topThreeIds)).filter(Boolean)
 }
 
 
@@ -820,7 +799,6 @@ export async function toggleSave(brincadeiraId: string) {
     })
   }
 
-  revalidatePath("/")
   revalidatePath("/", "layout")
 }
 
@@ -863,64 +841,27 @@ export async function getSavedBrincadeiras() {
     orderBy: { created_at: "desc" }
   })
 
-  // Pre-fetch all like counts for these system games
+  // Pre-fetch all stats (Global Likes + User's own Liked/Saved state) for these system games
   const sysGameIds = systemSaved.map(sf => sf.game_id)
-  const systemLikeCounts = await prisma.systemInteraction.groupBy({
-    by: ['game_id'],
-    where: { game_id: { in: sysGameIds }, type: "LIKE" },
-    _count: { _all: true }
-  })
-  
-  const countsMap = new Map(systemLikeCounts.map(c => [c.game_id, c._count._all]))
+  const systemStats = sysGameIds.length > 0 ? await getSystemStats(sysGameIds) : {}
 
   const dbItems = saved.map(s => formatBrincadeira(s.brincadeira, userId, topThreeIds)).filter(Boolean)
   
-  const systemItems = systemSaved.map(sf => {
-    // Find the game in SYSTEM_COLLECTIONS
-    let game: any = null
+      const systemItems = systemSaved.map(sf => {
+    let game = null;
+    let kitLabel = "Oficial";
     for (const col of SYSTEM_COLLECTIONS) {
-      const g = col.games.find(g => g.id === sf.game_id)
+      const g = col.games.find(g => g.id === sf.game_id);
       if (g) {
-        game = { ...g, kitLabel: col.label }
-        break
+        game = g;
+        kitLabel = col.label;
+        break;
       }
     }
-    if (!game) return null
-
-    return {
-      id: String(game.id),
-      title: String(game.title),
-      description: String(game.description),
-      creator: { 
-        id: "system", 
-        name: "BeHappyinha", 
-        avatar: "/behappyinha.png", 
-        level: 10, 
-        title: "Curadoria Oficial", 
-        activeTitle: "Curadoria Oficial" 
-      },
-      metadata: { 
-        ageRange: String(game.age), 
-        duration: String(game.duration), 
-        participants: String(game.participants) 
-      },
-      tags: [String(game.kitLabel)],
-      likesCount: Number(countsMap.get(sf.game_id) || 0),
-      userHasLiked: sf.type === "LIKE",
-      userHasSaved: sf.type === "SAVED",
-      initialLiked: sf.type === "LIKE",
-      initialSaved: sf.type === "SAVED",
-      comments: [],
-      steps: Array.isArray(game.steps) ? game.steps.map(String) : [],
-      materials: Array.isArray(game.materials) ? game.materials.map(String) : [],
-      commentsCount: 0,
-      publishedAt: "Oficial",
-      rawType: "CRIATIVA",
-      rawAgeGroups: [String(game.age)],
-      rawDuration: parseInt(game.duration) || 15,
-      rawParticipants: parseInt(game.participants) || 2
-    }
-  }).filter(Boolean) as Brincadeira[]
+    if (!game) return null;
+    const stats = systemStats[sf.game_id];
+    return formatSystemBrincadeira(game, kitLabel, stats);
+  }).filter(Boolean) as Brincadeira[];
 
   return [...dbItems, ...systemItems]
 }

@@ -1,6 +1,6 @@
 import { Header } from "@/components/layout/Header"
 import { ExplorarClient } from "@/components/game/ExplorarClient"
-import { getFeed, getSystemStats } from "@/lib/actions"
+import { getFeed, getSystemStats, formatSystemBrincadeira } from "@/lib/actions"
 import { BrincadeiraCard } from "@/components/game/BrincadeiraCard"
 import { RiSearchLine } from "@remixicon/react"
 import { auth } from "@/auth"
@@ -31,28 +31,9 @@ export default async function Explorar({
         ? await getSystemStats(systemIds)
         : {}
 
-      kitItems = activeKit.games.map(g => ({
-        ...g,
-        creator: {
-          id: "system",
-          name: "BeHappyinha",
-          avatar: "/behappyinha.png",
-          level: 10,
-          title: "Curadoria Oficial",
-          activeTitle: "Curadoria Oficial"
-        },
-        metadata: {
-          ageRange: String(g.age),
-          duration: String(g.duration),
-          participants: String(g.participants)
-        },
-        tags: [String(activeKit.label)],
-        likesCount: Number(systemStats[g.id]?.likesCount ?? 0),
-        userHasLiked: Boolean(systemStats[g.id]?.hasLiked ?? false),
-        userHasSaved: Boolean(systemStats[g.id]?.hasSaved ?? false),
-        comments: [],
-        publishedAt: "Oficial"
-      }))
+      kitItems = activeKit.games.map(g => 
+        formatSystemBrincadeira(g, activeKit.label, systemStats[g.id])
+      )
     } else {
       // Se não for do sistema, busca no banco (coleções de usuários)
       const { items } = await getFeed(40, undefined, undefined, kit)
