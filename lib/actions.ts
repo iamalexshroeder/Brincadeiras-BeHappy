@@ -6,6 +6,7 @@ import { XPReason } from "@prisma/client"
 import { getLevelFromXp, getTitleForLevel, GAMIFICATION_TIERS, EXCLUSIVE_TITLES } from "@/utils/gamification"
 import { revalidatePath } from "next/cache"
 import { SYSTEM_COLLECTIONS } from "@/lib/data/biblioteca"
+import { WEEKLY_MISSIONS } from "@/lib/missions"
 
 // XP awarded per action
 const XP_VALUES = {
@@ -164,33 +165,45 @@ export async function getProfile() {
 
   const gamification = getLevelFromXp(user.xp, user.active_title)
 
-  // Get counts for favorites, saved interactions, and contributions
-  const [likesGivenCount, systemLikesGivenCount, savedCount, systemSavedCount, interactions] = await prisma.$transaction([
-    prisma.interaction.count({
-      where: { user_id: user.id, type: "LIKE" },
-    }),
-    prisma.systemInteraction.count({
-      where: { user_id: user.id, type: "LIKE" },
-    }),
-    prisma.interaction.count({
-      where: { user_id: user.id, type: "SAVED" },
-    }),
-    prisma.systemInteraction.count({
-      where: { user_id: user.id, type: "SAVED" },
-    }),
-    prisma.interaction.findMany({
-      where: { 
-        brincadeira: { user_id: user.id },
-        type: { in: ["LIKE", "SAVED"] } 
-      },
-      select: { type: true },
-    }),
-  ])
+  // 1. Fetch community interactions
+  const allCommLikes = await prisma.interaction.findMany({
+    where: { user_id: user.id, type: "LIKE" },
+    select: { brincadeira_id: true, brincadeira: { select: { id: true, user_id: true } } }
+  })
+  const allCommSaved = await prisma.interaction.findMany({
+    where: { user_id: user.id, type: "SAVED" },
+    select: { brincadeira_id: true, brincadeira: { select: { id: true, user_id: true } } }
+  })
 
-  // Count total likes received across all user's activities
-  const likesReceived = interactions.filter(i => i.type === "LIKE").length
+  // 2. Fetch system interactions
+  const allSysLikes = await prisma.systemInteraction.findMany({
+    where: { user_id: user.id, type: "LIKE" },
+    select: { game_id: true }
+  })
+  const allSysSaved = await prisma.systemInteraction.findMany({
+    where: { user_id: user.id, type: "SAVED" },
+    select: { game_id: true }
+  })
 
-  // Count unread notifications
+  // 3. Filter valid system games (must exist in library)
+  const validSystemIds = new Set()
+  SYSTEM_COLLECTIONS.forEach(col => col.games.forEach(g => validSystemIds.add(g.id)))
+
+  const validSysLikes = allSysLikes.filter(si => validSystemIds.has(si.game_id))
+  const validSysSaved = allSysSaved.filter(si => validSystemIds.has(si.game_id))
+
+  // 4. Filter valid community games (must have brincadeira data)
+  const validCommLikes = allCommLikes.filter(i => !!i.brincadeira)
+  const validCommSaved = allCommSaved.filter(i => !!i.brincadeira)
+
+  // 5. Total counts received
+  const receivedInteractions = await prisma.interaction.findMany({
+    where: { brincadeira: { user_id: user.id }, type: { in: ["LIKE", "SAVED"] } },
+    select: { type: true }
+  })
+  const likesReceived = receivedInteractions.filter(i => i.type === "LIKE").length
+
+  // 6. Unread notifications
   const unreadNotificationsCount = await prisma.notification.count({
     where: { user_id: user.id, read: false }
   })
@@ -208,8 +221,8 @@ export async function getProfile() {
     unreadNotificationsCount,
     rankBadge,
     stats: {
-      favorites: likesGivenCount + systemLikesGivenCount,
-      saved: savedCount + systemSavedCount,
+      favorites: validCommLikes.length + validSysLikes.length,
+      saved: validCommSaved.length + validSysSaved.length,
       contributions: user._count.brincadeiras,
       followers: user._count.followers,
       following: user._count.following,
@@ -415,34 +428,35 @@ export async function getBrincadeiraById(id: string) {
           hasSaved = interactions.some(i => i.type === "SAVED")
         }
         return {
-          id: g.id,
-          title: g.title,
-          description: g.description,
+          id: String(g.id),
+          title: String(g.title),
+          description: String(g.description),
           creator: {
             id: "system",
             name: "BeHappyinha",
-            avatar: undefined,
+            avatar: "/behappyinha.png",
             level: 10,
-            title: "Curadoria Oficial"
+            title: "Curadoria Oficial",
+            activeTitle: "Curadoria Oficial"
           },
           metadata: {
-            ageRange: g.age,
-            duration: g.duration,
-            participants: g.participants
+            ageRange: String(g.age),
+            duration: String(g.duration),
+            participants: String(g.participants)
           },
-          tags: [col.label],
+          tags: [String(col.label)],
           likesCount: 0,
-          userHasLiked: hasLiked,
-          userHasSaved: hasSaved,
-          initialLiked: hasLiked,
-          initialSaved: hasSaved,
+          userHasLiked: Boolean(hasLiked),
+          userHasSaved: Boolean(hasSaved),
+          initialLiked: Boolean(hasLiked),
+          initialSaved: Boolean(hasSaved),
           comments: [],
-          steps: g.steps,
-          materials: g.materials,
+          steps: Array.isArray(g.steps) ? g.steps.map(String) : [],
+          materials: Array.isArray(g.materials) ? g.materials.map(String) : [],
           commentsCount: 0,
           publishedAt: "Oficial",
           rawType: "Sugerida",
-          rawAgeGroups: [g.age],
+          rawAgeGroups: [String(g.age)],
           rawDuration: parseInt(g.duration) || 0,
           rawParticipants: parseInt(g.participants) || 0
         };
@@ -524,12 +538,19 @@ export interface Brincadeira {
 function formatBrincadeira(b: any, currentUserId?: string, topThreeIds: string[] = []): Brincadeira | null {
   if (!b || !b.user) return null
 
+  const userId = String(b.user.id)
+  const xp = Number(b.user.xp || 0)
+  const activeTitle = b.user.active_title ? String(b.user.active_title) : null
+  
+  const levelData = getLevelFromXp(xp, activeTitle)
+  const level = Number(levelData.level)
+  const title = getTitleForLevel(level, activeTitle)
+  
   let rankBadge: "gold" | "silver" | "bronze" | null = null
-  if (topThreeIds[0] === b.user.id) rankBadge = "gold"
-  else if (topThreeIds[1] === b.user.id) rankBadge = "silver"
-  else if (topThreeIds[2] === b.user.id) rankBadge = "bronze"
+  if (topThreeIds[0] === userId) rankBadge = "gold"
+  else if (topThreeIds[1] === userId) rankBadge = "silver"
+  else if (topThreeIds[2] === userId) rankBadge = "bronze"
 
-  // Formatting helpers
   const ageLabels: Record<string, string> = {
     "AGE_3_5": "3-5 anos",
     "AGE_6_9": "6-9 anos",
@@ -537,39 +558,38 @@ function formatBrincadeira(b: any, currentUserId?: string, topThreeIds: string[]
   }
 
   return {
-    id: b.id,
-    title: b.title,
-    description: b.short_description || "",
+    id: String(b.id),
+    title: String(b.title),
+    description: String(b.short_description || ""),
     creator: {
-      id: b.user.id,
-      name: b.user.name || "Recreador",
-      level: getLevelFromXp(b.user.xp, b.user.active_title).level,
-      title: getTitleForLevel(b.user.level, b.user.active_title),
-      avatar: b.user.avatar_url || b.user.image,
+      id: userId,
+      name: String(b.user.name || "Recreador"),
+      level: level,
+      title: String(title),
+      avatar: b.user.avatar_url || b.user.image || undefined,
       rankBadge,
-      activeTitle: b.user.active_title
+      activeTitle: activeTitle
     },
     metadata: {
       ageRange: b.age_groups?.length > 0 ? ageLabels[b.age_groups[0]] || "Personalizada" : "Todas as idades",
       duration: b.duration_minutes ? `${b.duration_minutes} min` : "Variável",
       participants: b.min_participants ? `${b.min_participants}+ pessoas` : "Qualquer quantidade",
     },
-    tags: Array.isArray(b.tags) ? b.tags : [],
-    likesCount: b.likes_count || 0,
-    userHasLiked: b.interactions?.some((i: any) => i.type === "LIKE") || false,
-    userHasSaved: b.interactions?.some((i: any) => i.type === "SAVED") || false,
-    initialLiked: b.interactions?.some((i: any) => i.type === "LIKE") || false,
-    initialSaved: b.interactions?.some((i: any) => i.type === "SAVED") || false,
-    comments: b.comments || [],
-    steps: Array.isArray(b.steps) ? b.steps : [],
-    materials: Array.isArray(b.materials) ? b.materials : [],
-    commentsCount: b.comments?.length || 0,
-    // Provide raw values for easier form pre-population
-    rawType: b.type,
-    rawAgeGroups: b.age_groups || [],
-    rawDuration: b.duration_minutes || 0,
-    rawParticipants: b.min_participants || 0,
+    tags: Array.isArray(b.tags) ? b.tags.map(String) : [],
+    likesCount: Number(b.likes_count || 0),
+    userHasLiked: Boolean(b.interactions?.some((i: any) => i.type === "LIKE")),
+    userHasSaved: Boolean(b.interactions?.some((i: any) => i.type === "SAVED")),
+    initialLiked: Boolean(b.interactions?.some((i: any) => i.type === "LIKE")),
+    initialSaved: Boolean(b.interactions?.some((i: any) => i.type === "SAVED")),
+    comments: [], // Simplified to avoid serialization issues
+    steps: Array.isArray(b.steps) ? b.steps.map(String) : [],
+    materials: Array.isArray(b.materials) ? b.materials.map(String) : [],
+    commentsCount: Number(b.comments?.length || 0),
     publishedAt: b.created_at ? new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short" }).format(new Date(b.created_at)).replace(".", "") : "Recentemente",
+    rawType: String(b.type || "CRIATIVA"),
+    rawAgeGroups: Array.isArray(b.age_groups) ? b.age_groups.map(String) : [],
+    rawDuration: Number(b.duration_minutes || 0),
+    rawParticipants: Number(b.min_participants || 0),
   }
 }
 
@@ -582,28 +602,25 @@ function formatBrincadeira(b: any, currentUserId?: string, topThreeIds: string[]
 export async function getFavorites() {
   const session = await auth()
   if (!session?.user?.id) return []
+  const userId = session.user.id
+  const topThreeIds = await getTopThreeIds()
 
+  // 1. Fetch from DB interactions
   const favors = await prisma.interaction.findMany({
     where: { 
-      user_id: session.user.id,
+      user_id: userId,
       type: "LIKE"
     },
     include: {
       brincadeira: {
         include: {
-          user: {
-            select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true },
-          },
+          user: { select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true } },
           comments: {
-            include: {
-              user: {
-                select: { name: true, avatar_url: true, image: true },
-              },
-            },
+            include: { user: { select: { name: true, avatar_url: true, image: true } } },
             orderBy: { created_at: "desc" },
           },
           interactions: {
-            where: { user_id: session.user.id },
+            where: { user_id: userId },
             select: { type: true },
           },
         }
@@ -612,8 +629,62 @@ export async function getFavorites() {
     orderBy: { created_at: "desc" }
   })
 
-  const userId = session.user.id
-  return favors.map(f => formatBrincadeira(f.brincadeira, userId)).filter(Boolean)
+  // 2. Fetch from System interactions
+  const systemFavors = await prisma.systemInteraction.findMany({
+    where: { user_id: userId, type: "LIKE" },
+    orderBy: { created_at: "desc" }
+  })
+
+  const dbItems = favors.map(f => formatBrincadeira(f.brincadeira, userId, topThreeIds)).filter(Boolean)
+  
+  const systemItems = systemFavors.map(sf => {
+    // Find the game in SYSTEM_COLLECTIONS
+    let game: any = null
+    for (const col of SYSTEM_COLLECTIONS) {
+      const g = col.games.find(g => g.id === sf.game_id)
+      if (g) {
+        game = { ...g, kitLabel: col.label }
+        break
+      }
+    }
+    if (!game) return null
+
+    return {
+      id: String(game.id),
+      title: String(game.title),
+      description: String(game.description),
+      creator: { 
+        id: "system", 
+        name: "BeHappyinha", 
+        avatar: "/behappyinha.png", 
+        level: 10, 
+        title: "Curadoria Oficial", 
+        activeTitle: "Curadoria Oficial" 
+      },
+      metadata: { 
+        ageRange: String(game.age), 
+        duration: String(game.duration), 
+        participants: String(game.participants) 
+      },
+      tags: [String(game.kitLabel)],
+      likesCount: 0,
+      userHasLiked: sf.type === "LIKE",
+      userHasSaved: sf.type === "SAVED",
+      initialLiked: sf.type === "LIKE",
+      initialSaved: sf.type === "SAVED",
+      comments: [],
+      steps: Array.isArray(game.steps) ? game.steps.map(String) : [],
+      materials: Array.isArray(game.materials) ? game.materials.map(String) : [],
+      commentsCount: 0,
+      publishedAt: "Oficial",
+      rawType: "CRIATIVA",
+      rawAgeGroups: [String(game.age)],
+      rawDuration: parseInt(game.duration) || 15,
+      rawParticipants: parseInt(game.participants) || 2
+    }
+  }).filter(Boolean) as Brincadeira[]
+
+  return [...dbItems, ...systemItems]
 }
 
 /**
@@ -746,25 +817,25 @@ export async function toggleSave(brincadeiraId: string) {
 export async function getSavedBrincadeiras() {
   const session = await auth()
   if (!session?.user?.id) return []
+  const userId = session.user.id
   const topThreeIds = await getTopThreeIds()
 
+  // 1. Fetch from DB interactions
   const saved = await prisma.interaction.findMany({
     where: { 
-      user_id: session.user.id,
+      user_id: userId,
       type: "SAVED"
     },
     include: {
       brincadeira: {
         include: {
-          user: {
-            select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true },
-          },
+          user: { select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true } },
           comments: {
             include: { user: { select: { name: true, avatar_url: true, image: true } } },
             orderBy: { created_at: "desc" },
           },
           interactions: {
-            where: { user_id: session.user.id },
+            where: { user_id: userId },
             select: { type: true },
           },
         }
@@ -773,12 +844,65 @@ export async function getSavedBrincadeiras() {
     orderBy: { created_at: "desc" }
   })
 
-  const userId = session.user.id
-  return saved.map(s => formatBrincadeira(s.brincadeira, userId, topThreeIds)).filter(Boolean)
+  // 2. Fetch from System interactions
+  const systemSaved = await prisma.systemInteraction.findMany({
+    where: { user_id: userId, type: "SAVED" },
+    orderBy: { created_at: "desc" }
+  })
+
+  const dbItems = saved.map(s => formatBrincadeira(s.brincadeira, userId, topThreeIds)).filter(Boolean)
+  
+  const systemItems = systemSaved.map(sf => {
+    let game: any = null
+    for (const col of SYSTEM_COLLECTIONS) {
+      const g = col.games.find(g => g.id === sf.game_id)
+      if (g) {
+        game = { ...g, kitLabel: col.label }
+        break
+      }
+    }
+    if (!game) return null
+
+    return {
+      id: String(game.id),
+      title: String(game.title),
+      description: String(game.description),
+      creator: { 
+        id: "system", 
+        name: "BeHappyinha", 
+        avatar: "/behappyinha.png", 
+        level: 10, 
+        title: "Curadoria Oficial", 
+        activeTitle: "Curadoria Oficial" 
+      },
+      metadata: { 
+        ageRange: String(game.age), 
+        duration: String(game.duration), 
+        participants: String(game.participants) 
+      },
+      tags: [String(game.kitLabel)],
+      likesCount: 0,
+      userHasLiked: sf.type === "LIKE",
+      userHasSaved: sf.type === "SAVED",
+      initialLiked: sf.type === "LIKE",
+      initialSaved: sf.type === "SAVED",
+      comments: [],
+      steps: Array.isArray(game.steps) ? game.steps.map(String) : [],
+      materials: Array.isArray(game.materials) ? game.materials.map(String) : [],
+      commentsCount: 0,
+      publishedAt: "Oficial",
+      rawType: "CRIATIVA",
+      rawAgeGroups: [String(game.age)],
+      rawDuration: parseInt(game.duration) || 15,
+      rawParticipants: parseInt(game.participants) || 2
+    }
+  }).filter(Boolean) as Brincadeira[]
+
+  return [...dbItems, ...systemItems]
 }
 
 /**
- * Gets the current user's interaction state (hasLiked, hasUsed, hasSaved)
+ * Gets the current user's interaction state (hasLiked, hasSaved)
  * for a list of system/pdf game IDs. Since system games are not in the DB,
  * they are stored in the SystemInteraction table.
  */
@@ -1391,7 +1515,5 @@ export async function updateActiveTitle(title: string | null) {
 
 
 // ---------------------------------------------------------------------------
-// Weekly Missions
+// EOF
 // ---------------------------------------------------------------------------
-import { WEEKLY_MISSIONS } from "@/lib/missions"
-

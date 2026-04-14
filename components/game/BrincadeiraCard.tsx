@@ -16,8 +16,6 @@ import {
   RiLoader4Line,
   RiArrowLeftSLine,
   RiHeartLine,
-  RiCheckboxCircleLine,
-  RiCheckboxCircleFill,
   RiUserVoiceLine,
   RiCloseLine,
   RiBookmarkLine,
@@ -41,8 +39,8 @@ const AGE_GROUP_LABELS: Record<string, string> = {
   "AGE_10_PLUS": "10+ anos",
 }
 
-function formatAgeGroup(age?: string) {
-  if (!age) return "Qualquer idade"
+function formatAgeGroup(age?: any) {
+  if (typeof age !== "string" || !age) return "Qualquer idade"
   return AGE_GROUP_LABELS[age] || age.replace(/AGE_/, "").replace(/_/g, " ")
 }
 
@@ -113,7 +111,7 @@ export function BrincadeiraCard({
     setLocalLikes(likesCount)
   }, [likesCount])
 
-  const isOwner = currentUserId === creator.id
+  const isOwner = currentUserId === creator?.id
 
   const handleDeleteBrincadeira = async (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -180,20 +178,20 @@ export function BrincadeiraCard({
           />
           <div className="flex flex-col">
             <span className="text-[14px] font-bold leading-tight text-foreground">
-              {creator.name}
+              {creator?.name || "BeHappyinha"}
             </span>
-            {creator.name !== "BeHappyinha" && (
+            {creator?.name !== "BeHappyinha" && (
               <div className="flex items-center gap-1.5 mt-0.5">
                 <span className="text-[10px] font-bold text-muted-foreground">
-                  {creator.title || getTitleForLevel(creator.level)}
+                  {creator?.title || getTitleForLevel(creator?.level || 0)}
                 </span>
                 <span className="text-[10px] font-bold text-muted-foreground opacity-60">
-                  · Nível {creator.level}
+                  · Nível {creator?.level || 0}
                 </span>
               </div>
             )}
             
-            <span className={cn("text-[10px] font-medium text-muted-foreground opacity-70", creator.name === "BeHappyinha" ? "mt-0" : "mt-0.5")}>
+            <span className={cn("text-[10px] font-medium text-muted-foreground opacity-70", creator?.name === "BeHappyinha" ? "mt-0" : "mt-0.5")}>
               {publishedAt}
             </span>
           </div>
@@ -211,15 +209,15 @@ export function BrincadeiraCard({
         <div className="flex flex-wrap gap-1.5 mb-1">
           <div className="flex items-center gap-1 px-2.5 py-1 bg-[var(--blue-bg)] rounded-[6px] text-[10px] font-bold text-[var(--blue)] border border-[var(--blue)]/10 lowercase">
             <RiUserVoiceLine size={12} />
-            {formatAgeGroup(metadata.ageRange)}
+            {formatAgeGroup(metadata?.ageRange)}
           </div>
           <div className="flex items-center gap-1 px-2.5 py-1 bg-[var(--purple-bg)] rounded-[6px] text-[10px] font-bold text-[var(--purple)] border border-[var(--purple)]/10 lowercase">
             <RiTimeLine size={12} />
-            {metadata.duration}
+            {metadata?.duration || "Variável"}
           </div>
           <div className="flex items-center gap-1 px-2.5 py-1 bg-[var(--yellow-bg)] rounded-[6px] text-[10px] font-bold text-[var(--yellow)] border border-[var(--yellow)]/10 lowercase">
             <RiGroupLine size={12} />
-            {metadata.participants}
+            {metadata?.participants || "Qualquer quant."}
           </div>
         </div>
       </CardContent>
@@ -241,7 +239,7 @@ export function BrincadeiraCard({
 
           <div className="flex items-center gap-1.5 text-muted-foreground opacity-60">
             <RiChat3Line size={20} />
-            <span className="text-[14px] font-bold">{comments.length || commentsCount}</span>
+            <span className="text-[14px] font-bold">{(comments?.length || 0) || (commentsCount || 0)}</span>
           </div>
 
           <button onClick={handleSave} className="flex items-center text-muted-foreground active:scale-90 transition-all p-1">

@@ -3,7 +3,7 @@
 import { Header } from "@/components/layout/Header"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card } from "@/components/ui/card"
-import { RiTrophyFill, RiHeartFill, RiCheckboxCircleFill, RiSettings4Fill, RiDeleteBin7Line } from "@remixicon/react"
+import { RiTrophyFill, RiHeartFill, RiSettings4Fill, RiDeleteBin7Line } from "@remixicon/react"
 import { cn } from "@/lib/utils"
 import { getNotifications, markNotificationsRead, deleteNotification, clearAllNotifications } from "@/lib/actions"
 import { formatDistanceToNow } from "date-fns"
