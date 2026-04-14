@@ -427,6 +427,10 @@ export async function getBrincadeiraById(id: string) {
           hasLiked = interactions.some(i => i.type === "LIKE")
           hasSaved = interactions.some(i => i.type === "SAVED")
         }
+        const likesCount = await prisma.systemInteraction.count({
+          where: { game_id: id, type: "LIKE" }
+        })
+
         return {
           id: String(g.id),
           title: String(g.title),
@@ -445,7 +449,7 @@ export async function getBrincadeiraById(id: string) {
             participants: String(g.participants)
           },
           tags: [String(col.label)],
-          likesCount: 0,
+          likesCount: Number(likesCount),
           userHasLiked: Boolean(hasLiked),
           userHasSaved: Boolean(hasSaved),
           initialLiked: Boolean(hasLiked),
@@ -635,6 +639,16 @@ export async function getFavorites() {
     orderBy: { created_at: "desc" }
   })
 
+  // Pre-fetch all like counts for these system games
+  const sysGameIds = systemFavors.map(sf => sf.game_id)
+  const systemLikeCounts = await prisma.systemInteraction.groupBy({
+    by: ['game_id'],
+    where: { game_id: { in: sysGameIds }, type: "LIKE" },
+    _count: { _all: true }
+  })
+  
+  const countsMap = new Map(systemLikeCounts.map(c => [c.game_id, c._count._all]))
+
   const dbItems = favors.map(f => formatBrincadeira(f.brincadeira, userId, topThreeIds)).filter(Boolean)
   
   const systemItems = systemFavors.map(sf => {
@@ -667,7 +681,7 @@ export async function getFavorites() {
         participants: String(game.participants) 
       },
       tags: [String(game.kitLabel)],
-      likesCount: 0,
+      likesCount: Number(countsMap.get(sf.game_id) || 0),
       userHasLiked: sf.type === "LIKE",
       userHasSaved: sf.type === "SAVED",
       initialLiked: sf.type === "LIKE",
@@ -850,9 +864,20 @@ export async function getSavedBrincadeiras() {
     orderBy: { created_at: "desc" }
   })
 
+  // Pre-fetch all like counts for these system games
+  const sysGameIds = systemSaved.map(sf => sf.game_id)
+  const systemLikeCounts = await prisma.systemInteraction.groupBy({
+    by: ['game_id'],
+    where: { game_id: { in: sysGameIds }, type: "LIKE" },
+    _count: { _all: true }
+  })
+  
+  const countsMap = new Map(systemLikeCounts.map(c => [c.game_id, c._count._all]))
+
   const dbItems = saved.map(s => formatBrincadeira(s.brincadeira, userId, topThreeIds)).filter(Boolean)
   
   const systemItems = systemSaved.map(sf => {
+    // Find the game in SYSTEM_COLLECTIONS
     let game: any = null
     for (const col of SYSTEM_COLLECTIONS) {
       const g = col.games.find(g => g.id === sf.game_id)
@@ -881,7 +906,7 @@ export async function getSavedBrincadeiras() {
         participants: String(game.participants) 
       },
       tags: [String(game.kitLabel)],
-      likesCount: 0,
+      likesCount: Number(countsMap.get(sf.game_id) || 0),
       userHasLiked: sf.type === "LIKE",
       userHasSaved: sf.type === "SAVED",
       initialLiked: sf.type === "LIKE",
