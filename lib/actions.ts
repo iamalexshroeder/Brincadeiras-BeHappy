@@ -179,7 +179,10 @@ export async function getProfile() {
       where: { user_id: user.id, type: "SAVED" },
     }),
     prisma.interaction.findMany({
-      where: { brincadeira: { user_id: user.id } },
+      where: { 
+        brincadeira: { user_id: user.id },
+        type: { in: ["LIKE", "SAVED"] } 
+      },
       select: { type: true },
     }),
   ])
@@ -786,7 +789,8 @@ export async function getSystemStats(ids: string[]): Promise<Record<string, { ha
   const interactions = await prisma.systemInteraction.findMany({
     where: {
       user_id: session.user.id,
-      game_id: { in: ids }
+      game_id: { in: ids },
+      type: { in: ["LIKE", "SAVED"] }
     },
     select: { game_id: true, type: true }
   })

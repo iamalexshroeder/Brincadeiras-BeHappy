@@ -55,7 +55,11 @@ export async function getMissions() {
 
   const [interactions, comments, brincadeiras, claimedTx] = await prisma.$transaction([
     prisma.interaction.findMany({
-      where: { user_id: userId, created_at: { gte: weekStart } },
+      where: { 
+        user_id: userId, 
+        created_at: { gte: weekStart },
+        type: { in: ["LIKE", "SAVED"] }
+      },
       select: { type: true },
     }),
     prisma.comment.count({ where: { user_id: userId, created_at: { gte: weekStart } } }),
