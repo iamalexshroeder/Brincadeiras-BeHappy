@@ -744,6 +744,7 @@ export async function toggleLike(brincadeiraId: string) {
   if (!session?.user?.id) throw new Error("Não autenticado")
   const userId = session.user.id
 
+  console.log(`[ToggleLike] User ${userId} toggling like for ${brincadeiraId}`);
   const existing = await prisma.interaction.findUnique({
     where: { user_id_brincadeira_id_type: { user_id: userId, brincadeira_id: brincadeiraId, type: "LIKE" } },
   })
@@ -794,8 +795,7 @@ export async function toggleLike(brincadeiraId: string) {
     }
   }
 
-  revalidatePath("/")
-  revalidatePath("/explorar")
+  revalidatePath("/", "layout")
 }
 
 
@@ -821,8 +821,7 @@ export async function toggleSave(brincadeiraId: string) {
   }
 
   revalidatePath("/")
-  revalidatePath("/explorar")
-  revalidatePath("/perfil")
+  revalidatePath("/", "layout")
 }
 
 /**
@@ -981,13 +980,16 @@ export async function toggleSystemLike(gameId: string) {
   if (!session?.user?.id) throw new Error("Não autenticado")
   const userId = session.user.id
 
+  console.log(`[ToggleSystemLike] User ${userId} toggling system like for ${gameId}`);
   const existing = await prisma.systemInteraction.findUnique({
     where: { user_id_game_id_type: { user_id: userId, game_id: gameId, type: "LIKE" } }
   })
 
   if (existing) {
+    console.log(`[ToggleSystemLike] Removing like for ${gameId}`);
     await prisma.systemInteraction.delete({ where: { id: existing.id } })
   } else {
+    console.log(`[ToggleSystemLike] Creating like for ${gameId}`);
     await prisma.systemInteraction.create({
       data: { user_id: userId, game_id: gameId, type: "LIKE" }
     })
@@ -999,8 +1001,7 @@ export async function toggleSystemLike(gameId: string) {
     }
   }
 
-  revalidatePath("/")
-  revalidatePath("/explorar")
+  revalidatePath("/", "layout")
 }
 
 
@@ -1025,8 +1026,7 @@ export async function toggleSystemSave(gameId: string) {
     })
   }
 
-  revalidatePath("/explorar")
-  revalidatePath("/perfil")
+  revalidatePath("/", "layout")
 }
 
 /**
@@ -1391,8 +1391,7 @@ export async function deleteComment(commentId: string) {
     where: { id: commentId, user_id: userId },
   })
 
-  revalidatePath("/")
-  revalidatePath("/explorar")
+  revalidatePath("/", "layout")
 }
 /**
  * Deletes a brincadeira permanently.
