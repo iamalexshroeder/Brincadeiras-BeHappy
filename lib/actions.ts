@@ -678,38 +678,38 @@ export async function toggleLike(brincadeiraId: string) {
     ])
   } else {
     // Add like
-    const brincadeira = await prisma.brincadeira.update({
-      where: { id: brincadeiraId },
-      data: {
-        likes_count: { increment: 1 },
-        interactions: {
-          create: { user_id: userId, type: "LIKE" },
-        },
-      },
-      select: { user_id: true },
-    })
-
-    // 1. Award XP to the user who liked (the acting user)
-    await awardXP(userId, XP_VALUES.LIKE_GIVEN, "LIKE_GIVEN", brincadeiraId)
-
-    // 2. Award XP to the creator (if not self-liking)
-    if (brincadeira.user_id !== userId) {
-      // Note: We'll use COMMENT_ADDED or a similar small bonus since LIKE_RECEIVED isn't in Enum anymore
-      // or we can reuse LIKE_GIVEN for creators too if we want. 
-      // Actually, the user said "quem da o gostei ... ganham exp", focusing on the actor.
-      // But keeping a small bonus for creator is good. Let's use COMMENT_ADDED value (30) as a proxy for social engagement.
-      await awardXP(brincadeira.user_id, 10, "LIKE_GIVEN", brincadeiraId)
-      
-      // Notify creator
-      await prisma.notification.create({
-        data: {
-          user_id: brincadeira.user_id,
-          type: "SOCIAL",
-          title: "Curtiram sua brincadeira!",
-          message: `Sua brincadeira está ganhando destaque! Você ganhou +10 XP.`,
-          reference_id: brincadeiraId,
-        },
+    await prisma.$transaction([
+      prisma.interaction.create({
+        data: { user_id: userId, brincadeira_id: brincadeiraId, type: "LIKE" }
+      }),
+      prisma.brincadeira.update({
+        where: { id: brincadeiraId },
+        data: { likes_count: { increment: 1 } }
       })
+    ])
+
+    try {
+      const brincadeira = await prisma.brincadeira.findUnique({ where: { id: brincadeiraId }, select: { user_id: true } })
+      
+      // 1. Award XP to the user who liked (the acting user)
+      if (brincadeira) {
+        await awardXP(userId, XP_VALUES.LIKE_GIVEN, "LIKE_GIVEN", brincadeiraId)
+
+        // 2. Award XP to the creator (if not self-liking)
+        if (brincadeira.user_id !== userId) {
+          await awardXP(brincadeira.user_id, 10, "LIKE_GIVEN", brincadeiraId)
+          
+          await notifyUser(
+            brincadeira.user_id,
+            "SOCIAL",
+            "Curtiram sua brincadeira!",
+            "Sua brincadeira está ganhando destaque! Você ganhou +10 XP.",
+            brincadeiraId
+          )
+        }
+      }
+    } catch (error) {
+      console.error("Erro em side-effects de toggleLike:", error)
     }
   }
 
@@ -738,32 +738,37 @@ export async function toggleUsed(brincadeiraId: string) {
       }),
     ])
   } else {
-    const brincadeira = await prisma.brincadeira.update({
-      where: { id: brincadeiraId },
-      data: {
-        used_count: { increment: 1 },
-        interactions: {
-          create: { user_id: userId, type: "USED" },
-        },
-      },
-      select: { user_id: true },
-    })
-
-    // 1. Award XP to the user who checked (the acting user)
-    await awardXP(userId, XP_VALUES.USED_CHECKED, "USED_CHECKED", brincadeiraId)
-
-    // 2. Award XP to creator (if not self)
-    if (brincadeira.user_id !== userId) {
-      await awardXP(brincadeira.user_id, 20, "USED_CHECKED", brincadeiraId)
-      await prisma.notification.create({
-        data: {
-          user_id: brincadeira.user_id,
-          type: "SOCIAL",
-          title: "Sua brincadeira foi usada!",
-          message: `Incrível! Alguém acabou de realizar uma das suas brincadeiras. Você ganhou +20 XP!`,
-          reference_id: brincadeiraId,
-        },
+    await prisma.$transaction([
+      prisma.interaction.create({
+        data: { user_id: userId, brincadeira_id: brincadeiraId, type: "USED" }
+      }),
+      prisma.brincadeira.update({
+        where: { id: brincadeiraId },
+        data: { used_count: { increment: 1 } }
       })
+    ])
+
+    try {
+      const brincadeira = await prisma.brincadeira.findUnique({ where: { id: brincadeiraId }, select: { user_id: true } })
+
+      if (brincadeira) {
+        // 1. Award XP to the user who checked (the acting user)
+        await awardXP(userId, XP_VALUES.USED_CHECKED, "USED_CHECKED", brincadeiraId)
+
+        // 2. Award XP to creator (if not self)
+        if (brincadeira.user_id !== userId) {
+          await awardXP(brincadeira.user_id, 20, "USED_CHECKED", brincadeiraId)
+          await notifyUser(
+            brincadeira.user_id,
+            "SOCIAL",
+            "Sua brincadeira foi usada!",
+            "Incrível! Alguém acabou de realizar uma das suas brincadeiras. Você ganhou +20 XP!",
+            brincadeiraId
+          )
+        }
+      }
+    } catch (error) {
+      console.error("Erro em side-effects de toggleUsed:", error)
     }
   }
 
@@ -882,9 +887,15 @@ export async function toggleSystemLike(gameId: string) {
     await prisma.systemInteraction.create({
       data: { user_id: userId, game_id: gameId, type: "LIKE" }
     })
-    await awardXP(userId, XP_VALUES.LIKE_GIVEN, "LIKE_GIVEN", gameId)
+    
+    try {
+      await awardXP(userId, XP_VALUES.LIKE_GIVEN, "LIKE_GIVEN", gameId)
+    } catch (error) {
+      console.error("Erro em side-effects de toggleSystemLike:", error)
+    }
   }
 
+  revalidatePath("/")
   revalidatePath("/explorar")
 }
 
@@ -906,9 +917,15 @@ export async function toggleSystemUsed(gameId: string) {
     await prisma.systemInteraction.create({
       data: { user_id: userId, game_id: gameId, type: "USED" }
     })
-    await awardXP(userId, XP_VALUES.USED_CHECKED, "USED_CHECKED", gameId)
+    
+    try {
+      await awardXP(userId, XP_VALUES.USED_CHECKED, "USED_CHECKED", gameId)
+    } catch (error) {
+      console.error("Erro em side-effects de toggleSystemUsed:", error)
+    }
   }
 
+  revalidatePath("/")
   revalidatePath("/explorar")
 }
 
@@ -1032,34 +1049,38 @@ export async function createBrincadeira(data: {
     },
   })
 
-  // Award XP for publishing
-  await awardXP(userId, XP_VALUES.PUBLISHED, "PUBLISHED", brincadeira.id)
+  try {
+    // Award XP for publishing
+    await awardXP(userId, XP_VALUES.PUBLISHED, "PUBLISHED", brincadeira.id)
 
-  // Check weekly streak
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { last_published_at: true, streak_weeks: true },
-  })
-  if (user) {
-    const now = new Date()
-    const lastPub = user.last_published_at
-    const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
-    if (lastPub && lastPub > oneWeekAgo) {
-      const newStreak = user.streak_weeks + 1
-      await prisma.user.update({
-        where: { id: userId },
-        data: { streak_weeks: newStreak, last_published_at: now },
-      })
-      if (newStreak % 4 === 0) {
-        // Streak bonus every 4 weeks (monthly)
-        await awardXP(userId, XP_VALUES.STREAK, "STREAK")
+    // Check weekly streak
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { last_published_at: true, streak_weeks: true },
+    })
+    if (user) {
+      const now = new Date()
+      const lastPub = user.last_published_at
+      const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+      if (lastPub && lastPub > oneWeekAgo) {
+        const newStreak = user.streak_weeks + 1
+        await prisma.user.update({
+          where: { id: userId },
+          data: { streak_weeks: newStreak, last_published_at: now },
+        })
+        if (newStreak % 4 === 0) {
+          // Streak bonus every 4 weeks (monthly)
+          await awardXP(userId, XP_VALUES.STREAK, "STREAK")
+        }
+      } else {
+        await prisma.user.update({
+          where: { id: userId },
+          data: { streak_weeks: 1, last_published_at: now },
+        })
       }
-    } else {
-      await prisma.user.update({
-        where: { id: userId },
-        data: { streak_weeks: 1, last_published_at: now },
-      })
     }
+  } catch (error) {
+    console.error("Erro em side-effects de createBrincadeira:", error)
   }
 
   revalidatePath("/")
@@ -1252,8 +1273,12 @@ export async function addComment(brincadeiraId: string, text: string) {
   revalidatePath("/")
   revalidatePath("/explorar")
 
-  // Award XP to the user who commented
-  await awardXP(userId, XP_VALUES.COMMENT_ADDED, "COMMENT_ADDED", brincadeiraId)
+  try {
+    // Award XP to the user who commented
+    await awardXP(userId, XP_VALUES.COMMENT_ADDED, "COMMENT_ADDED", brincadeiraId)
+  } catch (error) {
+    console.error("Erro em side-effects de addComment:", error)
+  }
 
   return comment
 }
@@ -1378,16 +1403,20 @@ export async function updateProfile(data: { name?: string, avatar_url?: string }
     }
   })
 
-  if (awardBonus) {
-    await awardXP(session.user.id, XP_VALUES.PROFILE_UPDATED, "PROFILE_UPDATED")
-    await prisma.notification.create({
-      data: {
-        user_id: session.user.id,
-        type: "GAMIFICATION",
-        title: "Bônus de Perfil!",
-        message: "Você ganhou +100 XP por atualizar sua foto de perfil! Complete seu perfil para ganhar mais destaque.",
-      }
-    })
+  try {
+    if (awardBonus) {
+      await awardXP(session.user.id, XP_VALUES.PROFILE_UPDATED, "PROFILE_UPDATED")
+      await prisma.notification.create({
+        data: {
+          user_id: session.user.id,
+          type: "GAMIFICATION",
+          title: "Bônus de Perfil!",
+          message: "Você ganhou +100 XP por atualizar sua foto de perfil! Complete seu perfil para ganhar mais destaque.",
+        }
+      })
+    }
+  } catch (error) {
+    console.error("Erro em side-effects de updateProfile:", error)
   }
 
   revalidatePath("/")
