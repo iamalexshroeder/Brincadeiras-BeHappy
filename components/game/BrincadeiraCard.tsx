@@ -239,6 +239,11 @@ export function BrincadeiraCard({
           </button>
 
 
+          <div className="flex items-center gap-1.5 text-muted-foreground opacity-60">
+            <RiChat3Line size={20} />
+            <span className="text-[14px] font-bold">{comments.length || commentsCount}</span>
+          </div>
+
           <button onClick={handleSave} className="flex items-center text-muted-foreground active:scale-90 transition-all p-1">
             <motion.div
               key={isSaved ? "saved" : "unsaved"}
@@ -249,11 +254,6 @@ export function BrincadeiraCard({
               {isSaved ? <RiBookmarkFill size={22} className="text-[var(--purple)]" /> : <RiBookmarkLine size={22} />}
             </motion.div>
           </button>
-
-          <div className="flex items-center gap-1.5 text-muted-foreground opacity-60">
-            <RiChat3Line size={20} />
-            <span className="text-[14px] font-bold">{comments.length || commentsCount}</span>
-          </div>
         </div>
 
         <Link 
