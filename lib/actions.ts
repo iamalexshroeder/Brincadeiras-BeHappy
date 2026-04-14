@@ -165,7 +165,7 @@ export async function getProfile() {
   const gamification = getLevelFromXp(user.xp, user.active_title)
 
   // Get counts for favorites, saved interactions, and contributions
-  const [likesGivenCount, systemLikesGivenCount, savedCount, interactions] = await prisma.$transaction([
+  const [likesGivenCount, systemLikesGivenCount, savedCount, systemSavedCount, interactions] = await prisma.$transaction([
     prisma.interaction.count({
       where: { user_id: user.id, type: "LIKE" },
     }),
@@ -173,6 +173,9 @@ export async function getProfile() {
       where: { user_id: user.id, type: "LIKE" },
     }),
     prisma.interaction.count({
+      where: { user_id: user.id, type: "SAVED" },
+    }),
+    prisma.systemInteraction.count({
       where: { user_id: user.id, type: "SAVED" },
     }),
     prisma.interaction.findMany({
@@ -203,7 +206,7 @@ export async function getProfile() {
     rankBadge,
     stats: {
       favorites: likesGivenCount + systemLikesGivenCount,
-      saved: savedCount,
+      saved: savedCount + systemSavedCount,
       contributions: user._count.brincadeiras,
       followers: user._count.followers,
       following: user._count.following,
