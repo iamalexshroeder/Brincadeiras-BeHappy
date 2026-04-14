@@ -12,7 +12,6 @@ const XP_VALUES = {
   PUBLISHED: 200,
   COMMENT_ADDED: 50,
   LIKE_GIVEN: 50,
-  USED_CHECKED: 50,
   PROFILE_UPDATED: 100, // One-time bonus
   STREAK: 100,
   DAILY_LIMIT: 500,
@@ -182,9 +181,8 @@ export async function getProfile() {
     }),
   ])
 
-  // Count total likes and uses received across all user's activities
+  // Count total likes received across all user's activities
   const likesReceived = interactions.filter(i => i.type === "LIKE").length
-  const usesReceived = interactions.filter(i => i.type === "USED").length
 
   // Count unread notifications
   const unreadNotificationsCount = await prisma.notification.count({
@@ -211,7 +209,6 @@ export async function getProfile() {
       following: user._count.following,
       achievements: Math.floor(user.xp / 500),
       likesReceived,
-      usesReceived
     }
   }
 }

@@ -33,13 +33,10 @@ enum AnimatorLevel {
 enum XPReason {
   PUBLISHED
   LIKE_RECEIVED
-  USED_RECEIVED
-  STREAK
-  FIRST_USED_BONUS
   COMMENT_ADDED
   LIKE_GIVEN
-  USED_CHECKED
   PROFILE_UPDATED
+  STREAK
 }
 
 model User {
@@ -129,7 +126,6 @@ model Brincadeira {
   materials         String[]
   tags              String[]        // Máx 5
   likes_count       Int             @default(0)
-  used_count        Int             @default(0)
   published_at      DateTime?
   created_at        DateTime        @default(now())
 
@@ -151,7 +147,6 @@ model Interaction {
 
 enum InteractionType {
   LIKE
-  USED
   SAVED
 }
 

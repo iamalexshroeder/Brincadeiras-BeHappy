@@ -29,12 +29,7 @@ function getIcon(type: string) {
           <RiHeartFill size={24} />
         </div>
       )
-    case "SOCIAL_USED":
-      return (
-        <div className="bg-green-50 text-green-600 rounded-full h-12 w-12 flex items-center justify-center shrink-0">
-          <RiCheckboxCircleFill size={24} />
-        </div>
-      )
+
     default:
       return (
         <div className="bg-blue-50 text-blue-500 rounded-full h-12 w-12 flex items-center justify-center shrink-0">

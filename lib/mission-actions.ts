@@ -73,13 +73,11 @@ export async function getMissions() {
 
   const claimedIds = new Set(claimedTx.map(t => t.reference_id?.replace("mission_", "")))
   const likes = interactions.filter(i => i.type === "LIKE").length
-  const used = interactions.filter(i => i.type === "USED").length
   const saved = interactions.filter(i => i.type === "SAVED").length
 
   return WEEKLY_MISSIONS.map(m => {
     let progress = 0
     if (m.type === "LIKE") progress = Math.min(likes, m.goal)
-    else if (m.type === "USED") progress = Math.min(used, m.goal)
     else if (m.type === "COMMENT") progress = Math.min(comments, m.goal)
     else if (m.type === "SAVED") progress = Math.min(saved, m.goal)
     else if (m.type === "PUBLISH") progress = Math.min(brincadeiras, m.goal)

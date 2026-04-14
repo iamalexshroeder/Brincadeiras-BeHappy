@@ -11,16 +11,6 @@ export const WEEKLY_MISSIONS = [
     type: "LIKE" as const,
   },
   {
-    id: "usar_3",
-    title: "Recreador Ativo",
-    description: "Aplique 3 brincadeiras com a turma",
-    goal: 3,
-    xp: 150,
-    emoji: "⚡",
-    gradient: ["#FFB347", "#FF9500"],
-    type: "USED" as const,
-  },
-  {
     id: "comentar_2",
     title: "Voz da Galera",
     description: "Comente em 2 brincadeiras",
