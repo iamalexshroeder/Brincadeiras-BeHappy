@@ -47,9 +47,7 @@ export default async function Explorar({
         },
         tags: [activeKit.label],
         likesCount: 0,
-        usedCount: 0,
         userHasLiked: systemStats[g.id]?.hasLiked ?? false,
-        userHasUsed: systemStats[g.id]?.hasUsed ?? false,
         userHasSaved: systemStats[g.id]?.hasSaved ?? false,
         comments: [],
         publishedAt: "Oficial"
@@ -93,10 +91,8 @@ export default async function Explorar({
                   metadata={game!.metadata}
                   tags={game!.tags}
                   likesCount={game!.likesCount}
-                  usedCount={game!.usedCount}
                   comments={game!.comments}
                   initialLiked={game!.userHasLiked}
-                  initialUsed={game!.userHasUsed}
                   initialSaved={game!.userHasSaved}
                   currentUserId={session?.user?.id}
                   steps={game!.steps}

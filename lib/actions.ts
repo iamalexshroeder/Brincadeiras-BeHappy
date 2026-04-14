@@ -166,8 +166,11 @@ export async function getProfile() {
   const gamification = getLevelFromXp(user.xp, user.active_title)
 
   // Get counts for favorites, saved interactions, and contributions
-  const [likesGivenCount, savedCount, interactions] = await prisma.$transaction([
+  const [likesGivenCount, systemLikesGivenCount, savedCount, interactions] = await prisma.$transaction([
     prisma.interaction.count({
+      where: { user_id: user.id, type: "LIKE" },
+    }),
+    prisma.systemInteraction.count({
       where: { user_id: user.id, type: "LIKE" },
     }),
     prisma.interaction.count({
@@ -201,7 +204,7 @@ export async function getProfile() {
     unreadNotificationsCount,
     rankBadge,
     stats: {
-      favorites: likesGivenCount,
+      favorites: likesGivenCount + systemLikesGivenCount,
       saved: savedCount,
       contributions: user._count.brincadeiras,
       followers: user._count.followers,
@@ -399,14 +402,13 @@ export async function getBrincadeiraById(id: string) {
       if (g) {
         // Fetch real user interaction state
         const session = await auth()
-        let hasLiked = false, hasUsed = false, hasSaved = false
+        let hasLiked = false, hasSaved = false
         if (session?.user?.id) {
           const interactions = await prisma.systemInteraction.findMany({
             where: { user_id: session.user.id, game_id: id },
             select: { type: true }
           })
           hasLiked = interactions.some(i => i.type === "LIKE")
-          hasUsed = interactions.some(i => i.type === "USED")
           hasSaved = interactions.some(i => i.type === "SAVED")
         }
         return {
@@ -427,12 +429,9 @@ export async function getBrincadeiraById(id: string) {
           },
           tags: [col.label],
           likesCount: 0,
-          usedCount: 0,
           userHasLiked: hasLiked,
-          userHasUsed: hasUsed,
           userHasSaved: hasSaved,
           initialLiked: hasLiked,
-          initialUsed: hasUsed,
           initialSaved: hasSaved,
           comments: [],
           steps: g.steps,
@@ -503,12 +502,9 @@ export interface Brincadeira {
   }
   tags: string[]
   likesCount: number
-  usedCount: number
   userHasLiked: boolean
-  userHasUsed: boolean
   userHasSaved: boolean
   initialLiked: boolean
-  initialUsed: boolean
   initialSaved: boolean
   comments: any[]
   steps: string[]
@@ -557,12 +553,9 @@ function formatBrincadeira(b: any, currentUserId?: string, topThreeIds: string[]
     },
     tags: Array.isArray(b.tags) ? b.tags : [],
     likesCount: b.likes_count || 0,
-    usedCount: b.used_count || 0,
     userHasLiked: b.interactions?.some((i: any) => i.type === "LIKE") || false,
-    userHasUsed: b.interactions?.some((i: any) => i.type === "USED") || false,
     userHasSaved: b.interactions?.some((i: any) => i.type === "SAVED") || false,
     initialLiked: b.interactions?.some((i: any) => i.type === "LIKE") || false,
-    initialUsed: b.interactions?.some((i: any) => i.type === "USED") || false,
     initialSaved: b.interactions?.some((i: any) => i.type === "SAVED") || false,
     comments: b.comments || [],
     steps: Array.isArray(b.steps) ? b.steps : [],
@@ -717,64 +710,6 @@ export async function toggleLike(brincadeiraId: string) {
   revalidatePath("/explorar")
 }
 
-/**
- * Toggles a USED interaction. Awards XP to creator.
- */
-export async function toggleUsed(brincadeiraId: string) {
-  const session = await auth()
-  if (!session?.user?.id) throw new Error("Não autenticado")
-  const userId = session.user.id
-
-  const existing = await prisma.interaction.findUnique({
-    where: { user_id_brincadeira_id_type: { user_id: userId, brincadeira_id: brincadeiraId, type: "USED" } },
-  })
-
-  if (existing) {
-    await prisma.$transaction([
-      prisma.interaction.delete({ where: { id: existing.id } }),
-      prisma.brincadeira.update({
-        where: { id: brincadeiraId },
-        data: { used_count: { decrement: 1 } },
-      }),
-    ])
-  } else {
-    await prisma.$transaction([
-      prisma.interaction.create({
-        data: { user_id: userId, brincadeira_id: brincadeiraId, type: "USED" }
-      }),
-      prisma.brincadeira.update({
-        where: { id: brincadeiraId },
-        data: { used_count: { increment: 1 } }
-      })
-    ])
-
-    try {
-      const brincadeira = await prisma.brincadeira.findUnique({ where: { id: brincadeiraId }, select: { user_id: true } })
-
-      if (brincadeira) {
-        // 1. Award XP to the user who checked (the acting user)
-        await awardXP(userId, XP_VALUES.USED_CHECKED, "USED_CHECKED", brincadeiraId)
-
-        // 2. Award XP to creator (if not self)
-        if (brincadeira.user_id !== userId) {
-          await awardXP(brincadeira.user_id, 20, "USED_CHECKED", brincadeiraId)
-          await notifyUser(
-            brincadeira.user_id,
-            "SOCIAL",
-            "Sua brincadeira foi usada!",
-            "Incrível! Alguém acabou de realizar uma das suas brincadeiras. Você ganhou +20 XP!",
-            brincadeiraId
-          )
-        }
-      }
-    } catch (error) {
-      console.error("Erro em side-effects de toggleUsed:", error)
-    }
-  }
-
-  revalidatePath("/")
-  revalidatePath("/explorar")
-}
 
 /**
  * Toggles a SAVED interaction.
@@ -844,7 +779,7 @@ export async function getSavedBrincadeiras() {
  * for a list of system/pdf game IDs. Since system games are not in the DB,
  * they are stored in the SystemInteraction table.
  */
-export async function getSystemStats(ids: string[]): Promise<Record<string, { hasLiked: boolean; hasUsed: boolean; hasSaved: boolean }>> {
+export async function getSystemStats(ids: string[]): Promise<Record<string, { hasLiked: boolean; hasSaved: boolean }>> {
   const session = await auth()
   if (!session?.user?.id || ids.length === 0) return {}
 
@@ -856,14 +791,13 @@ export async function getSystemStats(ids: string[]): Promise<Record<string, { ha
     select: { game_id: true, type: true }
   })
 
-  const result: Record<string, { hasLiked: boolean; hasUsed: boolean; hasSaved: boolean }> = {}
+  const result: Record<string, { hasLiked: boolean; hasSaved: boolean }> = {}
   for (const id of ids) {
-    result[id] = { hasLiked: false, hasUsed: false, hasSaved: false }
+    result[id] = { hasLiked: false, hasSaved: false }
   }
   for (const interaction of interactions) {
-    if (!result[interaction.game_id]) result[interaction.game_id] = { hasLiked: false, hasUsed: false, hasSaved: false }
+    if (!result[interaction.game_id]) result[interaction.game_id] = { hasLiked: false, hasSaved: false }
     if (interaction.type === "LIKE") result[interaction.game_id].hasLiked = true
-    if (interaction.type === "USED") result[interaction.game_id].hasUsed = true
     if (interaction.type === "SAVED") result[interaction.game_id].hasSaved = true
   }
   return result
@@ -899,35 +833,7 @@ export async function toggleSystemLike(gameId: string) {
   revalidatePath("/explorar")
 }
 
-/**
- * Toggles a USED on a system/curated game (pdf-* IDs).
- */
-export async function toggleSystemUsed(gameId: string) {
-  const session = await auth()
-  if (!session?.user?.id) throw new Error("Não autenticado")
-  const userId = session.user.id
 
-  const existing = await prisma.systemInteraction.findUnique({
-    where: { user_id_game_id_type: { user_id: userId, game_id: gameId, type: "USED" } }
-  })
-
-  if (existing) {
-    await prisma.systemInteraction.delete({ where: { id: existing.id } })
-  } else {
-    await prisma.systemInteraction.create({
-      data: { user_id: userId, game_id: gameId, type: "USED" }
-    })
-    
-    try {
-      await awardXP(userId, XP_VALUES.USED_CHECKED, "USED_CHECKED", gameId)
-    } catch (error) {
-      console.error("Erro em side-effects de toggleSystemUsed:", error)
-    }
-  }
-
-  revalidatePath("/")
-  revalidatePath("/explorar")
-}
 
 /**
  * Toggles a SAVED on a system/curated game (pdf-* IDs).

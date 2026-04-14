@@ -117,10 +117,8 @@ export function ExplorarClient({ initialFeed, currentUserId }: Props) {
                     metadata={game.metadata}
                     tags={game.tags}
                     likesCount={game.likesCount}
-                    usedCount={game.usedCount}
                     comments={game.comments}
                     initialLiked={game.userHasLiked}
-                    initialUsed={game.userHasUsed}
                     initialSaved={game.userHasSaved}
                     currentUserId={currentUserId}
                     isSystemGame={game.id?.toString().startsWith('pdf-')}
@@ -155,10 +153,8 @@ export function ExplorarClient({ initialFeed, currentUserId }: Props) {
                   metadata={game.metadata}
                   tags={game.tags}
                   likesCount={game.likesCount}
-                  usedCount={game.usedCount}
                   comments={game.comments}
                   initialLiked={game.userHasLiked}
-                  initialUsed={game.userHasUsed}
                   initialSaved={game.userHasSaved}
                   currentUserId={currentUserId}
                   isSystemGame={game.id?.toString().startsWith('pdf-')}

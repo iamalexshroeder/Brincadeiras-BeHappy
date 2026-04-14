@@ -130,10 +130,8 @@ export default async function Home({
                   metadata={game.metadata}
                   tags={game.tags}
                   likesCount={game.likesCount}
-                  usedCount={game.usedCount}
                   comments={game.comments}
                   initialLiked={game.userHasLiked}
-                  initialUsed={game.userHasUsed}
                   initialSaved={game.userHasSaved}
                   currentUserId={session?.user?.id}
                   isSystemGame={game.id?.toString().startsWith('pdf-')}

@@ -32,7 +32,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { UserAvatar } from "@/components/ui/UserAvatar"
 import { getTitleForLevel } from "@/utils/gamification"
-import { toggleLike, toggleUsed, deleteBrincadeira, toggleSave, toggleSystemLike, toggleSystemUsed, toggleSystemSave } from "@/lib/actions"
+import { toggleLike, deleteBrincadeira, toggleSave, toggleSystemLike, toggleSystemSave } from "@/lib/actions"
 
 
 const AGE_GROUP_LABELS: Record<string, string> = {
@@ -65,11 +65,9 @@ interface BrincadeiraCardProps {
   }
   tags: string[]
   likesCount: number
-  usedCount: number
   commentsCount?: number
   comments?: any[]
   initialLiked?: boolean
-  initialUsed?: boolean
   initialSaved?: boolean
   steps?: string[]
   materials?: string[]
@@ -86,11 +84,9 @@ export function BrincadeiraCard({
   metadata,
   tags,
   likesCount = 0,
-  usedCount = 0,
   commentsCount = 0,
   comments = [],
   initialLiked = false,
-  initialUsed = false,
   initialSaved = false,
   currentUserId,
   steps = [],
@@ -101,19 +97,13 @@ export function BrincadeiraCard({
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
   const [isLiked, setIsLiked] = useState(initialLiked)
-  const [isUsed, setIsUsed] = useState(initialUsed)
   const [isSaved, setIsSaved] = useState(initialSaved)
   const [localLikes, setLocalLikes] = useState(likesCount)
-  const [localUsed, setLocalUsed] = useState(usedCount)
 
   // Sync local state when server re-renders with new data (after router.refresh)
   useEffect(() => {
     setIsLiked(initialLiked)
   }, [initialLiked])
-
-  useEffect(() => {
-    setIsUsed(initialUsed)
-  }, [initialUsed])
 
   useEffect(() => {
     setIsSaved(initialSaved)
@@ -122,10 +112,6 @@ export function BrincadeiraCard({
   useEffect(() => {
     setLocalLikes(likesCount)
   }, [likesCount])
-
-  useEffect(() => {
-    setLocalUsed(usedCount)
-  }, [usedCount])
 
   const isOwner = currentUserId === creator.id
 
@@ -163,25 +149,6 @@ export function BrincadeiraCard({
     })
   }
 
-  const handleUse = async (e: React.MouseEvent) => {
-    e.stopPropagation()
-    setIsUsed(!isUsed)
-    setLocalUsed(prev => isUsed ? prev - 1 : prev + 1)
-
-    startTransition(async () => {
-      try {
-        if (isSystemGame) {
-          await toggleSystemUsed(id)
-        } else {
-          await toggleUsed(id)
-        }
-        router.refresh()
-      } catch (error) {
-        setIsUsed(isUsed)
-        setLocalUsed(localUsed)
-      }
-    })
-  }
 
   const handleSave = async (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -271,17 +238,6 @@ export function BrincadeiraCard({
             <span className={cn("text-[13px] font-bold", isLiked ? "text-[#EF4444]" : "text-muted-foreground")}>{localLikes}</span>
           </button>
 
-          <button onClick={handleUse} className="flex items-center gap-1.5 text-muted-foreground active:scale-90 transition-all">
-            <motion.div
-              key={isUsed ? "used" : "unused"}
-              initial={{ scale: 0.8 }}
-              animate={{ scale: isUsed ? [0.8, 1.2, 1] : 1 }}
-              transition={{ duration: 0.3 }}
-            >
-              {isUsed ? <RiCheckboxCircleFill size={20} className="text-[#16A34A]" /> : <RiCheckboxCircleLine size={20} />}
-            </motion.div>
-            <span className={cn("text-[13px] font-bold", isUsed ? "text-[#16A34A]" : "text-muted-foreground")}>{localUsed}</span>
-          </button>
 
           <button onClick={handleSave} className="flex items-center text-muted-foreground active:scale-90 transition-all p-1">
             <motion.div
