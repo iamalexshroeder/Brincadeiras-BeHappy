@@ -38,17 +38,18 @@ export default async function Explorar({
           name: "BeHappyinha",
           avatar: "/behappyinha.png",
           level: 10,
-          title: "Curadoria Oficial"
+          title: "Curadoria Oficial",
+          activeTitle: "Curadoria Oficial"
         },
         metadata: {
-          ageRange: g.age,
-          duration: g.duration,
-          participants: g.participants
+          ageRange: String(g.age),
+          duration: String(g.duration),
+          participants: String(g.participants)
         },
-        tags: [activeKit.label],
-        likesCount: 0,
-        userHasLiked: systemStats[g.id]?.hasLiked ?? false,
-        userHasSaved: systemStats[g.id]?.hasSaved ?? false,
+        tags: [String(activeKit.label)],
+        likesCount: Number(systemStats[g.id]?.likesCount ?? 0),
+        userHasLiked: Boolean(systemStats[g.id]?.hasLiked ?? false),
+        userHasSaved: Boolean(systemStats[g.id]?.hasSaved ?? false),
         comments: [],
         publishedAt: "Oficial"
       }))

@@ -931,28 +931,45 @@ export async function getSavedBrincadeiras() {
  * for a list of system/pdf game IDs. Since system games are not in the DB,
  * they are stored in the SystemInteraction table.
  */
-export async function getSystemStats(ids: string[]): Promise<Record<string, { hasLiked: boolean; hasSaved: boolean }>> {
-  const session = await auth()
-  if (!session?.user?.id || ids.length === 0) return {}
+export async function getSystemStats(ids: string[]): Promise<Record<string, { hasLiked: boolean; hasSaved: boolean; likesCount: number }>> {
+  if (ids.length === 0) return {}
 
-  const interactions = await prisma.systemInteraction.findMany({
-    where: {
-      user_id: session.user.id,
-      game_id: { in: ids },
-      type: { in: ["LIKE", "SAVED"] }
-    },
-    select: { game_id: true, type: true }
+  const session = await auth()
+  const userId = session?.user?.id
+
+  // 1. Fetch current user's interactions if logged in
+  let userInteractions: any[] = []
+  if (userId) {
+    userInteractions = await prisma.systemInteraction.findMany({
+      where: {
+        user_id: userId,
+        game_id: { in: ids },
+        type: { in: ["LIKE", "SAVED"] }
+      },
+      select: { game_id: true, type: true }
+    })
+  }
+
+  // 2. Fetch total LIKE counts for all requested IDs (global)
+  const globalLikeCounts = await prisma.systemInteraction.groupBy({
+    by: ['game_id'],
+    where: { game_id: { in: ids }, type: "LIKE" },
+    _count: { _all: true }
   })
 
-  const result: Record<string, { hasLiked: boolean; hasSaved: boolean }> = {}
+  // 3. Build result map
+  const countsMap = new Map(globalLikeCounts.map(c => [c.game_id, c._count._all]))
+  const result: Record<string, { hasLiked: boolean; hasSaved: boolean; likesCount: number }> = {}
+
   for (const id of ids) {
-    result[id] = { hasLiked: false, hasSaved: false }
+    const userLikes = userInteractions.filter(i => i.game_id === id)
+    result[id] = { 
+      hasLiked: userLikes.some(i => i.type === "LIKE"), 
+      hasSaved: userLikes.some(i => i.type === "SAVED"),
+      likesCount: Number(countsMap.get(id) || 0)
+    }
   }
-  for (const interaction of interactions) {
-    if (!result[interaction.game_id]) result[interaction.game_id] = { hasLiked: false, hasSaved: false }
-    if (interaction.type === "LIKE") result[interaction.game_id].hasLiked = true
-    if (interaction.type === "SAVED") result[interaction.game_id].hasSaved = true
-  }
+
   return result
 }
 
