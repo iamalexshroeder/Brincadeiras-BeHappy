@@ -57,7 +57,7 @@ export default function TitulosPage() {
 
       <main className="px-5 py-6 space-y-8 pb-32">
         {/* Banner Atual */}
-        <div className="bg-white rounded-[24px] p-6 shadow-sm border border-border/50 text-center space-y-2">
+        <div className="bg-white rounded-[4px] p-6 shadow-sm border border-border/50 text-center space-y-2">
           <p className="text-[12px] font-bold text-muted-foreground uppercase tracking-wider">Título Ativo</p>
           <p className="text-[22px] font-extrabold text-primary">
             {activeTitle || "Padrão do Nível"}
@@ -83,7 +83,7 @@ export default function TitulosPage() {
                   onClick={() => setSelectedTitleInfo({ ...t, isUnlocked: true, type: 'EXCLUSIVE' })}
                   disabled={isPending}
                   className={cn(
-                    "w-full p-4 rounded-[20px] border-2 transition-all flex items-center justify-between text-left",
+                    "w-full p-4 rounded-[4px] border-2 transition-all flex items-center justify-between text-left",
                     activeTitle === t.title 
                       ? "bg-white border-primary shadow-md" 
                       : "bg-white/50 border-transparent hover:border-gray-300"
@@ -114,7 +114,7 @@ export default function TitulosPage() {
             {activeTitle && (
               <button
                 onClick={() => handleSelectTitle(null)}
-                className="w-full p-4 rounded-[20px] border-2 bg-white/30 border-dashed border-gray-300 transition-all flex items-center justify-center text-muted-foreground hover:bg-white/50"
+                className="w-full p-4 rounded-[4px] border-2 bg-white/30 border-dashed border-gray-300 transition-all flex items-center justify-center text-muted-foreground hover:bg-white/50"
               >
                 <span className="text-[15px] font-bold">Usar Título do Nível (Padrão)</span>
               </button>
@@ -131,7 +131,7 @@ export default function TitulosPage() {
                   key={tier.level}
                   onClick={() => setSelectedTitleInfo({ ...tier, isUnlocked, type: 'RANK' })}
                   className={cn(
-                    "w-full p-4 rounded-[20px] border-2 transition-all flex items-center gap-4 text-left",
+                    "w-full p-4 rounded-[4px] border-2 transition-all flex items-center gap-4 text-left",
                     isActive       && "bg-white border-[#C7C7CC]",
                     isUnlockedNotActive && "bg-white border-[#34C759]",
                     !isUnlocked    && "bg-[#F9F9F7] border-transparent opacity-50"
@@ -229,7 +229,7 @@ export default function TitulosPage() {
                     setSelectedTitleInfo(null);
                   }}
                   disabled={isPending || activeTitle === selectedTitleInfo.title}
-                  className="w-full h-12 bg-primary text-white font-bold rounded-[12px] active:scale-95 transition-all"
+                  className="w-full h-12 bg-primary text-white font-medium rounded-[4px] active:scale-[0.98] transition-all"
                 >
                   {isPending ? "Equipando..." : activeTitle === selectedTitleInfo.title ? "Já em uso" : "Equipar este Título"}
                 </Button>

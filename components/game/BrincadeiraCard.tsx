@@ -167,7 +167,7 @@ export function BrincadeiraCard({
   }
 
   return (
-    <Card className="overflow-hidden p-0 gap-0 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-card transition-transform active:scale-[0.98]">
+    <Card className="overflow-hidden p-0 gap-0 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[4px] bg-card transition-transform active:scale-[0.98]">
       <CardHeader className="px-3 pt-3 pb-1.5 flex flex-row items-center justify-between border-none bg-card">
         <Link href={`/recreador/${creator.id}`} className="flex items-center gap-2.5 active:scale-95 transition-all">
           <UserAvatar 
@@ -207,15 +207,15 @@ export function BrincadeiraCard({
         </p>
 
         <div className="flex flex-wrap gap-1.5 mb-1">
-          <div className="flex items-center gap-1 px-2.5 py-1 bg-[var(--blue-bg)] rounded-[6px] text-[10px] font-bold text-[var(--blue)] border border-[var(--blue)]/10 lowercase">
+          <div className="flex items-center gap-1 px-2.5 py-1 bg-[var(--blue-bg)] rounded-[4px] text-[10px] font-bold text-[var(--blue)] border border-[var(--blue)]/10 lowercase">
             <RiUserVoiceLine size={12} />
             {formatAgeGroup(metadata?.ageRange)}
           </div>
-          <div className="flex items-center gap-1 px-2.5 py-1 bg-[var(--purple-bg)] rounded-[6px] text-[10px] font-bold text-[var(--purple)] border border-[var(--purple)]/10 lowercase">
+          <div className="flex items-center gap-1 px-2.5 py-1 bg-[var(--purple-bg)] rounded-[4px] text-[10px] font-bold text-[var(--purple)] border border-[var(--purple)]/10 lowercase">
             <RiTimeLine size={12} />
             {metadata?.duration || "Variável"}
           </div>
-          <div className="flex items-center gap-1 px-2.5 py-1 bg-[var(--yellow-bg)] rounded-[6px] text-[10px] font-bold text-[var(--yellow)] border border-[var(--yellow)]/10 lowercase">
+          <div className="flex items-center gap-1 px-2.5 py-1 bg-[var(--yellow-bg)] rounded-[4px] text-[10px] font-bold text-[var(--yellow)] border border-[var(--yellow)]/10 lowercase">
             <RiGroupLine size={12} />
             {metadata?.participants || "Qualquer quant."}
           </div>

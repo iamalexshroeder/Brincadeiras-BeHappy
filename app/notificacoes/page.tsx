@@ -88,7 +88,7 @@ export default function Notificacoes() {
               <Card
                 key={notif.id}
                 className={cn(
-                  "p-4 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] active:scale-[0.98] transition-all bg-card relative overflow-hidden",
+                  "p-4 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[4px] active:scale-[0.98] transition-all bg-card relative overflow-hidden",
                   !notif.read && "ring-1 ring-primary/20"
                 )}
               >
@@ -132,13 +132,13 @@ export default function Notificacoes() {
               await markNotificationsRead()
               fetchNotifications()
             }}
-            className="flex-1 h-12 rounded-[12px] border border-[#E5E5EA] bg-white text-[15px] font-bold text-[#1A1A1A] active:scale-[0.98] transition-all shadow-sm"
+            className="flex-1 h-12 rounded-[4px] border border-[#E5E5EA] bg-white text-[15px] font-medium text-[#1A1A1A] active:scale-[0.98] transition-all shadow-sm"
           >
             Marcar como lidas
           </button>
           <button
             onClick={handleClearAll}
-            className="flex-1 h-12 rounded-[12px] border border-[#EF4444]/30 bg-white text-[15px] font-bold text-[#EF4444] active:scale-[0.98] transition-all shadow-sm"
+            className="flex-1 h-12 rounded-[4px] border border-[#EF4444]/30 bg-white text-[15px] font-medium text-[#EF4444] active:scale-[0.98] transition-all shadow-sm"
           >
             Limpar tudo
           </button>
