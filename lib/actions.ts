@@ -4,6 +4,7 @@ import { auth } from "@/auth"
 import prisma from "@/lib/prisma"
 import { XPReason } from "@prisma/client"
 import { Brincadeira, formatBrincadeira, formatSystemBrincadeira } from "@/lib/formatters"
+import { getLevelFromXp, getTitleForLevel, GAMIFICATION_TIERS, EXCLUSIVE_TITLES } from "@/utils/gamification"
 import { revalidatePath } from "next/cache"
 import { SYSTEM_COLLECTIONS } from "@/lib/data/biblioteca"
 import { WEEKLY_MISSIONS } from "@/lib/missions"
@@ -800,12 +801,8 @@ export async function toggleSystemLike(gameId: string) {
     await prisma.systemInteraction.create({
       data: { user_id: userId, game_id: gameId, type: "LIKE" }
     })
-    
-    try {
-      await awardXP(userId, XP_VALUES.LIKE_GIVEN, "LIKE_GIVEN", gameId)
-    } catch (error) {
-      console.error("Erro em side-effects de toggleSystemLike:", error)
-    }
+    // Sem XP: curtidas em brincadeiras do sistema não geram recompensa.
+    // XP só é concedido ao curtir brincadeiras de usuários reais (toggleLike).
   }
 
   revalidatePath("/", "layout")

@@ -84,7 +84,7 @@ export function formatBrincadeira(b: any, currentUserId?: string, topThreeIds: s
     initialSaved: Boolean(b.interactions?.some((i: any) => i.type === "SAVED")),
     comments: [], // Simplified to avoid serialization issues
     steps: Array.isArray(b.steps) ? b.steps.map(String) : [],
-    materials: Array.isArray(game?.materials ?? b.materials) ? (game?.materials ?? b.materials).map(String) : [], // Protective check for game vs b
+    materials: Array.isArray(b.materials) ? b.materials.map(String) : [],
     commentsCount: Number(b.comments?.length || 0),
     publishedAt: b.created_at ? new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short" }).format(new Date(b.created_at)).replace(".", "") : "Recentemente",
     rawType: String(b.type || "CRIATIVA"),
