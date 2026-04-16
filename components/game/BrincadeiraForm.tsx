@@ -160,12 +160,25 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
                 {description || "Sem descrição disponível."}
               </p>
             ) : (
-              <textarea
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-                placeholder="Qual o objetivo principal desta brincadeira?"
-                className="textarea-base min-h-[100px]"
-              />
+              <div className="space-y-2">
+                <textarea
+                  value={description}
+                  onChange={e => setDescription(e.target.value)}
+                  placeholder="Seja descritivo! Explique o objetivo e o clima da brincadeira para inspirar outros monitores."
+                  className={cn(
+                    "textarea-base min-h-[120px] transition-all",
+                    description.length > 0 && description.length < 30 && "border-amber-200 focus:border-amber-400"
+                  )}
+                />
+                <p className={cn(
+                  "text-[11px] font-bold px-1 transition-all",
+                  description.length > 0 && description.length < 30 ? "text-amber-500" : "text-[#8E8E93]"
+                )}>
+                  {description.length > 0 && description.length < 30 
+                    ? "⚠️ Tente descrever um pouco mais para ajudar quem for ler!" 
+                    : "Dica: Descrições completas aumentam o engajamento da brincadeira."}
+                </p>
+              </div>
             )}
           </div>
         </div>
@@ -323,12 +336,22 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
                       {step}
                     </div>
                   ) : (
-                    <textarea
-                      value={step}
-                      onChange={e => handleStepChange(i, e.target.value)}
-                      placeholder={`O que fazer na etapa ${i + 1}?`}
-                      className="w-full bg-[#F2F2F7] border-2 border-transparent rounded-[12px] p-4 pr-12 min-h-[80px] text-[15px] font-medium text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none resize-none focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/10 transition-all"
-                    />
+                    <div className="space-y-1.5 w-full">
+                      <textarea
+                        value={step}
+                        onChange={e => handleStepChange(i, e.target.value)}
+                        placeholder={`Diga exatamente o que fazer no passo ${i + 1}. Evite textos cortados!`}
+                        className={cn(
+                          "w-full bg-[#F2F2F7] border-2 border-transparent rounded-[12px] p-4 pr-12 min-h-[100px] text-[15px] font-medium text-[#1A1A1A] placeholder:text-[#C7C7CC] outline-none resize-none focus:bg-white focus:border-primary/20 focus:ring-4 focus:ring-primary/10 transition-all",
+                          step.length > 0 && step.length < 20 && "border-amber-200"
+                        )}
+                      />
+                      {step.length > 0 && step.length < 20 && (
+                        <p className="text-[10px] font-bold text-amber-500 px-1">
+                          Este passo parece muito curto. Tente detalhar mais!
+                        </p>
+                      )}
+                    </div>
                   )}
                   {steps.length > 1 && mode !== "VIEW" && (
                     <button
