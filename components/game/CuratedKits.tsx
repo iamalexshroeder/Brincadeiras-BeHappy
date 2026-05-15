@@ -30,19 +30,32 @@ export function CuratedKits() {
               key={kit.id}
               onClick={() => handleKitClick(kit.id)}
               className={cn(
-                "flex items-center gap-2 px-3.5 h-9 rounded-[10px] font-bold text-[13px] transition-all active:scale-95 border whitespace-nowrap",
+                "flex items-center gap-3 px-4 py-2.5 rounded-[16px] font-bold transition-all active:scale-95 border bg-white",
                 isActive
                   ? "border-2 shadow-sm"
-                  : "bg-white border-[#E5E5EA] text-[#1A1A1A] hover:bg-[#F9F9F7]"
+                  : "border-[#E5E5EA] text-[#1A1A1A] hover:bg-[#F9F9F7]"
               )}
               style={isActive ? {
-                backgroundColor: kit.bg,
                 borderColor: kit.color,
+                backgroundColor: kit.bg,
                 color: kit.color,
               } : {}}
             >
-              <Icon size={16} style={{ color: kit.color }} />
-              {kit.label}
+              <div 
+                className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+                style={{ backgroundColor: isActive ? 'white' : kit.bg }}
+              >
+                <Icon size={20} style={{ color: kit.color }} />
+              </div>
+              <div className="flex flex-col items-start pr-2">
+                <span className="text-[14px] leading-tight">{kit.label}</span>
+                <span className={cn(
+                  "text-[11px] font-medium mt-0.5",
+                  isActive ? "opacity-90" : "text-[#8E8E93]"
+                )}>
+                  {kit.games.length} brincadeiras
+                </span>
+              </div>
             </button>
           )
         })}

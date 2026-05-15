@@ -3,7 +3,7 @@ import { BrincadeiraCard } from "@/components/game/BrincadeiraCard"
 import { CuratedKits } from "@/components/game/CuratedKits"
 import Link from "next/link"
 import { RiFileList3Line, RiCompass3Line } from "@remixicon/react"
-import { getFeed } from "@/lib/actions"
+import { getFeed, getMyContributions } from "@/lib/actions"
 import { auth } from "@/auth"
 
 export const dynamic = "force-dynamic"
@@ -16,15 +16,20 @@ export default async function Home({
   const { category, kit } = await searchParams
   
   let feed: any[] = []
+  let myGames: any[] = []
   let session: any = null
   
   try {
-    const [feedResult, sessionResult] = await Promise.all([
-      getFeed(20, undefined, category, kit),
-      auth(),
-    ])
-    feed = feedResult?.items || []
+    const sessionResult = await auth()
     session = sessionResult
+
+    const [feedResult, myGamesResult] = await Promise.all([
+      getFeed(20, undefined, category, kit),
+      session?.user?.id ? getMyContributions() : Promise.resolve([])
+    ])
+    
+    feed = feedResult?.items || []
+    myGames = (myGamesResult || []).slice(0, 4) // Show only first 4 on home
   } catch (error) {
     console.error("Error loading home feed:", error)
   }
@@ -35,16 +40,6 @@ export default async function Home({
 
       <main className="pb-48 pt-2 space-y-8 overflow-visible animate-in fade-in slide-in-from-bottom-4 duration-500">
         
-        {/* Hero Section / Banner */}
-        <div className="px-4 sm:px-6">
-           <div className="bg-gradient-to-br from-primary/10 to-primary/5 p-6 rounded-[24px] border border-primary/10 relative overflow-hidden group">
-              <div className="relative z-10">
-                <h2 className="text-[20px] font-black text-foreground mb-1">Explore Brincadeiras</h2>
-                <p className="text-[13px] font-medium text-muted-foreground max-w-[200px]">Descubra as melhores atividades para recreação e lazer.</p>
-              </div>
-              <RiCompass3Line size={80} className="absolute -right-4 -bottom-4 text-primary/10 group-hover:scale-110 transition-transform duration-500" />
-           </div>
-        </div>
 
         {/* Curated Kits Section */}
         <section className="px-4 sm:px-6 overflow-visible">
@@ -55,6 +50,38 @@ export default async function Home({
           </div>
           <CuratedKits />
         </section>
+
+        {/* Minhas Brincadeiras Section */}
+        {session?.user && myGames.length > 0 && (
+          <section className="overflow-visible">
+            <div className="flex items-baseline justify-between mb-4 px-4 sm:px-6">
+              <h2 className="text-caption">Minhas brincadeiras</h2>
+              <Link href="/perfil/minhas" className="text-[13px] font-bold text-primary">
+                Ver tudo
+              </Link>
+            </div>
+            <div className="space-y-4 px-4 sm:px-6 overflow-visible">
+              {myGames.map((game) => game && (
+                <BrincadeiraCard
+                  key={game.id}
+                  id={game.id}
+                  title={game.title}
+                  description={game.description}
+                  creator={game.creator}
+                  metadata={game.metadata}
+                  tags={game.tags}
+                  likesCount={game.likesCount}
+                  comments={game.comments}
+                  initialLiked={game.userHasLiked}
+                  initialSaved={game.userHasSaved}
+                  currentUserId={session?.user?.id}
+                  isSystemGame={false}
+                  publishedAt={game.publishedAt}
+                />
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Feed Section */}
         <section className="overflow-visible">
