@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma"
 import { XPReason } from "@prisma/client"
 import { Brincadeira, formatBrincadeira, formatSystemBrincadeira } from "@/lib/formatters"
 import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
 import { SYSTEM_COLLECTIONS } from "@/lib/data/biblioteca"
 import { WEEKLY_MISSIONS } from "@/lib/missions"
 
