@@ -1151,60 +1151,6 @@ export async function updateProfile(data: { name?: string, avatar_url?: string }
   return { success: true }
 }
 
-/**
- * Updates the user's active title with server-side validation.
- * Ensures only earned titles can be equipped.
- */
-export async function updateActiveTitle(title: string | null) {
-  const session = await auth()
-  if (!session?.user?.id) throw new Error("Não autenticado")
-
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: { xp: true, name: true }
-  })
-
-  if (!user) throw new Error("Usuário não encontrado")
-
-  // Allow resetting to default
-  if (title === null) {
-    await prisma.user.update({
-      where: { id: session.user.id },
-      data: { active_title: null }
-    })
-    revalidatePath("/")
-    revalidatePath("/perfil")
-    return
-  }
-
-  // Check if it's a standard rank title
-  const rankTier = GAMIFICATION_TIERS.find(t => t.title === title)
-  if (rankTier) {
-    if (user.xp < rankTier.minXp) {
-      throw new Error(`Título bloqueado: Requer nível ${rankTier.level} (${rankTier.minXp} XP)`)
-    }
-  } else {
-    // Check if it's an exclusive title
-    const exclusiveTitle = EXCLUSIVE_TITLES.find(t => t.title === title)
-    if (exclusiveTitle) {
-      const isJadhe = user.name?.toLowerCase().includes("jadhe")
-      if (!isJadhe) {
-        throw new Error("Este título é exclusivo para membros de elite.")
-      }
-    } else {
-      throw new Error("Título inválido")
-    }
-  }
-
-  await prisma.user.update({
-    where: { id: session.user.id },
-    data: { active_title: title }
-  })
-
-  revalidatePath("/")
-  revalidatePath("/perfil")
-  revalidatePath("/ranking")
-}
 
 
 // ---------------------------------------------------------------------------
