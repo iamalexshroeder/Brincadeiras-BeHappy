@@ -1062,12 +1062,6 @@ export async function deleteBrincadeira(id: string) {
     prisma.comment.deleteMany({ where: { brincadeira_id: id } }),
     prisma.brincadeira.delete({ where: { id } })
   ])
-
-  revalidatePath("/")
-  revalidatePath("/perfil")
-  revalidatePath("/explorar")
-  revalidatePath("/ranking")
-  revalidatePath("/notificacoes")
 }
 
 /**

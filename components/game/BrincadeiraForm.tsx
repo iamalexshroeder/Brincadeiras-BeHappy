@@ -106,7 +106,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
                title: "Excluída",
                message: "A brincadeira foi excluída com sucesso.",
                onConfirm: () => {
-                  router.push("/")
+                  window.location.href = "/"
                }
             })
           }

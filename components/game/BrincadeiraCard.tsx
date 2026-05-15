@@ -151,7 +151,7 @@ export function BrincadeiraCard({
               title: "Excluída",
               message: "Brincadeira excluída com sucesso.",
               onConfirm: () => {
-                router.refresh()
+                window.location.reload()
               }
             })
           } catch (error) {
