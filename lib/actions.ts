@@ -1060,12 +1060,7 @@ export async function deleteBrincadeira(id: string) {
   await prisma.$transaction([
     prisma.interaction.deleteMany({ where: { brincadeira_id: id } }),
     prisma.comment.deleteMany({ where: { brincadeira_id: id } }),
-    prisma.brincadeira.delete({ where: { id } }),
-    // Subtract XP from user
-    prisma.user.update({
-      where: { id: session.user.id },
-      data: { xp: { decrement: 50 } }
-    })
+    prisma.brincadeira.delete({ where: { id } })
   ])
 
   revalidatePath("/")

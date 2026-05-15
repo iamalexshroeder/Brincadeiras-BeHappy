@@ -75,9 +75,18 @@ export function BrincadeiraCard({
 }: BrincadeiraCardProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
+  
   const [isLiked, setIsLiked] = useState(initialLiked)
-  const [isSaved, setIsSaved] = useState(initialSaved)
   const [localLikes, setLocalLikes] = useState(likesCount)
+  const [isSaved, setIsSaved] = useState(initialSaved)
+  
+  const [popup, setPopup] = useState<{
+    isOpen: boolean;
+    title?: string;
+    message: string;
+    type: "error" | "success" | "confirm";
+    onConfirm?: () => void;
+  }>({ isOpen: false, message: "", type: "error" })
 
   const isOwner = currentUserId === creator.id && !isSystemGame
 
@@ -126,18 +135,36 @@ export function BrincadeiraCard({
     }
   }
 
-  const handleDelete = async () => {
-    if (confirm("Tem certeza que deseja excluir esta brincadeira?")) {
-      startTransition(async () => {
-        try {
-          await deleteBrincadeira(id)
-          toast.success("Brincadeira excluída")
-          router.refresh()
-        } catch (error) {
-          toast.error("Erro ao excluir")
-        }
-      })
-    }
+  const handleDelete = () => {
+    setPopup({
+      isOpen: true,
+      type: "confirm",
+      title: "Excluir Brincadeira",
+      message: "Tem certeza que deseja excluir esta brincadeira?",
+      onConfirm: () => {
+        startTransition(async () => {
+          try {
+            await deleteBrincadeira(id)
+            setPopup({
+              isOpen: true,
+              type: "success",
+              title: "Excluída",
+              message: "Brincadeira excluída com sucesso.",
+              onConfirm: () => {
+                router.refresh()
+              }
+            })
+          } catch (error) {
+            setPopup({
+              isOpen: true,
+              type: "error",
+              title: "Erro",
+              message: "Erro ao excluir brincadeira."
+            })
+          }
+        })
+      }
+    })
   }
 
   const handleShare = async (e: React.MouseEvent) => {
@@ -267,6 +294,54 @@ export function BrincadeiraCard({
           </div>
         </Card>
       </Link>
+
+      {/* Custom Popup Modal */}
+      {popup.isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#1A1A1A]/40 backdrop-blur-sm p-4 animate-in fade-in duration-200" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white rounded-[12px] p-6 w-full max-w-[320px] shadow-[0_8px_30px_rgba(0,0,0,0.12)] flex flex-col items-center text-center zoom-in-95 animate-in duration-200" onClick={(e) => e.stopPropagation()}>
+            {popup.title && <h3 className="text-[18px] font-black text-[#1A1A1A] mb-2">{popup.title}</h3>}
+            <p className="text-[15px] font-medium text-[#8E8E93] mb-6">{popup.message}</p>
+            
+            {popup.type === "confirm" ? (
+              <div className="flex w-full gap-3">
+                <button
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    setPopup({ ...popup, isOpen: false })
+                  }}
+                  className="flex-1 btn-secondary"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    setPopup({ ...popup, isOpen: false })
+                    popup.onConfirm?.()
+                  }}
+                  className="flex-1 btn-danger"
+                >
+                  Excluir
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setPopup({ ...popup, isOpen: false })
+                  popup.onConfirm?.()
+                }}
+                className="w-full btn-primary"
+              >
+                Ok
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </motion.div>
   )
 }
