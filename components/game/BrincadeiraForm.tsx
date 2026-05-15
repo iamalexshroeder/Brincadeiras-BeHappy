@@ -177,10 +177,10 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
           window.location.replace("/")
         }
       })
-    } catch (err) {
+    } catch (err: any) {
       console.error(err)
       setIsSubmitting(false)
-      showError("Ocorreu um erro ao salvar. Tente novamente.")
+      showError(err?.message || "Ocorreu um erro ao salvar. Tente novamente.")
     }
   }
 
@@ -213,21 +213,30 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
               <div className="space-y-2">
                 <textarea
                   value={description}
-                  onChange={e => setDescription(e.target.value)}
+                  maxLength={120}
+                  onChange={e => setDescription(e.target.value.slice(0, 120))}
                   placeholder="Seja descritivo! Explique o objetivo e o clima da brincadeira para inspirar outros monitores."
                   className={cn(
                     "textarea-base min-h-[120px] transition-all",
                     description.length > 0 && description.length < 30 && "border-amber-200 focus:border-amber-400"
                   )}
                 />
-                <p className={cn(
-                  "text-[11px] font-bold px-1 transition-all",
-                  description.length > 0 && description.length < 30 ? "text-amber-500" : "text-[#8E8E93]"
-                )}>
-                  {description.length > 0 && description.length < 30 
-                    ? "⚠️ Tente descrever um pouco mais para ajudar quem for ler!" 
-                    : "Dica: Descrições completas aumentam o engajamento da brincadeira."}
-                </p>
+                <div className="flex justify-between items-center px-1">
+                  <p className={cn(
+                    "text-[11px] font-bold transition-all",
+                    description.length > 0 && description.length < 30 ? "text-amber-500" : "text-[#8E8E93]"
+                  )}>
+                    {description.length > 0 && description.length < 30 
+                      ? "⚠️ Tente descrever um pouco mais para ajudar quem for ler!" 
+                      : "Dica: Descrições completas aumentam o engajamento."}
+                  </p>
+                  <span className={cn(
+                    "text-[11px] font-bold",
+                    description.length >= 120 ? "text-red-500" : "text-[#8E8E93]"
+                  )}>
+                    {description.length}/120
+                  </span>
+                </div>
               </div>
             )}
           </div>

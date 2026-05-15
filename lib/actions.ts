@@ -796,7 +796,7 @@ export async function createBrincadeira(data: {
     data: {
       user_id: userId,
       title: data.title,
-      short_description: data.short_description,
+      short_description: data.short_description.substring(0, 120),
       type: data.type as any,
       steps: data.steps,
       materials: data.materials,
@@ -1081,7 +1081,7 @@ export async function updateBrincadeira(id: string, data: any) {
     where: { id, user_id: session.user.id },
     data: {
       title: data.title,
-      short_description: data.short_description,
+      short_description: data.short_description.substring(0, 120),
       steps: data.steps,
       materials: data.materials,
       type: data.type as any,
