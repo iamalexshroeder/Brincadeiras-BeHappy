@@ -1062,7 +1062,7 @@ export async function deleteBrincadeira(id: string) {
   const session = await auth()
   if (!session?.user?.id) throw new Error("Não autenticado")
 
-  const brincadeira = await prisma.brincadeira.findUnique({
+  const brincadeira = await prisma.brincadeira.findFirst({
     where: { id, user_id: session.user.id },
     select: { id: true }
   })
@@ -1085,8 +1085,14 @@ export async function updateBrincadeira(id: string, data: any) {
   const session = await auth()
   if (!session?.user?.id) throw new Error("Não autenticado")
 
-  await prisma.brincadeira.update({
+  const existing = await prisma.brincadeira.findFirst({
     where: { id, user_id: session.user.id },
+    select: { id: true }
+  })
+  if (!existing) throw new Error("Brincadeira não encontrada ou sem permissão")
+
+  await prisma.brincadeira.update({
+    where: { id },
     data: {
       title: data.title,
       short_description: data.short_description.substring(0, 120),
