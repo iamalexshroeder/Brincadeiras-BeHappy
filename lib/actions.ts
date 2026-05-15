@@ -130,9 +130,6 @@ export async function getProfile() {
 }
 
 
-/**
- * Gets a public profile of another user by their ID.
- */
 export async function getPublicProfile(userId: string) {
   const session = await auth()
   const currentUserId = session?.user?.id
@@ -142,11 +139,11 @@ export async function getPublicProfile(userId: string) {
     select: {
       id: true,
       name: true,
-      avatar_url: true,
       image: true,
-      xp: true,
-      active_title: true,
-      created_at: true,
+      avatar_url: true,
+      bio: true,
+      city: true,
+      state: true,
       _count: {
         select: {
           brincadeiras: true,
@@ -159,14 +156,12 @@ export async function getPublicProfile(userId: string) {
 
   if (!user) return null
 
-  const gamification = getLevelFromXp(user.xp, user.active_title)
-
   // Get their brincadeiras
-  const brincadeiras = await prisma.brincadeira.findMany({
+  const brincadeirasData = await prisma.brincadeira.findMany({
     where: { user_id: userId, published_at: { not: null } },
     include: {
       user: {
-        select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true },
+        select: { id: true, name: true, avatar_url: true, image: true },
       },
       comments: {
         include: {
@@ -200,22 +195,14 @@ export async function getPublicProfile(userId: string) {
     userIsFollowing = !!follow
   }
 
-  const topThreeIds = await getTopThreeIds()
-  let rankBadge: "gold" | "silver" | "bronze" | null = null
-  if (topThreeIds[0] === user.id) rankBadge = "gold"
-  else if (topThreeIds[1] === user.id) rankBadge = "silver"
-  else if (topThreeIds[2] === user.id) rankBadge = "bronze"
-
   return {
     ...user,
-    ...gamification,
     avatar: user.avatar_url ?? user.image,
-    brincadeiras: brincadeiras.map(b => formatBrincadeira(b, currentUserId, topThreeIds)).filter(Boolean),
+    brincadeiras: brincadeirasData.map(b => formatBrincadeira(b, currentUserId)).filter(Boolean),
     totalContributions: user._count.brincadeiras,
     followersCount: user._count.followers,
     followingCount: user._count.following,
     userIsFollowing,
-    rankBadge
   }
 }
 
@@ -229,7 +216,6 @@ export async function getFeed(
 ) {
   const session = await auth()
   const userId = session?.user?.id
-  const topThreeIds = await getTopThreeIds()
 
   let whereClause: any = { published_at: { not: null } }
 
@@ -240,8 +226,6 @@ export async function getFeed(
       select: { followingId: true }
     })
     const followingIds = following.map(f => f.followingId)
-    
-    // If user follows no one, but requested followingOnly, we return an empty list or their own posts
     whereClause.user_id = { in: followingIds }
   }
 
@@ -256,10 +240,8 @@ export async function getFeed(
       whereClause.tags = { has: kit }
     }
   } else if (!searchQuery) {
-    // Feed genérico sem busca: esconde brincadeiras do sistema
     whereClause.user = { email: { not: "equipe@behappy.com" } }
   }
-  // Com searchQuery: inclui todas, incluindo as da BeHappyinha
 
   if (searchQuery) {
     whereClause.OR = [
@@ -276,7 +258,7 @@ export async function getFeed(
     orderBy: { published_at: "desc" },
     include: {
       user: {
-        select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true },
+        select: { id: true, name: true, avatar_url: true, image: true },
       },
       comments: {
         include: {
@@ -294,13 +276,9 @@ export async function getFeed(
         : undefined,
     },
   })
-
-  const hasMore = brincadeiras.length > limit
-  const finalBrincadeiras = hasMore ? brincadeiras.slice(0, -1) : brincadeiras
-
   return {
-    items: finalBrincadeiras.map((b) => formatBrincadeira(b, userId, topThreeIds)).filter(Boolean),
-    nextCursor: hasMore ? finalBrincadeiras[finalBrincadeiras.length - 1].id : null,
+    items: brincadeiras.slice(0, limit).map((b) => formatBrincadeira(b, userId)),
+    nextCursor: brincadeiras.length > limit ? brincadeiras[limit].id : null,
   }
 }
 
@@ -366,7 +344,7 @@ export async function getBrincadeiraById(id: string) {
   })
 
   if (!brincadeira) return null
-  return formatBrincadeira(brincadeira, currentUserId, topThreeIds)
+  return formatBrincadeira(brincadeira, currentUserId)
 }
 
 // ----------------------------------------------------------------------------
