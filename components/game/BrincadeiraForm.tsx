@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils"
 import { createBrincadeira, updateBrincadeira, deleteBrincadeira } from "@/lib/actions"
 import { RiDeleteBinLine } from "@remixicon/react"
 import Link from "next/link"
-import { toast } from "sonner"
 
 const CATEGORIES = ["Físico", "Musical", "Criativo", "Educativo", "Cooperação"]
 const AGE_LABELS: Record<string, string> = {
@@ -41,6 +40,13 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
   const router = useRouter()
   const pathname = usePathname()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [popup, setPopup] = useState<{
+    isOpen: boolean;
+    title?: string;
+    message: string;
+    type: "error" | "success" | "confirm";
+    onConfirm?: () => void;
+  }>({ isOpen: false, message: "", type: "error" })
 
   // O BottomNav só aparece fora de /criar e /login
   const hasBottomNav = pathname !== "/criar" && pathname !== "/login"
@@ -83,37 +89,56 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
   const handleAddStep = () => setSteps([...steps, ""])
   const handleRemoveStep = (index: number) => setSteps(steps.filter((_, i) => i !== index))
 
-  const handleDelete = async () => {
-    if (confirm("Tem certeza que deseja excluir esta brincadeira permanentemente?")) {
-      setIsSubmitting(true)
-      try {
-        if (id) {
-          await deleteBrincadeira(id)
-          router.push("/perfil")
-          router.refresh()
+  const handleDelete = () => {
+    setPopup({
+      isOpen: true,
+      type: "confirm",
+      title: "Excluir Brincadeira",
+      message: "Tem certeza que deseja excluir esta brincadeira permanentemente?",
+      onConfirm: async () => {
+        setIsSubmitting(true)
+        try {
+          if (id) {
+            await deleteBrincadeira(id)
+            setPopup({
+               isOpen: true,
+               type: "success",
+               title: "Excluída",
+               message: "A brincadeira foi excluída com sucesso.",
+               onConfirm: () => {
+                  router.push("/")
+                  router.refresh()
+               }
+            })
+          }
+        } catch (err) {
+          console.error(err)
+          setIsSubmitting(false)
+          setPopup({ isOpen: true, type: "error", title: "Erro", message: "Ocorreu um erro ao excluir." })
         }
-      } catch (err) {
-        console.error(err)
-        setIsSubmitting(false)
       }
-    }
+    })
+  }
+
+  const showError = (message: string) => {
+    setPopup({ isOpen: true, type: "error", title: "Atenção", message })
   }
 
   const handleSubmit = async () => {
     // Basic Validation
-    if (!title.trim()) return toast.error("O título é obrigatório")
-    if (!description.trim()) return toast.error("A descrição é obrigatória")
-    if (selectedCategories.length === 0) return toast.error("Selecione pelo menos uma categoria")
-    if (ageGroups.length === 0) return toast.error("Selecione pelo menos uma faixa etária")
+    if (!title.trim()) return showError("O título é obrigatório.")
+    if (!description.trim()) return showError("A descrição é obrigatória.")
+    if (selectedCategories.length === 0) return showError("Selecione pelo menos uma categoria.")
+    if (ageGroups.length === 0) return showError("Selecione pelo menos uma faixa etária.")
     
     const durationNum = parseInt(duration)
-    if (isNaN(durationNum) || durationNum <= 0) return toast.error("Informe um tempo válido (em minutos)")
+    if (isNaN(durationNum) || durationNum <= 0) return showError("Informe um tempo válido (em minutos).")
     
     const participantsNum = parseInt(participants)
-    if (isNaN(participantsNum) || participantsNum <= 0) return toast.error("Informe o número mínimo de participantes")
+    if (isNaN(participantsNum) || participantsNum <= 0) return showError("Informe o número mínimo de participantes.")
 
     const filteredSteps = steps.filter(s => s.trim() !== "")
-    if (filteredSteps.length === 0) return toast.error("Adicione pelo menos um passo no 'Como Jogar'")
+    if (filteredSteps.length === 0) return showError("Adicione pelo menos um passo no 'Como Jogar'.")
 
     setIsSubmitting(true)
 
@@ -140,25 +165,26 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
       }
 
       if (mode === "CREATE") {
-        const newGame = await createBrincadeira(payload)
-        if (newGame?.id) {
-          toast.success("Brincadeira publicada com sucesso!")
-          router.push(`/brincadeira/${newGame.id}`)
-          return
-        }
+        await createBrincadeira(payload)
       } else if (mode === "EDIT" && id) {
         await updateBrincadeira(id, payload)
-        toast.success("Alterações salvas!")
-        router.push(`/brincadeira/${id}`)
-        return
       }
 
-      router.push("/perfil")
-      router.refresh()
+      setIsSubmitting(false)
+      setPopup({
+        isOpen: true,
+        type: "success",
+        title: "Sucesso!",
+        message: mode === "CREATE" ? "Sua brincadeira foi publicada." : "Alterações salvas.",
+        onConfirm: () => {
+          router.push("/")
+          router.refresh()
+        }
+      })
     } catch (err) {
       console.error(err)
-      toast.error("Ocorreu um erro ao salvar. Tente novamente.")
       setIsSubmitting(false)
+      showError("Ocorreu um erro ao salvar. Tente novamente.")
     }
   }
 
@@ -465,6 +491,46 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
               )}
             </button>
           )}
+        </div>
+      )}
+
+      {/* Custom Popup Modal */}
+      {popup.isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#1A1A1A]/40 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+          <div className="bg-white rounded-[24px] p-6 w-full max-w-[320px] shadow-[0_8px_30px_rgba(0,0,0,0.12)] flex flex-col items-center text-center zoom-in-95 animate-in duration-200">
+            {popup.title && <h3 className="text-[18px] font-black text-[#1A1A1A] mb-2">{popup.title}</h3>}
+            <p className="text-[15px] font-medium text-[#8E8E93] mb-6">{popup.message}</p>
+            
+            {popup.type === "confirm" ? (
+              <div className="flex w-full gap-3">
+                <button
+                  onClick={() => setPopup({ ...popup, isOpen: false })}
+                  className="flex-1 btn-secondary"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={() => {
+                    setPopup({ ...popup, isOpen: false })
+                    popup.onConfirm?.()
+                  }}
+                  className="flex-1 btn-danger"
+                >
+                  Excluir
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => {
+                  setPopup({ ...popup, isOpen: false })
+                  popup.onConfirm?.()
+                }}
+                className="w-full btn-primary"
+              >
+                Ok
+              </button>
+            )}
+          </div>
         </div>
       )}
     </div>
