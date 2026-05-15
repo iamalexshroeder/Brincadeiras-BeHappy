@@ -4,7 +4,7 @@ import { useState } from "react"
 import { usePathname } from "next/navigation"
 import { RiCloseLine, RiAddLine, RiLoader4Line, RiDeleteBinLine, RiEditLine } from "@remixicon/react"
 import { cn } from "@/lib/utils"
-import { createBrincadeira, updateBrincadeira, deleteBrincadeira, clearCacheAndRedirect } from "@/lib/actions"
+import { createBrincadeira, updateBrincadeira, deleteBrincadeira, revalidateAll } from "@/lib/actions"
 import Link from "next/link"
 
 const CATEGORIES = ["Físico", "Musical", "Criativo", "Educativo", "Cooperação"]
@@ -104,7 +104,8 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
                title: "Excluída",
                message: "A brincadeira foi excluída com sucesso.",
                onConfirm: async () => {
-                  await clearCacheAndRedirect()
+                  await revalidateAll()
+                  window.location.replace("/")
                }
             })
           }
@@ -174,7 +175,8 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
         title: "Sucesso!",
         message: mode === "CREATE" ? "Sua brincadeira foi publicada." : "Alterações salvas.",
         onConfirm: async () => {
-          await clearCacheAndRedirect()
+          await revalidateAll()
+          window.location.replace("/")
         }
       })
     } catch (err: any) {
