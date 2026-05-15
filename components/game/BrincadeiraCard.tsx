@@ -208,25 +208,7 @@ export function BrincadeiraCard({
               </div>
 
               <div className="flex items-center gap-1">
-                {isOwner && (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild onClick={(e) => e.preventDefault()}>
-                      <button className="h-8 w-8 flex items-center justify-center text-muted-foreground hover:bg-gray-100 rounded-full transition-colors">
-                        <RiMore2Fill size={20} />
-                      </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-40">
-                      <DropdownMenuItem onClick={() => router.push(`/editar/${id}`)}>
-                        <RiEditLine className="mr-2 h-4 w-4" />
-                        Editar
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={handleDelete} className="text-red-600">
-                        <RiDeleteBinLine className="mr-2 h-4 w-4" />
-                        Excluir
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                )}
+
                 <button 
                   onClick={handleShare}
                   className="h-8 w-8 flex items-center justify-center text-muted-foreground hover:bg-gray-100 rounded-full transition-colors"
