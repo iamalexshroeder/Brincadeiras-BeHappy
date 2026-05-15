@@ -105,18 +105,18 @@ export function Header({
               </button>
             ) : (
               isHomePage && session?.user && (
-                <Link href="/perfil" className="shrink-0 active:scale-95 transition-all block py-1">
+                <Link href="/perfil" className="shrink-0 active:scale-95 transition-all block">
                   <UserAvatar
                     src={user.avatar}
                     name={user.name}
-                    className="h-10 w-10 border-2 border-white shadow-md"
+                    className="h-10 w-10 border-2 border-white shadow-sm"
                     fallbackClassName="bg-[#FEF9C3] text-[#EAB308]"
                   />
                 </Link>
               )
             )}
 
-            <h1 className="text-h2 truncate min-w-0">
+            <h1 className="text-[20px] font-bold tracking-tight text-[#1A1A1A] truncate min-w-0">
               {title || (isHomePage ? `Olá, ${user.name.split(" ")[0]}` : "")}
             </h1>
           </div>
