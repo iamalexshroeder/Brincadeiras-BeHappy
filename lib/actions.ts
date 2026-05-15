@@ -453,7 +453,24 @@ export async function toggleLike(brincadeiraId: string) {
   if (!session?.user?.id) throw new Error("Não autenticado")
   const userId = session.user.id
 
-  console.log(`[ToggleLike] User ${userId} toggling like for ${brincadeiraId}`);
+  // Handle System Games (PDF-*)
+  if (brincadeiraId.startsWith('pdf-')) {
+    const existing = await prisma.systemInteraction.findUnique({
+      where: { user_id_game_id_type: { user_id: userId, game_id: brincadeiraId, type: "LIKE" } },
+    })
+
+    if (existing) {
+      await prisma.systemInteraction.delete({ where: { id: existing.id } })
+    } else {
+      await prisma.systemInteraction.create({
+        data: { user_id: userId, game_id: brincadeiraId, type: "LIKE" }
+      })
+    }
+    revalidatePath("/", "layout")
+    return
+  }
+
+  // Handle Normal Games
   const existing = await prisma.interaction.findUnique({
     where: { user_id_brincadeira_id_type: { user_id: userId, brincadeira_id: brincadeiraId, type: "LIKE" } },
   })
@@ -478,30 +495,6 @@ export async function toggleLike(brincadeiraId: string) {
         data: { likes_count: { increment: 1 } }
       })
     ])
-
-    try {
-      const brincadeira = await prisma.brincadeira.findUnique({ where: { id: brincadeiraId }, select: { user_id: true } })
-      
-      // 1. Award XP to the user who liked (the acting user)
-      if (brincadeira) {
-        await awardXP(userId, XP_VALUES.LIKE_GIVEN, "LIKE_GIVEN", brincadeiraId)
-
-        // 2. Award XP to the creator (if not self-liking)
-        if (brincadeira.user_id !== userId) {
-          await awardXP(brincadeira.user_id, 10, "LIKE_GIVEN", brincadeiraId)
-          
-          await notifyUser(
-            brincadeira.user_id,
-            "SOCIAL",
-            "Curtiram sua brincadeira!",
-            "Sua brincadeira está ganhando destaque! Você ganhou +10 XP.",
-            brincadeiraId
-          )
-        }
-      }
-    } catch (error) {
-      console.error("Erro em side-effects de toggleLike:", error)
-    }
   }
 
   revalidatePath("/", "layout")
@@ -517,6 +510,24 @@ export async function toggleSave(brincadeiraId: string) {
   if (!session?.user?.id) throw new Error("Não autenticado")
   const userId = session.user.id
 
+  // Handle System Games (PDF-*)
+  if (brincadeiraId.startsWith('pdf-')) {
+    const existing = await prisma.systemInteraction.findUnique({
+      where: { user_id_game_id_type: { user_id: userId, game_id: brincadeiraId, type: "SAVED" } },
+    })
+
+    if (existing) {
+      await prisma.systemInteraction.delete({ where: { id: existing.id } })
+    } else {
+      await prisma.systemInteraction.create({
+        data: { user_id: userId, game_id: brincadeiraId, type: "SAVED" }
+      })
+    }
+    revalidatePath("/", "layout")
+    return
+  }
+
+  // Handle Normal Games
   const existing = await prisma.interaction.findUnique({
     where: { user_id_brincadeira_id_type: { user_id: userId, brincadeira_id: brincadeiraId, type: "SAVED" } },
   })
@@ -791,40 +802,6 @@ export async function createBrincadeira(data: {
       published_at: new Date(),
     },
   })
-
-  try {
-    // Award XP for publishing
-    await awardXP(userId, XP_VALUES.PUBLISHED, "PUBLISHED", brincadeira.id)
-
-    // Check weekly streak
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { last_published_at: true, streak_weeks: true },
-    })
-    if (user) {
-      const now = new Date()
-      const lastPub = user.last_published_at
-      const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
-      if (lastPub && lastPub > oneWeekAgo) {
-        const newStreak = user.streak_weeks + 1
-        await prisma.user.update({
-          where: { id: userId },
-          data: { streak_weeks: newStreak, last_published_at: now },
-        })
-        if (newStreak % 4 === 0) {
-          // Streak bonus every 4 weeks (monthly)
-          await awardXP(userId, XP_VALUES.STREAK, "STREAK")
-        }
-      } else {
-        await prisma.user.update({
-          where: { id: userId },
-          data: { streak_weeks: 1, last_published_at: now },
-        })
-      }
-    }
-  } catch (error) {
-    console.error("Erro em side-effects de createBrincadeira:", error)
-  }
 
   revalidatePath("/")
   revalidatePath("/perfil")
