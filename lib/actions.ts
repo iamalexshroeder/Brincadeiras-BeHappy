@@ -2,6 +2,7 @@
 
 import { auth } from "@/auth"
 import prisma from "@/lib/prisma"
+import { XPReason } from "@prisma/client"
 import { Brincadeira, formatBrincadeira, formatSystemBrincadeira } from "@/lib/formatters"
 import { revalidatePath } from "next/cache"
 import { SYSTEM_COLLECTIONS } from "@/lib/data/biblioteca"
