@@ -93,6 +93,7 @@ export function Header({
   }, [session])
 
   const isNotificationsPage = pathname === "/notificacoes"
+  const isHomePage = pathname === "/"
 
   const user = userData || {
     name: session?.user?.name || "Visitante",
@@ -111,35 +112,36 @@ export function Header({
     <>
       {/* Sticky top bar — title + notification bell */}
       <div className={cn(
-        "sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-4 sm:px-6 no-print transition-all",
+        "sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-4 sm:px-6 no-print transition-all overflow-visible",
         !hideBorder && "border-b border-[#E5E5EA]",
         showBackButton ? "pt-12 pb-4" : "pt-10 pb-4"
       )}>
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-3 overflow-hidden">
-            {showBackButton && (
+        <div className="flex items-center justify-between gap-2 overflow-visible">
+          <div className="flex items-center gap-3 overflow-visible">
+            {showBackButton ? (
               <button 
                 onClick={() => router.back()} 
                 className="h-10 w-10 rounded-full bg-white shadow-sm border border-border flex items-center justify-center text-muted-foreground active:scale-95 transition-all shrink-0 -ml-1 mr-1"
               >
                 <RiArrowLeftSLine size={24} />
               </button>
-            )}
-
-            {!showBackButton && session?.user && (
-              <Link href="/perfil" className="shrink-0 active:scale-95 transition-all">
-                <UserAvatar
-                  src={user.avatar}
-                  name={user.name}
-                  rankBadge={user.rankBadge}
-                  className="h-10 w-10 border-2 border-white shadow-sm"
-                  fallbackClassName="bg-[#FEF9C3] text-[#EAB308]"
-                />
-              </Link>
+            ) : (
+              /* Mostrar foto APENAS na Home */
+              isHomePage && session?.user && (
+                <Link href="/perfil" className="shrink-0 active:scale-95 transition-all block py-1">
+                  <UserAvatar
+                    src={user.avatar}
+                    name={user.name}
+                    rankBadge={user.rankBadge}
+                    className="h-10 w-10 border-2 border-white shadow-md"
+                    fallbackClassName="bg-[#FEF9C3] text-[#EAB308]"
+                  />
+                </Link>
+              )
             )}
 
             <h1 className="text-h2 truncate min-w-0">
-              {title || `Olá, ${user.name.split(" ")[0]}`}
+              {title || (isHomePage ? `Olá, ${user.name.split(" ")[0]}` : "")}
             </h1>
           </div>
           
