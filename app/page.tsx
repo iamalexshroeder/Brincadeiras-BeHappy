@@ -21,7 +21,7 @@ export default async function Home({
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <Header showSearch={false} showUserCard={true} />
+      <Header showSearch={false} showUserCard={false} />
 
       <main className="pb-48 pt-2 space-y-8 overflow-visible animate-in fade-in slide-in-from-bottom-4 duration-500">
         

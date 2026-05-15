@@ -7,7 +7,6 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import { getTitleForLevel } from "@/utils/gamification"
 import { getProfile } from "@/lib/actions"
 import { UserAvatar } from "@/components/ui/UserAvatar"
 import { useEffect, useState, useRef, Suspense } from "react"
@@ -108,9 +107,6 @@ export function Header({
     followingCount: 0
   }
 
-  const xpRemaining = user.nextLevelXp - user.xp
-  const progressValue = Math.min((user.xp / user.nextLevelXp) * 100, 100)
-
   return (
     <>
       {/* Sticky top bar — title + notification bell */}
@@ -120,7 +116,7 @@ export function Header({
         showBackButton ? "pt-12 pb-4" : "pt-10 pb-4"
       )}>
         <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-1 overflow-hidden">
+          <div className="flex items-center gap-3 overflow-hidden">
             {showBackButton && (
               <button 
                 onClick={() => router.back()} 
@@ -129,6 +125,19 @@ export function Header({
                 <RiArrowLeftSLine size={24} />
               </button>
             )}
+
+            {!showBackButton && session?.user && (
+              <Link href="/perfil" className="shrink-0 active:scale-95 transition-all">
+                <UserAvatar
+                  src={user.avatar}
+                  name={user.name}
+                  rankBadge={user.rankBadge}
+                  className="h-10 w-10 border-2 border-white shadow-sm"
+                  fallbackClassName="bg-[#FEF9C3] text-[#EAB308]"
+                />
+              </Link>
+            )}
+
             <h1 className="text-h2 truncate min-w-0">
               {title || `Olá, ${user.name.split(" ")[0]}`}
             </h1>

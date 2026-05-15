@@ -119,15 +119,18 @@ export default function Ranking() {
                           
                           <div className="flex-1 min-w-0">
                             <span className="block text-[15px] font-bold text-foreground truncate">{game.title}</span>
-                            <div className="flex items-center gap-3 mt-1">
-                               <div className="flex items-center gap-1 text-[11px] font-bold text-muted-foreground uppercase tracking-tight">
-                                  <RiGroupLine size={12} />
-                                  {game.metadata?.participants || "Qualquer quant."}
-                               </div>
-                               <div className="flex items-center gap-1 text-[11px] font-bold text-muted-foreground uppercase tracking-tight">
-                                  <RiChat3Line size={12} />
-                                  {game.commentsCount || 0}
-                               </div>
+                            <div className="flex flex-col gap-0.5 mt-0.5">
+                              <span className="text-[11px] font-medium text-muted-foreground">Criado por {game.creator?.name || "BeHappyinha"}</span>
+                              <div className="flex items-center gap-3 mt-0.5">
+                                 <div className="flex items-center gap-1 text-[11px] font-bold text-muted-foreground uppercase tracking-tight">
+                                    <RiGroupLine size={12} />
+                                    {game.metadata?.participants || "Qualquer quant."}
+                                 </div>
+                                 <div className="flex items-center gap-1 text-[11px] font-bold text-muted-foreground uppercase tracking-tight">
+                                    <RiChat3Line size={12} />
+                                    {game.commentsCount || 0}
+                                 </div>
+                              </div>
                             </div>
                           </div>
 

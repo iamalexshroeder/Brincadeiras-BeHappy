@@ -2,22 +2,16 @@
 
 import { useState, useTransition, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { 
   RiHeartFill, 
-  RiStarFill, 
   RiChat3Line, 
   RiTimeLine, 
   RiGroupLine, 
-  RiEditLine, 
-  RiDeleteBinLine, 
-  RiLoader4Line,
-  RiArrowLeftSLine,
   RiHeartLine,
   RiUserVoiceLine,
-  RiCloseLine,
   RiBookmarkLine,
   RiBookmarkFill
 } from "@remixicon/react"
@@ -27,9 +21,7 @@ import {
   CardFooter,
   CardHeader
 } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { UserAvatar } from "@/components/ui/UserAvatar"
-import { getTitleForLevel } from "@/utils/gamification"
 import { toggleLike, deleteBrincadeira, toggleSave, toggleSystemLike, toggleSystemSave } from "@/lib/actions"
 
 
@@ -167,7 +159,7 @@ export function BrincadeiraCard({
   }
 
   return (
-    <Card className="overflow-hidden p-0 gap-0 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[4px] bg-card transition-transform active:scale-[0.98]">
+    <Card className="overflow-hidden p-0 gap-0 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-card transition-transform active:scale-[0.98]">
       <CardHeader className="px-3 pt-3 pb-1.5 flex flex-row items-center justify-between border-none bg-card">
         <Link href={`/recreador/${creator.id}`} className="flex items-center gap-2.5 active:scale-95 transition-all">
           <UserAvatar 
