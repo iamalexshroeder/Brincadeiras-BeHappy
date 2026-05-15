@@ -221,7 +221,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
                   className={cn(
                     "h-9 px-4 rounded-full text-[13px] font-bold border-2 transition-all active:scale-95",
                     isFirst && "bg-[#FF9500] text-white border-[#FF9500]",
-                    isExtra && "bg-[#06B6D4] text-white border-[#06B6D4]",
+                    isExtra && "bg-teal-500 text-white border-teal-500",
                     !isSelected && "bg-[#F2F2F7] text-[#8E8E93] border-transparent",
                     mode === "VIEW" && !isSelected && "hidden",
                     mode === "VIEW" && "pointer-events-none"
@@ -253,7 +253,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
                 className={cn(
                   "h-9 px-4 rounded-full text-[13px] font-bold border-2 transition-all active:scale-95",
                   ageGroups.includes(ageId)
-                    ? "bg-[#22C55E] text-white border-[#22C55E]"
+                    ? "bg-emerald-500 text-white border-emerald-500"
                     : "bg-[#F2F2F7] text-[#8E8E93] border-transparent",
                   mode === "VIEW" && !ageGroups.includes(ageId) && "hidden",
                   mode === "VIEW" && "pointer-events-none"
