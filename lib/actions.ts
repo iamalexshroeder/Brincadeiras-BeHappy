@@ -1041,6 +1041,14 @@ export async function deleteComment(commentId: string) {
 
   revalidatePath("/", "layout")
 }
+
+/**
+ * Revalidates a path and redirects to it (useful for clearing cache after client popups)
+ */
+export async function clearCacheAndRedirect(path: string) {
+  revalidatePath(path, "layout")
+  redirect(path)
+}
 /**
  * Deletes a brincadeira permanently.
  */

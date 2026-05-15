@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import { RiCloseLine, RiAddLine, RiLoader4Line } from "@remixicon/react"
 import { cn } from "@/lib/utils"
-import { createBrincadeira, updateBrincadeira, deleteBrincadeira } from "@/lib/actions"
+import { createBrincadeira, updateBrincadeira, deleteBrincadeira, clearCacheAndRedirect } from "@/lib/actions"
 import { RiDeleteBinLine } from "@remixicon/react"
 import Link from "next/link"
 
@@ -105,8 +105,8 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
                type: "success",
                title: "Excluída",
                message: "A brincadeira foi excluída com sucesso.",
-               onConfirm: () => {
-                  window.location.href = "/"
+               onConfirm: async () => {
+                  await clearCacheAndRedirect("/")
                }
             })
           }
@@ -175,8 +175,8 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
         type: "success",
         title: "Sucesso!",
         message: mode === "CREATE" ? "Sua brincadeira foi publicada." : "Alterações salvas.",
-        onConfirm: () => {
-          window.location.href = "/"
+        onConfirm: async () => {
+          await clearCacheAndRedirect("/")
         }
       })
     } catch (err) {
