@@ -363,7 +363,6 @@ export async function getFavorites() {
   const session = await auth()
   if (!session?.user?.id) return []
   const userId = session.user.id
-  const topThreeIds = await getTopThreeIds()
 
   // 1. Fetch from DB interactions
   const favors = await prisma.interaction.findMany({
@@ -399,7 +398,7 @@ export async function getFavorites() {
   const sysGameIds = systemFavors.map(sf => sf.game_id)
   const systemStats = sysGameIds.length > 0 ? await getSystemStats(sysGameIds) : {}
 
-  const dbItems = favors.map(f => formatBrincadeira(f.brincadeira, userId, topThreeIds)).filter(Boolean)
+  const dbItems = favors.map(f => formatBrincadeira(f.brincadeira, userId)).filter(Boolean)
   
       const systemItems = systemFavors.map(sf => {
     let game = null;
@@ -423,35 +422,25 @@ export async function getFavorites() {
 /**
  * Fetches the user's own published brincadeiras.
  */
-export async function getContributions() {
+export async function getMyContributions() {
   const session = await auth()
   if (!session?.user?.id) return []
+  const userId = session.user.id
 
   const brincadeiras = await prisma.brincadeira.findMany({
-    where: { user_id: session.user.id },
+    where: { user_id: userId, published_at: { not: null } },
     include: {
-      user: {
-        select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true },
-      },
-      comments: {
-        include: {
-          user: {
-            select: { name: true, avatar_url: true, image: true },
-          },
-        },
-        orderBy: { created_at: "desc" },
-      },
+      user: { select: { id: true, name: true, avatar_url: true, image: true } },
+      comments: { select: { id: true } },
       interactions: {
-        where: { user_id: session.user.id },
-        select: { type: true },
-      },
+        where: { user_id: userId },
+        select: { type: true }
+      }
     },
     orderBy: { created_at: "desc" }
   })
 
-  const topThreeIds = await getTopThreeIds()
-  const userId = session.user.id
-  return brincadeiras.map(b => formatBrincadeira(b, userId, topThreeIds)).filter(Boolean)
+  return brincadeiras.map(b => formatBrincadeira(b, userId)).filter(Boolean)
 }
 
 
@@ -561,7 +550,7 @@ export async function getSavedBrincadeiras() {
     include: {
       brincadeira: {
         include: {
-          user: { select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true } },
+          user: { select: { id: true, name: true, avatar_url: true, image: true } },
           comments: {
             include: { user: { select: { name: true, avatar_url: true, image: true } } },
             orderBy: { created_at: "desc" },
@@ -586,7 +575,7 @@ export async function getSavedBrincadeiras() {
   const sysGameIds = systemSaved.map(sf => sf.game_id)
   const systemStats = sysGameIds.length > 0 ? await getSystemStats(sysGameIds) : {}
 
-  const dbItems = saved.map(s => formatBrincadeira(s.brincadeira, userId, topThreeIds)).filter(Boolean)
+  const dbItems = saved.map(s => formatBrincadeira(s.brincadeira, userId)).filter(Boolean)
   
       const systemItems = systemSaved.map(sf => {
     let game = null;
