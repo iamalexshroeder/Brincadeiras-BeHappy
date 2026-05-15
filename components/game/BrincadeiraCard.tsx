@@ -182,11 +182,8 @@ export function BrincadeiraCard({
             </span>
             {creator?.name !== "BeHappyinha" && (
               <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="text-[10px] font-bold text-muted-foreground">
-                  {creator?.title || getTitleForLevel(creator?.level || 0)}
-                </span>
-                <span className="text-[10px] font-bold text-muted-foreground opacity-60">
-                  · Nível {creator?.level || 0}
+                <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                  Recreador da Comunidade
                 </span>
               </div>
             )}

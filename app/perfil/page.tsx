@@ -49,28 +49,21 @@ export default function Perfil() {
       count: profileData?.stats?.favorites?.toString() || "0", 
       icon: RiHeartFill, 
       color: "text-red-500",
-      description: "Curtidas por você"
+      description: "Curtidas"
     },
     { 
       label: "Salvas", 
       count: profileData?.stats?.saved?.toString() || "0", 
       icon: RiBookmarkFill, 
       color: "text-purple-500",
-      description: "Guardadas para depois"
+      description: "Coleções"
     },
     { 
       label: "Minhas", 
       count: profileData?.stats?.contributions?.toString() || "0", 
       icon: RiHistoryLine, 
       color: "text-blue-500",
-      description: "Suas contribuições"
-    },
-    { 
-      label: "Conquistas", 
-      count: profileData?.stats?.achievements?.toString() || "0", 
-      icon: RiStarFill, 
-      color: "text-yellow-500",
-      description: "Títulos e Medalhas"
+      description: "Publicadas"
     },
   ]
 

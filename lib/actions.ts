@@ -1018,7 +1018,48 @@ export async function toggleFollow(followingId: string) {
 }
 
 /**
+ * Fetches the ranking of most liked brincadeiras.
+ */
+export async function getBrincadeirasRanking(limit = 50) {
+  const session = await auth()
+  const userId = session?.user?.id
+  const topThreeIds = await getTopThreeIds()
+
+  const brincadeiras = await prisma.brincadeira.findMany({
+    take: limit,
+    orderBy: { likes_count: "desc" },
+    where: { published_at: { not: null } },
+    include: {
+      user: {
+        select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true },
+      },
+      comments: {
+        include: {
+          user: {
+            select: { name: true, avatar_url: true, image: true },
+          },
+        },
+        orderBy: { created_at: "desc" },
+      },
+      interactions: userId
+        ? {
+            where: { user_id: userId },
+            select: { type: true },
+          }
+        : false,
+    },
+  })
+
+  return brincadeiras.map((b, index) => ({
+    rank: index + 1,
+    ...formatBrincadeira(b, userId, topThreeIds),
+    rankBadge: index === 0 ? "gold" : index === 1 ? "silver" : index === 2 ? "bronze" : null
+  }))
+}
+
+/**
  * Fetches the ranking leaderboard (top N users by XP).
+ * @deprecated Use getBrincadeirasRanking instead.
  */
 export async function getRanking(limit = 50) {
   const users = await prisma.user.findMany({

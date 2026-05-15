@@ -203,42 +203,16 @@ export function Header({
                   {user.name}
                 </span>
                 <span className="text-[11px] font-bold uppercase tracking-wide text-[#8E8E93] leading-tight">
-                  {user.title}
-                </span>
-                <span className="text-[10px] font-semibold text-[#A855F7] leading-tight">
-                  Nível {user.level}
+                  Ver perfil completo
                 </span>
               </div>
             </Link>
 
             <div className="space-y-3">
-              <div className="flex gap-4">
-                <span className="text-[12px] font-bold text-foreground">
-                  {user.followersCount} <span className="text-muted-foreground font-medium">seguidores</span>
+              <div className="border-t border-[#F2F2F7] pt-3 text-center">
+                <span className="text-[11px] font-medium text-[#8E8E93]">
+                  Gerencie suas brincadeiras e favoritos
                 </span>
-                <span className="text-[12px] font-bold text-foreground">
-                  {user.followingCount} <span className="text-muted-foreground font-medium">seguindo</span>
-                </span>
-              </div>
-
-              <div className="space-y-1.5 border-t border-[#F2F2F7] pt-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-[11px] font-medium text-[#8E8E93]">
-                    Faltam {xpRemaining} XP para o próximo nível
-                  </span>
-                  <span className="text-[11px] font-bold text-[#1A1A1A]">
-                    {user.xp} XP
-                  </span>
-                </div>
-                <div className="relative h-[10px] w-full bg-[#F2F2F7] rounded-full overflow-hidden">
-                  <div
-                    className="absolute inset-y-0 left-0 rounded-full transition-all duration-1000 ease-out overflow-hidden"
-                    style={{
-                      width: `${progressValue}%`,
-                      backgroundColor: "#A855F7",
-                    }}
-                  />
-                </div>
               </div>
             </div>
           </Card>

@@ -1,34 +1,22 @@
 import { Header } from "@/components/layout/Header"
 import { BrincadeiraCard } from "@/components/game/BrincadeiraCard"
-import { CategoryFilters } from "@/components/game/CategoryFilters"
 import { CuratedKits } from "@/components/game/CuratedKits"
-import { MissionsStrip } from "@/components/game/MissionsStrip"
-import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { RiAddLine, RiFileList3Line } from "@remixicon/react"
+import { RiFileList3Line, RiCompass3Line } from "@remixicon/react"
 import { getFeed } from "@/lib/actions"
-import { getMissions } from "@/lib/mission-actions"
 import { auth } from "@/auth"
-import { cn } from "@/lib/utils"
-
-// Example entries for code reference (not rendered in production)
-// const EXAMPLE_GAMES = [
-//   { title: "Pega-Pega Congelado", creator: { name: "Tio Pipoca", level: 8 }, ... },
-// ]
 
 export const dynamic = "force-dynamic"
 
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string; kit?: string; view?: string }>
+  searchParams: Promise<{ category?: string; kit?: string }>
 }) {
-  const { category, kit, view = "global" } = await searchParams
-  const isFollowingView = view === "seguindo"
-  const [{ items: feed }, session, missions] = await Promise.all([
-    getFeed(20, undefined, category, kit, undefined, isFollowingView),
+  const { category, kit } = await searchParams
+  const [{ items: feed }, session] = await Promise.all([
+    getFeed(20, undefined, category, kit),
     auth(),
-    getMissions(),
   ])
 
   return (
@@ -36,56 +24,37 @@ export default async function Home({
       <Header showSearch={false} showUserCard={true} />
 
       <main className="pb-48 pt-2 space-y-8 overflow-visible animate-in fade-in slide-in-from-bottom-4 duration-500">
-        {/* Feed Tabs Selector */}
+        
+        {/* Hero Section / Banner */}
         <div className="px-4 sm:px-6">
-           <div className="flex bg-[#F2F2F7] p-1 rounded-[12px] w-full">
-              <Link 
-                href="/?view=global"
-                className={cn(
-                  "flex-1 py-3 rounded-[10px] text-[13px] font-bold transition-all text-center",
-                  !isFollowingView ? "bg-white text-foreground shadow-sm" : "text-[#8E8E93]"
-                )}
-              >
-                Explorar
-              </Link>
-              <Link 
-                href="/?view=seguindo"
-                className={cn(
-                  "flex-1 py-3 rounded-[10px] text-[13px] font-bold transition-all text-center",
-                  isFollowingView ? "bg-white text-foreground shadow-sm" : "text-[#8E8E93]"
-                )}
-              >
-                Seguindo
-              </Link>
+           <div className="bg-gradient-to-br from-primary/10 to-primary/5 p-6 rounded-[24px] border border-primary/10 relative overflow-hidden group">
+              <div className="relative z-10">
+                <h2 className="text-[20px] font-black text-foreground mb-1">Explore Brincadeiras</h2>
+                <p className="text-[13px] font-medium text-muted-foreground max-w-[200px]">Descubra as melhores atividades para recreação e lazer.</p>
+              </div>
+              <RiCompass3Line size={80} className="absolute -right-4 -bottom-4 text-primary/10 group-hover:scale-110 transition-transform duration-500" />
            </div>
         </div>
 
-        {/* Missões da Semana */}
-        {!isFollowingView && missions.length > 0 && (
-          <MissionsStrip missions={missions as any} />
-        )}
-
-        {/* Curated Kits Section (Only on Global) */}
-        {!isFollowingView && (
-          <section className="px-4 sm:px-6 overflow-visible">
-            <div className="flex items-center justify-between mb-2 pl-1">
-              <h2 className="text-caption">
-                Kits Sugeridos
-              </h2>
-            </div>
-            <CuratedKits />
-          </section>
-        )}
+        {/* Curated Kits Section */}
+        <section className="px-4 sm:px-6 overflow-visible">
+          <div className="flex items-center justify-between mb-2 pl-1">
+            <h2 className="text-caption">
+              Kits Sugeridos
+            </h2>
+          </div>
+          <CuratedKits />
+        </section>
 
         {/* Feed Section */}
         <section className="overflow-visible">
           <div className="flex items-baseline justify-between mb-4 px-4 sm:px-6">
             <h2 className="text-caption">
-              {isFollowingView ? "Seu Feed" : "Para Você"}
+              Destaques
             </h2>
             {feed.length > 0 && (
               <span className="text-[13px] font-bold text-muted-foreground">
-                {feed.length} {isFollowingView ? "novas" : "publicadas"}
+                {feed.length} publicadas
               </span>
             )}
           </div>
@@ -96,27 +65,15 @@ export default async function Home({
                 <RiFileList3Line size={32} className="text-[#C7C7CC]" />
               </div>
               <p className="text-h3 mb-2">
-                {isFollowingView 
-                  ? "Seu feed está vazio"
-                  : category && category !== "todos" 
-                    ? `Nenhuma brincadeira em "${category}"`
-                    : "Nenhuma brincadeira ainda"}
+                {category && category !== "todos" 
+                  ? `Nenhuma brincadeira em "${category}"`
+                  : "Nenhuma brincadeira ainda"}
               </p>
               <p className="text-body text-muted-foreground max-w-[280px]">
-                {isFollowingView 
-                  ? "Siga outros recreadores para ver o que eles andam postando aqui!"
-                  : category && category !== "todos" 
-                    ? "Tente outra categoria ou seja o primeiro a criar uma!" 
-                    : "Seja o primeiro a compartilhar uma brincadeira!"}
+                {category && category !== "todos" 
+                  ? "Tente outra categoria ou seja o primeiro a criar uma!" 
+                  : "Seja o primeiro a compartilhar uma brincadeira!"}
               </p>
-
-              {isFollowingView && (
-                <Link href="/ranking" className="mt-6">
-                  <Button variant="outline" className="rounded-full border-[#FF9500] text-[#FF9500] font-bold">
-                    Encontrar Recreadores
-                  </Button>
-                </Link>
-              )}
             </div>
           ) : (
             <div className="space-y-8 px-4 sm:px-6 overflow-visible">
