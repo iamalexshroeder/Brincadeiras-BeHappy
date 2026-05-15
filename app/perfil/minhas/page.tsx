@@ -3,7 +3,7 @@
 import { Header } from "@/components/layout/Header"
 import { LibraryList } from "@/components/game/LibraryList"
 import { RiHistoryLine, RiArrowLeftSLine } from "@remixicon/react"
-import { getContributions } from "@/lib/actions"
+import { getMyContributions } from "@/lib/actions"
 import { useEffect, useState } from "react"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
@@ -17,7 +17,7 @@ export default function MinhasBrincadeirasPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getContributions().then(data => {
+    getMyContributions().then(data => {
       setItems(data)
       setLoading(false)
     })
