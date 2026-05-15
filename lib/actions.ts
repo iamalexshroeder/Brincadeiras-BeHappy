@@ -218,7 +218,13 @@ export async function getFeed(
   const session = await auth()
   const userId = session?.user?.id
 
-  let whereClause: any = { published_at: { not: null } }
+  // Always exclude system account games from any feed
+  let whereClause: any = {
+    published_at: { not: null },
+    AND: [
+      { user: { email: { not: "equipe@behappy.com" } } }
+    ]
+  }
 
   // Social Filtering (Followers)
   if (followingOnly && userId) {
