@@ -4,7 +4,7 @@ import { auth } from "@/auth"
 import prisma from "@/lib/prisma"
 import { XPReason } from "@prisma/client"
 import { Brincadeira, formatBrincadeira, formatSystemBrincadeira } from "@/lib/formatters"
-import { revalidatePath } from "next/cache"
+import { revalidatePath, unstable_noStore } from "next/cache"
 import { redirect } from "next/navigation"
 import { SYSTEM_COLLECTIONS } from "@/lib/data/biblioteca"
 import { WEEKLY_MISSIONS } from "@/lib/missions"
@@ -215,6 +215,7 @@ export async function getFeed(
   searchQuery?: string,
   followingOnly = false
 ) {
+  unstable_noStore()
   const session = await auth()
   const userId = session?.user?.id
 
@@ -242,8 +243,6 @@ export async function getFeed(
     } else {
       whereClause.tags = { has: kit }
     }
-  } else if (!searchQuery) {
-    whereClause.user = { email: { not: "equipe@behappy.com" } }
   }
 
   if (searchQuery) {
