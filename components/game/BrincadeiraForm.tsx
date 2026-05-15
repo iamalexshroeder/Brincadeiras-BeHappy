@@ -4,8 +4,8 @@ import { useState, useEffect } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import { RiCloseLine, RiAddLine, RiLoader4Line } from "@remixicon/react"
 import { cn } from "@/lib/utils"
-import { createBrincadeira, updateBrincadeira, deleteBrincadeira, clearCacheAndRedirect } from "@/lib/actions"
-import { RiDeleteBinLine } from "@remixicon/react"
+import { createBrincadeira, updateBrincadeira, deleteBrincadeira } from "@/lib/actions"
+import { RiDeleteBinLine, RiEditLine } from "@remixicon/react"
 import Link from "next/link"
 
 const CATEGORIES = ["Físico", "Musical", "Criativo", "Educativo", "Cooperação"]
@@ -105,8 +105,8 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
                type: "success",
                title: "Excluída",
                message: "A brincadeira foi excluída com sucesso.",
-               onConfirm: async () => {
-                  await clearCacheAndRedirect("/")
+               onConfirm: () => {
+                  window.location.replace("/")
                }
             })
           }
@@ -175,8 +175,8 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
         type: "success",
         title: "Sucesso!",
         message: mode === "CREATE" ? "Sua brincadeira foi publicada." : "Alterações salvas.",
-        onConfirm: async () => {
-          await clearCacheAndRedirect("/")
+        onConfirm: () => {
+          window.location.replace("/")
         }
       })
     } catch (err) {
@@ -444,14 +444,15 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
                 type="button"
                 onClick={handleDelete}
                 disabled={isSubmitting}
-                className="flex-1 btn-danger"
+                className="flex items-center justify-center gap-2 h-12 px-5 rounded-[12px] bg-red-50 text-red-600 font-bold text-[14px] border-2 border-red-100 hover:bg-red-100 active:scale-[0.97] transition-all"
               >
-                <RiDeleteBinLine size={20} />
+                <RiDeleteBinLine size={18} />
                 <span>Excluir</span>
               </button>
-              <Link href={`/editar/${id}`} className="flex-[2] flex">
-                <button type="button" className="btn-secondary w-full">
-                  Editar Brincadeira
+              <Link href={`/editar/${id}`} className="flex-1">
+                <button type="button" className="w-full h-12 px-5 rounded-[12px] bg-primary text-white font-bold text-[14px] flex items-center justify-center gap-2 hover:bg-primary/90 active:scale-[0.97] transition-all shadow-sm">
+                  <RiEditLine size={18} />
+                  <span>Editar Brincadeira</span>
                 </button>
               </Link>
             </>
