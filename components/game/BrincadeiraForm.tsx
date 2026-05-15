@@ -176,7 +176,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
         title: "Sucesso!",
         message: mode === "CREATE" ? "Sua brincadeira foi publicada." : "Alterações salvas.",
         onConfirm: () => {
-          router.push("/")
+          window.location.href = "/"
         }
       })
     } catch (err) {
