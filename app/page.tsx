@@ -14,10 +14,21 @@ export default async function Home({
   searchParams: Promise<{ category?: string; kit?: string }>
 }) {
   const { category, kit } = await searchParams
-  const [{ items: feed }, session] = await Promise.all([
-    getFeed(20, undefined, category, kit),
-    auth(),
-  ])
+  
+  // Defensive fetching to prevent whole page crash on server exceptions
+  let feed: any[] = []
+  let session: any = null
+  
+  try {
+    const [feedResult, sessionResult] = await Promise.all([
+      getFeed(20, undefined, category, kit),
+      auth(),
+    ])
+    feed = feedResult?.items || []
+    session = sessionResult
+  } catch (error) {
+    console.error("Error loading home feed:", error)
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
