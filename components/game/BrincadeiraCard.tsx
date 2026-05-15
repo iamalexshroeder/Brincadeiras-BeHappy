@@ -17,7 +17,7 @@ import {
 import { Card } from "@/components/ui/card"
 import { UserAvatar } from "@/components/ui/UserAvatar"
 import { cn } from "@/lib/utils"
-import { toggleLike, toggleSave, deleteBrincadeira } from "@/lib/actions"
+import { toggleLike, toggleSave, deleteBrincadeira, clearCacheAndRedirect } from "@/lib/actions"
 import { toast } from "sonner"
 import Link from "next/link"
 
@@ -137,8 +137,8 @@ export function BrincadeiraCard({
               type: "success",
               title: "Excluída",
               message: "Brincadeira excluída com sucesso.",
-              onConfirm: () => {
-                window.location.replace("/")
+              onConfirm: async () => {
+                await clearCacheAndRedirect()
               }
             })
           } catch (error) {
