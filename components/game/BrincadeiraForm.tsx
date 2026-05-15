@@ -16,6 +16,20 @@ const AGE_LABELS: Record<string, string> = {
   "AGE_10_PLUS": "10+ anos",
 }
 
+const CAT_COLORS: Record<string, string> = {
+  "Físico": "bg-orange-500 border-orange-500 text-white",
+  "Musical": "bg-blue-500 border-blue-500 text-white",
+  "Criativo": "bg-pink-500 border-pink-500 text-white",
+  "Educativo": "bg-teal-500 border-teal-500 text-white",
+  "Cooperação": "bg-purple-500 border-purple-500 text-white",
+}
+
+const AGE_COLORS: Record<string, string> = {
+  "AGE_3_5": "bg-lime-500 border-lime-500 text-white",
+  "AGE_6_9": "bg-red-500 border-red-500 text-white",
+  "AGE_10_PLUS": "bg-indigo-500 border-indigo-500 text-white",
+}
+
 interface BrincadeiraFormProps {
   initialData?: any
   mode: "CREATE" | "EDIT" | "VIEW"
@@ -202,10 +216,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
           <label className="section-label mb-3 block">Categoria Principal</label>
           <div className="flex flex-wrap gap-2">
             {CATEGORIES.map(cat => {
-              const idx = selectedCategories.indexOf(cat)
-              const isFirst = idx === 0
-              const isExtra = idx > 0
-              const isSelected = idx !== -1
+              const isSelected = selectedCategories.includes(cat)
               return (
                 <button
                   key={cat}
@@ -220,9 +231,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
                   }}
                   className={cn(
                     "h-9 px-4 rounded-full text-[13px] font-bold border-2 transition-all active:scale-95",
-                    isFirst && "bg-[#FF9500] text-white border-[#FF9500]",
-                    isExtra && "bg-teal-500 text-white border-teal-500",
-                    !isSelected && "bg-[#F2F2F7] text-[#8E8E93] border-transparent",
+                    isSelected ? CAT_COLORS[cat] : "bg-[#F2F2F7] text-[#8E8E93] border-transparent",
                     mode === "VIEW" && !isSelected && "hidden",
                     mode === "VIEW" && "pointer-events-none"
                   )}
@@ -253,7 +262,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
                 className={cn(
                   "h-9 px-4 rounded-full text-[13px] font-bold border-2 transition-all active:scale-95",
                   ageGroups.includes(ageId)
-                    ? "bg-emerald-500 text-white border-emerald-500"
+                    ? AGE_COLORS[ageId]
                     : "bg-[#F2F2F7] text-[#8E8E93] border-transparent",
                   mode === "VIEW" && !ageGroups.includes(ageId) && "hidden",
                   mode === "VIEW" && "pointer-events-none"
