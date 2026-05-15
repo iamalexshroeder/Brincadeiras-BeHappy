@@ -109,7 +109,7 @@ export function Header({
                   <UserAvatar
                     src={user.avatar}
                     name={user.name}
-                    className="h-10 w-10 border-2 border-white shadow-sm"
+                    className="h-10 w-10 rounded-full"
                     fallbackClassName="bg-[#FEF9C3] text-[#EAB308]"
                   />
                 </Link>

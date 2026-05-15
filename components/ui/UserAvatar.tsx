@@ -26,13 +26,11 @@ export function UserAvatar({
     : "U"
 
   return (
-    <div className={cn("relative flex items-center justify-center rounded-full overflow-hidden", className)}>
-      <Avatar className="h-full w-full border-none bg-transparent">
-        <AvatarImage src={src} className="object-cover" />
-        <AvatarFallback className={cn("font-bold text-[13px] bg-muted text-muted-foreground", fallbackClassName)}>
-          {initials}
-        </AvatarFallback>
-      </Avatar>
-    </div>
+    <Avatar className={cn("rounded-full overflow-hidden", className)}>
+      <AvatarImage src={src} className="aspect-square object-cover rounded-full" />
+      <AvatarFallback className={cn("rounded-full font-bold text-[13px]", fallbackClassName)}>
+        {initials}
+      </AvatarFallback>
+    </Avatar>
   )
 }
