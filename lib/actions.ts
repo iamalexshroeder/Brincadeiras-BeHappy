@@ -5,7 +5,6 @@ import prisma from "@/lib/prisma"
 import { XPReason } from "@prisma/client"
 import { Brincadeira, formatBrincadeira, formatSystemBrincadeira } from "@/lib/formatters"
 import { revalidatePath, unstable_noStore } from "next/cache"
-import { redirect } from "next/navigation"
 import { SYSTEM_COLLECTIONS } from "@/lib/data/biblioteca"
 import { WEEKLY_MISSIONS } from "@/lib/missions"
 
@@ -1042,13 +1041,6 @@ export async function deleteComment(commentId: string) {
   revalidatePath("/", "layout")
 }
 
-/**
- * Revalidates a path and redirects to it (useful for clearing cache after client popups)
- */
-export async function clearCacheAndRedirect(path: string) {
-  revalidatePath(path, "layout")
-  redirect(path)
-}
 /**
  * Deletes a brincadeira permanently.
  */

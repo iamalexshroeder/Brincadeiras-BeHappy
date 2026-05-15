@@ -1,11 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { useRouter, usePathname } from "next/navigation"
-import { RiCloseLine, RiAddLine, RiLoader4Line } from "@remixicon/react"
+import { useState } from "react"
+import { usePathname } from "next/navigation"
+import { RiCloseLine, RiAddLine, RiLoader4Line, RiDeleteBinLine, RiEditLine } from "@remixicon/react"
 import { cn } from "@/lib/utils"
 import { createBrincadeira, updateBrincadeira, deleteBrincadeira } from "@/lib/actions"
-import { RiDeleteBinLine, RiEditLine } from "@remixicon/react"
 import Link from "next/link"
 
 const CATEGORIES = ["Físico", "Musical", "Criativo", "Educativo", "Cooperação"]
@@ -37,7 +36,6 @@ interface BrincadeiraFormProps {
 }
 
 export default function BrincadeiraForm({ initialData, mode, id, isOwner = false }: BrincadeiraFormProps) {
-  const router = useRouter()
   const pathname = usePathname()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [popup, setPopup] = useState<{

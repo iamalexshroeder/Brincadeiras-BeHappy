@@ -1,8 +1,7 @@
 "use client"
 
 import { useState, useTransition } from "react"
-import { useRouter } from "next/navigation"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { 
   RiHeartFill, 
   RiChat3Line, 
@@ -13,23 +12,14 @@ import {
   RiBookmarkLine,
   RiBookmarkFill,
   RiShareLine,
-  RiMore2Fill,
-  RiDeleteBinLine,
-  RiEditLine
+  RiDeleteBinLine
 } from "@remixicon/react"
 import { Card } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { UserAvatar } from "@/components/ui/UserAvatar"
 import { cn } from "@/lib/utils"
 import { toggleLike, toggleSave, deleteBrincadeira } from "@/lib/actions"
 import { toast } from "sonner"
 import Link from "next/link"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 
 interface BrincadeiraCardProps {
   id: string
@@ -66,14 +56,13 @@ export function BrincadeiraCard({
   metadata,
   tags,
   likesCount,
-  commentsCount = 0,
+  comments = [],
   initialLiked = false,
   initialSaved = false,
   currentUserId,
   isSystemGame = false,
   publishedAt
 }: BrincadeiraCardProps) {
-  const router = useRouter()
   const [isPending, startTransition] = useTransition()
   
   const [isLiked, setIsLiked] = useState(initialLiked)
@@ -96,7 +85,6 @@ export function BrincadeiraCard({
     
     if (!currentUserId) {
       toast.error("Entre para curtir esta brincadeira")
-      router.push("/login")
       return
     }
 
@@ -119,7 +107,6 @@ export function BrincadeiraCard({
 
     if (!currentUserId) {
       toast.error("Entre para salvar esta brincadeira")
-      router.push("/login")
       return
     }
 
@@ -151,7 +138,7 @@ export function BrincadeiraCard({
               title: "Excluída",
               message: "Brincadeira excluída com sucesso.",
               onConfirm: () => {
-                window.location.reload()
+                window.location.replace("/")
               }
             })
           } catch (error) {
@@ -259,7 +246,7 @@ export function BrincadeiraCard({
                 </button>
                 <div className="flex items-center gap-1.5 text-muted-foreground">
                   <RiChat3Line size={20} />
-                  <span className="text-[13px] font-bold">{commentsCount}</span>
+                  <span className="text-[13px] font-bold">{comments.length}</span>
                 </div>
               </div>
 
