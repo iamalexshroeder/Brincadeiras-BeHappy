@@ -3,8 +3,13 @@
 import { cn } from "@/lib/utils"
 import { useRouter, useSearchParams } from "next/navigation"
 import { SYSTEM_COLLECTIONS } from "@/lib/data/biblioteca"
+import { RiUserStarLine } from "@remixicon/react"
 
-export function CuratedKits() {
+interface CuratedKitsProps {
+  myGamesCount?: number
+}
+
+export function CuratedKits({ myGamesCount = 0 }: CuratedKitsProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const currentKit = searchParams.get("kit")
@@ -22,6 +27,37 @@ export function CuratedKits() {
   return (
     <div className="w-full overflow-x-auto no-scrollbar py-2 -my-2 px-0.5 mb-1">
       <div className="flex items-center gap-2.5 w-max">
+        {/* Minhas Brincadeiras Kit */}
+        {myGamesCount > 0 && (
+          <button
+            onClick={() => handleKitClick("minhas")}
+            className={cn(
+              "flex items-center gap-3 px-4 py-2.5 rounded-[16px] font-bold transition-all active:scale-95 border bg-white",
+              currentKit === "minhas"
+                ? "border-2 shadow-sm border-primary bg-primary/5 text-primary"
+                : "border-[#E5E5EA] text-[#1A1A1A] hover:bg-[#F9F9F7]"
+            )}
+          >
+            <div 
+              className={cn(
+                "w-10 h-10 rounded-full flex items-center justify-center shrink-0",
+                currentKit === "minhas" ? "bg-white" : "bg-primary/10"
+              )}
+            >
+              <RiUserStarLine size={20} className="text-primary" />
+            </div>
+            <div className="flex flex-col items-start pr-2">
+              <span className="text-[14px] leading-tight">Minhas brincadeiras</span>
+              <span className={cn(
+                "text-[11px] font-medium mt-0.5",
+                currentKit === "minhas" ? "opacity-90" : "text-[#8E8E93]"
+              )}>
+                {myGamesCount} {myGamesCount === 1 ? 'brincadeira' : 'brincadeiras'}
+              </span>
+            </div>
+          </button>
+        )}
+
         {SYSTEM_COLLECTIONS.map((kit) => {
           const isActive = currentKit === kit.id
           const Icon = kit.icon

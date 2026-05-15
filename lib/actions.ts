@@ -234,7 +234,9 @@ export async function getFeed(
   }
 
   if (kit) {
-    if (kit === "sem_material") {
+    if (kit === "minhas" && userId) {
+      whereClause.user_id = userId
+    } else if (kit === "sem_material") {
       whereClause.materials = { isEmpty: true }
     } else {
       whereClause.tags = { has: kit }

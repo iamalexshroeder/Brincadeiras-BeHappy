@@ -29,7 +29,7 @@ export default async function Home({
     ])
     
     feed = feedResult?.items || []
-    myGames = (myGamesResult || []).slice(0, 4) // Show only first 4 on home
+    myGames = myGamesResult || []
   } catch (error) {
     console.error("Error loading home feed:", error)
   }
@@ -38,56 +38,25 @@ export default async function Home({
     <div className="flex flex-col min-h-screen bg-background">
       <Header showSearch={false} showUserCard={false} />
 
-      <main className="pb-48 pt-2 space-y-8 overflow-visible animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <main className="pb-48 pt-10 space-y-12 overflow-visible animate-in fade-in slide-in-from-bottom-4 duration-500">
         
 
         {/* Curated Kits Section */}
         <section className="px-4 sm:px-6 overflow-visible">
-          <div className="flex items-center justify-between mb-2 pl-1">
-            <h2 className="text-caption">
+          <div className="flex items-center justify-between mb-4 pl-1">
+            <h2 className="text-[13px] font-black uppercase tracking-wider text-[#8E8E93]">
               Kits Sugeridos
             </h2>
           </div>
-          <CuratedKits />
+          <CuratedKits myGamesCount={myGames.length} />
         </section>
 
-        {/* Minhas Brincadeiras Section */}
-        {session?.user && myGames.length > 0 && (
-          <section className="overflow-visible">
-            <div className="flex items-baseline justify-between mb-4 px-4 sm:px-6">
-              <h2 className="text-caption">Minhas brincadeiras</h2>
-              <Link href="/perfil/minhas" className="text-[13px] font-bold text-primary">
-                Ver tudo
-              </Link>
-            </div>
-            <div className="space-y-4 px-4 sm:px-6 overflow-visible">
-              {myGames.map((game) => game && (
-                <BrincadeiraCard
-                  key={game.id}
-                  id={game.id}
-                  title={game.title}
-                  description={game.description}
-                  creator={game.creator}
-                  metadata={game.metadata}
-                  tags={game.tags}
-                  likesCount={game.likesCount}
-                  comments={game.comments}
-                  initialLiked={game.userHasLiked}
-                  initialSaved={game.userHasSaved}
-                  currentUserId={session?.user?.id}
-                  isSystemGame={false}
-                  publishedAt={game.publishedAt}
-                />
-              ))}
-            </div>
-          </section>
-        )}
 
         {/* Feed Section */}
         <section className="overflow-visible">
-          <div className="flex items-baseline justify-between mb-4 px-4 sm:px-6">
-            <h2 className="text-caption">
-              Destaques
+          <div className="flex items-baseline justify-between mb-6 px-4 sm:px-6">
+            <h2 className="text-[13px] font-black uppercase tracking-wider text-[#8E8E93]">
+              {kit === "minhas" ? "Minhas Brincadeiras" : "Destaques"}
             </h2>
             {feed.length > 0 && (
               <span className="text-[13px] font-bold text-muted-foreground">
