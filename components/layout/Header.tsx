@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useSession } from "next-auth/react"
-import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { getProfile } from "@/lib/actions"
 import { UserAvatar } from "@/components/ui/UserAvatar"
@@ -60,15 +59,8 @@ export function Header({
   const { data: session } = useSession()
   const [userData, setUserData] = useState<{
     name: string;
-    level: number;
-    xp: number;
-    nextLevelXp: number;
     avatar?: string;
     unreadNotificationsCount: number;
-    rankBadge?: "gold" | "silver" | "bronze" | null;
-    title: string;
-    followersCount: number;
-    followingCount: number;
   } | null>(null)
 
   useEffect(() => {
@@ -77,15 +69,8 @@ export function Header({
         if (data) {
           setUserData({
             name: data.name || "Recreador",
-            level: data.level,
-            xp: data.xp,
-            nextLevelXp: data.nextLevelXp,
             avatar: data.avatar || undefined,
             unreadNotificationsCount: data.unreadNotificationsCount || 0,
-            rankBadge: data.rankBadge,
-            title: data.title,
-            followersCount: data.stats?.followers || 0,
-            followingCount: data.stats?.following || 0,
           })
         }
       })
@@ -97,15 +82,8 @@ export function Header({
 
   const user = userData || {
     name: session?.user?.name || "Visitante",
-    level: 1,
-    xp: 0,
-    nextLevelXp: 100,
     avatar: session?.user?.image || undefined,
     unreadNotificationsCount: 0,
-    rankBadge: null,
-    title: "Observador Curioso",
-    followersCount: 0,
-    followingCount: 0
   }
 
   return (
@@ -126,13 +104,11 @@ export function Header({
                 <RiArrowLeftSLine size={24} />
               </button>
             ) : (
-              /* Mostrar foto APENAS na Home */
               isHomePage && session?.user && (
                 <Link href="/perfil" className="shrink-0 active:scale-95 transition-all block py-1">
                   <UserAvatar
                     src={user.avatar}
                     name={user.name}
-                    rankBadge={user.rankBadge}
                     className="h-10 w-10 border-2 border-white shadow-md"
                     fallbackClassName="bg-[#FEF9C3] text-[#EAB308]"
                   />
@@ -194,39 +170,6 @@ export function Header({
               </Suspense>
             </div>
           </div>
-        )}
-
-        {/* User XP Card */}
-        {showUserCard && (
-          <Card className="p-3.5 border border-[#E5E5EA] shadow-[0_2px_12px_rgba(0,0,0,0.04)] rounded-[12px] bg-white">
-            <Link href="/perfil" className="flex items-center gap-3 mb-3 active:opacity-75 transition-opacity">
-              <div className="relative">
-                <UserAvatar
-                  src={user.avatar}
-                  name={user.name}
-                  rankBadge={user.rankBadge}
-                  className="h-11 w-11"
-                  fallbackClassName="bg-[#FEF9C3] text-[#EAB308]"
-                />
-              </div>
-              <div className="flex flex-col gap-0.5">
-                <span className="text-[16px] font-bold text-[#1A1A1A] tracking-[-0.01em] leading-tight">
-                  {user.name}
-                </span>
-                <span className="text-[11px] font-bold uppercase tracking-wide text-[#8E8E93] leading-tight">
-                  Ver perfil completo
-                </span>
-              </div>
-            </Link>
-
-            <div className="space-y-3">
-              <div className="border-t border-[#F2F2F7] pt-3 text-center">
-                <span className="text-[11px] font-medium text-[#8E8E93]">
-                  Gerencie suas brincadeiras e favoritos
-                </span>
-              </div>
-            </div>
-          </Card>
         )}
       </div>
     </>

@@ -2,21 +2,19 @@
 
 import { auth } from "@/auth"
 import prisma from "@/lib/prisma"
-import { XPReason } from "@prisma/client"
 import { Brincadeira, formatBrincadeira, formatSystemBrincadeira } from "@/lib/formatters"
-import { getLevelFromXp, getTitleForLevel, GAMIFICATION_TIERS, EXCLUSIVE_TITLES } from "@/utils/gamification"
 import { revalidatePath } from "next/cache"
 import { SYSTEM_COLLECTIONS } from "@/lib/data/biblioteca"
 import { WEEKLY_MISSIONS } from "@/lib/missions"
 
-// XP awarded per action
+// XP awarded per action (Deprecated)
 const XP_VALUES = {
-  PUBLISHED: 200,
-  COMMENT_ADDED: 50,
-  LIKE_GIVEN: 50,
-  PROFILE_UPDATED: 100, // One-time bonus
-  STREAK: 100,
-  DAILY_LIMIT: 500,
+  PUBLISHED: 0,
+  COMMENT_ADDED: 0,
+  LIKE_GIVEN: 0,
+  PROFILE_UPDATED: 0,
+  STREAK: 0,
+  DAILY_LIMIT: 0,
 }
 
 /**
@@ -33,8 +31,7 @@ async function getTopThreeIds() {
 }
 
 /**
- * Awards XP to a user and creates a transaction record.
- * Includes a daily limit check (500 XP/day).
+ * Awards XP to a user (Deprecated - No-op)
  */
 async function awardXP(
   userId: string,
@@ -42,71 +39,7 @@ async function awardXP(
   reason: XPReason,
   referenceId?: string
 ) {
-  // 1. Check Daily Limit
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  
-  const dailyXP = await prisma.xPTransaction.aggregate({
-    where: { 
-      user_id: userId,
-      created_at: { gte: today }
-    },
-    _sum: { amount: true }
-  })
-
-  const currentDailyTotal = dailyXP._sum.amount || 0
-  
-  // If already at or over limit, don't award more
-  if (currentDailyTotal >= XP_VALUES.DAILY_LIMIT) {
-    return { limited: true, currentDailyTotal }
-  }
-
-  // Calculate actual amount to award (clip at limit)
-  let actualAmount = amount
-  if (currentDailyTotal + amount > XP_VALUES.DAILY_LIMIT) {
-    actualAmount = XP_VALUES.DAILY_LIMIT - currentDailyTotal
-  }
-
-  // 2. Get current XP
-  const user = await prisma.user.findUnique({ where: { id: userId }, select: { xp: true } })
-  if (!user) return
-
-  const previousLevel = getLevelFromXp(user.xp).level
-  const newXp = user.xp + actualAmount
-  const newLevel = getLevelFromXp(newXp).level
-
-  // 3. Update user XP and log transaction
-  await prisma.$transaction([
-    prisma.user.update({
-      where: { id: userId },
-      data: { xp: newXp },
-    }),
-    prisma.xPTransaction.create({
-      data: {
-        user_id: userId,
-        amount: actualAmount,
-        reason,
-        reference_id: referenceId ?? null,
-      },
-    }),
-  ])
-
-  // 4. Notifications for level up
-  if (newLevel > previousLevel) {
-    const newTier = GAMIFICATION_TIERS.find((t) => t.level === newLevel)
-    const title = newTier ? newTier.title : `Nível ${newLevel}`
-    
-    await prisma.notification.create({
-      data: {
-        user_id: userId,
-        type: "GAMIFICATION",
-        title: "Você subiu de nível!",
-        message: `Parabéns! Você alcançou o ${title}. Continue interagindo para ganhar mais XP!`,
-      },
-    })
-  }
-
-  return { newXp, newLevel, awarded: actualAmount }
+  return { awarded: 0 }
 }
 
 /**
@@ -147,10 +80,6 @@ export async function getProfile() {
       bio: true,
       city: true,
       state: true,
-      xp: true,
-      streak_weeks: true,
-      active_title: true,
-      unlocked_titles: true,
       created_at: true,
       _count: {
         select: {
@@ -164,70 +93,36 @@ export async function getProfile() {
 
   if (!user) return null
 
-  const gamification = getLevelFromXp(user.xp, user.active_title)
-
-  // 1. Fetch community interactions
-  const allCommLikes = await prisma.interaction.findMany({
-    where: { user_id: user.id, type: "LIKE" },
-    select: { brincadeira_id: true, brincadeira: { select: { id: true, user_id: true } } }
-  })
-  const allCommSaved = await prisma.interaction.findMany({
-    where: { user_id: user.id, type: "SAVED" },
-    select: { brincadeira_id: true, brincadeira: { select: { id: true, user_id: true } } }
+  // Fetch stats (likes received, etc)
+  const likesReceived = await prisma.interaction.count({
+    where: { brincadeira: { user_id: user.id }, type: "LIKE" }
   })
 
-  // 2. Fetch system interactions
-  const allSysLikes = await prisma.systemInteraction.findMany({
-    where: { user_id: user.id, type: "LIKE" },
-    select: { game_id: true }
-  })
-  const allSysSaved = await prisma.systemInteraction.findMany({
-    where: { user_id: user.id, type: "SAVED" },
-    select: { game_id: true }
-  })
+  // Favorite stats
+  const [commLikes, sysLikes] = await Promise.all([
+    prisma.interaction.count({ where: { user_id: user.id, type: "LIKE" } }),
+    prisma.systemInteraction.count({ where: { user_id: user.id, type: "LIKE" } })
+  ])
+  
+  const [commSaved, sysSaved] = await Promise.all([
+    prisma.interaction.count({ where: { user_id: user.id, type: "SAVED" } }),
+    prisma.systemInteraction.count({ where: { user_id: user.id, type: "SAVED" } })
+  ])
 
-  // 3. Filter valid system games (must exist in library)
-  const validSystemIds = new Set()
-  SYSTEM_COLLECTIONS.forEach(col => col.games.forEach(g => validSystemIds.add(g.id)))
-
-  const validSysLikes = allSysLikes.filter(si => validSystemIds.has(si.game_id))
-  const validSysSaved = allSysSaved.filter(si => validSystemIds.has(si.game_id))
-
-  // 4. Filter valid community games (must have brincadeira data)
-  const validCommLikes = allCommLikes.filter(i => !!i.brincadeira)
-  const validCommSaved = allCommSaved.filter(i => !!i.brincadeira)
-
-  // 5. Total counts received
-  const receivedInteractions = await prisma.interaction.findMany({
-    where: { brincadeira: { user_id: user.id }, type: { in: ["LIKE", "SAVED"] } },
-    select: { type: true }
-  })
-  const likesReceived = receivedInteractions.filter(i => i.type === "LIKE").length
-
-  // 6. Unread notifications
   const unreadNotificationsCount = await prisma.notification.count({
     where: { user_id: user.id, read: false }
   })
 
-  const topThreeIds = await getTopThreeIds()
-  let rankBadge: "gold" | "silver" | "bronze" | null = null
-  if (topThreeIds[0] === user.id) rankBadge = "gold"
-  else if (topThreeIds[1] === user.id) rankBadge = "silver"
-  else if (topThreeIds[2] === user.id) rankBadge = "bronze"
-
   return {
     ...user,
-    ...gamification,
     avatar: user.avatar_url ?? user.image,
     unreadNotificationsCount,
-    rankBadge,
     stats: {
-      favorites: validCommLikes.length + validSysLikes.length,
-      saved: validCommSaved.length + validSysSaved.length,
+      favorites: commLikes + sysLikes,
+      saved: commSaved + sysSaved,
       contributions: user._count.brincadeiras,
       followers: user._count.followers,
       following: user._count.following,
-      achievements: Math.floor(user.xp / 500),
       likesReceived,
     }
   }
@@ -285,7 +180,7 @@ export async function getPublicProfile(userId: string) {
             where: { user_id: currentUserId },
             select: { type: true },
           }
-        : false,
+        : undefined,
     },
     orderBy: { published_at: "desc" }
   })
@@ -395,7 +290,7 @@ export async function getFeed(
             where: { user_id: userId },
             select: { type: true },
           }
-        : false,
+        : undefined,
     },
   })
 
@@ -465,7 +360,7 @@ export async function getBrincadeiraById(id: string) {
             where: { user_id: currentUserId },
             select: { type: true },
           }
-        : false,
+        : undefined,
     },
   })
 
@@ -1023,7 +918,6 @@ export async function toggleFollow(followingId: string) {
 export async function getBrincadeirasRanking(limit = 50) {
   const session = await auth()
   const userId = session?.user?.id
-  const topThreeIds = await getTopThreeIds()
 
   const brincadeiras = await prisma.brincadeira.findMany({
     take: limit,
@@ -1031,7 +925,7 @@ export async function getBrincadeirasRanking(limit = 50) {
     where: { published_at: { not: null } },
     include: {
       user: {
-        select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true },
+        select: { id: true, name: true, avatar_url: true, image: true },
       },
       comments: {
         include: {
@@ -1046,48 +940,17 @@ export async function getBrincadeirasRanking(limit = 50) {
             where: { user_id: userId },
             select: { type: true },
           }
-        : false,
+        : undefined,
     },
   })
 
   return brincadeiras.map((b, index) => ({
     rank: index + 1,
-    ...formatBrincadeira(b, userId, topThreeIds),
-    rankBadge: index === 0 ? "gold" : index === 1 ? "silver" : index === 2 ? "bronze" : null
+    ...formatBrincadeira(b, userId),
   }))
 }
 
-/**
- * Fetches the ranking leaderboard (top N users by XP).
- * @deprecated Use getBrincadeirasRanking instead.
- */
-export async function getRanking(limit = 50) {
-  const users = await prisma.user.findMany({
-    take: limit,
-    orderBy: { xp: "desc" },
-    where: { email: { not: "equipe@behappy.com" } },
-    select: {
-      id: true,
-      name: true,
-      avatar_url: true,
-      image: true,
-      xp: true,
-      active_title: true,
-      _count: { select: { brincadeiras: true } },
-    },
-  })
-
-  return users.map((u, index) => ({
-    rank: index + 1,
-    id: u.id,
-    name: u.name ?? "Anônimo",
-    avatar: u.avatar_url ?? u.image,
-    xp: u.xp,
-    brincadeirasCount: u._count.brincadeiras,
-    ...getLevelFromXp(u.xp, u.active_title),
-    rankBadge: index === 0 ? "gold" : index === 1 ? "silver" : index === 2 ? "bronze" : null
-  }))
-}
+// getRanking removed (gamification removed)
 
 /**
  * Fetches notifications for the current user.
@@ -1193,13 +1056,6 @@ export async function addComment(brincadeiraId: string, text: string) {
 
   revalidatePath("/")
   revalidatePath("/explorar")
-
-  try {
-    // Award XP to the user who commented
-    await awardXP(userId, XP_VALUES.COMMENT_ADDED, "COMMENT_ADDED", brincadeiraId)
-  } catch (error) {
-    console.error("Erro em side-effects de addComment:", error)
-  }
 
   return comment
 }
@@ -1319,25 +1175,8 @@ export async function updateProfile(data: { name?: string, avatar_url?: string }
     data: {
       name: data.name,
       avatar_url: data.avatar_url,
-      profile_xp_claimed: awardBonus ? true : user?.profile_xp_claimed
     }
   })
-
-  try {
-    if (awardBonus) {
-      await awardXP(session.user.id, XP_VALUES.PROFILE_UPDATED, "PROFILE_UPDATED")
-      await prisma.notification.create({
-        data: {
-          user_id: session.user.id,
-          type: "GAMIFICATION",
-          title: "Bônus de Perfil!",
-          message: "Você ganhou +100 XP por atualizar sua foto de perfil! Complete seu perfil para ganhar mais destaque.",
-        }
-      })
-    }
-  } catch (error) {
-    console.error("Erro em side-effects de updateProfile:", error)
-  }
 
   revalidatePath("/")
   revalidatePath("/perfil")

@@ -1,15 +1,11 @@
 "use client"
 
 import { Header } from "@/components/layout/Header"
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { 
   RiHistoryLine, 
   RiHeartFill, 
-  RiStarFill, 
   RiSettings4Line, 
-  RiNotification3Line, 
-  RiShieldCheckLine, 
   RiQuestionLine, 
   RiInformationLine,
   RiArrowRightSLine,
@@ -95,7 +91,7 @@ export default function Perfil() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <Header title="Perfil" showSearch={false} showUserCard={true} />
+      <Header title="Perfil" showSearch={false} />
       
       <main className="pb-32 pt-2">
         {/* Horizontal Activities Section */}
@@ -110,7 +106,7 @@ export default function Perfil() {
             {activities.map((activity) => {
               const href = activity.label === "Favoritas" ? "/perfil/favoritas" : 
                            activity.label === "Salvas" ? "/perfil/salvas" :
-                           activity.label === "Minhas" ? "/perfil/minhas" : "/perfil/titulos"
+                           activity.label === "Minhas" ? "/perfil/minhas" : "/perfil"
               
               return (
                 <Link key={activity.label} href={href} className="flex-shrink-0 cursor-pointer">
@@ -138,7 +134,7 @@ export default function Perfil() {
           </div>
         </section>
 
-        {/* Vertical Grouped Lists Section */}
+        {/* Settings Section */}
         <div className="px-5 space-y-10">
           {settingsGroups.map((group) => (
             <section key={group.title} className="space-y-4">
@@ -197,7 +193,6 @@ export default function Perfil() {
               </div>
             </section>
           ))}
-
         </div>
       </main>
     </div>

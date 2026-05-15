@@ -7,15 +7,15 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col p-8">
       {/* Brand Section - Centered in remaining space */}
-      <div className="flex-1 flex flex-col items-center justify-center">
+      <div className="flex-1 flex flex-col items-center justify-center pt-20">
         <div className="flex flex-col items-center animate-in fade-in zoom-in duration-700">
           <img 
             src="https://www.recreacaobehappy.com.br/images/behappyLogo.png" 
             alt="BeHappy Logo" 
-            className="w-auto h-[120px] object-contain"
+            className="w-auto h-[100px] object-contain"
           />
-          <p className="text-[28px] text-primary font-black tracking-[-0.04em] -mt-2">
-            Brincadeiras
+          <p className="text-[17px] text-foreground font-medium mt-6 tracking-wide">
+            Manual de Brincadeiras
           </p>
         </div>
       </div>

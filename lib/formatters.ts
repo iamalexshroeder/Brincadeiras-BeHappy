@@ -1,5 +1,3 @@
-import { getLevelFromXp, getTitleForLevel } from "@/utils/gamification"
-
 export interface Brincadeira {
   id: string
   title: string
@@ -7,11 +5,7 @@ export interface Brincadeira {
   creator: {
     id: string
     name: string
-    level: number
-    title: string
     avatar?: string
-    rankBadge?: "gold" | "silver" | "bronze" | null
-    activeTitle?: string | null
   }
   metadata: {
     ageRange: string
@@ -36,22 +30,11 @@ export interface Brincadeira {
   rawParticipants: number
 }
 
-export function formatBrincadeira(b: any, currentUserId?: string, topThreeIds: string[] = []): Brincadeira | null {
+export function formatBrincadeira(b: any, currentUserId?: string): Brincadeira | null {
   if (!b || !b.user) return null
 
   const userId = String(b.user.id)
-  const xp = Number(b.user.xp || 0)
-  const activeTitle = b.user.active_title ? String(b.user.active_title) : null
   
-  const levelData = getLevelFromXp(xp, activeTitle)
-  const level = Number(levelData.level)
-  const title = getTitleForLevel(level, activeTitle)
-  
-  let rankBadge: "gold" | "silver" | "bronze" | null = null
-  if (topThreeIds[0] === userId) rankBadge = "gold"
-  else if (topThreeIds[1] === userId) rankBadge = "silver"
-  else if (topThreeIds[2] === userId) rankBadge = "bronze"
-
   const ageLabels: Record<string, string> = {
     "AGE_3_5": "3-5 anos",
     "AGE_6_9": "6-9 anos",
@@ -65,11 +48,7 @@ export function formatBrincadeira(b: any, currentUserId?: string, topThreeIds: s
     creator: {
       id: userId,
       name: String(b.user.name || "Recreador"),
-      level: level,
-      title: String(title),
       avatar: b.user.avatar_url || b.user.image || undefined,
-      rankBadge,
-      activeTitle: activeTitle
     },
     metadata: {
       ageRange: b.age_groups?.length > 0 ? ageLabels[b.age_groups[0]] || "Personalizada" : "Todas as idades",
@@ -109,9 +88,6 @@ export function formatSystemBrincadeira(game: any, kitLabel: string, stats?: { l
       id: "system", 
       name: "BeHappyinha", 
       avatar: "/behappyinha.png", 
-      level: 10, 
-      title: "Curadoria Oficial", 
-      activeTitle: "Curadoria Oficial" 
     },
     metadata: { 
       ageRange: String(game.age), 

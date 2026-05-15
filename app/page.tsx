@@ -15,7 +15,6 @@ export default async function Home({
 }) {
   const { category, kit } = await searchParams
   
-  // Defensive fetching to prevent whole page crash on server exceptions
   let feed: any[] = []
   let session: any = null
   

@@ -1,40 +1,35 @@
 "use client"
 
-import { useState, useTransition, useEffect } from "react"
+import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
-import { motion } from "framer-motion"
-import { cn } from "@/lib/utils"
-import Link from "next/link"
+import { motion, AnimatePresence } from "framer-motion"
 import { 
   RiHeartFill, 
   RiChat3Line, 
   RiTimeLine, 
   RiGroupLine, 
-  RiHeartLine,
+  RiHeartLine, 
   RiUserVoiceLine,
   RiBookmarkLine,
-  RiBookmarkFill
+  RiBookmarkFill,
+  RiShareLine,
+  RiMore2Fill,
+  RiDeleteBinLine,
+  RiEditLine
 } from "@remixicon/react"
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader
-} from "@/components/ui/card"
+import { Card } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { UserAvatar } from "@/components/ui/UserAvatar"
-import { toggleLike, deleteBrincadeira, toggleSave, toggleSystemLike, toggleSystemSave } from "@/lib/actions"
-
-
-const AGE_GROUP_LABELS: Record<string, string> = {
-  "AGE_3_5": "3\u20135 anos",
-  "AGE_6_9": "6\u20139 anos",
-  "AGE_10_PLUS": "10+ anos",
-}
-
-function formatAgeGroup(age?: any) {
-  if (typeof age !== "string" || !age) return "Qualquer idade"
-  return AGE_GROUP_LABELS[age] || age.replace(/AGE_/, "").replace(/_/g, " ")
-}
+import { cn } from "@/lib/utils"
+import { toggleLike, toggleSave, deleteBrincadeira } from "@/lib/actions"
+import { toast } from "sonner"
+import Link from "next/link"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface BrincadeiraCardProps {
   id: string
@@ -44,9 +39,6 @@ interface BrincadeiraCardProps {
     id: string
     name: string
     avatar?: string
-    level: number
-    title?: string
-    rankBadge?: "gold" | "silver" | "bronze" | null
   }
   metadata: {
     ageRange: string
@@ -73,16 +65,13 @@ export function BrincadeiraCard({
   creator,
   metadata,
   tags,
-  likesCount = 0,
+  likesCount,
   commentsCount = 0,
-  comments = [],
   initialLiked = false,
   initialSaved = false,
   currentUserId,
-  steps = [],
-  materials = [],
-  publishedAt = "Recentemente",
   isSystemGame = false,
+  publishedAt
 }: BrincadeiraCardProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
@@ -90,166 +79,194 @@ export function BrincadeiraCard({
   const [isSaved, setIsSaved] = useState(initialSaved)
   const [localLikes, setLocalLikes] = useState(likesCount)
 
-  // Sync local state when server re-renders with new data (after router.refresh)
-  useEffect(() => {
-    setIsLiked(initialLiked)
-  }, [initialLiked])
+  const isOwner = currentUserId === creator.id && !isSystemGame
 
-  useEffect(() => {
-    setIsSaved(initialSaved)
-  }, [initialSaved])
-
-  useEffect(() => {
-    setLocalLikes(likesCount)
-  }, [likesCount])
-
-  const isOwner = currentUserId === creator?.id
-
-  const handleDeleteBrincadeira = async (e: React.MouseEvent) => {
+  const handleLike = async (e: React.MouseEvent) => {
+    e.preventDefault()
     e.stopPropagation()
-    if (confirm("Tem certeza que deseja excluir esta brincadeira permanentemente?")) {
+    
+    if (!currentUserId) {
+      toast.error("Entre para curtir esta brincadeira")
+      router.push("/login")
+      return
+    }
+
+    const newLikedState = !isLiked
+    setIsLiked(newLikedState)
+    setLocalLikes(prev => newLikedState ? prev + 1 : prev - 1)
+
+    try {
+      await toggleLike(id)
+    } catch (error) {
+      setIsLiked(!newLikedState)
+      setLocalLikes(prev => !newLikedState ? prev + 1 : prev - 1)
+      toast.error("Erro ao curtir")
+    }
+  }
+
+  const handleSave = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    if (!currentUserId) {
+      toast.error("Entre para salvar esta brincadeira")
+      router.push("/login")
+      return
+    }
+
+    const newSavedState = !isSaved
+    setIsSaved(newSavedState)
+
+    try {
+      await toggleSave(id)
+      toast.success(newSavedState ? "Salvo em sua coleção" : "Removido da coleção")
+    } catch (error) {
+      setIsSaved(!newSavedState)
+      toast.error("Erro ao salvar")
+    }
+  }
+
+  const handleDelete = async () => {
+    if (confirm("Tem certeza que deseja excluir esta brincadeira?")) {
       startTransition(async () => {
         try {
           await deleteBrincadeira(id)
+          toast.success("Brincadeira excluída")
           router.refresh()
         } catch (error) {
-          console.error("Erro ao excluir brincadeira:", error)
+          toast.error("Erro ao excluir")
         }
       })
     }
   }
 
-  const handleLike = async (e: React.MouseEvent) => {
+  const handleShare = async (e: React.MouseEvent) => {
+    e.preventDefault()
     e.stopPropagation()
-    setIsLiked(!isLiked)
-    setLocalLikes(prev => isLiked ? prev - 1 : prev + 1)
-    
-    startTransition(async () => {
-      try {
-        if (isSystemGame) {
-          await toggleSystemLike(id)
-        } else {
-          await toggleLike(id)
-        }
-        router.refresh()
-      } catch (error) {
-        setIsLiked(isLiked)
-        setLocalLikes(localLikes)
-      }
-    })
-  }
-
-
-  const handleSave = async (e: React.MouseEvent) => {
-    e.stopPropagation()
-    setIsSaved(!isSaved)
-
-    startTransition(async () => {
-      try {
-        if (isSystemGame) {
-          await toggleSystemSave(id)
-        } else {
-          await toggleSave(id)
-        }
-        router.refresh()
-      } catch (error) {
-        setIsSaved(isSaved)
-      }
-    })
+    const url = `${window.location.origin}/brincadeira/${id}`
+    try {
+      await navigator.clipboard.writeText(url)
+      toast.success("Link copiado!")
+    } catch (err) {
+      toast.error("Erro ao copiar link")
+    }
   }
 
   return (
-    <Card className="overflow-hidden p-0 gap-0 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-card transition-transform active:scale-[0.98]">
-      <CardHeader className="px-3 pt-3 pb-1.5 flex flex-row items-center justify-between border-none bg-card">
-        <Link href={`/recreador/${creator.id}`} className="flex items-center gap-2.5 active:scale-95 transition-all">
-          <UserAvatar 
-            name={creator.name} 
-            src={creator.avatar} 
-            rankBadge={creator.rankBadge}
-            className={cn("h-10 w-10 overflow-hidden", creator.name === "BeHappyinha" && "bg-[#F9F9F7] p-2 border border-border")}
-          />
-          <div className="flex flex-col">
-            <span className="text-[14px] font-bold leading-tight text-foreground">
-              {creator?.name || "BeHappyinha"}
-            </span>
-            {creator?.name !== "BeHappyinha" && (
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
-                  Recreador da Comunidade
-                </span>
-              </div>
-            )}
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="group"
+    >
+      <Link href={`/brincadeira/${id}`}>
+        <Card className="overflow-hidden p-0 gap-0 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-card transition-all hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] active:scale-[0.98]">
+          <div className="p-4 sm:p-5 flex flex-col gap-4">
             
-            <span className={cn("text-[10px] font-medium text-muted-foreground opacity-70", creator?.name === "BeHappyinha" ? "mt-0" : "mt-0.5")}>
-              {publishedAt}
-            </span>
+            {/* Header Section */}
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <UserAvatar 
+                  src={creator.avatar} 
+                  name={creator.name} 
+                  className="h-9 w-9 border border-border/50"
+                />
+                <div className="flex flex-col">
+                  <span className="text-[14px] font-bold text-foreground leading-tight">
+                    {creator.name}
+                  </span>
+                  <span className="text-[11px] font-medium text-muted-foreground">
+                    {publishedAt || "Manual de Brincadeiras"}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1">
+                {isOwner && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild onClick={(e) => e.preventDefault()}>
+                      <button className="h-8 w-8 flex items-center justify-center text-muted-foreground hover:bg-gray-100 rounded-full transition-colors">
+                        <RiMore2Fill size={20} />
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-40">
+                      <DropdownMenuItem onClick={() => router.push(`/editar/${id}`)}>
+                        <RiEditLine className="mr-2 h-4 w-4" />
+                        Editar
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={handleDelete} className="text-red-600">
+                        <RiDeleteBinLine className="mr-2 h-4 w-4" />
+                        Excluir
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
+                <button 
+                  onClick={handleShare}
+                  className="h-8 w-8 flex items-center justify-center text-muted-foreground hover:bg-gray-100 rounded-full transition-colors"
+                >
+                  <RiShareLine size={18} />
+                </button>
+              </div>
+            </div>
+
+            {/* Content Section */}
+            <div className="space-y-2">
+              <h3 className="text-[18px] font-black text-foreground tracking-[-0.02em] leading-tight group-hover:text-primary transition-colors">
+                {title}
+              </h3>
+              <p className="text-[14px] text-muted-foreground line-clamp-2 leading-relaxed">
+                {description}
+              </p>
+            </div>
+
+            {/* Metadata Badges */}
+            <div className="flex flex-wrap gap-2 pt-1">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#F2F2F7] text-[#8E8E93] text-[11px] font-bold">
+                <RiUserVoiceLine size={12} />
+                {metadata.ageRange}
+              </div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#F2F2F7] text-[#8E8E93] text-[11px] font-bold">
+                <RiTimeLine size={12} />
+                {metadata.duration}
+              </div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#F2F2F7] text-[#8E8E93] text-[11px] font-bold">
+                <RiGroupLine size={12} />
+                {metadata.participants}
+              </div>
+            </div>
+
+            {/* Footer / Stats */}
+            <div className="flex items-center justify-between pt-2 border-t border-border/50">
+              <div className="flex items-center gap-4">
+                <button 
+                  onClick={handleLike}
+                  className={cn(
+                    "flex items-center gap-1.5 transition-colors",
+                    isLiked ? "text-red-500" : "text-muted-foreground hover:text-red-500"
+                  )}
+                >
+                  {isLiked ? <RiHeartFill size={20} /> : <RiHeartLine size={20} />}
+                  <span className="text-[13px] font-bold">{localLikes}</span>
+                </button>
+                <div className="flex items-center gap-1.5 text-muted-foreground">
+                  <RiChat3Line size={20} />
+                  <span className="text-[13px] font-bold">{commentsCount}</span>
+                </div>
+              </div>
+
+              <button 
+                onClick={handleSave}
+                className={cn(
+                  "flex items-center gap-1.5 transition-colors",
+                  isSaved ? "text-primary" : "text-muted-foreground hover:text-primary"
+                )}
+              >
+                {isSaved ? <RiBookmarkFill size={20} /> : <RiBookmarkLine size={20} />}
+              </button>
+            </div>
           </div>
-        </Link>
-      </CardHeader>
-
-      <CardContent className="px-3 pb-3 pt-1.5 cursor-pointer" onClick={() => router.push(`/brincadeira/${id}`)}>
-        <h3 className="text-[15px] font-bold mb-1.5 text-foreground leading-snug">
-          {title}
-        </h3>
-        <p className="text-[13px] font-medium text-muted-foreground mb-3 leading-relaxed opacity-90">
-          {description}
-        </p>
-
-        <div className="flex flex-wrap gap-1.5 mb-1">
-          <div className="flex items-center gap-1 px-2.5 py-1 bg-[var(--blue-bg)] rounded-[4px] text-[10px] font-bold text-[var(--blue)] border border-[var(--blue)]/10 lowercase">
-            <RiUserVoiceLine size={12} />
-            {formatAgeGroup(metadata?.ageRange)}
-          </div>
-          <div className="flex items-center gap-1 px-2.5 py-1 bg-[var(--purple-bg)] rounded-[4px] text-[10px] font-bold text-[var(--purple)] border border-[var(--purple)]/10 lowercase">
-            <RiTimeLine size={12} />
-            {metadata?.duration || "Variável"}
-          </div>
-          <div className="flex items-center gap-1 px-2.5 py-1 bg-[var(--yellow-bg)] rounded-[4px] text-[10px] font-bold text-[var(--yellow)] border border-[var(--yellow)]/10 lowercase">
-            <RiGroupLine size={12} />
-            {metadata?.participants || "Qualquer quant."}
-          </div>
-        </div>
-      </CardContent>
-
-      <CardFooter className="px-3 py-2.5 flex justify-between items-center bg-card border-t border-border/40">
-        <div className="flex items-center gap-3">
-          <button onClick={handleLike} className="flex items-center gap-1.5 text-muted-foreground active:scale-90 transition-all">
-            <motion.div
-              key={isLiked ? "liked" : "unliked"}
-              initial={{ scale: 0.8 }}
-              animate={{ scale: isLiked ? [0.8, 1.2, 1] : 1 }}
-              transition={{ duration: 0.3 }}
-            >
-              {isLiked ? <RiHeartFill size={20} className="text-[#EF4444]" /> : <RiHeartLine size={20} />}
-            </motion.div>
-            <span className={cn("text-[13px] font-bold", isLiked ? "text-[#EF4444]" : "text-muted-foreground")}>{localLikes}</span>
-          </button>
-
-
-          <div className="flex items-center gap-1.5 text-muted-foreground opacity-60">
-            <RiChat3Line size={20} />
-            <span className="text-[14px] font-bold">{(comments?.length || 0) || (commentsCount || 0)}</span>
-          </div>
-
-          <button onClick={handleSave} className="flex items-center text-muted-foreground active:scale-90 transition-all p-1">
-            <motion.div
-              key={isSaved ? "saved" : "unsaved"}
-              initial={{ scale: 0.8 }}
-              animate={{ scale: isSaved ? [0.8, 1.2, 1] : 1 }}
-              transition={{ duration: 0.3 }}
-            >
-              {isSaved ? <RiBookmarkFill size={22} className="text-[var(--purple)]" /> : <RiBookmarkLine size={22} />}
-            </motion.div>
-          </button>
-        </div>
-
-        <Link 
-          href={`/brincadeira/${id}`}
-          className="text-muted-foreground font-bold text-[13px] active:scale-95 transition-all hover:text-foreground"
-        >
-          Ver detalhes
-        </Link>
-      </CardFooter>
-    </Card>
+        </Card>
+      </Link>
+    </motion.div>
   )
 }
