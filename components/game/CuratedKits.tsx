@@ -32,7 +32,7 @@ export function CuratedKits({ myGamesCount = 0 }: CuratedKitsProps) {
           <button
             onClick={() => handleKitClick("minhas")}
             className={cn(
-              "flex items-center gap-3 px-4 py-2.5 rounded-[16px] font-bold transition-all active:scale-95 border bg-white",
+              "flex items-center gap-3 px-4 py-2.5 rounded-[12px] font-bold transition-all active:scale-95 border bg-white",
               currentKit === "minhas"
                 ? "border-2 shadow-sm border-primary bg-primary/5 text-primary"
                 : "border-[#E5E5EA] text-[#1A1A1A] hover:bg-[#F9F9F7]"
@@ -66,7 +66,7 @@ export function CuratedKits({ myGamesCount = 0 }: CuratedKitsProps) {
               key={kit.id}
               onClick={() => handleKitClick(kit.id)}
               className={cn(
-                "flex items-center gap-3 px-4 py-2.5 rounded-[16px] font-bold transition-all active:scale-95 border bg-white",
+                "flex items-center gap-3 px-4 py-2.5 rounded-[12px] font-bold transition-all active:scale-95 border bg-white",
                 isActive
                   ? "border-2 shadow-sm"
                   : "border-[#E5E5EA] text-[#1A1A1A] hover:bg-[#F9F9F7]"

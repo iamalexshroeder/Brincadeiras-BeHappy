@@ -38,7 +38,7 @@ export default async function Home({
     <div className="flex flex-col min-h-screen bg-background">
       <Header showSearch={false} showUserCard={false} />
 
-      <main className="pb-48 pt-10 space-y-12 overflow-visible animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <main className="pb-32 pt-10 space-y-12 overflow-visible animate-in fade-in slide-in-from-bottom-4 duration-500">
         
 
         {/* Curated Kits Section */}
@@ -104,7 +104,7 @@ export default async function Home({
                 />
               ))}
               
-              <div className="pt-10 flex flex-col items-center justify-center text-center opacity-40 pb-20">
+              <div className="pt-10 flex flex-col items-center justify-center text-center opacity-40 pb-10">
                  <div className="h-px w-20 bg-muted-foreground/30 mb-6" />
                  <p className="text-[13px] font-bold text-muted-foreground">Você chegou ao fim do feed</p>
                  <p className="text-[11px] font-medium text-muted-foreground">Crie sua própria gincana para inspirar outros!</p>
