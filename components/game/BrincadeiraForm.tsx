@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils"
 import { createBrincadeira, updateBrincadeira, deleteBrincadeira } from "@/lib/actions"
 import { RiDeleteBinLine } from "@remixicon/react"
 import Link from "next/link"
+import { toast } from "sonner"
 
 const CATEGORIES = ["Físico", "Musical", "Criativo", "Educativo", "Cooperação"]
 const AGE_LABELS: Record<string, string> = {
@@ -85,7 +86,21 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
   }
 
   const handleSubmit = async () => {
-    if (!title) return alert("Adicione um título para a brincadeira")
+    // Basic Validation
+    if (!title.trim()) return toast.error("O título é obrigatório")
+    if (!description.trim()) return toast.error("A descrição é obrigatória")
+    if (selectedCategories.length === 0) return toast.error("Selecione pelo menos uma categoria")
+    if (ageGroups.length === 0) return toast.error("Selecione pelo menos uma faixa etária")
+    
+    const durationNum = parseInt(duration)
+    if (isNaN(durationNum) || durationNum <= 0) return toast.error("Informe um tempo válido (em minutos)")
+    
+    const participantsNum = parseInt(participants)
+    if (isNaN(participantsNum) || participantsNum <= 0) return toast.error("Informe o número mínimo de participantes")
+
+    const filteredSteps = steps.filter(s => s.trim() !== "")
+    if (filteredSteps.length === 0) return toast.error("Adicione pelo menos um passo no 'Como Jogar'")
+
     setIsSubmitting(true)
 
     try {
@@ -97,19 +112,15 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
         "Cooperação": "COOPERATIVA",
       }
 
-      // Parse text duration/participants if they contain non-numeric chars
-      const durationVal = typeof duration === 'string' ? (duration.match(/(\d+)/g) ? parseInt(duration.match(/(\d+)/g)!.pop()!) : 30) : Number(duration)
-      const minP = typeof participants === 'string' ? (participants.match(/(\d+)/g) ? parseInt(participants.match(/(\d+)/g)![0]) : 2) : Number(participants)
-
       const payload = {
-        title,
-        short_description: description,
+        title: title.trim(),
+        short_description: description.trim(),
         type: typeMap[selectedCategories[0]] || "CRIATIVA",
-        steps: steps.filter(s => s.trim() !== ""),
+        steps: filteredSteps,
         materials: materials.filter(m => m.trim() !== ""),
         age_groups: ageGroups,
-        min_participants: minP,
-        duration_minutes: durationVal,
+        min_participants: participantsNum,
+        duration_minutes: durationNum,
         animator_level: "MEDIO",
         tags: selectedCategories
       }
@@ -117,11 +128,13 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
       if (mode === "CREATE") {
         const newGame = await createBrincadeira(payload)
         if (newGame?.id) {
+          toast.success("Brincadeira publicada com sucesso!")
           router.push(`/brincadeira/${newGame.id}`)
           return
         }
       } else if (mode === "EDIT" && id) {
         await updateBrincadeira(id, payload)
+        toast.success("Alterações salvas!")
         router.push(`/brincadeira/${id}`)
         return
       }
@@ -130,6 +143,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
       router.refresh()
     } catch (err) {
       console.error(err)
+      toast.error("Ocorreu um erro ao salvar. Tente novamente.")
       setIsSubmitting(false)
     }
   }
@@ -257,22 +271,28 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
             <label className="section-label mb-2 block">Tempo (min)</label>
             <input
               type="number"
+              min="1"
+              step="1"
               value={duration}
               onChange={e => setDuration(e.target.value)}
               placeholder="Ex: 30"
               className={cn("input-base", mode === "VIEW" && "bg-transparent border-none px-0 shadow-none pointer-events-none text-[18px]")}
               readOnly={mode === "VIEW"}
+              required
             />
           </div>
           <div>
             <label className="section-label mb-2 block">Mín. Pessoas</label>
             <input
               type="number"
+              min="1"
+              step="1"
               value={participants}
               onChange={e => setParticipants(e.target.value)}
               placeholder="Ex: 5"
               className={cn("input-base", mode === "VIEW" && "bg-transparent border-none px-0 shadow-none pointer-events-none text-[18px]")}
               readOnly={mode === "VIEW"}
+              required
             />
           </div>
         </div>
@@ -420,9 +440,9 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
             <button
               type="button"
               onClick={handleSubmit}
-              disabled={isSubmitting || !title || steps.every(s => s.trim() === "")}
+              disabled={isSubmitting}
               className={cn(
-                "btn-primary disabled:opacity-50 disabled:shadow-none",
+                "btn-primary",
                 mode === "EDIT" ? "flex-[2]" : "w-full"
               )}
             >
