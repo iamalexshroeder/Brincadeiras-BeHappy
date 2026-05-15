@@ -6,40 +6,17 @@ import { cn } from "@/lib/utils"
 
 const UPDATES = [
   {
-    date: "10 de Abril",
-    version: "v1.1.0",
+    date: "15 de Maio",
+    version: "v2.0.0",
     icon: RiMagicLine,
-    color: "text-blue-500",
-    bgColor: "bg-blue-500/10",
+    color: "text-primary",
+    bgColor: "bg-primary/10",
     features: [
-      "Layout dos novos modais aprimorado para formato edge-to-edge.",
-      "Multi-select adicionado para Categorias e Faixa Etária na criação de brincadeiras.",
-      "Novo visual dos cards de Títulos, com novos indicadores de ativo e desbloqueado.",
-      "Data de publicação das brincadeiras agora com mais destaque no cabeçalho dos cards."
-    ]
-  },
-  {
-    date: "09 de Abril",
-    version: "v1.0.5",
-    icon: RiStarLine,
-    color: "text-yellow-500",
-    bgColor: "bg-yellow-500/10",
-    features: [
-      "Reformulação completa do design das telas de Perfil, Ranking e Detalhes.",
-      "Sistema de Gamificação com XP totalmente integrado e rodando.",
-      "Nova Trilha de Títulos disponível para os recreadores subirem de nível."
-    ]
-  },
-  {
-    date: "Lançamento",
-    version: "v1.0.0",
-    icon: RiRocketLine,
-    color: "text-red-500",
-    bgColor: "bg-red-500/10",
-    features: [
-      "Nascimento da plataforma Brincadeiras BeHappy!",
-      "Feed global de brincadeiras.",
-      "Sistema de curtir, comentar e marcar como utilizada."
+      "Nova experiência focada no conteúdo: o app agora é um verdadeiro Manual de Brincadeiras.",
+      "Interface mais limpa, rápida e sem distrações visuais.",
+      "Organização inteligente: suas próprias brincadeiras agora aparecem integradas aos Kits Sugeridos.",
+      "Novo padrão de cores vibrantes e exclusivas para cada Categoria e Faixa Etária.",
+      "Pop-ups e alertas padronizados para uma navegação muito mais fluida."
     ]
   }
 ]
