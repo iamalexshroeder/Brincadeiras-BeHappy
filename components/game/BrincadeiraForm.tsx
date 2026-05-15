@@ -107,7 +107,6 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
                message: "A brincadeira foi excluída com sucesso.",
                onConfirm: () => {
                   router.push("/")
-                  router.refresh()
                }
             })
           }
@@ -178,7 +177,6 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
         message: mode === "CREATE" ? "Sua brincadeira foi publicada." : "Alterações salvas.",
         onConfirm: () => {
           router.push("/")
-          router.refresh()
         }
       })
     } catch (err) {
