@@ -63,7 +63,18 @@ export function formatBrincadeira(b: any, currentUserId?: string): Brincadeira |
     userHasSaved: Boolean(b.interactions?.some((i: any) => i.type === "SAVED")),
     initialLiked: Boolean(b.interactions?.some((i: any) => i.type === "LIKE")),
     initialSaved: Boolean(b.interactions?.some((i: any) => i.type === "SAVED")),
-    comments: [], // Simplified to avoid serialization issues
+    comments: Array.isArray(b.comments) 
+      ? b.comments.map((c: any) => ({
+          id: String(c.id),
+          text: String(c.text || ""),
+          created_at: c.created_at ? new Date(c.created_at).toISOString() : "",
+          user: {
+            name: c.user?.name ? String(c.user.name) : "Recreador",
+            avatar_url: c.user?.avatar_url || c.user?.image || null,
+            image: c.user?.image || null
+          }
+        }))
+      : [],
     steps: Array.isArray(b.steps) ? b.steps.map(String) : [],
     materials: Array.isArray(b.materials) ? b.materials.map(String) : [],
     commentsCount: Number(b.comments?.length || 0),

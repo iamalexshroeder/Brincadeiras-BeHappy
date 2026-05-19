@@ -308,7 +308,7 @@ export function BrincadeiraCard({
             </button>
 
             {/* Scrollable Container */}
-            <div className="overflow-y-auto px-6 pb-6 pt-2 sm:pt-6 space-y-6 flex-1 no-scrollbar">
+            <div className="overflow-y-auto px-6 pb-12 pt-2 sm:pt-6 space-y-8 flex-1 no-scrollbar">
               {/* Creator Info Header */}
               <div className="flex items-center justify-between">
                 {creator.id !== "system" && creator.name !== "BeHappyinha" ? (
@@ -468,7 +468,11 @@ export function BrincadeiraCard({
                 </div>
 
                 {/* Add Comment Input */}
-                {currentUserId && (
+                {!currentUserId ? (
+                  <div className="bg-[#F2F2F7] rounded-xl p-3 text-center text-[12px] font-bold text-[#8E8E93] mt-2">
+                    🔒 Faça login para comentar nesta brincadeira
+                  </div>
+                ) : (
                   <div className="flex gap-2 items-center pt-2">
                     <input 
                       type="text"
@@ -481,17 +485,17 @@ export function BrincadeiraCard({
                         }
                       }}
                       disabled={isSendingComment}
-                      className="input-base text-[13px] h-9 px-3 flex-1 rounded-xl placeholder:text-muted-foreground/60 focus:bg-white"
+                      className="input-base text-[13px] h-10 px-4 flex-1 rounded-xl placeholder:text-muted-foreground/60 focus:bg-white"
                     />
                     <button
                       onClick={handleSendComment}
                       disabled={isSendingComment || !commentText.trim()}
-                      className="h-9 w-9 flex items-center justify-center rounded-xl bg-primary text-white hover:bg-primary/95 disabled:opacity-50 disabled:scale-100 active:scale-95 transition-all shrink-0"
+                      className="h-10 px-4 flex items-center justify-center rounded-xl bg-primary text-white font-bold text-[13px] hover:bg-primary/95 disabled:opacity-50 disabled:scale-100 active:scale-95 transition-all shrink-0"
                     >
                       {isSendingComment ? (
                         <div className="h-4 w-4 border-2 border-white/80 border-t-transparent rounded-full animate-spin" />
                       ) : (
-                        <RiSendPlane2Line size={16} />
+                        <span>Enviar</span>
                       )}
                     </button>
                   </div>
@@ -500,7 +504,7 @@ export function BrincadeiraCard({
             </div>
 
             {/* Modal Actions Footer */}
-            <div className="p-4 border-t border-border bg-card flex items-center justify-between shrink-0">
+            <div className="p-5 pb-[calc(20px+env(safe-area-inset-bottom))] border-t border-border bg-card flex items-center justify-between shrink-0">
               <div className="flex items-center gap-4">
                 <button 
                   onClick={(e) => {
