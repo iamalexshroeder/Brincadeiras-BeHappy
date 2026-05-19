@@ -91,7 +91,6 @@ export function Header({
       {/* Sticky top bar — title + notification bell */}
       <div className={cn(
         "sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-4 sm:px-6 no-print transition-all overflow-visible",
-        !hideBorder && "border-b border-[#E5E5EA]",
         showBackButton ? "pt-12 pb-4" : "pt-10 pb-4"
       )}>
         <div className="flex items-center justify-between gap-2 overflow-visible">

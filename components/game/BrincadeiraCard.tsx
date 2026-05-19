@@ -340,7 +340,7 @@ export function BrincadeiraCard({
               </div>
 
               {/* Metadata stats */}
-              <div className="flex flex-wrap gap-2 pt-1 pb-4">
+              <div className="flex flex-wrap gap-2 pt-1 border-t border-b border-border/50 py-3.5">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#F2F2F7] text-[#8E8E93] text-[12px] font-bold">
                   <RiUserVoiceLine size={14} />
                   {metadata.ageRange}
@@ -410,7 +410,7 @@ export function BrincadeiraCard({
             </div>
 
             {/* Modal Actions Footer */}
-            <div className="p-4 bg-card flex items-center justify-between shrink-0">
+            <div className="p-4 border-t border-border bg-card flex items-center justify-between shrink-0">
               <div className="flex items-center gap-4">
                 <button 
                   onClick={(e) => {
