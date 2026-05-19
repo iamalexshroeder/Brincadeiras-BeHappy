@@ -293,7 +293,7 @@ export function BrincadeiraCard({
           onClick={() => setIsDetailOpen(false)}
         >
           <div 
-            className="relative w-full max-h-[90vh] sm:max-h-[85vh] sm:max-w-lg bg-card border-t sm:border border-border/80 rounded-t-[28px] sm:rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300"
+            className="relative w-full max-h-[85dvh] sm:max-h-[85vh] sm:max-w-lg bg-card border-t sm:border border-border/80 rounded-t-[28px] sm:rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Top Drag Handle for mobile */}
@@ -468,7 +468,11 @@ export function BrincadeiraCard({
                 </div>
 
                 {/* Add Comment Input */}
-                {!currentUserId ? (
+                {isSystemGame ? (
+                  <div className="bg-[#F2F2F7]/60 rounded-xl p-3 text-center text-[12px] font-bold text-muted-foreground mt-2">
+                    Comentários indisponíveis nesta brincadeira
+                  </div>
+                ) : !currentUserId ? (
                   <div className="bg-[#F2F2F7] rounded-xl p-3 text-center text-[12px] font-bold text-[#8E8E93] mt-2">
                     🔒 Faça login para comentar nesta brincadeira
                   </div>
@@ -504,7 +508,7 @@ export function BrincadeiraCard({
             </div>
 
             {/* Modal Actions Footer */}
-            <div className="p-5 pb-[calc(20px+env(safe-area-inset-bottom))] border-t border-border bg-card flex items-center justify-between shrink-0">
+            <div className="p-4 pb-8 sm:pb-5 border-t border-border bg-card flex items-center justify-between shrink-0">
               <div className="flex items-center gap-4">
                 <button 
                   onClick={(e) => {
