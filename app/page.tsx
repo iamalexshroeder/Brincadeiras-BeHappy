@@ -5,6 +5,7 @@ import Link from "next/link"
 import { RiFileList3Line, RiCompass3Line } from "@remixicon/react"
 import { getFeed, getMyContributions } from "@/lib/actions"
 import { auth } from "@/auth"
+import { RefreshButton } from "@/components/shared/RefreshButton"
 
 export const dynamic = "force-dynamic"
 
@@ -49,6 +50,7 @@ export default async function Home({
             </h2>
           </div>
           <CuratedKits myGamesCount={myGames.length} />
+          <RefreshButton />
         </section>
 
 

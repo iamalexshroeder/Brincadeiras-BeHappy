@@ -7,6 +7,7 @@ import { BrincadeiraCard } from "@/components/game/BrincadeiraCard"
 import { BibliotecaList } from "@/components/game/BibliotecaList"
 import { SYSTEM_COLLECTIONS } from "@/lib/data/biblioteca"
 import Link from "next/link"
+import { RefreshButton } from "@/components/shared/RefreshButton"
 
 interface Props {
   initialFeed: any[]
@@ -138,6 +139,7 @@ export function ExplorarClient({ initialFeed, currentUserId }: Props) {
               <span className="text-[13px] font-bold text-[#8E8E93]">{SYSTEM_COLLECTIONS.length} coleções</span>
             </div>
             <BibliotecaList />
+            <RefreshButton />
 
             <div className="mt-8 flex items-baseline justify-between mb-4 pl-1">
               <h2 className="section-label">Galeria</h2>
