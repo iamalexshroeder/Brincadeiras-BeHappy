@@ -1027,7 +1027,10 @@ export async function addComment(brincadeiraId: string, text: string) {
   revalidatePath("/")
   revalidatePath("/explorar")
 
-  return comment
+  return {
+    ...comment,
+    created_at: comment.created_at.toISOString(),
+  }
 }
 
 /**
@@ -1047,7 +1050,10 @@ export async function updateComment(commentId: string, text: string) {
 
   revalidatePath("/")
   revalidatePath("/explorar")
-  return comment
+  return {
+    ...comment,
+    created_at: comment.created_at.toISOString(),
+  }
 }
 
 /**
