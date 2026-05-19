@@ -27,7 +27,7 @@ export default function Ranking() {
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header title="Top Brincadeiras" showSearch={false} showUserCard={false} />
 
-      <main className="page-main pt-2 pb-32">
+      <main className="page-main pt-0 pb-32 -mt-6">
 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-32">

@@ -80,9 +80,9 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
             <UserAvatar
               src={profileData.avatar}
               name={profileData.name}
-              className="h-14 w-14 border border-border/50"
+              className="h-9 w-9 border border-border/50"
             />
-            <div className="flex flex-col">
+            <div className="flex flex-col text-left">
               <div className="flex items-center gap-1.5 flex-wrap">
                 <span className="text-[14px] font-bold text-foreground leading-tight">
                   {profileData.name}
@@ -94,7 +94,7 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
               </span>
               
               {/* Followers/Following Info */}
-              <div className="flex items-center gap-3 mt-1.5 text-[11px] font-bold text-foreground">
+              <div className="flex items-center gap-3 mt-1 text-[11px] font-bold text-foreground">
                 <div>
                   <span className="text-foreground">{profileData.followersCount || 0}</span>{" "}
                   <span className="text-muted-foreground font-medium">seguidores</span>

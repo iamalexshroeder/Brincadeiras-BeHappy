@@ -1143,7 +1143,47 @@ export async function updateProfile(data: { name?: string, avatar_url?: string, 
   return { success: true }
 }
 
+export async function searchRecreadores(query: string) {
+  unstable_noStore()
+  const session = await auth()
+  const currentUserId = session?.user?.id
 
+  if (!query || !query.trim()) return []
+
+  const users = await prisma.user.findMany({
+    where: {
+      OR: [
+        { name: { contains: query, mode: 'insensitive' } },
+        { email: { contains: query, mode: 'insensitive' } }
+      ]
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      image: true,
+      avatar_url: true,
+      role: true,
+      created_at: true,
+      followers: currentUserId
+        ? {
+            where: { followerId: currentUserId },
+            select: { followerId: true }
+          }
+        : undefined
+    },
+    take: 20
+  })
+
+  return users.map(u => ({
+    id: u.id,
+    name: u.name || "Recreador",
+    avatar: u.avatar_url || u.image || undefined,
+    role: u.role || "Trainee",
+    created_at: u.created_at,
+    userIsFollowing: u.followers ? u.followers.length > 0 : false
+  }))
+}
 
 // ---------------------------------------------------------------------------
 // EOF

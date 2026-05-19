@@ -181,24 +181,45 @@ export function BrincadeiraCard({
             
             {/* Header Section */}
             <div className="flex items-start justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <UserAvatar 
-                  src={creator.avatar} 
-                  name={creator.name} 
-                  className="h-9 w-9 border border-border/50"
-                />
-                <div className="flex flex-col">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-[14px] font-bold text-foreground leading-tight">
-                      {creator.name}
+              {creator.id !== "system" ? (
+                <Link href={`/recreador/${creator.id}`} className="flex items-center gap-3 hover:opacity-85 transition-opacity">
+                  <UserAvatar 
+                    src={creator.avatar} 
+                    name={creator.name} 
+                    className="h-9 w-9 border border-border/50"
+                  />
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="text-[14px] font-bold text-foreground leading-tight">
+                        {creator.name}
+                      </span>
+                      <RoleBadge role={creator.role} />
+                    </div>
+                    <span className="text-[11px] font-medium text-muted-foreground">
+                      {publishedAt || "Manual de Brincadeiras"}
                     </span>
-                    <RoleBadge role={creator.role} />
                   </div>
-                  <span className="text-[11px] font-medium text-muted-foreground">
-                    {publishedAt || "Manual de Brincadeiras"}
-                  </span>
+                </Link>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <UserAvatar 
+                    src={creator.avatar} 
+                    name={creator.name} 
+                    className="h-9 w-9 border border-border/50"
+                  />
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="text-[14px] font-bold text-foreground leading-tight">
+                        {creator.name}
+                      </span>
+                      <RoleBadge role={creator.role} />
+                    </div>
+                    <span className="text-[11px] font-medium text-muted-foreground">
+                      {publishedAt || "Manual de Brincadeiras"}
+                    </span>
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className="flex items-center gap-1">
 

@@ -106,6 +106,7 @@ export default async function Explorar({
       <ExplorarClient
         initialFeed={initialFeed}
         currentUserId={session?.user?.id}
+        searchQuery={q}
       />
     </div>
   )
