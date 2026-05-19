@@ -255,7 +255,7 @@ export function BrincadeiraCard({
 
 {isDetailOpen && (
         <div 
-          className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 overscroll-contain animate-in fade-in duration-200"
+          className="fixed inset-x-0 top-0 bottom-[calc(64px+env(safe-area-inset-bottom))] md:bottom-0 z-[45] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 overscroll-contain animate-in fade-in duration-200"
           onClick={() => setIsDetailOpen(false)}
         >
           <div 
