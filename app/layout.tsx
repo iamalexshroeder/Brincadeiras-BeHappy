@@ -9,6 +9,7 @@ import { Toaster } from "@/components/ui/sonner"
 import { NotificationPoller } from "@/components/shared/NotificationPoller"
 import { SplashScreen } from "@/components/layout/SplashScreen"
 import { PWARegister } from "@/components/layout/PWARegister"
+import { OnboardingGuard } from "@/components/shared/OnboardingGuard"
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
@@ -49,13 +50,15 @@ export default function RootLayout({
       <body className="flex-1 pb-[64px] md:pb-0 bg-background text-foreground">
         <SplashScreen />
         <SessionProvider>
-          <main className="flex-1">
-            {children}
-          </main>
-          <BottomNav />
-          <Toaster position="top-center" richColors />
-          <NotificationPoller />
-          <PWARegister />
+          <OnboardingGuard>
+            <main className="flex-1">
+              {children}
+            </main>
+            <BottomNav />
+            <Toaster position="top-center" richColors />
+            <NotificationPoller />
+            <PWARegister />
+          </OnboardingGuard>
         </SessionProvider>
       </body>
     </html>

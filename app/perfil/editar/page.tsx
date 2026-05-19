@@ -11,6 +11,7 @@ import { getProfile, updateProfile } from "@/lib/actions"
 import { useSession } from "next-auth/react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { toast } from "sonner"
+import { RoleBadge } from "@/components/shared/RoleBadge"
 
 export default function EditarPerfil() {
   const router = useRouter()
@@ -19,6 +20,7 @@ export default function EditarPerfil() {
   
   const [name, setName] = useState("")
   const [avatarUrl, setAvatarUrl] = useState("")
+  const [role, setRole] = useState("")
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -26,6 +28,7 @@ export default function EditarPerfil() {
       if (data) {
         setName(data.name || "")
         setAvatarUrl(data.avatar || "")
+        setRole(data.role || "")
       }
       setLoading(false)
     })
@@ -34,10 +37,9 @@ export default function EditarPerfil() {
   const handleSave = async () => {
     startTransition(async () => {
       try {
-        const result = await updateProfile({ name, avatar_url: avatarUrl })
+        const result = await updateProfile({ name, avatar_url: avatarUrl, role })
         if (result?.success) {
           toast.success("Perfil atualizado com sucesso!")
-          // Try to update session, but don't block on failure
           try { await updateSession() } catch (e) {}
           router.push("/perfil")
           router.refresh()
@@ -153,6 +155,38 @@ export default function EditarPerfil() {
                 />
               </div>
             </Card>
+          </section>
+
+          {/* Role Field */}
+          <section className="space-y-2">
+            <label className="section-label pl-1">
+              Cargo / Função
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              {["MVP", "TREINADOR", "LEVEL_UP", "TRAINEE"].map((r) => {
+                const isSelected = role === r
+                let label = r
+                if (r === "LEVEL_UP") label = "Level Up"
+                if (r === "TRAINEE") label = "Trainee"
+                if (r === "TREINADOR") label = "Treinador"
+                
+                return (
+                  <button
+                    key={r}
+                    type="button"
+                    onClick={() => setRole(r)}
+                    className={`h-11 px-3 rounded-[12px] border text-[13px] font-bold transition-all flex items-center justify-between ${
+                      isSelected 
+                        ? "border-primary bg-primary/[0.03] text-foreground" 
+                        : "border-border bg-card text-muted-foreground hover:bg-gray-50"
+                    }`}
+                  >
+                    <span>{label}</span>
+                    <RoleBadge role={r} />
+                  </button>
+                )
+              })}
+            </div>
           </section>
 
           {/* Photo Field (Hidden from user or kept as optional) */}

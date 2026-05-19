@@ -27,7 +27,7 @@ export default function Ranking() {
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header title="Top Brincadeiras" showSearch={false} showUserCard={false} />
 
-      <main className="page-main pb-32">
+      <main className="page-main pt-2 pb-32">
 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-32">
@@ -45,11 +45,11 @@ export default function Ranking() {
         ) : (
           <>
             {/* Activities Ranking Section */}
-            <section className="mb-12">
-              <h2 className="section-label pl-1 mb-6 text-center">As Mais Curtidas da Comunidade</h2>
+            <section className="mb-8">
+              <h2 className="section-label pl-1 mb-4 text-center">As Mais Curtidas da Comunidade</h2>
               
               {/* Flexible Podium */}
-              <div className="flex items-end justify-center gap-2 relative max-w-sm mx-auto mb-10 px-2 h-64">
+              <div className="flex items-end justify-center gap-2 relative max-w-sm mx-auto mb-8 px-2 h-60">
                 {/* Rank 2 (Left) */}
                 {topThree[1] && (
                   <Link href={`/brincadeira/${topThree[1].id}`} className="flex flex-col items-center gap-3 flex-1 animate-in fade-in slide-in-from-bottom-4 duration-500 hover:opacity-80 transition-opacity">

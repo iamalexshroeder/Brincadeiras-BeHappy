@@ -18,6 +18,7 @@ import { Card } from "@/components/ui/card"
 import { UserAvatar } from "@/components/ui/UserAvatar"
 import { cn } from "@/lib/utils"
 import { toggleLike, toggleSave, deleteBrincadeira, revalidateAll } from "@/lib/actions"
+import { RoleBadge } from "@/components/shared/RoleBadge"
 import { toast } from "sonner"
 import Link from "next/link"
 
@@ -29,6 +30,7 @@ interface BrincadeiraCardProps {
     id: string
     name: string
     avatar?: string
+    role?: string | null
   }
   metadata: {
     ageRange: string
@@ -186,9 +188,12 @@ export function BrincadeiraCard({
                   className="h-9 w-9 border border-border/50"
                 />
                 <div className="flex flex-col">
-                  <span className="text-[14px] font-bold text-foreground leading-tight">
-                    {creator.name}
-                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[14px] font-bold text-foreground leading-tight">
+                      {creator.name}
+                    </span>
+                    <RoleBadge role={creator.role} />
+                  </div>
                   <span className="text-[11px] font-medium text-muted-foreground">
                     {publishedAt || "Manual de Brincadeiras"}
                   </span>

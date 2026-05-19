@@ -6,6 +6,7 @@ export interface Brincadeira {
     id: string
     name: string
     avatar?: string
+    role?: string
   }
   metadata: {
     ageRange: string
@@ -49,6 +50,7 @@ export function formatBrincadeira(b: any, currentUserId?: string): Brincadeira |
       id: userId,
       name: String(b.user.name || "Recreador"),
       avatar: b.user.avatar_url || b.user.image || undefined,
+      role: b.user.role || undefined,
     },
     metadata: {
       ageRange: b.age_groups?.length > 0 ? ageLabels[b.age_groups[0]] || "Personalizada" : "Todas as idades",

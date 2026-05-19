@@ -4,10 +4,12 @@ import { Header } from "@/components/layout/Header"
 import { Card } from "@/components/ui/card"
 import { UserAvatar } from "@/components/ui/UserAvatar"
 import { LibraryList } from "@/components/game/LibraryList"
-import { getPublicProfile } from "@/lib/actions"
-import { useEffect, useState, use } from "react"
-import { RiFileList3Line, RiShieldUserLine } from "@remixicon/react"
+import { getPublicProfile, toggleFollow } from "@/lib/actions"
+import { useEffect, useState, use, useTransition } from "react"
+import { RiFileList3Line, RiShieldUserLine, RiLoader4Line } from "@remixicon/react"
 import { useSession } from "next-auth/react"
+import { RoleBadge } from "@/components/shared/RoleBadge"
+import { toast } from "sonner"
 
 export default function RecreadorProfile({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params)
@@ -25,6 +27,23 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
   useEffect(() => {
     refreshProfile()
   }, [resolvedParams.id])
+
+  const [isPending, startTransition] = useTransition()
+
+  const handleFollowToggle = async () => {
+    if (!session?.user?.id) {
+      toast.error("Você precisa estar logado para seguir.")
+      return
+    }
+    startTransition(async () => {
+      try {
+        await toggleFollow(profileData.id)
+        refreshProfile()
+      } catch (e: any) {
+        toast.error(e.message || "Erro ao realizar ação")
+      }
+    })
+  }
 
   if (loading) {
     return (
@@ -56,36 +75,58 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
       
       <main className="px-4 sm:px-6 pt-2 pb-32 space-y-8">
         {/* Profile Card */}
-        <Card className="p-5 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[24px] bg-card overflow-hidden relative">
-           <div className="absolute top-0 right-0 p-4 opacity-5">
-              <RiShieldUserLine size={80} />
-           </div>
-           
-           <div className="flex flex-col items-center text-center mb-2 pt-2">
-              <UserAvatar 
-                src={profileData.avatar}
-                name={profileData.name}
-                className="h-24 w-24 border-4 border-white shadow-md mb-4"
-                fallbackClassName="bg-primary/10 text-primary text-[32px]"
-              />
-              
-              <h1 className="text-h1">
-                {profileData.name}
-              </h1>
-              
-              <div className="mt-2">
-                <span className="text-caption text-muted-foreground font-bold uppercase tracking-widest">
-                  Autor da Comunidade
+        <Card className="p-4 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-card flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <UserAvatar
+              src={profileData.avatar}
+              name={profileData.name}
+              className="h-14 w-14 border border-border/50"
+            />
+            <div className="flex flex-col">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="text-[14px] font-bold text-foreground leading-tight">
+                  {profileData.name}
                 </span>
+                <RoleBadge role={profileData.role} />
               </div>
-           </div>
-
-           <div className="flex items-center justify-center gap-8 mb-4 border-t border-border/50 pt-6 mt-6">
-              <div className="text-center group">
-                <span className="block text-h2 leading-none mb-1">{profileData.totalContributions}</span>
-                <span className="text-caption lowercase">brincadeiras publicadas</span>
+              <span className="text-[11px] font-medium text-muted-foreground mt-0.5">
+                {profileData.created_at ? `Entrou ${new Date(profileData.created_at).toLocaleDateString('pt-BR')}` : "Autor da Comunidade"}
+              </span>
+              
+              {/* Followers/Following Info */}
+              <div className="flex items-center gap-3 mt-1.5 text-[11px] font-bold text-foreground">
+                <div>
+                  <span className="text-foreground">{profileData.followersCount || 0}</span>{" "}
+                  <span className="text-muted-foreground font-medium">seguidores</span>
+                </div>
+                <div className="h-3 w-[1px] bg-border" />
+                <div>
+                  <span className="text-foreground">{profileData.followingCount || 0}</span>{" "}
+                  <span className="text-muted-foreground font-medium">seguindo</span>
+                </div>
               </div>
             </div>
+          </div>
+          
+          {session?.user?.id !== profileData.id && (
+            <button 
+              onClick={handleFollowToggle}
+              disabled={isPending}
+              className={`px-4 py-1.5 rounded-full text-[12px] font-extrabold transition-all shrink-0 active:scale-95 flex items-center gap-1.5 ${
+                profileData.userIsFollowing
+                  ? "border border-border text-muted-foreground bg-card hover:bg-gray-50"
+                  : "bg-primary text-white hover:bg-primary-dark shadow-[0_4px_12px_rgba(255,149,0,0.2)]"
+              }`}
+            >
+              {isPending ? (
+                <RiLoader4Line size={14} className="animate-spin" />
+              ) : profileData.userIsFollowing ? (
+                "Seguindo"
+              ) : (
+                "Seguir"
+              )}
+            </button>
+          )}
         </Card>
 
         {/* Contributions Section */}

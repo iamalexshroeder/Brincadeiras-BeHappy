@@ -81,6 +81,7 @@ export async function getProfile() {
       bio: true,
       city: true,
       state: true,
+      role: true,
       created_at: true,
       _count: {
         select: {
@@ -144,6 +145,8 @@ export async function getPublicProfile(userId: string) {
       bio: true,
       city: true,
       state: true,
+      role: true,
+      created_at: true,
       _count: {
         select: {
           brincadeiras: true,
@@ -161,7 +164,7 @@ export async function getPublicProfile(userId: string) {
     where: { user_id: userId, published_at: { not: null } },
     include: {
       user: {
-        select: { id: true, name: true, avatar_url: true, image: true },
+        select: { id: true, name: true, avatar_url: true, image: true, role: true },
       },
       comments: {
         include: {
@@ -265,7 +268,7 @@ export async function getFeed(
     orderBy: { published_at: "desc" },
     include: {
       user: {
-        select: { id: true, name: true, avatar_url: true, image: true },
+        select: { id: true, name: true, avatar_url: true, image: true, role: true },
       },
       comments: {
         include: {
@@ -331,7 +334,7 @@ export async function getBrincadeiraById(id: string) {
     where: { id },
     include: {
       user: {
-        select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true },
+        select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true, role: true },
       },
       comments: {
         include: {
@@ -380,7 +383,7 @@ export async function getFavorites() {
     include: {
       brincadeira: {
         include: {
-          user: { select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true } },
+          user: { select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true, role: true } },
           comments: {
             include: { user: { select: { name: true, avatar_url: true, image: true } } },
             orderBy: { created_at: "desc" },
@@ -437,7 +440,7 @@ export async function getMyContributions() {
   const brincadeiras = await prisma.brincadeira.findMany({
     where: { user_id: userId, published_at: { not: null } },
     include: {
-      user: { select: { id: true, name: true, avatar_url: true, image: true } },
+      user: { select: { id: true, name: true, avatar_url: true, image: true, role: true } },
       comments: { select: { id: true } },
       interactions: {
         where: { user_id: userId },
@@ -568,9 +571,9 @@ export async function getSavedBrincadeiras() {
     include: {
       brincadeira: {
         include: {
-          user: { select: { id: true, name: true, avatar_url: true, image: true } },
+          user: { select: { id: true, name: true, avatar_url: true, image: true, role: true } },
           comments: {
-            include: { user: { select: { name: true, avatar_url: true, image: true } } },
+            include: { user: { select: { name: true, avatar_url: true, image: true, role: true } } },
             orderBy: { created_at: "desc" },
           },
           interactions: {
@@ -877,7 +880,7 @@ export async function getBrincadeirasRanking(limit = 50) {
     where: { published_at: { not: null } },
     include: {
       user: {
-        select: { id: true, name: true, avatar_url: true, image: true },
+        select: { id: true, name: true, avatar_url: true, image: true, role: true },
       },
       comments: {
         include: {
@@ -1114,7 +1117,7 @@ export async function updateBrincadeira(id: string, data: any) {
 /**
  * Updates the user's basic profile info.
  */
-export async function updateProfile(data: { name?: string, avatar_url?: string }) {
+export async function updateProfile(data: { name?: string, avatar_url?: string, role?: string }) {
   const session = await auth()
   if (!session?.user?.id) throw new Error("Não autenticado")
 
@@ -1131,6 +1134,7 @@ export async function updateProfile(data: { name?: string, avatar_url?: string }
     data: {
       name: data.name,
       avatar_url: data.avatar_url,
+      role: data.role,
     }
   })
 

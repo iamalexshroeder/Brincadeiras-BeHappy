@@ -11,16 +11,24 @@ export default function AjudaPage() {
 
   const faqs = [
     {
+      q: "O que significam as Badges de Cargo?",
+      a: "As badges indicam a função do recreador: MVP (Vermelho - referência de gincana), Treinador (Laranja - líderes facilitadores), Level Up (Cinza - em evolução contínua) e Trainee (Roxo - iniciando a jornada). Você pode editar seu cargo nas configurações de perfil."
+    },
+    {
+      q: "Como funciona o sistema de Seguir?",
+      a: "Você pode seguir outros recreadores acessando o perfil deles ao clicar no nome em qualquer publicação. Isso permite acompanhar as contribuições dos seus colegas de equipe."
+    },
+    {
+      q: "Como funciona a visualização detalhada?",
+      a: "Ao clicar em uma brincadeira, um painel compacto desliza de baixo para cima. Nele você pode ler os materiais, o passo a passo completo e interagir (curtir, salvar ou compartilhar) tudo em uma única tela."
+    },
+    {
       q: "Como ganho XP?",
       a: "Você ganha XP cada vez que publica uma brincadeira (50 XP), recebe uma curtida (10 XP) ou alguém marca sua brincadeira como 'utilizada' (20 XP)."
     },
     {
       q: "Como edito minhas brincadeiras?",
-      a: "Vá no seu Perfil > Minhas. Abra a brincadeira desejada e você terá as opções de Editar e Excluir no topo da aba de detalhes."
-    },
-    {
-      q: "Posso usar em offline?",
-      a: "Atualmente o BeHappy requer conexão com a internet para salvar seu progresso e carregar novas brincadeiras da comunidade."
+      a: "Vá no seu Perfil > Minhas. Abra a brincadeira desejada e você terá as opções de Editar e Excluir na parte inferior da aba de detalhes."
     }
   ]
 

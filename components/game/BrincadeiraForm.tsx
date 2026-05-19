@@ -63,6 +63,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
 
   const [materials, setMaterials] = useState<string[]>(initialData?.materials || [])
   const [newMaterial, setNewMaterial] = useState("")
+  const [customCategory, setCustomCategory] = useState("")
 
   const [steps, setSteps] = useState<string[]>(initialData?.steps || [""])
 
@@ -248,8 +249,9 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
         <div>
           <label className="section-label mb-3 block">Categoria Principal</label>
           <div className="flex flex-wrap gap-2">
-            {CATEGORIES.map(cat => {
+            {Array.from(new Set([...CATEGORIES, ...selectedCategories])).map(cat => {
               const isSelected = selectedCategories.includes(cat)
+              const colorClass = CAT_COLORS[cat] || "bg-primary border-primary text-white"
               return (
                 <button
                   key={cat}
@@ -264,7 +266,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
                   }}
                   className={cn(
                     "h-9 px-4 rounded-full text-[13px] font-bold border-2 transition-all active:scale-95",
-                    isSelected ? CAT_COLORS[cat] : "bg-[#F2F2F7] text-[#8E8E93] border-transparent",
+                    isSelected ? colorClass : "bg-[#F2F2F7] text-[#8E8E93] border-transparent",
                     mode === "VIEW" && !isSelected && "hidden",
                     mode === "VIEW" && "pointer-events-none"
                   )}
@@ -274,6 +276,42 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
               )
             })}
           </div>
+          {mode !== "VIEW" && (
+            <div className="flex items-center gap-2 mt-3">
+              <input
+                type="text"
+                placeholder="Digitar nova categoria..."
+                className="input-base h-9 text-[13px] rounded-full px-4 flex-1"
+                value={customCategory}
+                onChange={(e) => setCustomCategory(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && customCategory.trim()) {
+                    e.preventDefault()
+                    const val = customCategory.trim()
+                    if (!selectedCategories.includes(val)) {
+                      setSelectedCategories([...selectedCategories, val])
+                    }
+                    setCustomCategory("")
+                  }
+                }}
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  if (customCategory.trim()) {
+                    const val = customCategory.trim()
+                    if (!selectedCategories.includes(val)) {
+                      setSelectedCategories([...selectedCategories, val])
+                    }
+                    setCustomCategory("")
+                  }
+                }}
+                className="h-9 px-4 rounded-full bg-primary text-white text-[13px] font-bold active:scale-95 transition-all"
+              >
+                Adicionar
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Faixa Etária */}

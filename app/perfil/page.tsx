@@ -17,6 +17,8 @@ import Link from "next/link"
 import { signOut, useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 import { getProfile } from "@/lib/actions"
+import { UserAvatar } from "@/components/ui/UserAvatar"
+import { RoleBadge } from "@/components/shared/RoleBadge"
 
 interface SettingItem {
   icon: any;
@@ -94,6 +96,50 @@ export default function Perfil() {
       <Header title="Perfil" showSearch={false} />
       
       <main className="pb-32 pt-2">
+        {/* Profile Card Section */}
+        <div className="px-5 mb-8">
+          <Card className="p-4 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-card flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <UserAvatar
+                src={profileData?.avatar_url || profileData?.image || undefined}
+                name={profileData?.name || "Usuário"}
+                className="h-14 w-14 border border-border/50"
+              />
+              <div className="flex flex-col">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <span className="text-[14px] font-bold text-foreground leading-tight">
+                    {profileData?.name || "Usuário"}
+                  </span>
+                  <RoleBadge role={profileData?.role} />
+                </div>
+                <span className="text-[11px] font-medium text-muted-foreground mt-0.5">
+                  {profileData?.created_at ? `Entrou ${new Date(profileData.created_at).toLocaleDateString('pt-BR')}` : ""}
+                </span>
+                
+                {/* Followers/Following Info */}
+                <div className="flex items-center gap-3 mt-1.5 text-[11px] font-bold text-foreground">
+                  <div>
+                    <span className="text-foreground">{profileData?.stats?.followers || 0}</span>{" "}
+                    <span className="text-muted-foreground font-medium">seguidores</span>
+                  </div>
+                  <div className="h-3 w-[1px] bg-border" />
+                  <div>
+                    <span className="text-foreground">{profileData?.stats?.following || 0}</span>{" "}
+                    <span className="text-muted-foreground font-medium">seguindo</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <Link 
+              href="/perfil/editar" 
+              className="px-3.5 py-1.5 border border-border rounded-full text-[12px] font-extrabold text-foreground bg-card hover:bg-gray-50 active:scale-95 transition-all shrink-0"
+            >
+              Editar Perfil
+            </Link>
+          </Card>
+        </div>
+
         {/* Horizontal Activities Section */}
         <section className="mb-10">
           <div className="px-5 mb-4">
