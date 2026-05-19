@@ -87,7 +87,7 @@ export function formatSystemBrincadeira(game: any, kitLabel: string, stats?: { l
     creator: { 
       id: "system", 
       name: "BeHappyinha", 
-      avatar: "/behappyinha.png", 
+      avatar: "/icon-512.png", 
     },
     metadata: { 
       ageRange: String(game.age), 
