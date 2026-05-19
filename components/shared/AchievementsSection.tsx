@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState } from "react"
 import { Card } from "@/components/ui/card"
@@ -36,7 +36,7 @@ function AchievementModal({
       onClick={onClose}
     >
       <div
-        className="relative w-full sm:max-w-sm bg-card border-t sm:border border-border/80 rounded-t-[28px] sm:rounded-[24px] shadow-2xl overflow-hidden animate-in slide-in-from-bottom duration-300 p-6"
+        className="relative w-full sm:max-w-sm bg-card border-t sm:border border-border/80 rounded-t-[28px] sm:rounded-[24px] shadow-2xl overflow-hidden animate-in slide-in-from-bottom duration-300 p-6 popup-badge-padding"
         onClick={(e) => e.stopPropagation()}
       >
         

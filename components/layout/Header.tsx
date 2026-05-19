@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { RiSearchLine, RiNotification3Line, RiNotification3Fill, RiArrowLeftSLine } from "@remixicon/react"
 import { Input } from "@/components/ui/input"
@@ -90,7 +90,7 @@ export function Header({
     <>
       
       <div className={cn(
-        "sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-4 sm:px-6 no-print transition-all overflow-visible",
+        "sticky top-0 z-40 bg-[#F9F9F7]/95 backdrop-blur-md px-4 sm:px-6 no-print transition-all overflow-visible",
         showBackButton ? "pt-12 pb-4" : "pt-10 pb-4"
       )}>
         <div className="flex items-center justify-between gap-2 overflow-visible">

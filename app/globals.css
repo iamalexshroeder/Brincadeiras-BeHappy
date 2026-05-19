@@ -177,12 +177,20 @@
   .popup-content-padding {
     padding-bottom: calc(144px + env(safe-area-inset-bottom));
   }
+  .popup-badge-padding {
+    padding-bottom: calc(24px + 64px + env(safe-area-inset-bottom));
+  }
   @media (min-width: 768px) {
     .popup-buttons {
       bottom: 24px;
     }
     .popup-content-padding {
       padding-bottom: 96px;
+    }
+  }
+  @media (min-width: 640px) {
+    .popup-badge-padding {
+      padding-bottom: 24px;
     }
   }
 }

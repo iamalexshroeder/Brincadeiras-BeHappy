@@ -225,7 +225,7 @@ export function BrincadeiraCard({
               </div>
             </div>
 
-<div className="flex items-center justify-between pt-2 border-t border-border/50">
+<div className="flex items-center justify-between pt-2">
               <div className="flex items-center gap-4">
                 <button 
                   onClick={handleLike}
@@ -329,7 +329,7 @@ export function BrincadeiraCard({
                 </p>
               </div>
 
-<div className="flex flex-wrap gap-2 pt-1 border-t border-b border-border/50 py-3.5">
+<div className="flex flex-wrap gap-2 pt-1 py-3.5">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#F2F2F7] text-[#8E8E93] text-[12px] font-bold">
                   <RiUserVoiceLine size={14} />
                   {metadata.ageRange}
