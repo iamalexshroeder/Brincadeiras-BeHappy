@@ -67,7 +67,6 @@ model User {
   xp_transactions    XPTransaction[]
   collections        Collection[]
   notifications      Notification[]
-  comments           Comment[]
   followers          Follow[]  @relation("followers")
   following          Follow[]  @relation("following")
   system_interactions SystemInteraction[]
@@ -131,7 +130,6 @@ model Brincadeira {
   created_at        DateTime        @default(now())
 
   interactions      Interaction[]
-  comments          Comment[]
 }
 
 model Interaction {
@@ -190,18 +188,6 @@ model Notification {
   created_at   DateTime         @default(now())
 
   @@index([user_id, read])
-}
-
-model Comment {
-  id                String           @id @default(uuid())
-  text              String           @db.Text
-  user_id           String
-  user              User             @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  brincadeira_id    String
-  brincadeira       Brincadeira      @relation(fields: [brincadeira_id], references: [id], onDelete: Cascade)
-  created_at        DateTime         @default(now())
-
-  @@index([brincadeira_id])
 }
 
 // For system/curated games (pdf-* IDs) that don't exist in the Brincadeira table

@@ -7,7 +7,6 @@ import { revalidatePath } from "next/cache"
 import { XPReason } from "@prisma/client"
 import { WEEKLY_MISSIONS } from "@/lib/missions"
 
-// ---- helper duplicado para não depender do awardXP privado de actions.ts ----
 async function awardMissionXP(userId: string, amount: number, referenceId: string) {
   const user = await prisma.user.findUnique({ where: { id: userId }, select: { xp: true } })
   if (!user) return
@@ -44,16 +43,13 @@ function getWeekStart() {
   return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + diff, 0, 0, 0))
 }
 
-/**
- * Returns the user's progress for all weekly missions.
- */
 export async function getMissions() {
   const session = await auth()
   if (!session?.user?.id) return []
   const userId = session.user.id
   const weekStart = getWeekStart()
 
-  const [interactions, comments, brincadeiras, claimedTx] = await prisma.$transaction([
+  const [interactions, brincadeiras, claimedTx] = await prisma.$transaction([
     prisma.interaction.findMany({
       where: { 
         user_id: userId, 
@@ -62,7 +58,6 @@ export async function getMissions() {
       },
       select: { type: true },
     }),
-    prisma.comment.count({ where: { user_id: userId, created_at: { gte: weekStart } } }),
     prisma.brincadeira.count({ where: { user_id: userId, published_at: { gte: weekStart } } }),
     prisma.xPTransaction.findMany({
       where: {
@@ -82,7 +77,6 @@ export async function getMissions() {
   return WEEKLY_MISSIONS.map(m => {
     let progress = 0
     if (m.type === "LIKE") progress = Math.min(likes, m.goal)
-    else if (m.type === "COMMENT") progress = Math.min(comments, m.goal)
     else if (m.type === "SAVED") progress = Math.min(saved, m.goal)
     else if (m.type === "PUBLISH") progress = Math.min(brincadeiras, m.goal)
 
@@ -90,9 +84,6 @@ export async function getMissions() {
   })
 }
 
-/**
- * Claims the XP reward for a completed weekly mission.
- */
 export async function claimMission(missionId: string) {
   const session = await auth()
   if (!session?.user?.id) throw new Error("Não autenticado")

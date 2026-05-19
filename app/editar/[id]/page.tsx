@@ -1,4 +1,4 @@
-import { getBrincadeiraById } from "@/lib/actions"
+﻿import { getBrincadeiraById } from "@/lib/actions"
 import BrincadeiraForm from "@/components/game/BrincadeiraForm"
 import { notFound } from "next/navigation"
 import { auth } from "@/auth"
@@ -19,7 +19,6 @@ export default async function EditBrincadeiraPage(props: EditPageProps) {
     notFound()
   }
 
-  // Security check: only the owner can edit
   if (brincadeira.creator.id !== session?.user?.id) {
     return (
       <div className="flex flex-col min-h-screen bg-background">

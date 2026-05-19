@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/Header"
+﻿import { Header } from "@/components/layout/Header"
 import { BrincadeiraCard } from "@/components/game/BrincadeiraCard"
 import { CuratedKits } from "@/components/game/CuratedKits"
 import Link from "next/link"
@@ -40,10 +40,8 @@ export default async function Home({
       <Header showSearch={false} showUserCard={false} />
 
       <main className="pb-32 pt-10 space-y-12 overflow-visible animate-in fade-in slide-in-from-bottom-4 duration-500">
-        
 
-        {/* Curated Kits Section */}
-        <section className="px-4 sm:px-6 overflow-visible">
+<section className="px-4 sm:px-6 overflow-visible">
           <div className="flex items-center justify-between mb-4 pl-1">
             <h2 className="text-[13px] font-black uppercase tracking-wider text-[#8E8E93]">
               Kits Sugeridos
@@ -53,9 +51,7 @@ export default async function Home({
           <RefreshButton />
         </section>
 
-
-        {/* Feed Section */}
-        <section className="overflow-visible">
+<section className="overflow-visible">
           <div className="flex items-baseline justify-between mb-6 px-4 sm:px-6">
             <h2 className="text-[13px] font-black uppercase tracking-wider text-[#8E8E93]">
               {kit === "minhas" ? "Minhas Brincadeiras" : "Destaques"}
@@ -95,7 +91,6 @@ export default async function Home({
                   metadata={game.metadata}
                   tags={game.tags}
                   likesCount={game.likesCount}
-                  comments={game.comments}
                   initialLiked={game.userHasLiked}
                   initialSaved={game.userHasSaved}
                   currentUserId={session?.user?.id}
@@ -116,8 +111,7 @@ export default async function Home({
         </section>
       </main>
 
-      {/* Floating Action Button */}
-      <div className="fixed bottom-[calc(64px+env(safe-area-inset-bottom))] left-0 right-0 px-4 sm:px-5 py-4 bg-white/80 backdrop-blur-md border-t border-border z-40 no-print">
+<div className="fixed bottom-[calc(64px+env(safe-area-inset-bottom))] left-0 right-0 px-4 sm:px-5 py-4 bg-white/80 backdrop-blur-md border-t border-border z-40 no-print">
         <Link href="/criar" className="block w-full">
           <button className="btn-primary w-full shadow-[0_8px_20px_rgba(255,149,0,0.2)] active:scale-[0.98] transition-all">
             Criar nova brincadeira

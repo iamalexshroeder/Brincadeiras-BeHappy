@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState } from "react"
 import { usePathname } from "next/navigation"
@@ -68,13 +68,11 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
     onConfirm?: () => void;
   }>({ isOpen: false, message: "", type: "error" })
 
-  // O BottomNav só aparece fora de /criar e /login
   const hasBottomNav = pathname !== "/criar" && pathname !== "/login"
   const footerBottomClass = hasBottomNav 
     ? "bottom-[calc(64px+env(safe-area-inset-bottom))]" 
     : "bottom-0"
 
-  // Form State
   const [title, setTitle] = useState(initialData?.title || "")
   const [description, setDescription] = useState(initialData?.description || initialData?.short_description || "")
   const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
@@ -153,7 +151,6 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
   }
 
   const handleSubmit = async () => {
-    // Basic Validation
     if (!title.trim()) return showError("O título é obrigatório.")
     if (!description.trim()) return showError("A descrição é obrigatória.")
     if (selectedCategories.length === 0) return showError("Selecione pelo menos uma categoria.")
@@ -218,11 +215,10 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
 
   return (
     <div className="flex flex-col w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
-      {/* Formulário - Corpo */}
+      
       <div className="space-y-8 pb-36">
 
-        {/* Título e Descrição */}
-        <div className="space-y-5">
+<div className="space-y-5">
           <div>
             <label className="section-label mb-2 block">Título da Brincadeira</label>
             <input
@@ -274,8 +270,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
           </div>
         </div>
 
-        {/* Categorias */}
-        <div>
+<div>
           <label className="section-label mb-3 block">Categoria Principal</label>
           <div className="flex flex-wrap gap-2">
             {Array.from(new Set([...CATEGORIES, ...selectedCategories])).map(cat => {
@@ -343,8 +338,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
           )}
         </div>
 
-        {/* Coleções da Biblioteca BeHappy */}
-        <div className="p-4 bg-gradient-to-br from-[#FF9500]/[0.02] to-amber-500/[0.05] border border-primary/10 rounded-[18px]">
+<div className="p-4 bg-gradient-to-br from-[#FF9500]/[0.02] to-amber-500/[0.05] border border-primary/10 rounded-[18px]">
           <div className="flex flex-col gap-1 mb-3.5">
             <label className="section-label block">Coleções da Biblioteca (Conquistas)</label>
             <p className="text-[11px] text-muted-foreground font-semibold leading-relaxed">
@@ -382,8 +376,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
           </div>
         </div>
 
-        {/* Faixa Etária */}
-        <div>
+<div>
           <label className="section-label mb-3 block">Faixa Etária</label>
           <div className="flex flex-wrap gap-2">
             {Object.entries(AGE_LABELS).map(([ageId, label]) => (
@@ -413,8 +406,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
           </div>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 gap-4">
+<div className="grid grid-cols-2 gap-4">
           <div>
             <label className="section-label mb-2 block">Tempo (min)</label>
             <input
@@ -445,8 +437,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
           </div>
         </div>
 
-        {/* Materiais */}
-        <div className="space-y-3">
+<div className="space-y-3">
           <label className="section-label block">Materiais Necessários</label>
           <div className="flex flex-wrap gap-2 min-h-[36px]">
             {materials.map((m, i) => (
@@ -489,8 +480,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
           )}
         </div>
 
-        {/* Passo a Passo */}
-        <div className="space-y-4">
+<div className="space-y-4">
           <label className="section-label block">Como Jogar (Passo a Passo)</label>
           <div className="space-y-3">
             {steps.map((step, i) => (
@@ -547,8 +537,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
 
       </div>
 
-      {/* Footer de Ação */}
-      {(mode !== "VIEW" || (mode === "VIEW" && isOwner)) && (
+{(mode !== "VIEW" || (mode === "VIEW" && isOwner)) && (
         <div className={cn(
           "fixed left-0 right-0 px-4 sm:px-5 py-4 border-t border-border bg-white z-40 flex gap-3 pb-safe no-print shadow-[0_-8px_20px_rgba(0,0,0,0.05)]",
           footerBottomClass
@@ -608,8 +597,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
         </div>
       )}
 
-      {/* Custom Popup Modal */}
-      {popup.isOpen && (
+{popup.isOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#1A1A1A]/40 backdrop-blur-sm p-4 animate-in fade-in duration-200">
           <div className="bg-white rounded-[24px] p-6 w-full max-w-[320px] shadow-[0_8px_30px_rgba(0,0,0,0.12)] flex flex-col items-center text-center zoom-in-95 animate-in duration-200">
             {popup.title && <h3 className="text-[18px] font-black text-[#1A1A1A] mb-2">{popup.title}</h3>}

@@ -1,11 +1,10 @@
-import { createClient } from "@/utils/supabase/server"
+﻿import { createClient } from "@/utils/supabase/server"
 import { cookies } from "next/headers"
 
 export default async function Page() {
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
 
-  // Tenta buscar algo do auth para ver se as chaves são válidas
   const { data, error } = await supabase.auth.getSession()
 
   if (error) {

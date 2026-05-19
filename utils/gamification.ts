@@ -1,9 +1,4 @@
-/**
- * Logic for calculating User Levels and Titles based on XP.
- * Max Level: 100
- */
-
-interface LevelData {
+﻿interface LevelData {
   level: number;
   title: string;
   minXp: number;
@@ -36,14 +31,7 @@ export const GAMIFICATION_TIERS: (LevelData & { color: string; description: stri
 export const EXCLUSIVE_TITLES = [
   { id: "diva_recreacao", title: "Diva da Recreação", color: "#EC4899", description: "Título de prestígio exclusivo para a elite da recreação." },
   { id: "estrela_behappy", title: "Estrela BeHappy", color: "#FBBF24", description: "Destaque total na comunidade Brincadeiras BeHappy." },
-];
-
-/**
- * Calculates current level and related data based on exact XP.
- * Assumes a linear scale between the defined tiers.
- */
-export const getLevelFromXp = (xp: number, activeTitle?: string | null) => {
-  // Find the highest tier the user has reached
+];export const getLevelFromXp = (xp: number, activeTitle?: string | null) => {
   let currentTierIndex = 0;
   for (let i = 0; i < GAMIFICATION_TIERS.length; i++) {
     if (xp >= GAMIFICATION_TIERS[i].minXp) {
@@ -56,7 +44,6 @@ export const getLevelFromXp = (xp: number, activeTitle?: string | null) => {
   const currentTier = GAMIFICATION_TIERS[currentTierIndex];
   const nextTier = GAMIFICATION_TIERS[Math.min(currentTierIndex + 1, GAMIFICATION_TIERS.length - 1)];
 
-  // If max level reached
   if (currentTier.level === 100 || xp >= GAMIFICATION_TIERS[GAMIFICATION_TIERS.length - 1].minXp) {
     return {
       level: 100,
@@ -67,21 +54,15 @@ export const getLevelFromXp = (xp: number, activeTitle?: string | null) => {
     };
   }
 
-  // Calculate exact level if between tiers
   const xpDifference = nextTier.minXp - currentTier.minXp;
   const levelDifference = nextTier.level - currentTier.level;
   
-  // Calculate how far along the user is between the tiers (0.0 to 1.0)
   const progressToNextTier = (xp - currentTier.minXp) / xpDifference;
   
-  // Exact level integer
   const exactLevel = Math.floor(currentTier.level + (progressToNextTier * levelDifference));
 
-  // Determine the XP required for the NEXT exact level
-  // XP per single level in this bracket:
   const xpPerLevelInTier = xpDifference / levelDifference;
   
-  // How many levels into this tier are we?
   const levelsIntoTier = exactLevel - currentTier.level;
   
   const currentLevelMinXp = currentTier.minXp + (levelsIntoTier * xpPerLevelInTier);
@@ -92,18 +73,12 @@ export const getLevelFromXp = (xp: number, activeTitle?: string | null) => {
 
   return {
     level: exactLevel,
-    title: activeTitle || currentTier.title, // Use activeTitle if set, otherwise fallback to currentTier boundary
+    title: activeTitle || currentTier.title,
     xpRemaining,
     progressPercentage: Math.min(100, Math.max(0, progressPercentage)),
     nextLevelXp: Math.ceil(nextExactLevelMinXp)
   };
-};
-
-/**
- * Convenience method if you just want to lookup a Title for an arbitrary level number
- * (e.g., when viewing another user's profile where only their Level is fetched)
- */
-export const getTitleForLevel = (level: number, activeTitle?: string | null) => {
+};export const getTitleForLevel = (level: number, activeTitle?: string | null) => {
   if (activeTitle) return activeTitle;
   
   let matchedTitle = GAMIFICATION_TIERS[0].title;

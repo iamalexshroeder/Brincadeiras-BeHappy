@@ -1,5 +1,5 @@
-import { GET, POST } from "@/auth"
+﻿import { GET, POST } from "@/auth"
 
-export const runtime = "nodejs" // Force Node runtime to prevent Prisma Edge validation crashes
+export const runtime = "nodejs"
 
 export { GET, POST }

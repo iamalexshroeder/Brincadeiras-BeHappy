@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/Header"
+﻿import { Header } from "@/components/layout/Header"
 import { ExplorarClient } from "@/components/game/ExplorarClient"
 import { getFeed, getSystemStats } from "@/lib/actions"
 import { formatSystemBrincadeira } from "@/lib/formatters"
@@ -19,15 +19,12 @@ export default async function Explorar({
 
   const activeKit = kit ? SYSTEM_COLLECTIONS.find(c => c.id === kit) : null
 
-  // Modo Kit
   if (kit) {
     let kitItems: any[] = []
     
     if (activeKit) {
-      // Se for uma coleção do sistema, usamos os dados estáticos da biblioteca
       const systemIds = activeKit.games.map(g => g.id)
       
-      // Busca o estado real de interação do usuário para esses jogos
       const systemStats = session?.user?.id
         ? await getSystemStats(systemIds)
         : {}
@@ -36,7 +33,6 @@ export default async function Explorar({
         formatSystemBrincadeira(g, activeKit.label, systemStats[g.id])
       )
     } else {
-      // Se não for do sistema, busca no banco (coleções de usuários)
       const { items } = await getFeed(40, undefined, undefined, kit)
       kitItems = items
     }
@@ -74,7 +70,6 @@ export default async function Explorar({
                   metadata={game!.metadata}
                   tags={game!.tags}
                   likesCount={game!.likesCount}
-                  comments={game!.comments}
                   initialLiked={game!.userHasLiked}
                   initialSaved={game!.userHasSaved}
                   currentUserId={session?.user?.id}
@@ -91,7 +86,6 @@ export default async function Explorar({
     )
   }
 
-  // Modo padrão: busca galeria inicial e entrega ao client component
   const { items: initialFeed } = await getFeed(20)
 
   return (

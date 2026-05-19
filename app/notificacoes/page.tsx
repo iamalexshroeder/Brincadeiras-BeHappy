@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { Header } from "@/components/layout/Header"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -11,8 +11,6 @@ import { ptBR } from "date-fns/locale"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 
-
-// Force dynamic rendering so notifications are always fresh
 export const dynamic = "force-dynamic"
 
 function getIcon(type: string) {
@@ -46,7 +44,7 @@ export default function Notificacoes() {
 
   useEffect(() => {
     fetchNotifications()
-    markNotificationsRead() // Mark as read when opening the page
+    markNotificationsRead()
   }, [])
 
   const fetchNotifications = async () => {
@@ -123,9 +121,7 @@ export default function Notificacoes() {
         )}
       </main>
 
-      {/* Ações fixas no rodapé */}
-      {/* Floating Action Buttons */}
-      {notifications.length > 0 && (
+{notifications.length > 0 && (
         <div className="fixed bottom-[64px] left-0 right-0 px-5 py-4 bg-white border-t border-border z-40 flex gap-3 no-print shadow-[0_-8px_20px_rgba(0,0,0,0.05)]">
           <button
             onClick={async () => {

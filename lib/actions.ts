@@ -2,50 +2,11 @@
 
 import { auth } from "@/auth"
 import prisma from "@/lib/prisma"
-import { XPReason } from "@prisma/client"
 import { Brincadeira, formatBrincadeira, formatSystemBrincadeira } from "@/lib/formatters"
 import { revalidatePath, unstable_noStore } from "next/cache"
 import { SYSTEM_COLLECTIONS } from "@/lib/data/biblioteca"
-import { WEEKLY_MISSIONS } from "@/lib/missions"
 
-// XP awarded per action (Deprecated)
-const XP_VALUES = {
-  PUBLISHED: 0,
-  COMMENT_ADDED: 0,
-  LIKE_GIVEN: 0,
-  PROFILE_UPDATED: 0,
-  STREAK: 0,
-  DAILY_LIMIT: 0,
-}
 
-/**
- * Gets the IDs of the Top 3 players by XP.
- */
-async function getTopThreeIds() {
-  const topUsers = await prisma.user.findMany({
-    take: 3,
-    orderBy: { xp: 'desc' },
-    where: { email: { not: 'equipe@behappy.com' } },
-    select: { id: true }
-  })
-  return topUsers.map(u => u.id)
-}
-
-/**
- * Awards XP to a user (Deprecated - No-op)
- */
-async function awardXP(
-  userId: string,
-  amount: number,
-  reason: XPReason,
-  referenceId?: string
-) {
-  return { awarded: 0 }
-}
-
-/**
- * Creates a notification for a specific user.
- */
 async function notifyUser(userId: string, type: "GAMIFICATION" | "SOCIAL" | "SYSTEM", title: string, message: string, referenceId?: string) {
   try {
     await prisma.notification.create({
@@ -62,10 +23,6 @@ async function notifyUser(userId: string, type: "GAMIFICATION" | "SOCIAL" | "SYS
   }
 }
 
-/**
- * Gets the authenticated user's profile from the DB, including
- * computed level, title and progress from their raw XP.
- */
 export async function getProfile() {
   const session = await auth()
   if (!session?.user?.id) return null
@@ -95,12 +52,10 @@ export async function getProfile() {
 
   if (!user) return null
 
-  // Fetch stats (likes received, etc)
   const likesReceived = await prisma.interaction.count({
     where: { brincadeira: { user_id: user.id }, type: "LIKE" }
   })
 
-  // Favorite stats
   const [commLikes, sysLikes] = await Promise.all([
     prisma.interaction.count({ where: { user_id: user.id, type: "LIKE" } }),
     prisma.systemInteraction.count({ where: { user_id: user.id, type: "LIKE" } })
@@ -143,7 +98,6 @@ export async function getProfile() {
   }
 }
 
-
 export async function getPublicProfile(userId: string) {
   const session = await auth()
   const currentUserId = session?.user?.id
@@ -173,20 +127,11 @@ export async function getPublicProfile(userId: string) {
 
   if (!user || user.email === "equipe@behappy.com") return null
 
-  // Get their brincadeiras
   const brincadeirasData = await prisma.brincadeira.findMany({
     where: { user_id: userId, published_at: { not: null } },
     include: {
       user: {
         select: { id: true, name: true, avatar_url: true, image: true, role: true },
-      },
-      comments: {
-        include: {
-          user: {
-            select: { name: true, avatar_url: true, image: true },
-          },
-        },
-        orderBy: { created_at: "desc" },
       },
       interactions: currentUserId
         ? {
@@ -198,7 +143,6 @@ export async function getPublicProfile(userId: string) {
     orderBy: { published_at: "desc" }
   })
 
-  // Check if current user follows this profile
   let userIsFollowing = false
   if (currentUserId) {
     const follow = await prisma.follow.findUnique({
@@ -240,7 +184,6 @@ export async function getFeed(
   const session = await auth()
   const userId = session?.user?.id
 
-  // Always exclude system account games from any feed
   let whereClause: any = {
     published_at: { not: null },
     AND: [
@@ -248,7 +191,6 @@ export async function getFeed(
     ]
   }
 
-  // Social Filtering (Followers)
   if (followingOnly && userId) {
     const following = await prisma.follow.findMany({
       where: { followerId: userId },
@@ -285,14 +227,6 @@ export async function getFeed(
       user: {
         select: { id: true, name: true, avatar_url: true, image: true, role: true },
       },
-      comments: {
-        include: {
-          user: {
-            select: { name: true, avatar_url: true, image: true },
-          },
-        },
-        orderBy: { created_at: "desc" },
-      },
       interactions: userId
         ? {
             where: { user_id: userId },
@@ -307,16 +241,11 @@ export async function getFeed(
   }
 }
 
-/**
- * Gets a single brincadeira by ID.
- */
 export async function getBrincadeiraById(id: string) {
-  // If it's a system game (from PDF)
   if (id.startsWith('pdf-')) {
     for (const col of SYSTEM_COLLECTIONS) {
       const g = col.games.find(game => game.id === id);
       if (g) {
-        // Fetch real user interaction state
         const session = await auth()
         let hasLiked = false, hasSaved = false
         if (session?.user?.id) {
@@ -343,21 +272,11 @@ export async function getBrincadeiraById(id: string) {
 
   const session = await auth()
   const currentUserId = session?.user?.id
-  const topThreeIds = await getTopThreeIds()
-
   const brincadeira = await prisma.brincadeira.findUnique({
     where: { id },
     include: {
       user: {
         select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true, role: true },
-      },
-      comments: {
-        include: {
-          user: {
-            select: { name: true, avatar_url: true, image: true },
-          },
-        },
-        orderBy: { created_at: "desc" },
       },
       interactions: currentUserId
         ? {
@@ -372,24 +291,11 @@ export async function getBrincadeiraById(id: string) {
   return formatBrincadeira(brincadeira, currentUserId)
 }
 
-// ----------------------------------------------------------------------------
-// Helper Types & Functions
-// ----------------------------------------------------------------------------
-
-// Formatters moved to @/lib/formatters
-
-
-
-
-/**
- * Fetches the user's favorite brincadeiras (liked by them).
- */
 export async function getFavorites() {
   const session = await auth()
   if (!session?.user?.id) return []
   const userId = session.user.id
 
-  // 1. Fetch from DB interactions
   const favors = await prisma.interaction.findMany({
     where: { 
       user_id: userId,
@@ -399,10 +305,6 @@ export async function getFavorites() {
       brincadeira: {
         include: {
           user: { select: { id: true, name: true, avatar_url: true, image: true, xp: true, active_title: true, role: true } },
-          comments: {
-            include: { user: { select: { name: true, avatar_url: true, image: true } } },
-            orderBy: { created_at: "desc" },
-          },
           interactions: {
             where: { user_id: userId },
             select: { type: true },
@@ -413,13 +315,11 @@ export async function getFavorites() {
     orderBy: { created_at: "desc" }
   })
 
-  // 2. Fetch from System interactions
   const systemFavors = await prisma.systemInteraction.findMany({
     where: { user_id: userId, type: "LIKE" },
     orderBy: { created_at: "desc" }
   })
 
-  // Pre-fetch all stats (Global Likes + User's own Liked/Saved state) for these system games
   const sysGameIds = systemFavors.map(sf => sf.game_id)
   const systemStats = sysGameIds.length > 0 ? await getSystemStats(sysGameIds) : {}
 
@@ -444,9 +344,6 @@ export async function getFavorites() {
   return [...dbItems, ...systemItems]
 }
 
-/**
- * Fetches the user's own published brincadeiras.
- */
 export async function getMyContributions() {
   const session = await auth()
   if (!session?.user?.id) return []
@@ -456,7 +353,6 @@ export async function getMyContributions() {
     where: { user_id: userId, published_at: { not: null } },
     include: {
       user: { select: { id: true, name: true, avatar_url: true, image: true, role: true } },
-      comments: { select: { id: true } },
       interactions: {
         where: { user_id: userId },
         select: { type: true }
@@ -468,17 +364,11 @@ export async function getMyContributions() {
   return brincadeiras.map(b => formatBrincadeira(b, userId)).filter(Boolean)
 }
 
-
-/**
- * Toggles a LIKE interaction on a brincadeira.
- * Awards XP to the creator when liked.
- */
 export async function toggleLike(brincadeiraId: string) {
   const session = await auth()
   if (!session?.user?.id) throw new Error("Não autenticado")
   const userId = session.user.id
 
-  // Handle System Games (PDF-*)
   if (brincadeiraId.startsWith('pdf-')) {
     const existing = await prisma.systemInteraction.findUnique({
       where: { user_id_game_id_type: { user_id: userId, game_id: brincadeiraId, type: "LIKE" } },
@@ -495,13 +385,11 @@ export async function toggleLike(brincadeiraId: string) {
     return
   }
 
-  // Handle Normal Games
   const existing = await prisma.interaction.findUnique({
     where: { user_id_brincadeira_id_type: { user_id: userId, brincadeira_id: brincadeiraId, type: "LIKE" } },
   })
 
   if (existing) {
-    // Remove like
     await prisma.$transaction([
       prisma.interaction.delete({ where: { id: existing.id } }),
       prisma.brincadeira.update({
@@ -510,7 +398,6 @@ export async function toggleLike(brincadeiraId: string) {
       }),
     ])
   } else {
-    // Add like
     await prisma.$transaction([
       prisma.interaction.create({
         data: { user_id: userId, brincadeira_id: brincadeiraId, type: "LIKE" }
@@ -525,17 +412,11 @@ export async function toggleLike(brincadeiraId: string) {
   revalidatePath("/", "layout")
 }
 
-
-/**
- * Toggles a SAVED interaction.
- * Acts as a generic "Bookmark" (All Saved Posts).
- */
 export async function toggleSave(brincadeiraId: string) {
   const session = await auth()
   if (!session?.user?.id) throw new Error("Não autenticado")
   const userId = session.user.id
 
-  // Handle System Games (PDF-*)
   if (brincadeiraId.startsWith('pdf-')) {
     const existing = await prisma.systemInteraction.findUnique({
       where: { user_id_game_id_type: { user_id: userId, game_id: brincadeiraId, type: "SAVED" } },
@@ -552,7 +433,6 @@ export async function toggleSave(brincadeiraId: string) {
     return
   }
 
-  // Handle Normal Games
   const existing = await prisma.interaction.findUnique({
     where: { user_id_brincadeira_id_type: { user_id: userId, brincadeira_id: brincadeiraId, type: "SAVED" } },
   })
@@ -568,16 +448,10 @@ export async function toggleSave(brincadeiraId: string) {
   revalidatePath("/", "layout")
 }
 
-/**
- * Fetches the user's saved brincadeiras (Interaction type SAVED).
- */
 export async function getSavedBrincadeiras() {
   const session = await auth()
   if (!session?.user?.id) return []
   const userId = session.user.id
-  const topThreeIds = await getTopThreeIds()
-
-  // 1. Fetch from DB interactions
   const saved = await prisma.interaction.findMany({
     where: { 
       user_id: userId,
@@ -587,10 +461,6 @@ export async function getSavedBrincadeiras() {
       brincadeira: {
         include: {
           user: { select: { id: true, name: true, avatar_url: true, image: true, role: true } },
-          comments: {
-            include: { user: { select: { name: true, avatar_url: true, image: true, role: true } } },
-            orderBy: { created_at: "desc" },
-          },
           interactions: {
             where: { user_id: userId },
             select: { type: true },
@@ -601,13 +471,11 @@ export async function getSavedBrincadeiras() {
     orderBy: { created_at: "desc" }
   })
 
-  // 2. Fetch from System interactions
   const systemSaved = await prisma.systemInteraction.findMany({
     where: { user_id: userId, type: "SAVED" },
     orderBy: { created_at: "desc" }
   })
 
-  // Pre-fetch all stats (Global Likes + User's own Liked/Saved state) for these system games
   const sysGameIds = systemSaved.map(sf => sf.game_id)
   const systemStats = sysGameIds.length > 0 ? await getSystemStats(sysGameIds) : {}
 
@@ -632,18 +500,12 @@ export async function getSavedBrincadeiras() {
   return [...dbItems, ...systemItems]
 }
 
-/**
- * Gets the current user's interaction state (hasLiked, hasSaved)
- * for a list of system/pdf game IDs. Since system games are not in the DB,
- * they are stored in the SystemInteraction table.
- */
 export async function getSystemStats(ids: string[]): Promise<Record<string, { hasLiked: boolean; hasSaved: boolean; likesCount: number }>> {
   if (ids.length === 0) return {}
 
   const session = await auth()
   const userId = session?.user?.id
 
-  // 1. Fetch current user's interactions if logged in
   let userInteractions: any[] = []
   if (userId) {
     userInteractions = await prisma.systemInteraction.findMany({
@@ -656,14 +518,12 @@ export async function getSystemStats(ids: string[]): Promise<Record<string, { ha
     })
   }
 
-  // 2. Fetch total LIKE counts for all requested IDs (global)
   const globalLikeCounts = await prisma.systemInteraction.groupBy({
     by: ['game_id'],
     where: { game_id: { in: ids }, type: "LIKE" },
     _count: { _all: true }
   })
 
-  // 3. Build result map
   const countsMap = new Map(globalLikeCounts.map(c => [c.game_id, c._count._all]))
   const result: Record<string, { hasLiked: boolean; hasSaved: boolean; likesCount: number }> = {}
 
@@ -679,39 +539,26 @@ export async function getSystemStats(ids: string[]): Promise<Record<string, { ha
   return result
 }
 
-/**
- * Toggles a LIKE on a system/curated game (pdf-* IDs).
- */
 export async function toggleSystemLike(gameId: string) {
   const session = await auth()
   if (!session?.user?.id) throw new Error("Não autenticado")
   const userId = session.user.id
 
-  console.log(`[ToggleSystemLike] User ${userId} toggling system like for ${gameId}`);
-  const existing = await prisma.systemInteraction.findUnique({
+const existing = await prisma.systemInteraction.findUnique({
     where: { user_id_game_id_type: { user_id: userId, game_id: gameId, type: "LIKE" } }
   })
 
   if (existing) {
-    console.log(`[ToggleSystemLike] Removing like for ${gameId}`);
-    await prisma.systemInteraction.delete({ where: { id: existing.id } })
+await prisma.systemInteraction.delete({ where: { id: existing.id } })
   } else {
-    console.log(`[ToggleSystemLike] Creating like for ${gameId}`);
-    await prisma.systemInteraction.create({
+await prisma.systemInteraction.create({
       data: { user_id: userId, game_id: gameId, type: "LIKE" }
     })
-    // Sem XP: curtidas em brincadeiras do sistema não geram recompensa.
-    // XP só é concedido ao curtir brincadeiras de usuários reais (toggleLike).
   }
 
   revalidatePath("/", "layout")
 }
 
-
-
-/**
- * Toggles a SAVED on a system/curated game (pdf-* IDs).
- */
 export async function toggleSystemSave(gameId: string) {
   const session = await auth()
   if (!session?.user?.id) throw new Error("Não autenticado")
@@ -732,9 +579,6 @@ export async function toggleSystemSave(gameId: string) {
   revalidatePath("/", "layout")
 }
 
-/**
- * User Custom Collections
- */
 export async function getCollections() {
   const session = await auth()
   if (!session?.user?.id) return []
@@ -790,9 +634,6 @@ export async function toggleBrincadeiraInCollection(collectionId: string, brinca
   return !exists
 }
 
-/**
- * Publishes a new Brincadeira and awards XP.
- */
 export async function createBrincadeira(data: {
   title: string
   short_description: string
@@ -833,9 +674,6 @@ export async function createBrincadeira(data: {
   return brincadeira
 }
 
-/**
- * Toggles a follow relationship between the current user and target user.
- */
 export async function toggleFollow(followingId: string) {
   const session = await auth()
   if (!session?.user?.id) throw new Error("Não autenticado")
@@ -869,7 +707,6 @@ export async function toggleFollow(followingId: string) {
       }
     })
 
-    // Notify the user they have a new follower
     try {
       await notifyUser(followingId, "SOCIAL", "Novo Seguidor!", "Alguém começou a seguir você.")
     } catch (e) {
@@ -882,9 +719,6 @@ export async function toggleFollow(followingId: string) {
   revalidatePath(`/recreador/${followingId}`)
 }
 
-/**
- * Fetches the ranking of most liked brincadeiras.
- */
 export async function getBrincadeirasRanking(limit = 50) {
   const session = await auth()
   const userId = session?.user?.id
@@ -896,14 +730,6 @@ export async function getBrincadeirasRanking(limit = 50) {
     include: {
       user: {
         select: { id: true, name: true, avatar_url: true, image: true, role: true },
-      },
-      comments: {
-        include: {
-          user: {
-            select: { name: true, avatar_url: true, image: true },
-          },
-        },
-        orderBy: { created_at: "desc" },
       },
       interactions: userId
         ? {
@@ -920,11 +746,6 @@ export async function getBrincadeirasRanking(limit = 50) {
   }))
 }
 
-// getRanking removed (gamification removed)
-
-/**
- * Fetches notifications for the current user.
- */
 export async function getNotifications() {
   const session = await auth()
   if (!session?.user?.id) return []
@@ -936,9 +757,6 @@ export async function getNotifications() {
   })
 }
 
-/**
- * Marks all user notifications as read.
- */
 export async function markNotificationsRead() {
   const session = await auth()
   if (!session?.user?.id) return
@@ -951,9 +769,6 @@ export async function markNotificationsRead() {
   revalidatePath("/notificacoes")
 }
 
-/**
- * Deletes a single notification.
- */
 export async function deleteNotification(id: string) {
   const session = await auth()
   if (!session?.user?.id) throw new Error("Não autenticado")
@@ -965,9 +780,6 @@ export async function deleteNotification(id: string) {
   revalidatePath("/notificacoes")
 }
 
-/**
- * Clears all notifications for the current user.
- */
 export async function clearAllNotifications() {
   const session = await auth()
   if (!session?.user?.id) throw new Error("Não autenticado")
@@ -979,14 +791,11 @@ export async function clearAllNotifications() {
   revalidatePath("/notificacoes")
 }
 
-/**
- * Fetches unread notifications since a specific time for the floating toaster.
- */
 export async function getLatestUnreadNotifications(sinceTime?: string) {
   const session = await auth()
   if (!session?.user?.id) return []
 
-  const dateFilter = sinceTime ? new Date(sinceTime) : new Date(Date.now() - 60000) // Last 60s by default
+  const dateFilter = sinceTime ? new Date(sinceTime) : new Date(Date.now() - 60000)
 
   const notifications = await prisma.notification.findMany({
     where: {
@@ -1001,87 +810,11 @@ export async function getLatestUnreadNotifications(sinceTime?: string) {
 
   return notifications
 }
-/**
- * Adds a comment to a brincadeira.
- */
-export async function addComment(brincadeiraId: string, text: string) {
-  const session = await auth()
-  if (!session?.user?.id) throw new Error("Não autenticado")
-  const userId = session.user.id
 
-  if (!text.trim()) return
-
-  const comment = await prisma.comment.create({
-    data: {
-      brincadeira_id: brincadeiraId,
-      user_id: userId,
-      text: text,
-    },
-    include: {
-      user: {
-        select: { name: true, avatar_url: true, image: true },
-      },
-    },
-  })
-
-  revalidatePath("/")
-  revalidatePath("/explorar")
-
-  return {
-    ...comment,
-    created_at: comment.created_at.toISOString(),
-  }
-}
-
-/**
- * Updates an existing comment.
- */
-export async function updateComment(commentId: string, text: string) {
-  const session = await auth()
-  if (!session?.user?.id) throw new Error("Não autenticado")
-  const userId = session.user.id
-
-  if (!text.trim()) return
-
-  const comment = await prisma.comment.update({
-    where: { id: commentId, user_id: userId },
-    data: { text },
-  })
-
-  revalidatePath("/")
-  revalidatePath("/explorar")
-  return {
-    ...comment,
-    created_at: comment.created_at.toISOString(),
-  }
-}
-
-/**
- * Deletes a comment.
- */
-export async function deleteComment(commentId: string) {
-  const session = await auth()
-  if (!session?.user?.id) throw new Error("Não autenticado")
-  const userId = session.user.id
-
-  await prisma.comment.delete({
-    where: { id: commentId, user_id: userId },
-  })
-
-  revalidatePath("/", "layout")
-}
-
-/**
- * Revalidates the cache.
- * This is called by the client BEFORE they hard-redirect to the home page.
- */
 export async function revalidateAll() {
   revalidatePath("/", "layout")
 }
 
-/**
- * Deletes a brincadeira permanently.
- */
 export async function deleteBrincadeira(id: string) {
   const session = await auth()
   if (!session?.user?.id) throw new Error("Não autenticado")
@@ -1093,18 +826,12 @@ export async function deleteBrincadeira(id: string) {
 
   if (!brincadeira) throw new Error("Brincadeira não encontrada")
 
-  // Safe deletion: Remove all related records first to avoid foreign key constraints
-  // since Cascade might not be active in the DB yet
   await prisma.$transaction([
     prisma.interaction.deleteMany({ where: { brincadeira_id: id } }),
-    prisma.comment.deleteMany({ where: { brincadeira_id: id } }),
-    prisma.brincadeira.delete({ where: { id } })
+        prisma.brincadeira.delete({ where: { id } })
   ])
 }
 
-/**
- * Updates a brincadeira's basic info.
- */
 export async function updateBrincadeira(id: string, data: any) {
   const session = await auth()
   if (!session?.user?.id) throw new Error("Não autenticado")
@@ -1135,9 +862,6 @@ export async function updateBrincadeira(id: string, data: any) {
   revalidatePath("/explorar")
 }
 
-/**
- * Updates the user's basic profile info.
- */
 export async function updateProfile(data: { name?: string, avatar_url?: string, role?: string }) {
   const session = await auth()
   if (!session?.user?.id) throw new Error("Não autenticado")
@@ -1304,6 +1028,3 @@ export async function getUserFollowing(userId: string) {
   return mapped
 }
 
-// ---------------------------------------------------------------------------
-// EOF
-// ---------------------------------------------------------------------------

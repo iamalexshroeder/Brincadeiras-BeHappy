@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client"
+﻿import { PrismaClient } from "@prisma/client"
 import { PrismaPg } from "@prisma/adapter-pg"
 import { Pool } from "pg"
 
@@ -6,7 +6,7 @@ const prismaClientSingleton = () => {
   const connectionString = process.env.DATABASE_URL
   const pool = new Pool({ 
     connectionString,
-    max: 1, // Serverless: cada instância precisa de no máximo 1 conexão
+    max: 1,
     idleTimeoutMillis: 10000,
     connectionTimeoutMillis: 5000,
   })
@@ -19,7 +19,6 @@ const prismaClientSingleton = () => {
 }
 
 declare global {
-  // eslint-disable-next-line no-var
   var prismaGlobal: undefined | ReturnType<typeof prismaClientSingleton>
 }
 

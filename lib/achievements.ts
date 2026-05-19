@@ -1,4 +1,4 @@
-export interface Achievement {
+﻿export interface Achievement {
   id: string
   title: string
   description: string
@@ -7,8 +7,6 @@ export interface Achievement {
   progress: { current: number; target: number }
   category: "Geral" | "Coleção BeHappy" | "Especial" | "Beta"
 }
-
-// ─── Helpers ────────────────────────────────────────────────────────────────
 
 function matchesKeywords(b: any, keywords: string[]): boolean {
   const text = [
@@ -36,15 +34,10 @@ function matchesAge(b: any, ageGroups: string[]): boolean {
   return ageGroups.some((ag) => groups.includes(ag))
 }
 
-// ─── Collection matchers based on the BeHappy biblioteca ────────────────────
-
 function hasCollectionTag(b: any, tag: string): boolean {
   const tags: string[] = Array.isArray(b.tags) ? b.tags.map((t: any) => String(t).toLowerCase()) : []
   return tags.includes(tag.toLowerCase())
-}
-
-/** Pequenos Aprendizes — brincadeiras para crianças de 3-5 anos */
-function isPequenos(b: any): boolean {
+}function isPequenos(b: any): boolean {
   return (
     hasCollectionTag(b, "Pequenos Aprendizes") ||
     matchesAge(b, ["AGE_3_5"]) ||
@@ -66,10 +59,7 @@ function isPequenos(b: any): boolean {
       "balão",
     ])
   )
-}
-
-/** Psicomotricidade & Equilíbrio — coordenação, motor, corpo, lateralidade */
-function isPsicomotricidade(b: any): boolean {
+}function isPsicomotricidade(b: any): boolean {
   return (
     hasCollectionTag(b, "Psicomotricidade") ||
     matchesKeywords(b, [
@@ -94,10 +84,7 @@ function isPsicomotricidade(b: any): boolean {
       "bambolê",
     ])
   )
-}
-
-/** Jogos de Roda & Música — rodas, cantigas, ritmo, dança */
-function isRodaMusica(b: any): boolean {
+}function isRodaMusica(b: any): boolean {
   return (
     hasCollectionTag(b, "Roda & Música") ||
     matchesType(b, "MUSICAL") ||
@@ -119,10 +106,7 @@ function isRodaMusica(b: any): boolean {
       "telefone sem fio",
     ])
   )
-}
-
-/** Pega-Pega & Agilidade — corrida, perseguição, reflexo rápido */
-function isPegaPega(b: any): boolean {
+}function isPegaPega(b: any): boolean {
   return (
     hasCollectionTag(b, "Pega-Pega") ||
     matchesKeywords(b, [
@@ -148,10 +132,7 @@ function isPegaPega(b: any): boolean {
       "nunca 3",
     ])
   )
-}
-
-/** Jogos com Bola — queimada, vôlei, futebol, basquete */
-function isJogosBola(b: any): boolean {
+}function isJogosBola(b: any): boolean {
   return (
     hasCollectionTag(b, "Jogos com Bola") ||
     matchesKeywords(b, [
@@ -173,10 +154,7 @@ function isJogosBola(b: any): boolean {
       "jogo com bola",
     ])
   )
-}
-
-/** Desafios & Cooperação — equipe, estratégia, cooperativo, grupo */
-function isEquipe(b: any): boolean {
+}function isEquipe(b: any): boolean {
   return (
     hasCollectionTag(b, "Desafios & Cooperação") ||
     matchesType(b, "COOPERATIVA") ||
@@ -200,10 +178,7 @@ function isEquipe(b: any): boolean {
       "resgate",
     ])
   )
-}
-
-/** Lúdicos & Sensoriais — sentidos, memória, criatividade, olhos vendados */
-function isLudicoSensorial(b: any): boolean {
+}function isLudicoSensorial(b: any): boolean {
   return (
     hasCollectionTag(b, "Lúdicos & Sensoriais") ||
     matchesKeywords(b, [
@@ -228,10 +203,7 @@ function isLudicoSensorial(b: any): boolean {
       "misterio",
     ])
   )
-}
-
-/** Colônia de Férias 2026 */
-function isColoniaFerias2026(b: any): boolean {
+}function isColoniaFerias2026(b: any): boolean {
   if (hasCollectionTag(b, "Colônia de Férias 2026")) return true
 
   const text = [
@@ -249,18 +221,15 @@ function isColoniaFerias2026(b: any): boolean {
   return hasFerias && has2026
 }
 
-// ─── Main function ────────────────────────────────────────────────────────────
-
 export function getAchievements(
   brincadeiras: any[] = [],
   likesReceivedCount: number = 0,
   createdAt?: Date | string | null
 ): Achievement[] {
-  // Membro Beta: conta criada em abril de 2026
   const isBetaMember = (() => {
     if (!createdAt) return false
     const d = new Date(createdAt)
-    return d.getFullYear() === 2026 && d.getMonth() === 3 // month is 0-indexed: 3 = April
+    return d.getFullYear() === 2026 && d.getMonth() === 3
   })()
   const count = brincadeiras.length
 
@@ -269,13 +238,9 @@ export function getAchievements(
 
   const has = (fn: (b: any) => boolean) => countWhere(fn) >= 1
 
-  // ── Colônia de Férias 2026
   const coloniaCount = countWhere(isColoniaFerias2026)
 
   return [
-    // ══════════════════════════════════════════════════════════
-    //  GERAL
-    // ══════════════════════════════════════════════════════════
     {
       id: "first_game",
       title: "Primeiro Passo",
@@ -331,11 +296,6 @@ export function getAchievements(
       category: "Geral",
     },
 
-    // ══════════════════════════════════════════════════════════
-    //  COLEÇÕES BEHAPPY (baseadas na biblioteca oficial)
-    // ══════════════════════════════════════════════════════════
-
-    // 1. Pequenos Aprendizes
     {
       id: "col_pequenos",
       title: "Monitor dos Pequenos",
@@ -356,7 +316,6 @@ export function getAchievements(
       category: "Coleção BeHappy",
     },
 
-    // 2. Psicomotricidade & Equilíbrio
     {
       id: "col_psico",
       title: "Mestre do Corpo",
@@ -377,7 +336,6 @@ export function getAchievements(
       category: "Coleção BeHappy",
     },
 
-    // 3. Jogos de Roda & Música
     {
       id: "col_roda",
       title: "Rei da Roda",
@@ -397,7 +355,6 @@ export function getAchievements(
       category: "Coleção BeHappy",
     },
 
-    // 4. Pega-Pega & Agilidade
     {
       id: "col_pegapega",
       title: "Mestre do Pique",
@@ -418,7 +375,6 @@ export function getAchievements(
       category: "Coleção BeHappy",
     },
 
-    // 5. Jogos com Bola
     {
       id: "col_bola",
       title: "Craque da Bola",
@@ -439,7 +395,6 @@ export function getAchievements(
       category: "Coleção BeHappy",
     },
 
-    // 6. Desafios & Cooperação
     {
       id: "col_equipe",
       title: "Espírito de Equipe",
@@ -460,7 +415,6 @@ export function getAchievements(
       category: "Coleção BeHappy",
     },
 
-    // 7. Lúdicos & Sensoriais
     {
       id: "col_ludico",
       title: "Explorador dos Sentidos",
@@ -481,7 +435,6 @@ export function getAchievements(
       category: "Coleção BeHappy",
     },
 
-    // Desbloqueou todas as coleções (1 de cada)
     {
       id: "col_all",
       title: "Biblioteca Completa",
@@ -511,9 +464,6 @@ export function getAchievements(
       category: "Coleção BeHappy",
     },
 
-    // ══════════════════════════════════════════════════════════
-    //  ESPECIAL — COLÔNIA DE FÉRIAS 2026
-    // ══════════════════════════════════════════════════════════
     {
       id: "colonia_2026_1",
       title: "Calouro das Férias 2026",
@@ -545,9 +495,6 @@ export function getAchievements(
       category: "Especial",
     },
 
-    // ══════════════════════════════════════════════════════════
-    //  BETA
-    // ══════════════════════════════════════════════════════════
     {
       id: "beta_member",
       title: "Membro Beta",

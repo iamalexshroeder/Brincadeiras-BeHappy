@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { cn } from "@/lib/utils"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -27,7 +27,7 @@ export function CuratedKits({ myGamesCount = 0 }: CuratedKitsProps) {
   return (
     <div className="w-full overflow-x-auto no-scrollbar py-2 -my-2 px-0.5 mb-1">
       <div className="flex items-center gap-2.5 w-max">
-        {/* Minhas Brincadeiras Kit */}
+        
         {myGamesCount > 0 && (
           <button
             onClick={() => handleKitClick("minhas")}

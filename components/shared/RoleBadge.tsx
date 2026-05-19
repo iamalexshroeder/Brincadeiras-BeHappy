@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils"
+﻿import { cn } from "@/lib/utils"
 
 export function RoleBadge({ role, className }: { role?: string | null; className?: string }) {
   if (!role) return null

@@ -1,10 +1,10 @@
-import { getBrincadeiraById } from "@/lib/actions"
+﻿import { getBrincadeiraById } from "@/lib/actions"
 import BrincadeiraForm from "@/components/game/BrincadeiraForm"
 import { notFound } from "next/navigation"
 import { auth } from "@/auth"
 import { Header } from "@/components/layout/Header"
 
-export const revalidate = 0 // Disable cache for this page so it's always up-to-date
+export const revalidate = 0
 
 interface ViewPageProps {
   params: Promise<{

@@ -45,7 +45,6 @@ interface BrincadeiraCardProps {
   publishedAt?: string
   currentUserId?: string
   isSystemGame?: boolean
-  comments?: any[]
 }
 
 export function BrincadeiraCard({
@@ -63,7 +62,6 @@ export function BrincadeiraCard({
   publishedAt,
   steps = [],
   materials = [],
-  comments = []
 }: BrincadeiraCardProps) {
   const [isPending, startTransition] = useTransition()
   
@@ -147,9 +145,8 @@ export function BrincadeiraCard({
       >
         <Card className="overflow-hidden p-0 gap-0 border border-border shadow-[0_4px_20px_rgba(0,0,0,0.03)] rounded-[12px] bg-card transition-all hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] active:scale-[0.98] cursor-pointer">
           <div className="p-4 sm:p-5 flex flex-col gap-4">
-            
-            {/* Header Section */}
-            <div className="flex items-start justify-between gap-4">
+
+<div className="flex items-start justify-between gap-4">
               {creator.id !== "system" && creator.name !== "BeHappyinha" ? (
                 <Link 
                   href={`/recreador/${creator.id}`} 
@@ -204,8 +201,7 @@ export function BrincadeiraCard({
               </div>
             </div>
 
-            {/* Content Section */}
-            <div className="space-y-2 text-left">
+<div className="space-y-2 text-left">
               <h3 className="text-[18px] font-black text-foreground tracking-[-0.02em] leading-tight group-hover:text-primary transition-colors">
                 {title}
               </h3>
@@ -214,8 +210,7 @@ export function BrincadeiraCard({
               </p>
             </div>
 
-            {/* Metadata Badges */}
-            <div className="flex flex-wrap gap-2 pt-1">
+<div className="flex flex-wrap gap-2 pt-1">
               <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#F2F2F7] text-[#8E8E93] text-[11px] font-bold">
                 <RiUserVoiceLine size={12} />
                 {metadata.ageRange}
@@ -230,8 +225,7 @@ export function BrincadeiraCard({
               </div>
             </div>
 
-            {/* Footer / Stats */}
-            <div className="flex items-center justify-between pt-2 border-t border-border/50">
+<div className="flex items-center justify-between pt-2 border-t border-border/50">
               <div className="flex items-center gap-4">
                 <button 
                   onClick={handleLike}
@@ -259,8 +253,7 @@ export function BrincadeiraCard({
         </Card>
       </motion.div>
 
-      {/* Detail Modal */}
-      {isDetailOpen && (
+{isDetailOpen && (
         <div 
           className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 overscroll-contain animate-in fade-in duration-200"
           onClick={() => setIsDetailOpen(false)}
@@ -269,20 +262,18 @@ export function BrincadeiraCard({
             className="relative w-full max-h-[85dvh] sm:max-h-[85vh] sm:max-w-lg bg-card border-t sm:border border-border/80 rounded-t-[28px] sm:rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Top Drag Handle for mobile */}
+            
             <div className="w-12 h-1.5 bg-muted/60 rounded-full mx-auto my-3 sm:hidden shrink-0" />
 
-            {/* Close button */}
-            <button
+<button
               onClick={() => setIsDetailOpen(false)}
               className="absolute top-4 right-4 h-8 w-8 flex items-center justify-center rounded-full bg-muted/60 text-muted-foreground hover:bg-muted active:scale-95 transition-all z-10"
             >
               <RiCloseLine size={20} />
             </button>
 
-            {/* Scrollable Container */}
-            <div className="overflow-y-auto px-6 pb-24 pt-2 sm:pt-6 space-y-8 flex-1 no-scrollbar overscroll-y-contain">
-              {/* Creator Info Header */}
+<div className="overflow-y-auto px-6 pb-24 pt-2 sm:pt-6 space-y-8 flex-1 no-scrollbar overscroll-y-contain">
+              
               <div className="flex items-center justify-between">
                 {creator.id !== "system" && creator.name !== "BeHappyinha" ? (
                   <Link 
@@ -329,8 +320,7 @@ export function BrincadeiraCard({
                 )}
               </div>
 
-              {/* Title & Description */}
-              <div className="space-y-2 text-left">
+<div className="space-y-2 text-left">
                 <h3 className="text-[22px] font-black text-foreground tracking-tight leading-tight">
                   {title}
                 </h3>
@@ -339,8 +329,7 @@ export function BrincadeiraCard({
                 </p>
               </div>
 
-              {/* Metadata stats */}
-              <div className="flex flex-wrap gap-2 pt-1 border-t border-b border-border/50 py-3.5">
+<div className="flex flex-wrap gap-2 pt-1 border-t border-b border-border/50 py-3.5">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#F2F2F7] text-[#8E8E93] text-[12px] font-bold">
                   <RiUserVoiceLine size={14} />
                   {metadata.ageRange}
@@ -355,8 +344,7 @@ export function BrincadeiraCard({
                 </div>
               </div>
 
-              {/* Tags / Collections */}
-              {tags && tags.length > 0 && (
+{tags && tags.length > 0 && (
                 <div className="space-y-2 text-left">
                   <h4 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest">Tags & Coleções</h4>
                   <div className="flex flex-wrap gap-1.5">
@@ -372,8 +360,7 @@ export function BrincadeiraCard({
                 </div>
               )}
 
-              {/* Materials */}
-              {materials && materials.length > 0 && (
+{materials && materials.length > 0 && (
                 <div className="space-y-2 text-left">
                   <h4 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest">Materiais Necessários</h4>
                   <div className="flex flex-wrap gap-1.5">
@@ -389,8 +376,7 @@ export function BrincadeiraCard({
                 </div>
               )}
 
-              {/* Como Jogar / Passo a Passo */}
-              {steps && steps.length > 0 && (
+{steps && steps.length > 0 && (
                 <div className="space-y-3 text-left">
                   <h4 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest">Como Jogar</h4>
                   <div className="space-y-3">
@@ -409,8 +395,7 @@ export function BrincadeiraCard({
               )}
             </div>
 
-            {/* Floating Action Buttons */}
-            <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between pointer-events-none z-20">
+<div className="absolute bottom-6 left-6 right-6 flex items-center justify-between pointer-events-none z-20">
               <div className="pointer-events-auto">
                 <button 
                   onClick={(e) => {
@@ -455,8 +440,7 @@ export function BrincadeiraCard({
         </div>
       )}
 
-      {/* Custom Popup Modal */}
-      {popup.isOpen && (
+{popup.isOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#1A1A1A]/40 backdrop-blur-sm p-4 animate-in fade-in duration-200" onClick={(e) => e.stopPropagation()}>
           <div className="bg-white rounded-[12px] p-6 w-full max-w-[320px] shadow-[0_8px_30px_rgba(0,0,0,0.12)] flex flex-col items-center text-center zoom-in-95 animate-in duration-200" onClick={(e) => e.stopPropagation()}>
             {popup.title && <h3 className="text-[18px] font-black text-[#1A1A1A] mb-2">{popup.title}</h3>}

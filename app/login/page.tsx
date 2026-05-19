@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { signIn } from "next-auth/react"
 import { RiShieldCheckLine } from "@remixicon/react"
@@ -6,7 +6,7 @@ import { RiShieldCheckLine } from "@remixicon/react"
 export default function LoginPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col p-8">
-      {/* Brand Section - Centered in remaining space */}
+      
       <div className="flex-1 flex flex-col items-center justify-center pt-20">
         <div className="flex flex-col items-center animate-in fade-in zoom-in duration-700">
           <img 
@@ -20,8 +20,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Action Section - Fixed at bottom */}
-      <div className="w-full max-w-[400px] mx-auto space-y-6 pb-12 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
+<div className="w-full max-w-[400px] mx-auto space-y-6 pb-12 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
         <button
           onClick={() => signIn("google", { callbackUrl: "/" })}
           className="w-full h-[64px] bg-[#4285F4] text-white font-black text-[16px] rounded-[16px] uppercase tracking-wider active:scale-[0.95] transition-all shadow-xl shadow-[#4285F4]/25 border-none"

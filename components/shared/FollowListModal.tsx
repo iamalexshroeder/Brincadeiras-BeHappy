@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState, useTransition } from "react"
 import { RiCloseLine, RiSearchLine, RiLoader4Line } from "@remixicon/react"
@@ -66,14 +66,12 @@ export function FollowListModal({ isOpen, onClose, userId, type, currentUserId, 
       try {
         await toggleFollow(targetUser.id)
         
-        // Update local state
         setUsers(prev => prev.map(u => 
           u.id === targetUser.id 
             ? { ...u, isFollowing: !u.isFollowing } 
             : u
         ))
 
-        // Notify parent to refresh counts if necessary
         if (onUpdate) onUpdate()
       } catch (e: any) {
         toast.error(e.message || "Erro ao realizar ação")
@@ -89,14 +87,12 @@ export function FollowListModal({ isOpen, onClose, userId, type, currentUserId, 
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm transition-all duration-300">
-      {/* Backdrop click to close */}
+      
       <div className="absolute inset-0" onClick={onClose} />
 
-      {/* Modal Box */}
-      <div className="relative w-full sm:max-w-md bg-card border-t sm:border border-border/80 rounded-t-[24px] sm:rounded-[24px] shadow-[0_-8px_30px_rgba(0,0,0,0.12)] overflow-hidden flex flex-col max-h-[85vh] sm:max-h-[75vh] animate-in slide-in-from-bottom duration-300">
-        
-        {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-border/60">
+<div className="relative w-full sm:max-w-md bg-card border-t sm:border border-border/80 rounded-t-[24px] sm:rounded-[24px] shadow-[0_-8px_30px_rgba(0,0,0,0.12)] overflow-hidden flex flex-col max-h-[85vh] sm:max-h-[75vh] animate-in slide-in-from-bottom duration-300">
+
+<div className="flex items-center justify-between px-5 py-4 border-b border-border/60">
           <span className="text-[17px] font-black text-foreground">
             {type === "followers" ? "Seguidores" : "Seguindo"}
           </span>
@@ -108,8 +104,7 @@ export function FollowListModal({ isOpen, onClose, userId, type, currentUserId, 
           </button>
         </div>
 
-        {/* Search Bar */}
-        <div className="px-5 py-3 border-b border-border/40">
+<div className="px-5 py-3 border-b border-border/40">
           <div className="relative flex items-center">
             <RiSearchLine size={16} className="absolute left-3 text-muted-foreground" />
             <input
@@ -122,8 +117,7 @@ export function FollowListModal({ isOpen, onClose, userId, type, currentUserId, 
           </div>
         </div>
 
-        {/* Content List */}
-        <div className="flex-1 overflow-y-auto p-5 space-y-4 min-h-[250px]">
+<div className="flex-1 overflow-y-auto p-5 space-y-4 min-h-[250px]">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
               <RiLoader4Line size={32} className="animate-spin text-primary mb-2" />
@@ -163,8 +157,7 @@ export function FollowListModal({ isOpen, onClose, userId, type, currentUserId, 
                     </div>
                   </Link>
 
-                  {/* Follow / Following Button */}
-                  {!isCurrentUser && currentUserId && (
+{!isCurrentUser && currentUserId && (
                     <button
                       onClick={() => handleFollowToggle(user)}
                       disabled={isPendingUser}

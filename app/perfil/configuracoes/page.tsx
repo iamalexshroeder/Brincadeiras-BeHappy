@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { Header } from "@/components/layout/Header"
 import { Button } from "@/components/ui/button"
@@ -134,8 +134,7 @@ export default function Configuracoes() {
           </section>
         ))}
 
-        {/* Logout Section */}
-        <section className="pt-4">
+<section className="pt-4">
           <Button 
             variant="ghost" 
             className="w-full h-12 text-[#EF4444] font-bold rounded-[12px] bg-red-50/50 active:bg-red-50 transition-all gap-2"

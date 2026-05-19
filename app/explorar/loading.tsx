@@ -1,17 +1,16 @@
-import { Header } from "@/components/layout/Header"
+﻿import { Header } from "@/components/layout/Header"
 
 export default function ExplorarLoading() {
   return (
     <div className="flex flex-col min-h-screen bg-[#F9F9F7]">
       <Header title="Explorar" showSearch={false} showUserCard={false} />
 
-      {/* Fake Search Bar skeleton */}
-      <div className="px-4 sm:px-6 py-3 bg-[#F9F9F7] border-b border-[#E5E5EA]">
+<div className="px-4 sm:px-6 py-3 bg-[#F9F9F7] border-b border-[#E5E5EA]">
         <div className="bg-white p-[6px] rounded-[12px] border border-[#E5E5EA] h-10 w-full animate-pulse" />
       </div>
 
       <main className="page-main pb-32 animate-in fade-in slide-in-from-bottom-4 duration-500 pt-4">
-        {/* Skeleton Kits Section */}
+        
         <div className="flex items-baseline justify-between mb-4 pl-1">
           <div className="h-5 w-32 bg-gray-200 rounded animate-pulse" />
           <div className="h-4 w-20 bg-gray-200 rounded animate-pulse" />
@@ -23,8 +22,7 @@ export default function ExplorarLoading() {
           ))}
         </div>
 
-        {/* Skeleton Galeria */}
-        <div className="flex items-baseline justify-between mb-4 pl-1">
+<div className="flex items-baseline justify-between mb-4 pl-1">
           <div className="h-5 w-24 bg-gray-200 rounded animate-pulse" />
         </div>
         

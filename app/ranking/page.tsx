@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect } from "react"
 import { Header } from "@/components/layout/Header"
@@ -13,7 +13,6 @@ export default function Ranking() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Busca o ranking de brincadeiras mais curtidas
     getBrincadeirasRanking(50).then((data) => {
       setRankingData(data)
       setLoading(false)
@@ -34,9 +33,7 @@ export default function Ranking() {
             <RiLoader4Line size={32} className="text-primary animate-spin mb-3" />
             <p className="text-[14px] text-muted-foreground font-medium">Carregando ranking...</p>
           </div>
-        ) : rankingData.length === 0 ? (
-          /* Empty State */
-          <div className="flex flex-col items-center justify-center py-24 text-center">
+        ) : rankingData.length === 0 ? (<div className="flex flex-col items-center justify-center py-24 text-center">
             <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-4">
               <RiTrophyLine size={32} className="text-[#C7C7CC]" />
             </div>
@@ -44,13 +41,12 @@ export default function Ranking() {
           </div>
         ) : (
           <>
-            {/* Activities Ranking Section */}
+            
             <section className="mb-8">
               <h2 className="section-label pl-1 mb-4 text-center">As Mais Curtidas da Comunidade</h2>
-              
-              {/* Flexible Podium */}
-              <div className="flex items-end justify-center gap-2 relative max-w-sm mx-auto mb-8 px-2 h-60">
-                {/* Rank 2 (Left) */}
+
+<div className="flex items-end justify-center gap-2 relative max-w-sm mx-auto mb-8 px-2 h-60">
+                
                 {topThree[1] && (
                   <Link href={`/brincadeira/${topThree[1].id}`} className="flex flex-col items-center gap-3 flex-1 animate-in fade-in slide-in-from-bottom-4 duration-500 hover:opacity-80 transition-opacity">
                     <div className="relative">
@@ -69,8 +65,7 @@ export default function Ranking() {
                   </Link>
                 )}
 
-                {/* Rank 1 (Center) */}
-                {topThree[0] && (
+{topThree[0] && (
                   <Link href={`/brincadeira/${topThree[0].id}`} className="flex flex-col items-center gap-3 flex-1 z-10 animate-in fade-in slide-in-from-bottom-8 duration-700 hover:opacity-80 transition-opacity">
                     <div className="relative">
                        <div className="w-28 h-28 bg-yellow-50 rounded-[16px] flex items-center justify-center border-2 border-yellow-200 shadow-lg">
@@ -88,8 +83,7 @@ export default function Ranking() {
                   </Link>
                 )}
 
-                {/* Rank 3 (Right) */}
-                {topThree[2] && (
+{topThree[2] && (
                   <Link href={`/brincadeira/${topThree[2].id}`} className="flex flex-col items-center gap-3 flex-1 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100 hover:opacity-80 transition-opacity">
                     <div className="relative">
                        <div className="w-20 h-20 bg-amber-50 rounded-[12px] flex items-center justify-center border-2 border-amber-200">
@@ -108,8 +102,7 @@ export default function Ranking() {
                 )}
               </div>
 
-              {/* Leaderboard List */}
-              {rest.length > 0 && (
+{rest.length > 0 && (
                 <div className="space-y-3 mt-8">
                   {rest.map((game) => (
                     <Link key={game.id} href={`/brincadeira/${game.id}`} className="block">

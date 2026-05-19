@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState } from "react"
 import { Card } from "@/components/ui/card"
@@ -14,7 +14,6 @@ interface AchievementsSectionProps {
 
 type TabType = "Todas" | "Geral" | "Coleção BeHappy" | "Especial" | "Beta"
 
-// ─── Detail Modal ─────────────────────────────────────────────────────────────
 function AchievementModal({
   achievement,
   onClose,
@@ -40,7 +39,7 @@ function AchievementModal({
         className="relative w-full sm:max-w-sm bg-card border-t sm:border border-border/80 rounded-t-[28px] sm:rounded-[24px] shadow-2xl overflow-hidden animate-in slide-in-from-bottom duration-300 p-6"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close */}
+        
         <button
           onClick={onClose}
           className="absolute top-4 right-4 h-8 w-8 flex items-center justify-center rounded-full bg-muted/60 text-muted-foreground hover:bg-muted active:scale-90 transition-all"
@@ -48,8 +47,7 @@ function AchievementModal({
           <RiCloseLine size={20} />
         </button>
 
-        {/* Icon */}
-        <div
+<div
           className={cn(
             "w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-4",
             unlocked
@@ -60,23 +58,19 @@ function AchievementModal({
           {icon}
         </div>
 
-        {/* Category pill */}
-        <span className="text-[11px] font-extrabold uppercase tracking-widest text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+<span className="text-[11px] font-extrabold uppercase tracking-widest text-primary bg-primary/10 px-2 py-0.5 rounded-full">
           {categoryLabel[category] ?? category}
         </span>
 
-        {/* Title */}
-        <h3 className="text-[20px] font-black text-foreground mt-2 leading-tight">
+<h3 className="text-[20px] font-black text-foreground mt-2 leading-tight">
           {title}
         </h3>
 
-        {/* Description */}
-        <p className="text-[14px] text-muted-foreground font-semibold leading-relaxed mt-1.5">
+<p className="text-[14px] text-muted-foreground font-semibold leading-relaxed mt-1.5">
           {description}
         </p>
 
-        {/* Status */}
-        <div className="mt-4 flex items-center gap-2">
+<div className="mt-4 flex items-center gap-2">
           {unlocked ? (
             <span className="flex items-center gap-1.5 text-[13px] font-extrabold text-green-600 bg-green-50 border border-green-200 px-3 py-1.5 rounded-full">
               ✅ Desbloqueada
@@ -93,7 +87,6 @@ function AchievementModal({
   )
 }
 
-// ─── Main Section ─────────────────────────────────────────────────────────────
 export function AchievementsSection({
   achievements,
   title = "Conquistas",
@@ -119,7 +112,7 @@ export function AchievementsSection({
   return (
     <>
       <section className={cn("space-y-4 px-5", className)}>
-        {/* Header */}
+        
         <div className="flex items-center justify-between">
           <h2 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest">
             {title}
@@ -129,8 +122,7 @@ export function AchievementsSection({
           </span>
         </div>
 
-        {/* Tabs */}
-        <div className="flex overflow-x-auto gap-1.5 no-scrollbar pb-1 pt-0.5">
+<div className="flex overflow-x-auto gap-1.5 no-scrollbar pb-1 pt-0.5">
           {tabs.map((tab) => (
             <button
               key={tab.value}
@@ -147,8 +139,7 @@ export function AchievementsSection({
           ))}
         </div>
 
-        {/* Badge Grid */}
-        <div className="grid grid-cols-2 gap-3">
+<div className="grid grid-cols-2 gap-3">
           {filteredAchievements.map((achievement) => {
             const { id, title, icon, unlocked } = achievement
 
@@ -166,7 +157,7 @@ export function AchievementsSection({
                       : "border-border/60 bg-card/60 opacity-60 grayscale-[20%]"
                   )}
                 >
-                  {/* Row: icon + lock */}
+                  
                   <div className="flex items-center justify-between">
                     <span
                       className={cn(
@@ -181,8 +172,7 @@ export function AchievementsSection({
                     )}
                   </div>
 
-                  {/* Title */}
-                  <h4 className="text-[13px] font-black text-foreground leading-snug">
+<h4 className="text-[13px] font-black text-foreground leading-snug">
                     {title}
                   </h4>
                 </Card>
@@ -192,8 +182,7 @@ export function AchievementsSection({
         </div>
       </section>
 
-      {/* Detail Modal */}
-      {selected && (
+{selected && (
         <AchievementModal
           achievement={selected}
           onClose={() => setSelected(null)}

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect, useRef, useTransition } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -37,7 +37,6 @@ export function ExplorarSearch() {
     }
   }, [query])
 
-  // Fecha o dropdown ao clicar fora
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
@@ -103,8 +102,7 @@ export function ExplorarSearch() {
         </div>
       </form>
 
-      {/* Dropdown de sugestões */}
-      {showDropdown && (
+{showDropdown && (
         <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#E5E5EA] rounded-[12px] shadow-[0_8px_32px_rgba(0,0,0,0.1)] overflow-hidden z-50">
           {isPending && suggestions.length === 0 ? (
             <div className="flex items-center justify-center py-6">
@@ -134,8 +132,7 @@ export function ExplorarSearch() {
                 </Link>
               ))}
 
-              {/* Botão de ver todos os resultados */}
-              <button
+<button
                 onClick={handleSubmit as any}
                 className="flex items-center justify-center gap-2 w-full py-3 text-[13px] font-bold text-primary bg-[#FFF7ED] hover:bg-[#FFF0D9] transition-colors"
               >

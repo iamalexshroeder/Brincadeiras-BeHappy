@@ -19,12 +19,9 @@ export interface Brincadeira {
   userHasSaved: boolean
   initialLiked: boolean
   initialSaved: boolean
-  comments: any[]
   steps: string[]
   materials: string[]
-  commentsCount: number
   publishedAt: string
-  // Raw data for editing
   rawType: string
   rawAgeGroups: string[]
   rawDuration: number
@@ -63,21 +60,8 @@ export function formatBrincadeira(b: any, currentUserId?: string): Brincadeira |
     userHasSaved: Boolean(b.interactions?.some((i: any) => i.type === "SAVED")),
     initialLiked: Boolean(b.interactions?.some((i: any) => i.type === "LIKE")),
     initialSaved: Boolean(b.interactions?.some((i: any) => i.type === "SAVED")),
-    comments: Array.isArray(b.comments) 
-      ? b.comments.map((c: any) => ({
-          id: String(c.id),
-          text: String(c.text || ""),
-          created_at: c.created_at ? new Date(c.created_at).toISOString() : "",
-          user: {
-            name: c.user?.name ? String(c.user.name) : "Recreador",
-            avatar_url: c.user?.avatar_url || c.user?.image || null,
-            image: c.user?.image || null
-          }
-        }))
-      : [],
     steps: Array.isArray(b.steps) ? b.steps.map(String) : [],
     materials: Array.isArray(b.materials) ? b.materials.map(String) : [],
-    commentsCount: Number(b.comments?.length || 0),
     publishedAt: b.created_at ? new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short" }).format(new Date(b.created_at)).replace(".", "") : "Recentemente",
     rawType: String(b.type || "CRIATIVA"),
     rawAgeGroups: Array.isArray(b.age_groups) ? b.age_groups.map(String) : [],
@@ -86,10 +70,6 @@ export function formatBrincadeira(b: any, currentUserId?: string): Brincadeira |
   }
 }
 
-/**
- * Shared utility to map a JSON library system game to the Brincadeira interface.
- * Ensures consistent handling of metadata, creator info, and interaction stats.
- */
 export function formatSystemBrincadeira(game: any, kitLabel: string, stats?: { likesCount: number; hasLiked: boolean; hasSaved: boolean }): Brincadeira {
   const s = stats || { likesCount: 0, hasLiked: false, hasSaved: false }
   
@@ -113,10 +93,8 @@ export function formatSystemBrincadeira(game: any, kitLabel: string, stats?: { l
     userHasSaved: Boolean(s.hasSaved),
     initialLiked: Boolean(s.hasLiked),
     initialSaved: Boolean(s.hasSaved),
-    comments: [],
     steps: Array.isArray(game.steps) ? game.steps.map(String) : [],
     materials: Array.isArray(game.materials) ? game.materials.map(String) : [],
-    commentsCount: 0,
     publishedAt: "Oficial",
     rawType: "CRIATIVA",
     rawAgeGroups: [String(game.age)],

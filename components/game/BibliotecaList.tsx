@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useRef, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
@@ -16,7 +16,6 @@ import {
 import { Button } from "@/components/ui/button"
 import { SYSTEM_COLLECTIONS, SystemGame, Collection } from "@/lib/data/biblioteca"
 
-
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 
@@ -26,8 +25,6 @@ export function BibliotecaList() {
   const query = (searchParams.get("q") ?? "").toLowerCase()
 
   if (query) {
-    // A busca agora é tratada na página pai (Explorar), 
-    // mas se por algum motivo for renderizado, fica em branco.
     return null;
   }
 

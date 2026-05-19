@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { Header } from "@/components/layout/Header"
 import { Card } from "@/components/ui/card"
@@ -111,7 +111,7 @@ export default function Perfil() {
       <Header title="Perfil" showSearch={false} />
       
       <main className="pb-32 pt-2">
-        {/* Profile Card Section */}
+        
         <div className="px-5 mb-8">
           <Card className="p-4 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-card flex items-start justify-between gap-4">
             <div className="flex items-start gap-3">
@@ -130,9 +130,8 @@ export default function Perfil() {
                 <span className="text-[13px] font-bold text-muted-foreground mt-0.5">
                   {profileData?.created_at ? `Entrou ${new Date(profileData.created_at).toLocaleDateString('pt-BR')}` : ""}
                 </span>
-                
-                {/* Followers/Following Info */}
-                <div className="flex items-center gap-3 mt-1.5 text-[14px] font-bold text-foreground">
+
+<div className="flex items-center gap-3 mt-1.5 text-[14px] font-bold text-foreground">
                   <button 
                     onClick={() => setFollowModal({ isOpen: true, type: "followers" })}
                     className="hover:underline text-left active:scale-[0.98] transition-transform"
@@ -161,8 +160,7 @@ export default function Perfil() {
           </Card>
         </div>
 
-        {/* Horizontal Activities Section */}
-        <section className="mb-10">
+<section className="mb-10">
           <div className="px-5 mb-4">
             <h2 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest text-left">
               Minhas Atividades
@@ -201,8 +199,7 @@ export default function Perfil() {
           </div>
         </section>
 
-        {/* Achievements Section */}
-        <div className="mb-10">
+<div className="mb-10">
           <AchievementsSection 
             achievements={getAchievements(
               profileData?.brincadeiras || [],
@@ -213,8 +210,7 @@ export default function Perfil() {
           />
         </div>
 
-        {/* Settings Section */}
-        <div className="px-5 space-y-10">
+<div className="px-5 space-y-10">
           {settingsGroups.map((group) => (
             <section key={group.title} className="space-y-4">
               <h3 className="text-[12px] font-bold text-muted-foreground uppercase tracking-widest pl-1">
@@ -282,7 +278,6 @@ export default function Perfil() {
         type={followModal.type}
         currentUserId={profileData?.id || undefined}
         onUpdate={async () => {
-          // Refresh user profile data on follow updates
           getProfile().then(data => setProfileData(data))
         }}
       />

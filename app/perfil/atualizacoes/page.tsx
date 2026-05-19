@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { Header } from "@/components/layout/Header"
 import { RiMagicLine, RiRocketLine, RiStarLine } from "@remixicon/react"
@@ -37,7 +37,7 @@ export default function AtualizacoesPage() {
         <div className="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-border before:to-transparent">
           {UPDATES.map((update, idx) => (
             <div key={idx} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-              {/* Icon / Bullet */}
+              
               <div className={cn(
                 "flex items-center justify-center w-10 h-10 rounded-full border-4 border-background shrink-0 z-10 shadow-sm",
                 update.bgColor, update.color
@@ -45,8 +45,7 @@ export default function AtualizacoesPage() {
                 <update.icon size={18} />
               </div>
 
-              {/* Card Content */}
-              <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-[20px] bg-white border border-border shadow-sm">
+<div className="w-[calc(100%-3rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-[20px] bg-white border border-border shadow-sm">
                 <div className="flex items-center justify-between mb-3 border-b border-border pb-3">
                   <span className="text-[12px] font-extrabold text-foreground uppercase tracking-widest">{update.date}</span>
                   <span className={cn("text-[10px] font-black uppercase px-2 py-0.5 rounded-full", update.bgColor, update.color)}>

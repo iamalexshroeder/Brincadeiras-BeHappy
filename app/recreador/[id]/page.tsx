@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { Header } from "@/components/layout/Header"
 import { Card } from "@/components/ui/card"
@@ -78,7 +78,7 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
       <Header title={`Perfil de ${profileData.name}`} showBackButton={true} showSearch={false} showUserCard={false} />
       
       <main className="px-4 sm:px-6 pt-2 pb-32 space-y-8">
-        {/* Profile Card */}
+        
         <Card className="p-4 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-card flex items-start justify-between gap-4">
           <div className="flex items-start gap-3">
             <UserAvatar
@@ -96,9 +96,8 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
               <span className="text-[13px] font-bold text-muted-foreground mt-0.5">
                 {profileData.created_at ? `Entrou ${new Date(profileData.created_at).toLocaleDateString('pt-BR')}` : "Autor da Comunidade"}
               </span>
-              
-              {/* Followers/Following Info */}
-              <div className="flex items-center gap-3 mt-1.5 text-[14px] font-bold text-foreground">
+
+<div className="flex items-center gap-3 mt-1.5 text-[14px] font-bold text-foreground">
                 <button
                   onClick={() => setFollowModal({ isOpen: true, type: "followers" })}
                   className="hover:underline text-left active:scale-[0.98] transition-transform"
@@ -139,8 +138,7 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
           )}
         </Card>
 
-        {/* Achievements Section */}
-        <AchievementsSection 
+<AchievementsSection 
           achievements={getAchievements(
             profileData.brincadeiras || [],
             profileData.likesReceivedCount || 0,
@@ -150,8 +148,7 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
           className="px-0"
         />
 
-        {/* Contributions Section */}
-        <section className="space-y-4">
+<section className="space-y-4">
           <div className="flex items-baseline justify-between pl-1">
             <h2 className="text-[18px] font-extrabold text-foreground tracking-[-0.03em]">
               Galeria de Brincadeiras

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useTransition } from "react"
 import { claimMission } from "@/lib/mission-actions"
@@ -55,7 +55,7 @@ function MissionCard({ mission }: { mission: Mission }) {
         )}
         style={{ borderColor: mission.gradient[0], boxShadow: claimed ? 'none' : `0 2px 12px ${mission.gradient[0]}18` }}
       >
-        {/* Title + XP + desc */}
+        
         <div className="mb-2">
           <div className="flex items-start justify-between gap-1 mb-1">
             <p className="text-[13px] font-black text-foreground leading-tight line-clamp-2 pr-1">{mission.title}</p>
@@ -69,8 +69,7 @@ function MissionCard({ mission }: { mission: Mission }) {
           <p className="text-[11px] text-muted-foreground font-medium leading-tight line-clamp-2">{mission.description}</p>
         </div>
 
-        {/* Progress */}
-        <div className="mt-auto">
+<div className="mt-auto">
           <div className="h-[5px] bg-[#F2F2F7] rounded-full overflow-hidden mb-1.5">
             <div
               className="h-full rounded-full transition-all duration-700"
@@ -80,9 +79,8 @@ function MissionCard({ mission }: { mission: Mission }) {
               }}
             />
           </div>
-          
-          {/* State Footer: text info OR claim button OR claimed text */}
-          {!isComplete ? (
+
+{!isComplete ? (
             <p className="text-[10px] font-bold text-muted-foreground w-full py-1 text-left">
               {mission.progress} / {mission.goal} realizados
             </p>
@@ -170,8 +168,7 @@ export function MissionsStrip({ missions }: { missions: Mission[] }) {
         )}
       </div>
 
-      {/* Horizontal scroll */}
-      <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 snap-x snap-mandatory scrollbar-none">
+<div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 snap-x snap-mandatory scrollbar-none">
         {missions.map(m => (
           <div key={m.id} className="snap-start">
             <MissionCard mission={m} />

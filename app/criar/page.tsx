@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/Header"
+﻿import { Header } from "@/components/layout/Header"
 import BrincadeiraForm from "@/components/game/BrincadeiraForm"
 
 export default function CreateBrincadeiraPage() {

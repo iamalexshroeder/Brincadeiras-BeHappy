@@ -1,5 +1,4 @@
-// Definição das missões semanais do BeHappy
-export const WEEKLY_MISSIONS = [
+﻿export const WEEKLY_MISSIONS = [
   {
     id: "curtir_5",
     title: "Explorador Curioso",

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useEffect, useRef, useTransition } from "react"
 import { RiSearchLine, RiLoader4Line, RiCloseLine, RiUserLine, RiGameLine } from "@remixicon/react"
@@ -105,10 +105,8 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
       startTransition(async () => {
         const queryText = query.trim()
         
-        // 1. Get database games
         const { items: dbItems } = await getFeed(30, undefined, undefined, undefined, queryText)
         
-        // 2. Search system collections
         const normQuery = queryText.toLowerCase()
         const matchingSystemGames: any[] = []
         
@@ -135,7 +133,6 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
         
         setResults([...formattedSystemItems, ...dbItems])
 
-        // 3. Search recreadores
         const foundRecreadores = await searchRecreadores(queryText)
         setRecreadores(foundRecreadores)
       })
@@ -150,7 +147,7 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
 
   return (
     <>
-      {/* Barra de busca - Unificada com o Header e Sticky */}
+      
       <div className="px-4 sm:px-6 py-3 bg-[#F9F9F7]/95 backdrop-blur-md sticky top-[80px] z-40 border-b border-[#E5E5EA]">
         <div className="bg-white p-[6px] rounded-[12px] border border-[#E5E5EA] shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
           <div className="relative">
@@ -186,8 +183,7 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
           </div>
         </div>
 
-        {/* Tab Selector if searching */}
-        {isSearching && (
+{isSearching && (
           <div className="mt-3 flex bg-[#F2F2F7] p-1 rounded-[10px] w-full relative">
             <button
               onClick={() => setActiveTab("brincadeiras")}
@@ -215,11 +211,8 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
         )}
       </div>
 
-      {/* Conteúdo */}
-      <main className="page-main pb-32">
-        {isSearching ? (
-          /* Resultados ao vivo */
-          <div>
+<main className="page-main pb-32">
+        {isSearching ? (<div>
             <div className="flex items-baseline justify-between mb-4 pl-1">
               <h2 className="section-label">
                 {isPending ? "Buscando..." : `Resultados para "${query}"`}
@@ -231,9 +224,7 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
               )}
             </div>
 
-            {activeTab === "brincadeiras" ? (
-              /* Aba Brincadeiras */
-              !isPending && results.length === 0 ? (
+            {activeTab === "brincadeiras" ? (!isPending && results.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-20 text-center px-4">
                   <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-4">
                     <RiSearchLine size={32} className="text-[#C7C7CC]" />
@@ -257,7 +248,6 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
                       metadata={game.metadata}
                       tags={game.tags}
                       likesCount={game.likesCount}
-                      comments={game.comments}
                       initialLiked={game.userHasLiked}
                       initialSaved={game.userHasSaved}
                       currentUserId={currentUserId}
@@ -269,9 +259,7 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
                   ))}
                 </div>
               )
-            ) : (
-              /* Aba Monitores */
-              !isPending && recreadores.length === 0 ? (
+            ) : (!isPending && recreadores.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-20 text-center px-4">
                   <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-4">
                     <RiUserLine size={32} className="text-[#C7C7CC]" />
@@ -296,9 +284,7 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
               )
             )}
           </div>
-        ) : (
-          /* Conteúdo padrão: Kits + Galeria */
-          <>
+        ) : (<>
             <div className="flex items-baseline justify-between mb-4 pl-1">
               <h2 className="section-label">Kits Sugeridos</h2>
               <span className="text-[13px] font-bold text-[#8E8E93]">{SYSTEM_COLLECTIONS.length} coleções</span>
@@ -320,7 +306,6 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
                   metadata={game.metadata}
                   tags={game.tags}
                   likesCount={game.likesCount}
-                  comments={game.comments}
                   initialLiked={game.userHasLiked}
                   initialSaved={game.userHasSaved}
                   currentUserId={currentUserId}

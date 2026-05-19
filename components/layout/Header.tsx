@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { RiSearchLine, RiNotification3Line, RiNotification3Fill, RiArrowLeftSLine } from "@remixicon/react"
 import { Input } from "@/components/ui/input"
@@ -88,7 +88,7 @@ export function Header({
 
   return (
     <>
-      {/* Sticky top bar — title + notification bell */}
+      
       <div className={cn(
         "sticky top-0 z-50 bg-[#F9F9F7]/95 backdrop-blur-md px-4 sm:px-6 no-print transition-all overflow-visible",
         showBackButton ? "pt-12 pb-4" : "pt-10 pb-4"
@@ -146,14 +146,12 @@ export function Header({
         </div>
       </div>
 
-      {/* Scrollable content below the sticky bar */}
-      <div className={cn(
+<div className={cn(
         "w-full bg-[#F9F9F7] flex flex-col px-4 sm:px-6 space-y-4",
         (showSearch || showUserCard) ? "pt-4 pb-2" : "pt-0 pb-0"
       )}>
 
-        {/* Search */}
-        {showSearch && (
+{showSearch && (
           <div className="w-full bg-white p-[6px] rounded-[12px] border border-[#E5E5EA] shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
             <div className="relative">
               <RiSearchLine

@@ -12,7 +12,6 @@ interface LibraryItem {
   metadata: { ageRange: string; duration: string; participants: string }
   tags: string[]
   likesCount: number
-  comments?: any[]
   initialLiked?: boolean
   initialSaved?: boolean
   steps?: string[]
