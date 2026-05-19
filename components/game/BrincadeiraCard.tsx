@@ -255,7 +255,7 @@ export function BrincadeiraCard({
 
 {isDetailOpen && (
         <div 
-          className="fixed inset-x-0 top-0 bottom-[calc(64px+env(safe-area-inset-bottom))] md:bottom-0 z-[45] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 overscroll-contain animate-in fade-in duration-200"
+          className="fixed inset-0 z-[45] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 overscroll-contain animate-in fade-in duration-200"
           onClick={() => setIsDetailOpen(false)}
         >
           <div 
@@ -272,7 +272,7 @@ export function BrincadeiraCard({
               <RiCloseLine size={20} />
             </button>
 
-<div className="overflow-y-auto px-6 pb-24 pt-2 sm:pt-6 space-y-8 flex-1 no-scrollbar overscroll-y-contain">
+<div className="overflow-y-auto px-6 popup-content-padding pt-2 sm:pt-6 space-y-8 flex-1 no-scrollbar overscroll-y-contain">
               
               <div className="flex items-center justify-between">
                 {creator.id !== "system" && creator.name !== "BeHappyinha" ? (
@@ -395,7 +395,7 @@ export function BrincadeiraCard({
               )}
             </div>
 
-<div className="absolute bottom-6 left-6 right-6 flex items-center justify-between pointer-events-none z-20">
+            <div className="absolute popup-buttons left-6 right-6 flex items-center justify-between pointer-events-none z-20">
               <div className="pointer-events-auto">
                 <button 
                   onClick={(e) => {

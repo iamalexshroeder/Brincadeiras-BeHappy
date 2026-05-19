@@ -170,6 +170,21 @@
   .text-mini {
     @apply text-[10px] font-extrabold uppercase tracking-widest text-muted-foreground/60;
   }
+
+  .popup-buttons {
+    bottom: calc(24px + 64px + env(safe-area-inset-bottom));
+  }
+  .popup-content-padding {
+    padding-bottom: calc(144px + env(safe-area-inset-bottom));
+  }
+  @media (min-width: 768px) {
+    .popup-buttons {
+      bottom: 24px;
+    }
+    .popup-content-padding {
+      padding-bottom: 96px;
+    }
+  }
 }
 
 @media print {
