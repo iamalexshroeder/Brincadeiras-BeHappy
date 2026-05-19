@@ -289,7 +289,7 @@ export function BrincadeiraCard({
       {/* Detail Modal */}
       {isDetailOpen && (
         <div 
-          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 animate-in fade-in duration-200 overscroll-contain"
           onClick={() => setIsDetailOpen(false)}
         >
           <div 
@@ -308,7 +308,7 @@ export function BrincadeiraCard({
             </button>
 
             {/* Scrollable Container */}
-            <div className="overflow-y-auto px-6 pb-12 pt-2 sm:pt-6 space-y-8 flex-1 no-scrollbar">
+            <div className="overflow-y-auto px-6 pb-12 pt-2 sm:pt-6 space-y-8 flex-1 no-scrollbar overscroll-y-contain">
               {/* Creator Info Header */}
               <div className="flex items-center justify-between">
                 {creator.id !== "system" && creator.name !== "BeHappyinha" ? (
@@ -441,7 +441,7 @@ export function BrincadeiraCard({
                   Comentários ({localComments.length})
                 </h4>
                 
-                <div className="space-y-3 max-h-[200px] overflow-y-auto pr-1 no-scrollbar">
+                <div className="space-y-3 max-h-[200px] overflow-y-auto pr-1 no-scrollbar overscroll-y-contain">
                   {localComments.map((c) => (
                     <div key={c.id} className="flex items-start gap-2.5 text-left animate-in fade-in duration-200">
                       <UserAvatar 
