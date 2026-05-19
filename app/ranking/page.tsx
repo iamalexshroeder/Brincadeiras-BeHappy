@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Header } from "@/components/layout/Header"
 import Link from "next/link"
 
-import { RiTrophyLine, RiLoader4Line, RiHeartFill, RiChat3Line, RiGroupLine } from "@remixicon/react"
+import { RiTrophyLine, RiLoader4Line, RiHeartFill, RiGroupLine } from "@remixicon/react"
 import { getBrincadeirasRanking } from "@/lib/actions"
 import { Card } from "@/components/ui/card"
 
@@ -125,10 +125,6 @@ export default function Ranking() {
                                  <div className="flex items-center gap-1 text-[11px] font-bold text-muted-foreground uppercase tracking-tight">
                                     <RiGroupLine size={12} />
                                     {game.metadata?.participants || "Qualquer quant."}
-                                 </div>
-                                 <div className="flex items-center gap-1 text-[11px] font-bold text-muted-foreground uppercase tracking-tight">
-                                    <RiChat3Line size={12} />
-                                    {game.commentsCount || 0}
                                  </div>
                               </div>
                             </div>

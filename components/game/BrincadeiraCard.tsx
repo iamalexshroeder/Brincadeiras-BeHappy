@@ -4,7 +4,6 @@ import { useState, useTransition } from "react"
 import { motion } from "framer-motion"
 import { 
   RiHeartFill, 
-  RiChat3Line, 
   RiTimeLine, 
   RiGroupLine, 
   RiHeartLine, 
@@ -12,13 +11,12 @@ import {
   RiBookmarkLine,
   RiBookmarkFill,
   RiShareLine,
-  RiCloseLine,
-  RiSendPlane2Line
+  RiCloseLine
 } from "@remixicon/react"
 import { Card } from "@/components/ui/card"
 import { UserAvatar } from "@/components/ui/UserAvatar"
 import { cn } from "@/lib/utils"
-import { toggleLike, toggleSave, deleteBrincadeira, revalidateAll, addComment } from "@/lib/actions"
+import { toggleLike, toggleSave, deleteBrincadeira, revalidateAll } from "@/lib/actions"
 import { RoleBadge } from "@/components/shared/RoleBadge"
 import { toast } from "sonner"
 import Link from "next/link"
@@ -40,8 +38,6 @@ interface BrincadeiraCardProps {
   }
   tags: string[]
   likesCount: number
-  commentsCount?: number
-  comments?: any[]
   initialLiked?: boolean
   initialSaved?: boolean
   steps?: string[]
@@ -49,6 +45,7 @@ interface BrincadeiraCardProps {
   publishedAt?: string
   currentUserId?: string
   isSystemGame?: boolean
+  comments?: any[]
 }
 
 export function BrincadeiraCard({
@@ -59,14 +56,14 @@ export function BrincadeiraCard({
   metadata,
   tags,
   likesCount,
-  comments = [],
   initialLiked = false,
   initialSaved = false,
   currentUserId,
   isSystemGame = false,
   publishedAt,
   steps = [],
-  materials = []
+  materials = [],
+  comments = []
 }: BrincadeiraCardProps) {
   const [isPending, startTransition] = useTransition()
   
@@ -74,9 +71,6 @@ export function BrincadeiraCard({
   const [localLikes, setLocalLikes] = useState(likesCount)
   const [isSaved, setIsSaved] = useState(initialSaved)
   const [isDetailOpen, setIsDetailOpen] = useState(false)
-  const [localComments, setLocalComments] = useState<any[]>(comments)
-  const [commentText, setCommentText] = useState("")
-  const [isSendingComment, setIsSendingComment] = useState(false)
   
   const [popup, setPopup] = useState<{
     isOpen: boolean;
@@ -140,23 +134,6 @@ export function BrincadeiraCard({
       toast.success("Link copiado!")
     } catch (err) {
       toast.error("Erro ao copiar link")
-    }
-  }
-
-  const handleSendComment = async () => {
-    if (!commentText.trim() || isSendingComment) return
-    setIsSendingComment(true)
-    try {
-      const newComment = await addComment(id, commentText.trim())
-      if (newComment) {
-        setLocalComments(prev => [...prev, newComment])
-        setCommentText("")
-        toast.success("Comentário adicionado!")
-      }
-    } catch (err: any) {
-      toast.error("Erro ao adicionar comentário")
-    } finally {
-      setIsSendingComment(false)
     }
   }
 
@@ -266,10 +243,6 @@ export function BrincadeiraCard({
                   {isLiked ? <RiHeartFill size={20} /> : <RiHeartLine size={20} />}
                   <span className="text-[13px] font-bold">{localLikes}</span>
                 </button>
-                <div className="flex items-center gap-1.5 text-muted-foreground">
-                  <RiChat3Line size={20} />
-                  <span className="text-[13px] font-bold">{localComments.length}</span>
-                </div>
               </div>
 
               <button 
@@ -293,7 +266,7 @@ export function BrincadeiraCard({
           onClick={() => setIsDetailOpen(false)}
         >
           <div 
-            className="relative w-full max-h-[85dvh] sm:max-h-[85vh] sm:max-w-lg bg-card border-t sm:border border-border/80 rounded-t-[28px] sm:rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300"
+            className="relative w-full max-h-[90vh] sm:max-h-[85vh] sm:max-w-lg bg-card border-t sm:border border-border/80 rounded-t-[28px] sm:rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Top Drag Handle for mobile */}
@@ -434,81 +407,10 @@ export function BrincadeiraCard({
                   </div>
                 </div>
               )}
-
-              {/* Comments Section */}
-              <div className="space-y-4 text-left border-t border-border/50 pt-4">
-                <h4 className="text-[12px] font-extrabold text-[#8E8E93] uppercase tracking-widest">
-                  Comentários ({localComments.length})
-                </h4>
-                
-                <div className="space-y-3 max-h-[200px] overflow-y-auto pr-1 no-scrollbar overscroll-y-contain">
-                  {localComments.map((c) => (
-                    <div key={c.id} className="flex items-start gap-2.5 text-left animate-in fade-in duration-200">
-                      <UserAvatar 
-                        src={c.user.avatar_url || c.user.image || undefined} 
-                        name={c.user.name} 
-                        className="h-8 w-8 border border-border/50 shrink-0 mt-0.5"
-                      />
-                      <div className="flex flex-col bg-muted/50 p-2.5 rounded-[12px] max-w-[85%]">
-                        <span className="text-[11px] font-black text-foreground">
-                          {c.user.name || "Recreador"}
-                        </span>
-                        <p className="text-[12px] text-muted-foreground font-medium leading-normal mt-0.5 text-left">
-                          {c.text}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                  {localComments.length === 0 && (
-                    <div className="flex flex-col items-center justify-center py-4 text-muted-foreground/60 text-[12px] font-semibold gap-1">
-                      <span>Nenhum comentário ainda.</span>
-                      <span>Seja o primeiro a comentar!</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Add Comment Input */}
-                {isSystemGame ? (
-                  <div className="bg-[#F2F2F7]/60 rounded-xl p-3 text-center text-[12px] font-bold text-muted-foreground mt-2">
-                    Comentários indisponíveis nesta brincadeira
-                  </div>
-                ) : !currentUserId ? (
-                  <div className="bg-[#F2F2F7] rounded-xl p-3 text-center text-[12px] font-bold text-[#8E8E93] mt-2">
-                    🔒 Faça login para comentar nesta brincadeira
-                  </div>
-                ) : (
-                  <div className="flex gap-2 items-center pt-2">
-                    <input 
-                      type="text"
-                      placeholder="Adicione um comentário..."
-                      value={commentText}
-                      onChange={(e) => setCommentText(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          handleSendComment()
-                        }
-                      }}
-                      disabled={isSendingComment}
-                      className="input-base text-[13px] h-10 px-4 flex-1 rounded-xl placeholder:text-muted-foreground/60 focus:bg-white"
-                    />
-                    <button
-                      onClick={handleSendComment}
-                      disabled={isSendingComment || !commentText.trim()}
-                      className="h-10 px-4 flex items-center justify-center rounded-xl bg-primary text-white font-bold text-[13px] hover:bg-primary/95 disabled:opacity-50 disabled:scale-100 active:scale-95 transition-all shrink-0"
-                    >
-                      {isSendingComment ? (
-                        <div className="h-4 w-4 border-2 border-white/80 border-t-transparent rounded-full animate-spin" />
-                      ) : (
-                        <span>Enviar</span>
-                      )}
-                    </button>
-                  </div>
-                )}
-              </div>
             </div>
 
             {/* Modal Actions Footer */}
-            <div className="p-4 pb-8 sm:pb-5 border-t border-border bg-card flex items-center justify-between shrink-0">
+            <div className="p-5 pb-[calc(20px+env(safe-area-inset-bottom))] border-t border-border bg-card flex items-center justify-between shrink-0">
               <div className="flex items-center gap-4">
                 <button 
                   onClick={(e) => {
