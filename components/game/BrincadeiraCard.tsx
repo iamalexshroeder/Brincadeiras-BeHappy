@@ -266,7 +266,7 @@ export function BrincadeiraCard({
           onClick={() => setIsDetailOpen(false)}
         >
           <div 
-            className="relative w-full max-h-[90vh] sm:max-h-[85vh] sm:max-w-lg bg-card border-t sm:border border-border/80 rounded-t-[28px] sm:rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300"
+            className="relative w-full max-h-[90dvh] sm:max-h-[85vh] sm:max-w-lg bg-card border-t sm:border border-border/80 rounded-t-[28px] sm:rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Top Drag Handle for mobile */}
@@ -410,7 +410,7 @@ export function BrincadeiraCard({
             </div>
 
             {/* Modal Actions Footer */}
-            <div className="p-5 pb-[calc(20px+env(safe-area-inset-bottom))] border-t border-border bg-card flex items-center justify-between shrink-0">
+            <div className="p-4 pb-[calc(16px+env(safe-area-inset-bottom))] border-t border-border bg-card flex items-center justify-between shrink-0">
               <div className="flex items-center gap-4">
                 <button 
                   onClick={(e) => {
