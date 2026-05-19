@@ -254,11 +254,7 @@ export async function getFeed(
   }
 
   if (searchQuery) {
-    whereClause.OR = [
-      { title: { contains: searchQuery, mode: 'insensitive' } },
-      { short_description: { contains: searchQuery, mode: 'insensitive' } },
-      { tags: { has: searchQuery } }
-    ]
+    whereClause.title = { contains: searchQuery, mode: 'insensitive' }
   }
 
   const brincadeiras = await prisma.brincadeira.findMany({
@@ -1152,10 +1148,7 @@ export async function searchRecreadores(query: string) {
 
   const users = await prisma.user.findMany({
     where: {
-      OR: [
-        { name: { contains: query, mode: 'insensitive' } },
-        { email: { contains: query, mode: 'insensitive' } }
-      ]
+      name: { contains: query, mode: 'insensitive' }
     },
     select: {
       id: true,

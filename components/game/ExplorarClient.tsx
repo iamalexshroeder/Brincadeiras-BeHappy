@@ -115,11 +115,8 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
         SYSTEM_COLLECTIONS.forEach((col) => {
           col.games.forEach((game) => {
             const matchesTitle = game.title.toLowerCase().includes(normQuery)
-            const matchesDesc = game.description.toLowerCase().includes(normQuery)
-            const matchesStep = game.steps.some(step => step.toLowerCase().includes(normQuery))
-            const matchesMaterial = game.materials.some(mat => mat.toLowerCase().includes(normQuery))
             
-            if (matchesTitle || matchesDesc || matchesStep || matchesMaterial) {
+            if (matchesTitle) {
               if (!matchingSystemGames.some(g => g.id === game.id)) {
                 matchingSystemGames.push({ game, kitLabel: col.label })
               }
