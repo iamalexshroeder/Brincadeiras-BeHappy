@@ -262,7 +262,7 @@ export function BrincadeiraCard({
       {/* Detail Modal */}
       {isDetailOpen && (
         <div 
-          className="fixed inset-x-0 top-0 bottom-[calc(64px+env(safe-area-inset-bottom))] sm:bottom-0 z-40 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 overscroll-contain animate-in fade-in duration-200"
+          className="fixed inset-x-0 top-0 bottom-[calc(64px+env(safe-area-inset-bottom))] sm:bottom-0 z-[60] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 overscroll-contain animate-in fade-in duration-200"
           onClick={() => setIsDetailOpen(false)}
         >
           <div 
@@ -340,7 +340,7 @@ export function BrincadeiraCard({
               </div>
 
               {/* Metadata stats */}
-              <div className="flex flex-wrap gap-2 pt-1 border-t border-b border-border/50 py-3.5">
+              <div className="flex flex-wrap gap-2 pt-1 pb-4">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#F2F2F7] text-[#8E8E93] text-[12px] font-bold">
                   <RiUserVoiceLine size={14} />
                   {metadata.ageRange}
@@ -410,7 +410,7 @@ export function BrincadeiraCard({
             </div>
 
             {/* Modal Actions Footer */}
-            <div className="p-4 border-t border-border bg-card flex items-center justify-between shrink-0">
+            <div className="p-4 bg-card flex items-center justify-between shrink-0">
               <div className="flex items-center gap-4">
                 <button 
                   onClick={(e) => {
