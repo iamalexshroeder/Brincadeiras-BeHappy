@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { Header } from "@/components/layout/Header"
 import { Button } from "@/components/ui/button"
@@ -21,10 +21,6 @@ export default function AjudaPage() {
     {
       q: "Como funciona a visualização detalhada?",
       a: "Ao clicar em uma brincadeira, um painel compacto desliza de baixo para cima. Nele você pode ler os materiais, o passo a passo completo e interagir (curtir, salvar ou compartilhar) tudo em uma única tela."
-    },
-    {
-      q: "Como ganho XP?",
-      a: "Você ganha XP cada vez que publica uma brincadeira (50 XP), recebe uma curtida (10 XP) ou alguém marca sua brincadeira como 'utilizada' (20 XP)."
     },
     {
       q: "Como edito minhas brincadeiras?",

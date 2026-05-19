@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState, useTransition } from "react"
 import { claimMission } from "@/lib/mission-actions"
@@ -59,12 +59,6 @@ function MissionCard({ mission }: { mission: Mission }) {
         <div className="mb-2">
           <div className="flex items-start justify-between gap-1 mb-1">
             <p className="text-[13px] font-black text-foreground leading-tight line-clamp-2 pr-1">{mission.title}</p>
-            <span
-              className="shrink-0 self-start text-[9px] font-black px-1.5 py-0.5 rounded-full"
-              style={{ backgroundColor: `${mission.gradient[0]}18`, color: mission.gradient[1] }}
-            >
-              +{mission.xp} XP
-            </span>
           </div>
           <p className="text-[11px] text-muted-foreground font-medium leading-tight line-clamp-2">{mission.description}</p>
         </div>
@@ -118,7 +112,7 @@ function MissionCard({ mission }: { mission: Mission }) {
             <div className="space-y-1 text-center">
               <DialogTitle className="text-xl font-extrabold text-foreground">{mission.title}</DialogTitle>
               <DialogDescription className="text-sm">
-                Complete esta missão para ganhar XP e subir no ranking!
+                Complete esta missão para desbloquear conquistas no seu perfil!
               </DialogDescription>
             </div>
           </DialogHeader>
@@ -133,8 +127,8 @@ function MissionCard({ mission }: { mission: Mission }) {
             
             <div className="flex items-center justify-between px-2">
               <span className="text-sm font-bold text-foreground">Recompensa</span>
-              <span className="text-sm font-black px-3 py-1 rounded-full" style={{ backgroundColor: `${mission.gradient[0]}18`, color: mission.gradient[1] }}>
-                +{mission.xp} XP
+              <span className="text-sm font-black px-3 py-1 rounded-full text-green-600 bg-green-50 border border-green-200">
+                Missão Semanal
               </span>
             </div>
             

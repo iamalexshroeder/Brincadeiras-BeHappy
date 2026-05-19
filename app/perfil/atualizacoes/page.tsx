@@ -1,10 +1,25 @@
-﻿"use client"
+"use client"
 
 import { Header } from "@/components/layout/Header"
 import { RiMagicLine, RiRocketLine, RiStarLine } from "@remixicon/react"
 import { cn } from "@/lib/utils"
 
 const UPDATES = [
+  {
+    date: "19 de Maio",
+    version: "v2.1.0",
+    icon: RiRocketLine,
+    color: "text-primary",
+    bgColor: "bg-primary/10",
+    features: [
+      "Fim dos comentários: Experiência simplificada e direta focada na curadoria (curtidas e salvamentos).",
+      "Remoção de XP: Foco total no Manual de Brincadeiras e conquistas de perfil, eliminando sistemas complexos de pontos.",
+      "Alta performance: Novo sistema de cache de sessões (JWT) reduzindo tempo de carregamento e eliminando desconexões automáticas.",
+      "Estética aprimorada: Ajuste fino de layout nos pop-ups para preenchimento de tela cheia sob a barra de navegação.",
+      "Mais imersão: Cabeçalho com desfoque e escurecimento perfeito sob o fundo ao abrir pop-ups.",
+      "Ajustes de responsividade: Melhora no espaçamento inferior das conquistas (badges) no mobile."
+    ]
+  },
   {
     date: "15 de Maio",
     version: "v2.0.0",

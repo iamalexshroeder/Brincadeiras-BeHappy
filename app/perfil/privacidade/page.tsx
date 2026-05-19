@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { Header } from "@/components/layout/Header"
 import { Button } from "@/components/ui/button"
@@ -13,7 +13,7 @@ export default function PrivacidadePage() {
     {
       icon: RiShieldCheckLine,
       title: "Uso de Dados",
-      content: "No BeHappy, os únicos dados que coletamos são seu e-mail e nome fornecidos pelo login do Google. Coletamos essas informações apenas para identificar suas brincadeiras criadas, curtidas e seu progresso na gamificação (XP)."
+      content: "No BeHappy, os únicos dados que coletamos são seu e-mail e nome fornecidos pelo login do Google. Coletamos essas informações apenas para identificar suas brincadeiras criadas, curtidas e conquistas no app."
     },
     {
       icon: RiLockPasswordLine,
@@ -23,7 +23,7 @@ export default function PrivacidadePage() {
     {
       icon: RiEyeLine,
       title: "Visibilidade das Publicações",
-      content: "Ao publicar uma brincadeira, ela se torna visível para todos os outros usuários na aba Explorar. Seu nome e nível de perfil aparecerão como autor da publicação, incentivando a comunidade de recreadores."
+      content: "Ao publicar uma brincadeira, ela se torna visível para todos os outros usuários na aba Explorar. Seu nome aparecerá como autor da publicação, incentivando a comunidade de recreadores."
     }
   ]
 

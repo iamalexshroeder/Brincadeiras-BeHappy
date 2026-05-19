@@ -21,19 +21,6 @@ async function awardMissionXP(userId: string, amount: number, referenceId: strin
       data: { user_id: userId, amount, reason: "STREAK" as XPReason, reference_id: referenceId },
     }),
   ])
-
-  if (newLevel > previousLevel) {
-    const newTier = GAMIFICATION_TIERS.find(t => t.level === newLevel)
-    const title = newTier ? newTier.title : `Nível ${newLevel}`
-    await prisma.notification.create({
-      data: {
-        user_id: userId,
-        type: "GAMIFICATION",
-        title: "Você subiu de nível!",
-        message: `Parabéns! Você alcançou o ${title}. Continue interagindo para ganhar mais XP!`,
-      },
-    })
-  }
 }
 
 function getWeekStart() {
@@ -103,9 +90,9 @@ export async function claimMission(missionId: string) {
   await prisma.notification.create({
     data: {
       user_id: userId,
-      type: "GAMIFICATION",
+      type: "SYSTEM",
       title: `Missão completa: ${mission.title}!`,
-      message: `Você resgatou +${mission.xp} XP. Continue assim! 🎉`,
+      message: `Você concluiu a missão '${mission.title}' com sucesso! 🎉`,
     },
   })
 
