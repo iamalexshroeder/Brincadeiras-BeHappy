@@ -186,7 +186,7 @@ export function BrincadeiraCard({
                   <UserAvatar 
                     src={creator.avatar} 
                     name={creator.name} 
-                    className="h-9 w-9 border border-border/50"
+                    className="h-11 w-11 border border-border/50 shrink-0"
                   />
                   <div className="flex flex-col">
                     <div className="flex items-center gap-1.5 flex-wrap">
@@ -205,7 +205,7 @@ export function BrincadeiraCard({
                   <UserAvatar 
                     src={creator.avatar} 
                     name={creator.name} 
-                    className="h-9 w-9 border border-border/50"
+                    className="h-11 w-11 border border-border/50 shrink-0"
                   />
                   <div className="flex flex-col">
                     <div className="flex items-center gap-1.5 flex-wrap">

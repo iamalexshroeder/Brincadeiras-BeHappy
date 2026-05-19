@@ -45,7 +45,7 @@ function RecreadorSearchCard({ r, currentUserId }: { r: any; currentUserId?: str
           <UserAvatar
             src={r.avatar}
             name={r.name}
-            className="h-12 w-12 border border-border/50 shrink-0"
+            className="h-14 w-14 border border-border/50 shrink-0"
           />
           <div className="flex flex-col text-left">
             <div className="flex items-center gap-1.5 flex-wrap">

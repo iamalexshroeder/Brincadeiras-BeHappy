@@ -115,10 +115,23 @@ export async function getProfile() {
     where: { user_id: user.id, read: false }
   })
 
+  const brincadeiras = await prisma.brincadeira.findMany({
+    where: { user_id: user.id, published_at: { not: null } },
+    select: {
+      title: true,
+      short_description: true,
+      tags: true,
+      type: true,
+      min_participants: true,
+      duration_minutes: true
+    }
+  })
+
   return {
     ...user,
     avatar: user.avatar_url ?? user.image,
     unreadNotificationsCount,
+    brincadeiras,
     stats: {
       favorites: commLikes + sysLikes,
       saved: commSaved + sysSaved,
@@ -1181,6 +1194,98 @@ export async function searchRecreadores(query: string) {
     created_at: u.created_at,
     userIsFollowing: u.followers ? u.followers.length > 0 : false
   }))
+}
+
+export async function getUserFollowers(userId: string) {
+  const session = await auth()
+  const currentUserId = session?.user?.id
+
+  const followers = await prisma.follow.findMany({
+    where: { followingId: userId },
+    include: {
+      follower: {
+        select: {
+          id: true,
+          name: true,
+          avatar_url: true,
+          image: true,
+          role: true,
+          created_at: true,
+        }
+      }
+    }
+  })
+
+  const mapped = await Promise.all(followers.map(async (f) => {
+    let isFollowing = false
+    if (currentUserId) {
+      const follow = await prisma.follow.findUnique({
+        where: {
+          followerId_followingId: {
+            followerId: currentUserId,
+            followingId: f.followerId
+          }
+        }
+      })
+      isFollowing = !!follow
+    }
+    return {
+      id: f.follower.id,
+      name: f.follower.name || "Recreador",
+      avatar: f.follower.avatar_url || f.follower.image || undefined,
+      role: f.follower.role || "Trainee",
+      created_at: f.follower.created_at,
+      isFollowing
+    }
+  }))
+
+  return mapped
+}
+
+export async function getUserFollowing(userId: string) {
+  const session = await auth()
+  const currentUserId = session?.user?.id
+
+  const following = await prisma.follow.findMany({
+    where: { followerId: userId },
+    include: {
+      following: {
+        select: {
+          id: true,
+          name: true,
+          avatar_url: true,
+          image: true,
+          role: true,
+          created_at: true,
+        }
+      }
+    }
+  })
+
+  const mapped = await Promise.all(following.map(async (f) => {
+    let isFollowing = false
+    if (currentUserId) {
+      const follow = await prisma.follow.findUnique({
+        where: {
+          followerId_followingId: {
+            followerId: currentUserId,
+            followingId: f.followingId
+          }
+        }
+      })
+      isFollowing = !!follow
+    }
+    return {
+      id: f.following.id,
+      name: f.following.name || "Recreador",
+      avatar: f.following.avatar_url || f.following.image || undefined,
+      role: f.following.role || "Trainee",
+      created_at: f.following.created_at,
+      isFollowing
+    }
+  }))
+
+  return mapped
 }
 
 // ---------------------------------------------------------------------------

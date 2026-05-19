@@ -21,6 +21,7 @@ import { UserAvatar } from "@/components/ui/UserAvatar"
 import { RoleBadge } from "@/components/shared/RoleBadge"
 import { getAchievements } from "@/lib/achievements"
 import { AchievementsSection } from "@/components/shared/AchievementsSection"
+import { FollowListModal } from "@/components/shared/FollowListModal"
 
 interface SettingItem {
   icon: any;
@@ -33,6 +34,7 @@ export default function Perfil() {
   const { data: session } = useSession()
   const [profileData, setProfileData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [followModal, setFollowModal] = useState<{ isOpen: boolean; type: "followers" | "following" }>({ isOpen: false, type: "followers" })
 
   useEffect(() => {
     if (session?.user?.id) {
@@ -116,30 +118,36 @@ export default function Perfil() {
               <UserAvatar
                 src={profileData?.avatar_url || profileData?.image || undefined}
                 name={profileData?.name || "Usuário"}
-                className="h-12 w-12 border border-border/50 shrink-0"
+                className="h-14 w-14 border border-border/50 shrink-0"
               />
               <div className="flex flex-col text-left">
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="text-[17px] font-extrabold text-foreground leading-tight">
+                  <span className="text-[22px] font-black text-foreground leading-tight">
                     {profileData?.name || "Usuário"}
                   </span>
                   <RoleBadge role={profileData?.role} />
                 </div>
-                <span className="text-[12px] font-medium text-muted-foreground mt-0.5">
+                <span className="text-[13px] font-bold text-muted-foreground mt-0.5">
                   {profileData?.created_at ? `Entrou ${new Date(profileData.created_at).toLocaleDateString('pt-BR')}` : ""}
                 </span>
                 
                 {/* Followers/Following Info */}
-                <div className="flex items-center gap-3 mt-1.5 text-[12px] font-bold text-foreground">
-                  <div>
-                    <span className="text-foreground">{profileData?.stats?.followers || 0}</span>{" "}
-                    <span className="text-muted-foreground font-medium">seguidores</span>
-                  </div>
+                <div className="flex items-center gap-3 mt-1.5 text-[14px] font-bold text-foreground">
+                  <button 
+                    onClick={() => setFollowModal({ isOpen: true, type: "followers" })}
+                    className="hover:underline text-left active:scale-[0.98] transition-transform"
+                  >
+                    <span className="text-foreground font-black">{profileData?.stats?.followers || 0}</span>{" "}
+                    <span className="text-muted-foreground font-semibold">seguidores</span>
+                  </button>
                   <div className="h-3 w-[1px] bg-border" />
-                  <div>
-                    <span className="text-foreground">{profileData?.stats?.following || 0}</span>{" "}
-                    <span className="text-muted-foreground font-medium">seguindo</span>
-                  </div>
+                  <button 
+                    onClick={() => setFollowModal({ isOpen: true, type: "following" })}
+                    className="hover:underline text-left active:scale-[0.98] transition-transform"
+                  >
+                    <span className="text-foreground font-black">{profileData?.stats?.following || 0}</span>{" "}
+                    <span className="text-muted-foreground font-semibold">seguindo</span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -197,8 +205,9 @@ export default function Perfil() {
         <div className="mb-10">
           <AchievementsSection 
             achievements={getAchievements(
-              profileData?.stats?.contributions || 0,
-              profileData?.stats?.likesReceived || 0
+              profileData?.brincadeiras || [],
+              profileData?.stats?.likesReceived || 0,
+              profileData?.created_at
             )}
             title="Minhas Conquistas"
           />
@@ -265,6 +274,18 @@ export default function Perfil() {
           ))}
         </div>
       </main>
+
+      <FollowListModal
+        isOpen={followModal.isOpen}
+        onClose={() => setFollowModal(prev => ({ ...prev, isOpen: false }))}
+        userId={profileData?.id || ""}
+        type={followModal.type}
+        currentUserId={profileData?.id || undefined}
+        onUpdate={async () => {
+          // Refresh user profile data on follow updates
+          getProfile().then(data => setProfileData(data))
+        }}
+      />
     </div>
   )
 }
