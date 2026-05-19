@@ -153,6 +153,7 @@ export async function getPublicProfile(userId: string) {
     select: {
       id: true,
       name: true,
+      email: true,
       image: true,
       avatar_url: true,
       bio: true,
@@ -170,7 +171,7 @@ export async function getPublicProfile(userId: string) {
     },
   })
 
-  if (!user) return null
+  if (!user || user.email === "equipe@behappy.com") return null
 
   // Get their brincadeiras
   const brincadeirasData = await prisma.brincadeira.findMany({
@@ -1166,7 +1167,8 @@ export async function searchRecreadores(query: string) {
 
   const users = await prisma.user.findMany({
     where: {
-      name: { contains: query, mode: 'insensitive' }
+      name: { contains: query, mode: 'insensitive' },
+      email: { not: "equipe@behappy.com" }
     },
     select: {
       id: true,
@@ -1201,12 +1203,16 @@ export async function getUserFollowers(userId: string) {
   const currentUserId = session?.user?.id
 
   const followers = await prisma.follow.findMany({
-    where: { followingId: userId },
+    where: { 
+      followingId: userId,
+      follower: { email: { not: "equipe@behappy.com" } }
+    },
     include: {
       follower: {
         select: {
           id: true,
           name: true,
+          email: true,
           avatar_url: true,
           image: true,
           role: true,
@@ -1247,12 +1253,16 @@ export async function getUserFollowing(userId: string) {
   const currentUserId = session?.user?.id
 
   const following = await prisma.follow.findMany({
-    where: { followerId: userId },
+    where: { 
+      followerId: userId,
+      following: { email: { not: "equipe@behappy.com" } }
+    },
     include: {
       following: {
         select: {
           id: true,
           name: true,
+          email: true,
           avatar_url: true,
           image: true,
           role: true,

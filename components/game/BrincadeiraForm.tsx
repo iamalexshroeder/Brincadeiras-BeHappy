@@ -8,6 +8,17 @@ import { createBrincadeira, updateBrincadeira, deleteBrincadeira, revalidateAll 
 import Link from "next/link"
 
 const CATEGORIES = ["Físico", "Musical", "Criativo", "Educativo", "Cooperação"]
+const OFFICIAL_COLLECTIONS = [
+  "Pequenos Aprendizes",
+  "Psicomotricidade",
+  "Roda & Música",
+  "Pega-Pega",
+  "Jogos com Bola",
+  "Desafios & Cooperação",
+  "Lúdicos & Sensoriais",
+  "Colônia de Férias 2026"
+]
+
 const AGE_LABELS: Record<string, string> = {
   "AGE_3_5": "3-5 anos",
   "AGE_6_9": "6-9 anos",
@@ -20,6 +31,17 @@ const CAT_COLORS: Record<string, string> = {
   "Criativo": "bg-pink-500 border-pink-500 text-white",
   "Educativo": "bg-teal-500 border-teal-500 text-white",
   "Cooperação": "bg-purple-500 border-purple-500 text-white",
+}
+
+const COLLECTION_COLORS: Record<string, string> = {
+  "Pequenos Aprendizes": "bg-yellow-500 border-yellow-500 text-white",
+  "Psicomotricidade": "bg-emerald-500 border-emerald-500 text-white",
+  "Roda & Música": "bg-sky-500 border-sky-500 text-white",
+  "Pega-Pega": "bg-red-500 border-red-500 text-white",
+  "Jogos com Bola": "bg-orange-500 border-orange-500 text-white",
+  "Desafios & Cooperação": "bg-indigo-500 border-indigo-500 text-white",
+  "Lúdicos & Sensoriais": "bg-pink-500 border-pink-500 text-white",
+  "Colônia de Férias 2026": "bg-amber-600 border-amber-600 text-white",
 }
 
 const AGE_COLORS: Record<string, string> = {
@@ -55,7 +77,14 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
   // Form State
   const [title, setTitle] = useState(initialData?.title || "")
   const [description, setDescription] = useState(initialData?.description || initialData?.short_description || "")
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(initialData?.tags || [])
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
+    const initialTags = initialData?.tags || []
+    return initialTags.filter((t: string) => !OFFICIAL_COLLECTIONS.includes(t))
+  })
+  const [selectedCollections, setSelectedCollections] = useState<string[]>(() => {
+    const initialTags = initialData?.tags || []
+    return initialTags.filter((t: string) => OFFICIAL_COLLECTIONS.includes(t))
+  })
   
   const [ageGroups, setAgeGroups] = useState<string[]>(initialData?.rawAgeGroups || initialData?.age_groups || ["AGE_6_9"])
   const [duration, setDuration] = useState(initialData?.rawDuration?.toString() || initialData?.duration_minutes?.toString() || "")
@@ -160,7 +189,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
         min_participants: participantsNum,
         duration_minutes: durationNum,
         animator_level: "MEDIO",
-        tags: selectedCategories
+        tags: [...selectedCategories, ...selectedCollections]
       }
 
       if (mode === "CREATE") {
@@ -312,6 +341,45 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
               </button>
             </div>
           )}
+        </div>
+
+        {/* Coleções da Biblioteca BeHappy */}
+        <div className="p-4 bg-gradient-to-br from-[#FF9500]/[0.02] to-amber-500/[0.05] border border-primary/10 rounded-[18px]">
+          <div className="flex flex-col gap-1 mb-3.5">
+            <label className="section-label block">Coleções da Biblioteca (Conquistas)</label>
+            <p className="text-[11px] text-muted-foreground font-semibold leading-relaxed">
+              Vincule esta brincadeira a uma ou mais coleções oficiais BeHappy para ajudar a progredir e desbloquear badges de conquistas.
+            </p>
+          </div>
+          
+          <div className="flex flex-wrap gap-2">
+            {OFFICIAL_COLLECTIONS.map(col => {
+              const isSelected = selectedCollections.includes(col)
+              const colorClass = COLLECTION_COLORS[col] || "bg-primary border-primary text-white"
+              return (
+                <button
+                  key={col}
+                  type="button"
+                  onClick={() => {
+                    if (mode === "VIEW") return
+                    if (isSelected) {
+                      setSelectedCollections(selectedCollections.filter(c => c !== col))
+                    } else {
+                      setSelectedCollections([...selectedCollections, col])
+                    }
+                  }}
+                  className={cn(
+                    "h-9 px-4 rounded-full text-[13px] font-bold border-2 transition-all active:scale-95",
+                    isSelected ? colorClass : "bg-[#F2F2F7] text-[#8E8E93] border-transparent",
+                    mode === "VIEW" && !isSelected && "hidden",
+                    mode === "VIEW" && "pointer-events-none"
+                  )}
+                >
+                  {col}
+                </button>
+              )
+            })}
+          </div>
         </div>
 
         {/* Faixa Etária */}

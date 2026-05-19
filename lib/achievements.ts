@@ -38,9 +38,15 @@ function matchesAge(b: any, ageGroups: string[]): boolean {
 
 // ─── Collection matchers based on the BeHappy biblioteca ────────────────────
 
+function hasCollectionTag(b: any, tag: string): boolean {
+  const tags: string[] = Array.isArray(b.tags) ? b.tags.map((t: any) => String(t).toLowerCase()) : []
+  return tags.includes(tag.toLowerCase())
+}
+
 /** Pequenos Aprendizes — brincadeiras para crianças de 3-5 anos */
 function isPequenos(b: any): boolean {
   return (
+    hasCollectionTag(b, "Pequenos Aprendizes") ||
     matchesAge(b, ["AGE_3_5"]) ||
     matchesKeywords(b, [
       "3 anos",
@@ -64,32 +70,36 @@ function isPequenos(b: any): boolean {
 
 /** Psicomotricidade & Equilíbrio — coordenação, motor, corpo, lateralidade */
 function isPsicomotricidade(b: any): boolean {
-  return matchesKeywords(b, [
-    "psicomotricidade",
-    "equilíbrio",
-    "equilibrio",
-    "lateralidade",
-    "coordenação",
-    "coordenacao",
-    "motor",
-    "circuito",
-    "corpo",
-    "pular",
-    "saltar",
-    "girar",
-    "postura",
-    "agilidade",
-    "estátua",
-    "estatua",
-    "congelado",
-    "bambolê",
-    "bambolê",
-  ])
+  return (
+    hasCollectionTag(b, "Psicomotricidade") ||
+    matchesKeywords(b, [
+      "psicomotricidade",
+      "equilíbrio",
+      "equilibrio",
+      "lateralidade",
+      "coordenação",
+      "coordenacao",
+      "motor",
+      "circuito",
+      "corpo",
+      "pular",
+      "saltar",
+      "girar",
+      "postura",
+      "agilidade",
+      "estátua",
+      "estatua",
+      "congelado",
+      "bambolê",
+      "bambolê",
+    ])
+  )
 }
 
 /** Jogos de Roda & Música — rodas, cantigas, ritmo, dança */
 function isRodaMusica(b: any): boolean {
   return (
+    hasCollectionTag(b, "Roda & Música") ||
     matchesType(b, "MUSICAL") ||
     matchesKeywords(b, [
       "roda",
@@ -113,55 +123,62 @@ function isRodaMusica(b: any): boolean {
 
 /** Pega-Pega & Agilidade — corrida, perseguição, reflexo rápido */
 function isPegaPega(b: any): boolean {
-  return matchesKeywords(b, [
-    "pega-pega",
-    "pega pega",
-    "pique",
-    "pegador",
-    "corrida",
-    "correr",
-    "fugir",
-    "perseguição",
-    "perseguicao",
-    "velocidade",
-    "reflexo",
-    "rua e avenida",
-    "polícia",
-    "policia",
-    "ladrão",
-    "ladrao",
-    "sardinha",
-    "arranca rabo",
-    "congelado",
-    "nunca 3",
-  ])
+  return (
+    hasCollectionTag(b, "Pega-Pega") ||
+    matchesKeywords(b, [
+      "pega-pega",
+      "pega pega",
+      "pique",
+      "pegador",
+      "corrida",
+      "correr",
+      "fugir",
+      "perseguição",
+      "perseguicao",
+      "velocidade",
+      "reflexo",
+      "rua e avenida",
+      "polícia",
+      "policia",
+      "ladrão",
+      "ladrao",
+      "sardinha",
+      "arranca rabo",
+      "congelado",
+      "nunca 3",
+    ])
+  )
 }
 
 /** Jogos com Bola — queimada, vôlei, futebol, basquete */
 function isJogosBola(b: any): boolean {
-  return matchesKeywords(b, [
-    "bola",
-    "queimada",
-    "vôlei",
-    "volei",
-    "futebol",
-    "basquete",
-    "arremesso",
-    "chute",
-    "gol",
-    "bombardeio",
-    "artilharia",
-    "hand-fut",
-    "base sete",
-    "alerta",
-    "passa bola",
-    "jogo com bola",
-  ])
+  return (
+    hasCollectionTag(b, "Jogos com Bola") ||
+    matchesKeywords(b, [
+      "bola",
+      "queimada",
+      "vôlei",
+      "volei",
+      "futebol",
+      "basquete",
+      "arremesso",
+      "chute",
+      "gol",
+      "bombardeio",
+      "artilharia",
+      "hand-fut",
+      "base sete",
+      "alerta",
+      "passa bola",
+      "jogo com bola",
+    ])
+  )
 }
 
 /** Desafios & Cooperação — equipe, estratégia, cooperativo, grupo */
 function isEquipe(b: any): boolean {
   return (
+    hasCollectionTag(b, "Desafios & Cooperação") ||
     matchesType(b, "COOPERATIVA") ||
     matchesKeywords(b, [
       "cooperação",
@@ -187,31 +204,36 @@ function isEquipe(b: any): boolean {
 
 /** Lúdicos & Sensoriais — sentidos, memória, criatividade, olhos vendados */
 function isLudicoSensorial(b: any): boolean {
-  return matchesKeywords(b, [
-    "sensorial",
-    "lúdico",
-    "ludico",
-    "memória",
-    "memoria",
-    "sentidos",
-    "tato",
-    "olfato",
-    "olhos vendados",
-    "percepção",
-    "percepcao",
-    "caixa",
-    "sensação",
-    "sensacao",
-    "campo minado",
-    "genius",
-    "salada",
-    "mistério",
-    "misterio",
-  ])
+  return (
+    hasCollectionTag(b, "Lúdicos & Sensoriais") ||
+    matchesKeywords(b, [
+      "sensorial",
+      "lúdico",
+      "ludico",
+      "memória",
+      "memoria",
+      "sentidos",
+      "tato",
+      "olfato",
+      "olhos vendados",
+      "percepção",
+      "percepcao",
+      "caixa",
+      "sensação",
+      "sensacao",
+      "campo minado",
+      "genius",
+      "salada",
+      "mistério",
+      "misterio",
+    ])
+  )
 }
 
 /** Colônia de Férias 2026 */
 function isColoniaFerias2026(b: any): boolean {
+  if (hasCollectionTag(b, "Colônia de Férias 2026")) return true
+
   const text = [
     b.title || "",
     b.description || b.short_description || "",

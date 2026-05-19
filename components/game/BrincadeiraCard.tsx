@@ -181,7 +181,7 @@ export function BrincadeiraCard({
             
             {/* Header Section */}
             <div className="flex items-start justify-between gap-4">
-              {creator.id !== "system" ? (
+              {creator.id !== "system" && creator.name !== "BeHappyinha" ? (
                 <Link href={`/recreador/${creator.id}`} className="flex items-center gap-3 hover:opacity-85 transition-opacity">
                   <UserAvatar 
                     src={creator.avatar} 
