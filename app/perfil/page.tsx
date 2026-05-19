@@ -109,16 +109,16 @@ export default function Perfil() {
       <main className="pb-32 pt-2">
         {/* Profile Card Section */}
         <div className="px-5 mb-8">
-          <Card className="p-4 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-card flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
+          <Card className="p-4 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-card flex items-start justify-between gap-4">
+            <div className="flex items-start gap-3">
               <UserAvatar
                 src={profileData?.avatar_url || profileData?.image || undefined}
                 name={profileData?.name || "Usuário"}
-                className="h-9 w-9 border border-border/50"
+                className="h-10 w-10 border border-border/50 shrink-0"
               />
               <div className="flex flex-col text-left">
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="text-[14px] font-bold text-foreground leading-tight">
+                  <span className="text-[15px] font-bold text-foreground leading-tight">
                     {profileData?.name || "Usuário"}
                   </span>
                   <RoleBadge role={profileData?.role} />
@@ -128,7 +128,7 @@ export default function Perfil() {
                 </span>
                 
                 {/* Followers/Following Info */}
-                <div className="flex items-center gap-3 mt-1 text-[11px] font-bold text-foreground">
+                <div className="flex items-center gap-3 mt-1.5 text-[11px] font-bold text-foreground">
                   <div>
                     <span className="text-foreground">{profileData?.stats?.followers || 0}</span>{" "}
                     <span className="text-muted-foreground font-medium">seguidores</span>
@@ -144,7 +144,7 @@ export default function Perfil() {
             
             <Link 
               href="/perfil/editar" 
-              className="px-3.5 py-1.5 border border-border rounded-full text-[12px] font-extrabold text-foreground bg-card hover:bg-gray-50 active:scale-95 transition-all shrink-0"
+              className="px-3.5 py-1.5 border border-border rounded-full text-[12px] font-extrabold text-foreground bg-card hover:bg-gray-50 active:scale-95 transition-all shrink-0 mt-0.5"
             >
               Editar Perfil
             </Link>
