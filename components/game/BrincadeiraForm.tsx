@@ -200,7 +200,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
               value={title}
               onChange={e => setTitle(e.target.value)}
               placeholder="Ex: Dança das Cadeiras Musical"
-              className={cn("input-base font-bold", mode === "VIEW" && "bg-transparent border-none px-0 shadow-none text-[20px] h-auto")}
+              className={mode === "VIEW" ? "font-bold bg-transparent border-none px-0 shadow-none text-[20px] h-auto w-full outline-none" : "input-base font-bold"}
               readOnly={mode === "VIEW"}
             />
           </div>
@@ -318,7 +318,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
               value={duration}
               onChange={e => setDuration(e.target.value)}
               placeholder="Ex: 30"
-              className={cn("input-base", mode === "VIEW" && "bg-transparent border-none px-0 shadow-none pointer-events-none text-[18px]")}
+              className={mode === "VIEW" ? "bg-transparent border-none px-0 shadow-none pointer-events-none text-[18px] w-full outline-none" : "input-base"}
               readOnly={mode === "VIEW"}
               required
             />
@@ -332,7 +332,7 @@ export default function BrincadeiraForm({ initialData, mode, id, isOwner = false
               value={participants}
               onChange={e => setParticipants(e.target.value)}
               placeholder="Ex: 5"
-              className={cn("input-base", mode === "VIEW" && "bg-transparent border-none px-0 shadow-none pointer-events-none text-[18px]")}
+              className={mode === "VIEW" ? "bg-transparent border-none px-0 shadow-none pointer-events-none text-[18px] w-full outline-none" : "input-base"}
               readOnly={mode === "VIEW"}
               required
             />
