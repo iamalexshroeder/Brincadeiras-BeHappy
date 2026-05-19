@@ -255,11 +255,11 @@ export function BrincadeiraCard({
 
 {isDetailOpen && (
         <div 
-          className="fixed inset-x-0 top-0 bottom-[calc(64px+env(safe-area-inset-bottom))] md:bottom-0 z-[45] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 overscroll-contain animate-in fade-in duration-200"
+          className="fixed inset-0 z-[45] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 overscroll-contain animate-in fade-in duration-200"
           onClick={() => setIsDetailOpen(false)}
         >
           <div 
-            className="relative w-full max-h-[85dvh] sm:max-h-[85vh] sm:max-w-lg bg-card border-t sm:border border-border/80 rounded-t-[28px] sm:rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300"
+            className="relative w-full max-h-[70dvh] sm:max-h-[80vh] sm:max-w-lg bg-card border-t sm:border border-border/80 rounded-t-[28px] sm:rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300 mb-[calc(64px+env(safe-area-inset-bottom))] md:mb-0"
             onClick={(e) => e.stopPropagation()}
           >
             
