@@ -262,11 +262,11 @@ export function BrincadeiraCard({
       {/* Detail Modal */}
       {isDetailOpen && (
         <div 
-          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 animate-in fade-in duration-200 overscroll-contain"
+          className="fixed inset-x-0 top-0 bottom-[calc(64px+env(safe-area-inset-bottom))] sm:bottom-0 z-40 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 overscroll-contain animate-in fade-in duration-200"
           onClick={() => setIsDetailOpen(false)}
         >
           <div 
-            className="relative w-full max-h-[90dvh] sm:max-h-[85vh] sm:max-w-lg bg-card border-t sm:border border-border/80 rounded-t-[28px] sm:rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300"
+            className="relative w-full max-h-[calc(100dvh-64px-env(safe-area-inset-bottom))] sm:max-h-[85vh] sm:max-w-lg bg-card border-t sm:border border-border/80 rounded-t-[28px] sm:rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Top Drag Handle for mobile */}
@@ -410,7 +410,7 @@ export function BrincadeiraCard({
             </div>
 
             {/* Modal Actions Footer */}
-            <div className="p-4 pb-[calc(16px+env(safe-area-inset-bottom))] border-t border-border bg-card flex items-center justify-between shrink-0">
+            <div className="p-4 border-t border-border bg-card flex items-center justify-between shrink-0">
               <div className="flex items-center gap-4">
                 <button 
                   onClick={(e) => {
