@@ -198,6 +198,10 @@ export async function getPublicProfile(userId: string) {
     userIsFollowing = !!follow
   }
 
+  const likesReceivedCount = await prisma.interaction.count({
+    where: { brincadeira: { user_id: userId }, type: "LIKE" }
+  })
+
   return {
     ...user,
     avatar: user.avatar_url ?? user.image,
@@ -206,6 +210,7 @@ export async function getPublicProfile(userId: string) {
     followersCount: user._count.followers,
     followingCount: user._count.following,
     userIsFollowing,
+    likesReceivedCount,
   }
 }
 

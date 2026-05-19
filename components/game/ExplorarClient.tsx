@@ -45,16 +45,16 @@ function RecreadorSearchCard({ r, currentUserId }: { r: any; currentUserId?: str
           <UserAvatar
             src={r.avatar}
             name={r.name}
-            className="h-10 w-10 border border-border/50 shrink-0"
+            className="h-12 w-12 border border-border/50 shrink-0"
           />
           <div className="flex flex-col text-left">
             <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="text-[15px] font-bold text-foreground leading-tight">
+              <span className="text-[17px] font-extrabold text-foreground leading-tight">
                 {r.name}
               </span>
               <RoleBadge role={r.role} />
             </div>
-            <span className="text-[11px] font-medium text-muted-foreground mt-0.5">
+            <span className="text-[12px] font-medium text-muted-foreground mt-0.5">
               {r.created_at ? `Entrou ${new Date(r.created_at).toLocaleDateString('pt-BR')}` : ""}
             </span>
           </div>

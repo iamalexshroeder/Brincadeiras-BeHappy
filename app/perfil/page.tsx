@@ -19,6 +19,8 @@ import { useEffect, useState } from "react"
 import { getProfile } from "@/lib/actions"
 import { UserAvatar } from "@/components/ui/UserAvatar"
 import { RoleBadge } from "@/components/shared/RoleBadge"
+import { getAchievements } from "@/lib/achievements"
+import { AchievementsSection } from "@/components/shared/AchievementsSection"
 
 interface SettingItem {
   icon: any;
@@ -114,21 +116,21 @@ export default function Perfil() {
               <UserAvatar
                 src={profileData?.avatar_url || profileData?.image || undefined}
                 name={profileData?.name || "Usuário"}
-                className="h-10 w-10 border border-border/50 shrink-0"
+                className="h-12 w-12 border border-border/50 shrink-0"
               />
               <div className="flex flex-col text-left">
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="text-[15px] font-bold text-foreground leading-tight">
+                  <span className="text-[17px] font-extrabold text-foreground leading-tight">
                     {profileData?.name || "Usuário"}
                   </span>
                   <RoleBadge role={profileData?.role} />
                 </div>
-                <span className="text-[11px] font-medium text-muted-foreground mt-0.5">
+                <span className="text-[12px] font-medium text-muted-foreground mt-0.5">
                   {profileData?.created_at ? `Entrou ${new Date(profileData.created_at).toLocaleDateString('pt-BR')}` : ""}
                 </span>
                 
                 {/* Followers/Following Info */}
-                <div className="flex items-center gap-3 mt-1.5 text-[11px] font-bold text-foreground">
+                <div className="flex items-center gap-3 mt-1.5 text-[12px] font-bold text-foreground">
                   <div>
                     <span className="text-foreground">{profileData?.stats?.followers || 0}</span>{" "}
                     <span className="text-muted-foreground font-medium">seguidores</span>
@@ -190,6 +192,17 @@ export default function Perfil() {
             })}
           </div>
         </section>
+
+        {/* Achievements Section */}
+        <div className="mb-10">
+          <AchievementsSection 
+            achievements={getAchievements(
+              profileData?.stats?.contributions || 0,
+              profileData?.stats?.likesReceived || 0
+            )}
+            title="Minhas Conquistas"
+          />
+        </div>
 
         {/* Settings Section */}
         <div className="px-5 space-y-10">
