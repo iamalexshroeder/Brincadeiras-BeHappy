@@ -262,11 +262,11 @@ export function BrincadeiraCard({
       {/* Detail Modal */}
       {isDetailOpen && (
         <div 
-          className="fixed inset-x-0 top-0 bottom-[calc(64px+env(safe-area-inset-bottom))] sm:bottom-0 z-[60] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 overscroll-contain animate-in fade-in duration-200"
+          className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4 overscroll-contain animate-in fade-in duration-200"
           onClick={() => setIsDetailOpen(false)}
         >
           <div 
-            className="relative w-full max-h-[calc(100dvh-64px-env(safe-area-inset-bottom))] sm:max-h-[85vh] sm:max-w-lg bg-card border-t sm:border border-border/80 rounded-t-[28px] sm:rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300"
+            className="relative w-full max-h-[85dvh] sm:max-h-[85vh] sm:max-w-lg bg-card border-t sm:border border-border/80 rounded-t-[28px] sm:rounded-[24px] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Top Drag Handle for mobile */}
@@ -281,7 +281,7 @@ export function BrincadeiraCard({
             </button>
 
             {/* Scrollable Container */}
-            <div className="overflow-y-auto px-6 pb-12 pt-2 sm:pt-6 space-y-8 flex-1 no-scrollbar overscroll-y-contain">
+            <div className="overflow-y-auto px-6 pb-24 pt-2 sm:pt-6 space-y-8 flex-1 no-scrollbar overscroll-y-contain">
               {/* Creator Info Header */}
               <div className="flex items-center justify-between">
                 {creator.id !== "system" && creator.name !== "BeHappyinha" ? (
@@ -409,30 +409,30 @@ export function BrincadeiraCard({
               )}
             </div>
 
-            {/* Modal Actions Footer */}
-            <div className="p-4 border-t border-border bg-card flex items-center justify-between shrink-0">
-              <div className="flex items-center gap-4">
+            {/* Floating Action Buttons */}
+            <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between pointer-events-none z-20">
+              <div className="pointer-events-auto">
                 <button 
                   onClick={(e) => {
                     e.stopPropagation()
                     handleLike(e)
                   }}
                   className={cn(
-                    "flex items-center gap-1.5 transition-colors",
+                    "flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-white/95 backdrop-blur-md border border-border/80 shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-all hover:scale-105 active:scale-95",
                     isLiked ? "text-red-500" : "text-muted-foreground hover:text-red-500"
                   )}
                 >
-                  {isLiked ? <RiHeartFill size={22} /> : <RiHeartLine size={22} />}
-                  <span className="text-[14px] font-extrabold">{localLikes}</span>
+                  {isLiked ? <RiHeartFill size={20} className="scale-110" /> : <RiHeartLine size={20} />}
+                  <span className="text-[13px] font-black">{localLikes}</span>
                 </button>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 pointer-events-auto">
                 {isOwner && (
                   <Link 
                     href={`/editar/${id}`} 
                     onClick={() => setIsDetailOpen(false)}
-                    className="px-4 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 text-[12px] font-extrabold hover:bg-primary/15 transition-all active:scale-95 shrink-0"
+                    className="px-4 py-2 bg-primary text-white border border-primary text-[12px] font-extrabold shadow-[0_4px_16px_rgba(255,149,0,0.15)] hover:bg-primary/95 transition-all active:scale-95 shrink-0 rounded-full"
                   >
                     Editar
                   </Link>
@@ -443,11 +443,11 @@ export function BrincadeiraCard({
                     handleSave(e)
                   }}
                   className={cn(
-                    "flex items-center gap-1.5 transition-colors p-1.5 rounded-full hover:bg-muted",
+                    "flex items-center justify-center h-10 w-10 rounded-full bg-white/95 backdrop-blur-md border border-border/80 shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-all hover:scale-105 active:scale-95",
                     isSaved ? "text-primary" : "text-muted-foreground hover:text-primary"
                   )}
                 >
-                  {isSaved ? <RiBookmarkFill size={22} /> : <RiBookmarkLine size={22} />}
+                  {isSaved ? <RiBookmarkFill size={20} /> : <RiBookmarkLine size={20} />}
                 </button>
               </div>
             </div>
