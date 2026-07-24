@@ -899,18 +899,20 @@ export async function updateProfile(data: { name?: string, avatar_url?: string, 
   return { success: true }
 }
 
-export async function searchRecreadores(query: string) {
+export async function searchRecreadores(query: string, skip: number = 0, take: number = 20) {
   unstable_noStore()
   const session = await auth()
   const currentUserId = session?.user?.id
 
-  if (!query || !query.trim()) return []
+  const where = query && query.trim() ? {
+    name: { contains: query.trim(), mode: 'insensitive' as const },
+    email: { not: "equipe@behappy.com" }
+  } : {
+    email: { not: "equipe@behappy.com" }
+  }
 
   const users = await prisma.user.findMany({
-    where: {
-      name: { contains: query, mode: 'insensitive' },
-      email: { not: "equipe@behappy.com" }
-    },
+    where,
     select: {
       id: true,
       name: true,
@@ -926,7 +928,9 @@ export async function searchRecreadores(query: string) {
           }
         : undefined
     },
-    take: 20
+    orderBy: { created_at: 'desc' },
+    skip,
+    take
   })
 
   return users.map(u => ({

@@ -1,4 +1,4 @@
-﻿import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 export function RoleBadge({ role, className }: { role?: string | null; className?: string }) {
   if (!role) return null
@@ -18,7 +18,7 @@ export function RoleBadge({ role, className }: { role?: string | null; className
     styles = "text-[#8E8E93] bg-[#8E8E93]/10 border-[#8E8E93]/20"
     label = "Level Up"
   } else if (normalized === "TRAINEE") {
-    styles = "text-[#AF52DE] bg-[#AF52DE]/10 border-[#AF52DE]/20"
+    styles = "text-[#5AC8FA] bg-[#5AC8FA]/10 border-[#5AC8FA]/20"
     label = "Trainee"
   } else {
     return null
@@ -26,7 +26,7 @@ export function RoleBadge({ role, className }: { role?: string | null; className
 
   return (
     <span className={cn(
-      "inline-flex items-center justify-center px-1.5 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wide border border-solid select-none align-middle",
+      "inline-flex items-center justify-center px-1.5 py-0.5 rounded-md text-[9px] font-extrabold tracking-wide border border-solid select-none align-middle",
       styles,
       className
     )}>
@@ -34,3 +34,4 @@ export function RoleBadge({ role, className }: { role?: string | null; className
     </span>
   )
 }
+

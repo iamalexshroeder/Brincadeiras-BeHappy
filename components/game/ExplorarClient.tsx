@@ -89,6 +89,9 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
   const [activeTab, setActiveTab] = useState<"brincadeiras" | "monitores">("brincadeiras")
   const [results, setResults] = useState<any[]>([])
   const [recreadores, setRecreadores] = useState<any[]>([])
+  const [page, setPage] = useState(0)
+  const [hasMore, setHasMore] = useState(true)
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [isPending, startTransition] = useTransition()
   const debounceRef = useRef<NodeJS.Timeout | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -96,7 +99,17 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
   useEffect(() => {
     if (!query.trim()) {
       setResults([])
-      setRecreadores([])
+      if (activeTab === "brincadeiras") {
+        setRecreadores([])
+      } else {
+        // If on monitores tab and query is cleared, reload all monitors
+        startTransition(async () => {
+          setPage(0)
+          const foundRecreadores = await searchRecreadores("", 0, 20)
+          setRecreadores(foundRecreadores)
+          setHasMore(foundRecreadores.length === 20)
+        })
+      }
       return
     }
 
@@ -133,8 +146,10 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
         
         setResults([...formattedSystemItems, ...dbItems])
 
-        const foundRecreadores = await searchRecreadores(queryText)
+        setPage(0)
+        const foundRecreadores = await searchRecreadores(queryText, 0, 20)
         setRecreadores(foundRecreadores)
+        setHasMore(foundRecreadores.length === 20)
       })
     }, 200)
 
@@ -149,14 +164,35 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
   useEffect(() => {
     if (activeTab === "monitores" && !isSearching) {
       startTransition(async () => {
-        const foundRecreadores = await searchRecreadores("")
+        setPage(0)
+        const foundRecreadores = await searchRecreadores("", 0, 20)
         setRecreadores(foundRecreadores)
+        setHasMore(foundRecreadores.length === 20)
       })
     }
     if (activeTab === "brincadeiras") {
       setRecreadores([])
     }
   }, [activeTab])
+
+  const handleLoadMore = async () => {
+    if (isLoadingMore || !hasMore) return
+    setIsLoadingMore(true)
+    try {
+      const nextPage = page + 1
+      const queryText = query.trim()
+      const moreRecreadores = await searchRecreadores(queryText, nextPage * 20, 20)
+      if (moreRecreadores.length > 0) {
+        setRecreadores(prev => [...prev, ...moreRecreadores])
+        setPage(nextPage)
+      }
+      if (moreRecreadores.length < 20) {
+        setHasMore(false)
+      }
+    } finally {
+      setIsLoadingMore(false)
+    }
+  }
 
   return (
     <>
@@ -262,6 +298,22 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
                     currentUserId={currentUserId}
                   />
                 ))}
+                
+                {hasMore && (
+                  <div className="pt-4 pb-8 flex justify-center">
+                    <button
+                      onClick={handleLoadMore}
+                      disabled={isLoadingMore}
+                      className="px-6 py-2.5 rounded-full bg-white border border-border text-[14px] font-bold text-foreground shadow-sm active:scale-95 transition-all flex items-center justify-center min-w-[140px] hover:bg-gray-50 disabled:opacity-70 disabled:active:scale-100"
+                    >
+                      {isLoadingMore ? (
+                        <RiLoader4Line size={20} className="animate-spin text-primary" />
+                      ) : (
+                        "Mostrar mais"
+                      )}
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>
