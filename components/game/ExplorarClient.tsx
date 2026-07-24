@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState, useEffect, useRef, useTransition } from "react"
 import { RiSearchLine, RiLoader4Line, RiCloseLine, RiUserLine, RiGameLine } from "@remixicon/react"
@@ -145,6 +145,19 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
 
   const isSearching = query.trim().length > 0
 
+  // Load all monitors when tab switches to "monitores" with no query
+  useEffect(() => {
+    if (activeTab === "monitores" && !isSearching) {
+      startTransition(async () => {
+        const foundRecreadores = await searchRecreadores("")
+        setRecreadores(foundRecreadores)
+      })
+    }
+    if (activeTab === "brincadeiras") {
+      setRecreadores([])
+    }
+  }, [activeTab])
+
   return (
     <>
       
@@ -183,8 +196,7 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
           </div>
         </div>
 
-{isSearching && (
-          <div className="mt-3 flex bg-[#F2F2F7] p-1 rounded-[10px] w-full relative">
+        <div className="mt-3 flex bg-[#F2F2F7] p-1 rounded-[10px] w-full relative">
             <button
               onClick={() => setActiveTab("brincadeiras")}
               className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-[8px] text-[13px] font-extrabold transition-all ${
@@ -208,83 +220,104 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
               Monitores
             </button>
           </div>
-        )}
       </div>
 
 <main className="page-main pb-32">
-        {isSearching ? (<div>
+        {activeTab === "monitores" ? (
+          // MONITORES TAB
+          <div>
+            <div className="flex items-baseline justify-between mb-4 pl-1">
+              <h2 className="section-label">
+                {isPending ? "Carregando..." : isSearching ? `Resultados para "${query}"` : "Todos os Monitores"}
+              </h2>
+              {!isPending && (
+                <span className="text-[13px] font-bold text-[#8E8E93]">
+                  {recreadores.length} {recreadores.length === 1 ? "monitor" : "monitores"}
+                </span>
+              )}
+            </div>
+
+            {isPending ? (
+              <div className="flex items-center justify-center py-20">
+                <RiLoader4Line size={32} className="animate-spin text-primary" />
+              </div>
+            ) : recreadores.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-20 text-center px-4">
+                <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-4">
+                  <RiUserLine size={32} className="text-[#C7C7CC]" />
+                </div>
+                <p className="text-[17px] font-bold text-muted-foreground mb-1">
+                  {isSearching ? "Nenhum monitor encontrado" : "Nenhum monitor ainda"}
+                </p>
+                <p className="text-[14px] text-muted-foreground max-w-[250px]">
+                  {isSearching ? "Tente outros termos de busca." : "Os monitores do app aparecerão aqui."}
+                </p>
+              </div>
+            ) : (
+              <div className="grid gap-4 px-1 pb-4">
+                {recreadores.map((r) => (
+                  <RecreadorSearchCard
+                    key={r.id}
+                    r={r}
+                    currentUserId={currentUserId}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        ) : isSearching ? (
+          // BRINCADEIRAS TAB — SEARCHING
+          <div>
             <div className="flex items-baseline justify-between mb-4 pl-1">
               <h2 className="section-label">
                 {isPending ? "Buscando..." : `Resultados para "${query}"`}
               </h2>
               {!isPending && (
                 <span className="text-[13px] font-bold text-[#8E8E93]">
-                  {activeTab === "brincadeiras" ? `${results.length} brincadeiras` : `${recreadores.length} monitores`}
+                  {results.length} brincadeiras
                 </span>
               )}
             </div>
 
-            {activeTab === "brincadeiras" ? (!isPending && results.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-20 text-center px-4">
-                  <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-4">
-                    <RiSearchLine size={32} className="text-[#C7C7CC]" />
-                  </div>
-                  <p className="text-[17px] font-bold text-muted-foreground mb-1">
-                    Nenhuma brincadeira encontrada
-                  </p>
-                  <p className="text-[14px] text-muted-foreground max-w-[250px]">
-                    Tente pesquisar usando outros termos, como &quot;bambolê&quot; ou &quot;musical&quot;.
-                  </p>
+            {!isPending && results.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-20 text-center px-4">
+                <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-4">
+                  <RiSearchLine size={32} className="text-[#C7C7CC]" />
                 </div>
-              ) : (
-                <div className="space-y-4 px-1 pb-4">
-                  {results.map((game) => game && (
-                    <BrincadeiraCard
-                      key={game.id}
-                      id={game.id}
-                      title={game.title}
-                      description={game.description}
-                      creator={game.creator}
-                      metadata={game.metadata}
-                      tags={game.tags}
-                      likesCount={game.likesCount}
-                      initialLiked={game.userHasLiked}
-                      initialSaved={game.userHasSaved}
-                      currentUserId={currentUserId}
-                      isSystemGame={game.id?.toString().startsWith('pdf-')}
-                      steps={game.steps}
-                      materials={game.materials}
-                      publishedAt={game.publishedAt}
-                    />
-                  ))}
-                </div>
-              )
-            ) : (!isPending && recreadores.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-20 text-center px-4">
-                  <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-4">
-                    <RiUserLine size={32} className="text-[#C7C7CC]" />
-                  </div>
-                  <p className="text-[17px] font-bold text-muted-foreground mb-1">
-                    Nenhum monitor encontrado
-                  </p>
-                  <p className="text-[14px] text-muted-foreground max-w-[250px]">
-                    Verifique se digitou o nome corretamente ou tente outros termos.
-                  </p>
-                </div>
-              ) : (
-                <div className="grid gap-4 px-1 pb-4">
-                  {recreadores.map((r) => (
-                    <RecreadorSearchCard
-                      key={r.id}
-                      r={r}
-                      currentUserId={currentUserId}
-                    />
-                  ))}
-                </div>
-              )
+                <p className="text-[17px] font-bold text-muted-foreground mb-1">
+                  Nenhuma brincadeira encontrada
+                </p>
+                <p className="text-[14px] text-muted-foreground max-w-[250px]">
+                  Tente pesquisar usando outros termos, como &quot;bambolê&quot; ou &quot;musical&quot;.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-4 px-1 pb-4">
+                {results.map((game) => game && (
+                  <BrincadeiraCard
+                    key={game.id}
+                    id={game.id}
+                    title={game.title}
+                    description={game.description}
+                    creator={game.creator}
+                    metadata={game.metadata}
+                    tags={game.tags}
+                    likesCount={game.likesCount}
+                    initialLiked={game.userHasLiked}
+                    initialSaved={game.userHasSaved}
+                    currentUserId={currentUserId}
+                    isSystemGame={game.id?.toString().startsWith('pdf-')}
+                    steps={game.steps}
+                    materials={game.materials}
+                    publishedAt={game.publishedAt}
+                  />
+                ))}
+              </div>
             )}
           </div>
-        ) : (<>
+        ) : (
+          // BRINCADEIRAS TAB — DEFAULT (Kits + Feed)
+          <>
             <div className="flex items-baseline justify-between mb-4 pl-1">
               <h2 className="section-label">Kits Sugeridos</h2>
               <span className="text-[13px] font-bold text-[#8E8E93]">{SYSTEM_COLLECTIONS.length} coleções</span>
