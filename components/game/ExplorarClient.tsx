@@ -40,7 +40,7 @@ function RecreadorSearchCard({ r, currentUserId }: { r: any; currentUserId?: str
 
   return (
     <Link href={`/recreador/${r.id}`}>
-      <Card className="p-4 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-card flex items-center justify-between gap-3 hover:bg-gray-50 active:scale-[0.99] transition-all">
+      <Card className="p-4 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-card flex flex-row items-center justify-between gap-3 hover:bg-gray-50 active:scale-[0.99] transition-all">
         <div className="flex items-center gap-3 min-w-0">
           <UserAvatar
             src={r.avatar}
