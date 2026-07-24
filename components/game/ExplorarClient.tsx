@@ -39,39 +39,38 @@ function RecreadorSearchCard({ r, currentUserId }: { r: any; currentUserId?: str
   }
 
   return (
-    <Link href={`/recreador/${r.id}`}>
-      <Card className="p-4 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-card flex flex-row items-center justify-between gap-3 hover:bg-gray-50 active:scale-[0.99] transition-all">
-        <div className="flex items-center gap-3 min-w-0">
+      <div className="flex items-center justify-between gap-3 p-3 rounded-[12px] bg-card border border-border shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:bg-gray-50 active:scale-[0.99] transition-all">
+        <Link href={`/recreador/${r.id}`} className="flex items-center gap-3 min-w-0 flex-1">
           <UserAvatar
             src={r.avatar}
             name={r.name}
-            className="h-12 w-12 border border-border/50 shrink-0"
+            className="h-11 w-11 border border-border/50 shrink-0"
           />
-          <div className="flex flex-col text-left min-w-0">
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="text-[16px] font-extrabold text-foreground leading-tight truncate">
+          <div className="flex flex-col min-w-0">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[15px] font-extrabold text-foreground leading-tight truncate">
                 {r.name}
               </span>
               <RoleBadge role={r.role} className="shrink-0" />
             </div>
-            <span className="text-[12px] font-medium text-muted-foreground mt-0.5 truncate">
+            <span className="text-[12px] font-medium text-muted-foreground truncate">
               {r.created_at ? `Entrou ${new Date(r.created_at).toLocaleDateString('pt-BR')}` : ""}
             </span>
           </div>
-        </div>
+        </Link>
         
         {currentUserId && currentUserId !== r.id && (
           <button 
             onClick={handleFollowToggle}
             disabled={isPending}
-            className={`px-3.5 py-1.5 rounded-full text-[12px] font-extrabold transition-all shrink-0 active:scale-95 flex items-center justify-center gap-1.5 ${
+            className={`px-4 py-1.5 rounded-full text-[12px] font-extrabold transition-all shrink-0 active:scale-95 min-w-[80px] text-center ${
               following
                 ? "border border-border text-muted-foreground bg-card hover:bg-gray-50"
                 : "bg-primary text-white hover:bg-primary/90"
             }`}
           >
             {isPending ? (
-              <RiLoader4Line size={14} className="animate-spin" />
+              <RiLoader4Line size={14} className="animate-spin mx-auto" />
             ) : following ? (
               "Seguindo"
             ) : (
@@ -79,8 +78,7 @@ function RecreadorSearchCard({ r, currentUserId }: { r: any; currentUserId?: str
             )}
           </button>
         )}
-      </Card>
-    </Link>
+      </div>
   )
 }
 
