@@ -94,7 +94,7 @@ export default async function Explorar({
         title="Explorar"
         showUserCard={false}
         showBackButton={false}
-        showSearch={true}
+        showSearch={false}
         hideBorder={true}
       />
       <ExplorarClient

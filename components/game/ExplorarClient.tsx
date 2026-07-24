@@ -20,6 +20,69 @@ interface Props {
   searchQuery?: string
 }
 
+function RecreadorSearchCard({ r, currentUserId }: { r: any; currentUserId?: string }) {
+  const [following, setFollowing] = useState(r.userIsFollowing)
+  const [isPending, startTransition] = useTransition()
+
+  const handleFollowToggle = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    startTransition(async () => {
+      try {
+        await toggleFollow(r.id)
+        setFollowing(!following)
+        toast.success(following ? `Deixou de seguir ${r.name}` : `Seguindo ${r.name}`)
+      } catch (err: any) {
+        toast.error(err.message || "Erro ao atualizar seguidor")
+      }
+    })
+  }
+
+  return (
+    <Link href={`/recreador/${r.id}`}>
+      <Card className="p-4 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-card flex items-start justify-between gap-4 hover:bg-gray-50 active:scale-[0.99] transition-all">
+        <div className="flex items-start gap-3">
+          <UserAvatar
+            src={r.avatar}
+            name={r.name}
+            className="h-14 w-14 border border-border/50 shrink-0"
+          />
+          <div className="flex flex-col text-left">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span className="text-[17px] font-extrabold text-foreground leading-tight">
+                {r.name}
+              </span>
+              <RoleBadge role={r.role} />
+            </div>
+            <span className="text-[12px] font-medium text-muted-foreground mt-0.5">
+              {r.created_at ? `Entrou ${new Date(r.created_at).toLocaleDateString('pt-BR')}` : ""}
+            </span>
+          </div>
+        </div>
+        
+        {currentUserId && currentUserId !== r.id && (
+          <button 
+            onClick={handleFollowToggle}
+            disabled={isPending}
+            className={`px-3.5 py-1.5 rounded-full text-[12px] font-extrabold transition-all shrink-0 active:scale-95 flex items-center gap-1.5 mt-0.5 ${
+              following
+                ? "border border-border text-muted-foreground bg-card hover:bg-gray-50"
+                : "bg-primary text-white hover:bg-primary/90"
+            }`}
+          >
+            {isPending ? (
+              <RiLoader4Line size={14} className="animate-spin" />
+            ) : following ? (
+              "Seguindo"
+            ) : (
+              "Seguir"
+            )}
+          </button>
+        )}
+      </Card>
+    </Link>
+  )
+}
 
 export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }: Props) {
   const [query, setQuery] = useState(searchQuery)
@@ -33,6 +96,7 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
   useEffect(() => {
     if (!query.trim()) {
       setResults([])
+      setRecreadores([])
       return
     }
 
@@ -68,6 +132,9 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
         }
         
         setResults([...formattedSystemItems, ...dbItems])
+
+        const foundRecreadores = await searchRecreadores(queryText)
+        setRecreadores(foundRecreadores)
       })
     }, 200)
 
@@ -78,11 +145,127 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
 
   const isSearching = query.trim().length > 0
 
+  // Load all monitors when tab switches to "monitores" with no query
+  useEffect(() => {
+    if (activeTab === "monitores" && !isSearching) {
+      startTransition(async () => {
+        const foundRecreadores = await searchRecreadores("")
+        setRecreadores(foundRecreadores)
+      })
+    }
+    if (activeTab === "brincadeiras") {
+      setRecreadores([])
+    }
+  }, [activeTab])
 
   return (
     <>
-      <main className="page-main pb-32 pt-4">
-        {isSearching ? (
+      
+      <div className="px-4 sm:px-6 py-3 bg-[#F9F9F7]/95 backdrop-blur-md sticky top-[80px] z-40 border-b border-[#E5E5EA]">
+        <div className="bg-white p-[6px] rounded-[12px] border border-[#E5E5EA] shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+          <div className="relative">
+            {isPending ? (
+              <RiLoader4Line size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-primary animate-spin pointer-events-none" />
+            ) : (
+              <RiSearchLine size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#C7C7CC] pointer-events-none" />
+            )}
+
+            <input
+              ref={inputRef}
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Pesquise brincadeiras ou recreadores..."
+              className="w-full pl-10 pr-10 h-10 bg-transparent border-none outline-none text-[15px] placeholder:text-[#C7C7CC] font-medium"
+            />
+
+            {query.length > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  setQuery("")
+                  setResults([])
+                  setRecreadores([])
+                  inputRef.current?.focus()
+                }}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full bg-[#C7C7CC] flex items-center justify-center active:opacity-70 transition-opacity"
+              >
+                <RiCloseLine size={14} className="text-white" />
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="mt-3 flex bg-[#F2F2F7] p-1 rounded-[10px] w-full relative">
+            <button
+              onClick={() => setActiveTab("brincadeiras")}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-[8px] text-[13px] font-extrabold transition-all ${
+                activeTab === "brincadeiras"
+                  ? "bg-white text-foreground shadow-[0_2px_4px_rgba(0,0,0,0.05)]"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <RiGameLine size={16} />
+              Brincadeiras
+            </button>
+            <button
+              onClick={() => setActiveTab("monitores")}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-[8px] text-[13px] font-extrabold transition-all ${
+                activeTab === "monitores"
+                  ? "bg-white text-foreground shadow-[0_2px_4px_rgba(0,0,0,0.05)]"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <RiUserLine size={16} />
+              Monitores
+            </button>
+          </div>
+      </div>
+
+<main className="page-main pb-32">
+        {activeTab === "monitores" ? (
+          // MONITORES TAB
+          <div>
+            <div className="flex items-baseline justify-between mb-4 pl-1">
+              <h2 className="section-label">
+                {isPending ? "Carregando..." : isSearching ? `Resultados para "${query}"` : "Todos os Monitores"}
+              </h2>
+              {!isPending && (
+                <span className="text-[13px] font-bold text-[#8E8E93]">
+                  {recreadores.length} {recreadores.length === 1 ? "monitor" : "monitores"}
+                </span>
+              )}
+            </div>
+
+            {isPending ? (
+              <div className="flex items-center justify-center py-20">
+                <RiLoader4Line size={32} className="animate-spin text-primary" />
+              </div>
+            ) : recreadores.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-20 text-center px-4">
+                <div className="w-16 h-16 bg-[#F2F2F7] rounded-full flex items-center justify-center mb-4">
+                  <RiUserLine size={32} className="text-[#C7C7CC]" />
+                </div>
+                <p className="text-[17px] font-bold text-muted-foreground mb-1">
+                  {isSearching ? "Nenhum monitor encontrado" : "Nenhum monitor ainda"}
+                </p>
+                <p className="text-[14px] text-muted-foreground max-w-[250px]">
+                  {isSearching ? "Tente outros termos de busca." : "Os monitores do app aparecerão aqui."}
+                </p>
+              </div>
+            ) : (
+              <div className="grid gap-4 px-1 pb-4">
+                {recreadores.map((r) => (
+                  <RecreadorSearchCard
+                    key={r.id}
+                    r={r}
+                    currentUserId={currentUserId}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        ) : isSearching ? (
           // BRINCADEIRAS TAB — SEARCHING
           <div>
             <div className="flex items-baseline justify-between mb-4 pl-1">
