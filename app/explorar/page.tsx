@@ -1,4 +1,4 @@
-﻿import { Header } from "@/components/layout/Header"
+import { Header } from "@/components/layout/Header"
 import { ExplorarClient } from "@/components/game/ExplorarClient"
 import { getFeed, getSystemStats } from "@/lib/actions"
 import { formatSystemBrincadeira } from "@/lib/formatters"
@@ -94,7 +94,7 @@ export default async function Explorar({
         title="Explorar"
         showUserCard={false}
         showBackButton={false}
-        showSearch={false}
+        showSearch={true}
         hideBorder={true}
       />
       <ExplorarClient
