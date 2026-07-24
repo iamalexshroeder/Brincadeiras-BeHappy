@@ -6,6 +6,25 @@ import { Brincadeira, formatBrincadeira, formatSystemBrincadeira } from "@/lib/f
 import { revalidatePath, unstable_noStore } from "next/cache"
 import { SYSTEM_COLLECTIONS } from "@/lib/data/biblioteca"
 
+export async function searchMonitors(query?: string) {
+  unstable_noStore()
+  const where = query && query.trim().length > 0
+    ? {
+        OR: [
+          { name: { contains: query, mode: 'insensitive' as const } },
+          { nickname: { contains: query, mode: 'insensitive' as const } },
+        ]
+      }
+    : {}
+  const users = await prisma.user.findMany({
+    where,
+    select: { id: true, name: true, nickname: true, avatar_url: true, image: true, role: true },
+    orderBy: { created_at: 'desc' },
+    take: 30,
+  })
+  return users
+}
+
 
 async function notifyUser(userId: string, type: "GAMIFICATION" | "SOCIAL" | "SYSTEM", title: string, message: string, referenceId?: string) {
   try {

@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
-import { RiCloseLine, RiUser3Line, RiExpandDiagonalLine } from "@remixicon/react"
+import { RiCloseLine, RiUser3Line, RiExpandDiagonalLine, RiZoomInLine, RiZoomOutLine } from "@remixicon/react"
 
 interface UserAvatarProps {
   src?: string
@@ -23,10 +23,18 @@ export function UserAvatar({
   onClick
 }: UserAvatarProps) {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false)
+  const [scale, setScale] = useState(1)
+  const [position, setPosition] = useState({ x: 0, y: 0 })
+  const [isDragging, setIsDragging] = useState(false)
+  const dragStart = useRef<{ x: number; y: number; posX: number; posY: number } | null>(null)
+  const lastTouches = useRef<React.TouchList | null>(null)
+  const lastPinchDist = useRef<number | null>(null)
 
   useEffect(() => {
     if (isPreviewOpen) {
       document.body.style.overflow = "hidden"
+      setScale(1)
+      setPosition({ x: 0, y: 0 })
     } else {
       document.body.style.overflow = ""
     }
@@ -36,21 +44,79 @@ export function UserAvatar({
   }, [isPreviewOpen])
 
   const initials = name
-    ? name
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase()
-        .slice(0, 2)
+    ? name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
     : "U"
 
   const handleClick = (e: React.MouseEvent) => {
-    if (onClick) {
-      onClick(e)
+    if (onClick) onClick(e)
+    if (enablePreview) setIsPreviewOpen(true)
+  }
+
+  const handleZoomIn = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setScale(s => Math.min(s + 0.5, 4))
+  }
+
+  const handleZoomOut = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setScale(s => {
+      const next = Math.max(s - 0.5, 1)
+      if (next === 1) setPosition({ x: 0, y: 0 })
+      return next
+    })
+  }
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (scale <= 1) return
+    e.preventDefault()
+    setIsDragging(true)
+    dragStart.current = { x: e.clientX, y: e.clientY, posX: position.x, posY: position.y }
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !dragStart.current) return
+    setPosition({
+      x: dragStart.current.posX + (e.clientX - dragStart.current.x),
+      y: dragStart.current.posY + (e.clientY - dragStart.current.y),
+    })
+  }
+
+  const handleMouseUp = () => setIsDragging(false)
+
+  const getPinchDist = (touches: React.TouchList) => {
+    const [t1, t2] = [touches[0], touches[1]]
+    return Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY)
+  }
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      lastPinchDist.current = getPinchDist(e.touches)
+    } else if (e.touches.length === 1 && scale > 1) {
+      dragStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY, posX: position.x, posY: position.y }
+      setIsDragging(true)
     }
-    if (enablePreview) {
-      setIsPreviewOpen(true)
+    lastTouches.current = e.touches
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    e.preventDefault()
+    if (e.touches.length === 2 && lastPinchDist.current !== null) {
+      const dist = getPinchDist(e.touches)
+      const delta = dist / lastPinchDist.current
+      setScale(s => Math.min(Math.max(s * delta, 1), 4))
+      lastPinchDist.current = dist
+    } else if (e.touches.length === 1 && isDragging && dragStart.current) {
+      setPosition({
+        x: dragStart.current.posX + (e.touches[0].clientX - dragStart.current.x),
+        y: dragStart.current.posY + (e.touches[0].clientY - dragStart.current.y),
+      })
     }
+  }
+
+  const handleTouchEnd = () => {
+    lastPinchDist.current = null
+    setIsDragging(false)
+    if (scale <= 1) setPosition({ x: 0, y: 0 })
   }
 
   return (
@@ -79,24 +145,20 @@ export function UserAvatar({
 
       {/* Fullscreen Image Preview Modal */}
       {isPreviewOpen && (
-        <div 
-          className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex flex-col items-center justify-between p-4 sm:p-6 animate-in fade-in duration-200"
-          onClick={() => setIsPreviewOpen(false)}
+        <div
+          className="fixed inset-0 z-[100] bg-black flex flex-col animate-in fade-in duration-200"
+          onClick={() => { if (scale <= 1) setIsPreviewOpen(false) }}
         >
           {/* Header Bar */}
-          <div className="w-full max-w-lg flex items-center justify-between pt-2 px-2 z-10">
+          <div className="w-full flex items-center justify-between px-4 pt-12 pb-3 z-10 bg-gradient-to-b from-black/80 to-transparent absolute top-0 left-0 right-0">
             <div className="flex flex-col text-left">
-              <span className="text-white font-extrabold text-lg leading-tight">
+              <span className="text-white font-extrabold text-[17px] leading-tight">
                 {name || "Foto de Perfil"}
               </span>
-              <span className="text-white/60 text-xs font-medium">Visualização em tela cheia</span>
+              <span className="text-white/50 text-xs font-medium">Visualização em tela cheia</span>
             </div>
-            
             <button
-              onClick={(e) => {
-                e.stopPropagation()
-                setIsPreviewOpen(false)
-              }}
+              onClick={(e) => { e.stopPropagation(); setIsPreviewOpen(false) }}
               className="h-11 w-11 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 active:scale-95 transition-all cursor-pointer border border-white/10"
               aria-label="Fechar visualização"
             >
@@ -104,30 +166,76 @@ export function UserAvatar({
             </button>
           </div>
 
-          {/* Main Image View */}
-          <div 
-            className="flex-1 w-full max-w-lg flex items-center justify-center my-auto p-2"
+          {/* Main Image View — Square 1:1 full-width */}
+          <div
+            className="flex-1 flex items-center justify-center overflow-hidden"
             onClick={(e) => e.stopPropagation()}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            style={{ cursor: scale > 1 ? (isDragging ? "grabbing" : "grab") : "default", touchAction: "none" }}
           >
             {src ? (
-              <img
-                src={src}
-                alt={name || "Foto de perfil em tela cheia"}
-                className="max-w-full max-h-[70dvh] object-contain rounded-[24px] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/15 animate-in zoom-in-95 duration-200"
-              />
+              <div
+                className="w-full"
+                style={{
+                  transform: `scale(${scale}) translate(${position.x / scale}px, ${position.y / scale}px)`,
+                  transition: isDragging ? "none" : "transform 0.15s ease",
+                  willChange: "transform",
+                }}
+              >
+                <img
+                  src={src}
+                  alt={name || "Foto de perfil em tela cheia"}
+                  className="w-full aspect-square object-cover select-none"
+                  draggable={false}
+                  style={{ imageRendering: "auto" }}
+                />
+              </div>
             ) : (
-              <div className="w-56 h-56 rounded-full bg-primary/20 border-4 border-primary/40 flex items-center justify-center text-primary text-6xl font-black shadow-2xl animate-in zoom-in-95 duration-200">
+              <div className="w-full aspect-square bg-primary/20 flex items-center justify-center text-primary text-6xl font-black animate-in zoom-in-95 duration-200">
                 {name ? initials : <RiUser3Line size={72} />}
               </div>
             )}
           </div>
 
-          {/* Footer note */}
-          <div className="pb-4 text-center">
-            <span className="text-xs font-semibold text-white/50 bg-white/5 px-4 py-2 rounded-full border border-white/10">
-              Toque em qualquer lugar fora para fechar
+          {/* Bottom Controls */}
+          <div className="absolute bottom-0 left-0 right-0 pb-10 flex items-center justify-center gap-4 bg-gradient-to-t from-black/80 to-transparent pt-8">
+            <button
+              onClick={handleZoomOut}
+              className="h-12 w-12 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 active:scale-95 transition-all border border-white/10 disabled:opacity-30"
+              aria-label="Zoom out"
+              disabled={scale <= 1}
+            >
+              <RiZoomOutLine size={22} />
+            </button>
+
+            <span className="text-white/70 text-sm font-semibold min-w-[48px] text-center">
+              {Math.round(scale * 100)}%
             </span>
+
+            <button
+              onClick={handleZoomIn}
+              className="h-12 w-12 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 active:scale-95 transition-all border border-white/10 disabled:opacity-30"
+              aria-label="Zoom in"
+              disabled={scale >= 4}
+            >
+              <RiZoomInLine size={22} />
+            </button>
           </div>
+
+          {/* Hint */}
+          {scale <= 1 && (
+            <div className="absolute bottom-32 left-0 right-0 flex justify-center pointer-events-none">
+              <span className="text-xs font-semibold text-white/40 bg-white/5 px-4 py-2 rounded-full border border-white/10">
+                Use 2 dedos para dar zoom · toque fora para fechar
+              </span>
+            </div>
+          )}
         </div>
       )}
     </>
