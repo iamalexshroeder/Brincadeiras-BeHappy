@@ -866,14 +866,6 @@ export async function updateProfile(data: { name?: string, avatar_url?: string, 
   const session = await auth()
   if (!session?.user?.id) throw new Error("Não autenticado")
 
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: { profile_xp_claimed: true, avatar_url: true }
-  })
-
-  const isNewAvatar = data.avatar_url && data.avatar_url !== user?.avatar_url
-  const awardBonus = isNewAvatar && !user?.profile_xp_claimed
-
   await prisma.user.update({
     where: { id: session.user.id },
     data: {
@@ -952,30 +944,28 @@ export async function getUserFollowers(userId: string) {
     }
   })
 
-  const mapped = await Promise.all(followers.map(async (f) => {
-    let isFollowing = false
-    if (currentUserId) {
-      const follow = await prisma.follow.findUnique({
-        where: {
-          followerId_followingId: {
-            followerId: currentUserId,
-            followingId: f.followerId
-          }
-        }
-      })
-      isFollowing = !!follow
-    }
-    return {
-      id: f.follower.id,
-      name: f.follower.name || "Recreador",
-      avatar: f.follower.avatar_url || f.follower.image || undefined,
-      role: f.follower.role || "Trainee",
-      created_at: f.follower.created_at,
-      isFollowing
-    }
-  }))
+  // Single batch query instead of N individual queries
+  let followingIds = new Set<string>()
+  if (currentUserId && followers.length > 0) {
+    const followerIds = followers.map(f => f.followerId)
+    const existingFollows = await prisma.follow.findMany({
+      where: {
+        followerId: currentUserId,
+        followingId: { in: followerIds }
+      },
+      select: { followingId: true }
+    })
+    followingIds = new Set(existingFollows.map(f => f.followingId))
+  }
 
-  return mapped
+  return followers.map(f => ({
+    id: f.follower.id,
+    name: f.follower.name || "Recreador",
+    avatar: f.follower.avatar_url || f.follower.image || undefined,
+    role: f.follower.role || "Trainee",
+    created_at: f.follower.created_at,
+    isFollowing: followingIds.has(f.followerId)
+  }))
 }
 
 export async function getUserFollowing(userId: string) {
@@ -1002,29 +992,27 @@ export async function getUserFollowing(userId: string) {
     }
   })
 
-  const mapped = await Promise.all(following.map(async (f) => {
-    let isFollowing = false
-    if (currentUserId) {
-      const follow = await prisma.follow.findUnique({
-        where: {
-          followerId_followingId: {
-            followerId: currentUserId,
-            followingId: f.followingId
-          }
-        }
-      })
-      isFollowing = !!follow
-    }
-    return {
-      id: f.following.id,
-      name: f.following.name || "Recreador",
-      avatar: f.following.avatar_url || f.following.image || undefined,
-      role: f.following.role || "Trainee",
-      created_at: f.following.created_at,
-      isFollowing
-    }
-  }))
+  // Single batch query instead of N individual queries
+  let followingIds = new Set<string>()
+  if (currentUserId && following.length > 0) {
+    const followingUserIds = following.map(f => f.followingId)
+    const existingFollows = await prisma.follow.findMany({
+      where: {
+        followerId: currentUserId,
+        followingId: { in: followingUserIds }
+      },
+      select: { followingId: true }
+    })
+    followingIds = new Set(existingFollows.map(f => f.followingId))
+  }
 
-  return mapped
+  return following.map(f => ({
+    id: f.following.id,
+    name: f.following.name || "Recreador",
+    avatar: f.following.avatar_url || f.following.image || undefined,
+    role: f.following.role || "Trainee",
+    created_at: f.following.created_at,
+    isFollowing: followingIds.has(f.followingId)
+  }))
 }
 

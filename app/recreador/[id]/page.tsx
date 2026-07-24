@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { Header } from "@/components/layout/Header"
 import { Card } from "@/components/ui/card"
@@ -85,6 +85,7 @@ export default function RecreadorProfile({ params }: { params: Promise<{ id: str
               src={profileData.avatar}
               name={profileData.name}
               className="h-14 w-14 border border-border/50 shrink-0"
+              enablePreview={true}
             />
             <div className="flex flex-col text-left">
               <div className="flex items-center gap-1.5 flex-wrap">

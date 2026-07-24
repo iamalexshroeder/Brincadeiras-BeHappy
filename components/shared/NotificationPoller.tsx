@@ -1,13 +1,13 @@
-﻿"use client"
+"use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useRef } from "react"
 import { getLatestUnreadNotifications } from "@/lib/actions"
 import { toast } from "sonner"
 import { useSession } from "next-auth/react"
 
 export function NotificationPoller() {
   const { data: session } = useSession()
-  const [lastCheck, setLastCheck] = useState<string>(() => new Date().toISOString())
+  const lastCheckRef = useRef<string>(new Date().toISOString())
   const shownNotifications = useRef<Set<string>>(new Set())
 
   useEffect(() => {
@@ -15,14 +15,12 @@ export function NotificationPoller() {
 
     const checkNotifications = async () => {
       try {
-        const notifications = await getLatestUnreadNotifications(lastCheck)
-        
-        const newCheckTime = new Date().toISOString()
-        
+        const notifications = await getLatestUnreadNotifications(lastCheckRef.current)
+        lastCheckRef.current = new Date().toISOString()
+
         notifications.forEach(notif => {
           if (!shownNotifications.current.has(notif.id)) {
             shownNotifications.current.add(notif.id)
-            
             toast(notif.title, {
               description: notif.message,
               duration: 5000,
@@ -30,17 +28,14 @@ export function NotificationPoller() {
             })
           }
         })
-
-        setLastCheck(newCheckTime)
       } catch (error) {
         console.error("Failed to check notifications", error)
       }
     }
 
     const interval = setInterval(checkNotifications, 30000)
-
     return () => clearInterval(interval)
-  }, [session, lastCheck])
+  }, [session?.user?.id])
 
   return null
 }

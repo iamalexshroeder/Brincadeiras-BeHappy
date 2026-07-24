@@ -9,7 +9,7 @@ import { RiArrowLeftSLine, RiUser3Line, RiImageLine, RiLoader4Line } from "@remi
 import { useRouter } from "next/navigation"
 import { getProfile, updateProfile } from "@/lib/actions"
 import { useSession } from "next-auth/react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { UserAvatar } from "@/components/ui/UserAvatar"
 import { toast } from "sonner"
 import { RoleBadge } from "@/components/shared/RoleBadge"
 
@@ -110,12 +110,13 @@ export default function EditarPerfil() {
       <main className="page-main pt-8 pb-60 space-y-8">
         {/* Profile Preview & Upload */}
         <div className="flex flex-col items-center justify-center space-y-6">
-          <Avatar className="h-28 w-28 border-4 border-white shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
-            <AvatarImage src={avatarUrl} />
-            <AvatarFallback className="bg-primary/10 text-primary text-3xl font-bold">
-              {name ? name[0] : <RiUser3Line size={40} />}
-            </AvatarFallback>
-          </Avatar>
+          <UserAvatar
+            src={avatarUrl}
+            name={name}
+            className="h-28 w-28 border-4 border-white shadow-[0_8px_30px_rgb(0,0,0,0.08)]"
+            fallbackClassName="bg-primary/10 text-primary text-3xl font-bold"
+            enablePreview={true}
+          />
           
           <div className="relative">
             <input 

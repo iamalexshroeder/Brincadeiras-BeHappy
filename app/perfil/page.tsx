@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { Header } from "@/components/layout/Header"
 import { Card } from "@/components/ui/card"
@@ -6,8 +6,7 @@ import {
   RiHistoryLine, 
   RiHeartFill, 
   RiSettings4Line, 
-  RiQuestionLine, 
-  RiInformationLine,
+  RiQuestionLine,
   RiArrowRightSLine,
   RiLogoutBoxRLine,
   RiBookmarkFill
@@ -80,7 +79,6 @@ export default function Perfil() {
       title: "Suporte & Info",
       items: [
         { icon: RiQuestionLine, label: "Central de Ajuda", href: "/perfil/ajuda" },
-        { icon: RiInformationLine, label: "Novidades do App", href: "/perfil/atualizacoes" },
       ]
     },
     {
@@ -116,9 +114,10 @@ export default function Perfil() {
           <Card className="p-4 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[12px] bg-card flex items-start justify-between gap-4">
             <div className="flex items-start gap-3">
               <UserAvatar
-                src={profileData?.avatar_url || profileData?.image || undefined}
+                src={profileData?.avatar_url || profileData?.image || profileData?.avatar || undefined}
                 name={profileData?.name || "Usuário"}
                 className="h-14 w-14 border border-border/50 shrink-0"
+                enablePreview={true}
               />
               <div className="flex flex-col text-left">
                 <div className="flex items-center gap-1.5 flex-wrap">

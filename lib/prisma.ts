@@ -6,7 +6,7 @@ const prismaClientSingleton = () => {
   const connectionString = process.env.DATABASE_URL
   const pool = new Pool({ 
     connectionString,
-    max: 1,
+    max: 5,
     idleTimeoutMillis: 10000,
     connectionTimeoutMillis: 5000,
   })
