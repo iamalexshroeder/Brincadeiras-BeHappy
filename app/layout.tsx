@@ -1,4 +1,4 @@
-﻿import { Inter } from "next/font/google"
+import { Inter } from "next/font/google"
 import { SessionProvider } from "next-auth/react"
 import React from "react"
 
@@ -10,6 +10,7 @@ import { NotificationPoller } from "@/components/shared/NotificationPoller"
 import { SplashScreen } from "@/components/layout/SplashScreen"
 import { PWARegister } from "@/components/layout/PWARegister"
 import { OnboardingGuard } from "@/components/shared/OnboardingGuard"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
@@ -58,6 +59,7 @@ export default function RootLayout({
             <Toaster position="top-center" richColors />
             <NotificationPoller />
             <PWARegister />
+            <SpeedInsights />
           </OnboardingGuard>
         </SessionProvider>
       </body>
