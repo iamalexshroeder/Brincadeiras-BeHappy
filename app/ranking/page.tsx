@@ -26,7 +26,7 @@ export default function Ranking() {
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header title="Top Brincadeiras" showSearch={false} showUserCard={false} />
 
-      <main className="page-main pt-0 pb-32 -mt-6">
+      <main className="page-main pt-0 pb-32 -mt-2">
 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-32">
@@ -45,7 +45,7 @@ export default function Ranking() {
             <section className="mb-4">
               <h2 className="section-label pl-1 mb-3 text-center">As Mais Curtidas da Comunidade</h2>
 
-              <div className="flex items-end justify-center gap-2 relative max-w-sm mx-auto mb-4 px-2 h-60">
+              <div className="flex items-end justify-center gap-2 relative max-w-sm mx-auto mb-4 px-2 h-48">
                 
                 {topThree[1] && (
                   <Link href={`/brincadeira/${topThree[1].id}`} className="flex flex-col items-center gap-3 flex-1 animate-in fade-in slide-in-from-bottom-4 duration-500 hover:opacity-80 transition-opacity">
@@ -103,7 +103,7 @@ export default function Ranking() {
               </div>
 
 {rest.length > 0 && (
-                <div className="space-y-3 mt-8">
+                <div className="space-y-3 mt-3">
                   {rest.map((game) => (
                     <Link key={game.id} href={`/brincadeira/${game.id}`} className="block">
                       <Card className="p-4 border border-border shadow-[0_4px_12px_rgba(0,0,0,0.03)] rounded-[16px] bg-card transition-all hover:bg-gray-50 active:scale-[0.98]">

@@ -63,7 +63,7 @@ function RecreadorSearchCard({ r, currentUserId }: { r: any; currentUserId?: str
           <button 
             onClick={handleFollowToggle}
             disabled={isPending}
-            className={`px-4 py-1.5 rounded-full text-[12px] font-extrabold transition-all shrink-0 active:scale-95 min-w-[80px] text-center ${
+            className={`px-3 py-1.5 rounded-full text-[12px] font-extrabold transition-all shrink-0 active:scale-95 text-center ${
               following
                 ? "border border-border text-muted-foreground bg-card hover:bg-gray-50"
                 : "bg-primary text-white hover:bg-primary/90"
@@ -256,7 +256,7 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
           </div>
       </div>
 
-<main className="page-main pb-32">
+<main className="px-4 sm:px-6 pt-2 pb-32">
         {activeTab === "monitores" ? (
           // MONITORES TAB
           <div>
