@@ -1,4 +1,4 @@
-﻿import { Header } from "@/components/layout/Header"
+import { Header } from "@/components/layout/Header"
 import { BrincadeiraCard } from "@/components/game/BrincadeiraCard"
 import { CuratedKits } from "@/components/game/CuratedKits"
 import Link from "next/link"
@@ -39,7 +39,7 @@ export default async function Home({
     <div className="flex flex-col min-h-screen bg-background">
       <Header showSearch={false} showUserCard={false} />
 
-      <main className="pb-32 pt-10 space-y-12 overflow-visible animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <main className="pb-32 pt-4 space-y-6 overflow-visible animate-in fade-in slide-in-from-bottom-4 duration-500">
 
 <section className="px-4 sm:px-6 overflow-visible">
           <div className="flex items-center justify-between mb-4 pl-1">
@@ -52,7 +52,7 @@ export default async function Home({
         </section>
 
 <section className="overflow-visible">
-          <div className="flex items-baseline justify-between mb-6 px-4 sm:px-6">
+          <div className="flex items-baseline justify-between mb-3 px-4 sm:px-6">
             <h2 className="text-[13px] font-black uppercase tracking-wider text-[#8E8E93]">
               {kit === "minhas" ? "Minhas Brincadeiras" : "Destaques"}
             </h2>
@@ -80,7 +80,7 @@ export default async function Home({
               </p>
             </div>
           ) : (
-            <div className="space-y-8 px-4 sm:px-6 overflow-visible">
+            <div className="space-y-4 px-4 sm:px-6 overflow-visible">
               {feed.map((game) => game && (
                 <BrincadeiraCard
                   key={game.id}

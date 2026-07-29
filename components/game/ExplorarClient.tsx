@@ -39,7 +39,7 @@ function RecreadorSearchCard({ r, currentUserId }: { r: any; currentUserId?: str
   }
 
   return (
-      <div className="flex items-center justify-between gap-3 p-3 rounded-[12px] bg-card border border-border shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:bg-gray-50 active:scale-[0.99] transition-all">
+      <div className="flex items-center justify-between gap-3 p-3 rounded-[12px] bg-card border border-border shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:bg-gray-50 active:scale-[0.99] transition-all overflow-hidden">
         <Link href={`/recreador/${r.id}`} className="flex items-center gap-3 min-w-0 flex-1">
           <UserAvatar
             src={r.avatar}
@@ -288,7 +288,7 @@ export function ExplorarClient({ initialFeed, currentUserId, searchQuery = "" }:
                 </p>
               </div>
             ) : (
-              <div className="grid gap-4 px-1 pb-4">
+              <div className="grid gap-3 pb-4">
                 {recreadores.map((r) => (
                   <RecreadorSearchCard
                     key={r.id}

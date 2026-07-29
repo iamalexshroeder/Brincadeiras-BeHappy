@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState, useEffect } from "react"
 import { Header } from "@/components/layout/Header"
@@ -42,10 +42,10 @@ export default function Ranking() {
         ) : (
           <>
             
-            <section className="mb-8">
-              <h2 className="section-label pl-1 mb-4 text-center">As Mais Curtidas da Comunidade</h2>
+            <section className="mb-4">
+              <h2 className="section-label pl-1 mb-3 text-center">As Mais Curtidas da Comunidade</h2>
 
-<div className="flex items-end justify-center gap-2 relative max-w-sm mx-auto mb-8 px-2 h-60">
+              <div className="flex items-end justify-center gap-2 relative max-w-sm mx-auto mb-4 px-2 h-60">
                 
                 {topThree[1] && (
                   <Link href={`/brincadeira/${topThree[1].id}`} className="flex flex-col items-center gap-3 flex-1 animate-in fade-in slide-in-from-bottom-4 duration-500 hover:opacity-80 transition-opacity">
